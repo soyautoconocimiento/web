@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>SoyAutoconocimiento</title>
+  <meta name="description" content="[content_seo_descripcion]" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="cosmos-layer" aria-hidden="true">
+    <div id="labyrinth-container"></div>
+  </div>
+
+  <nav class="slide-navigator" aria-label="Navegación de secciones">
+    <button class="nav-dot active" data-target="home" aria-label="Ir a Inicio"></button>
+    <button class="nav-dot" data-target="services" aria-label="Ir a Servicios"></button>
+  </nav>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#home" class="brand">
+        <img src="assets/logo.png" alt="SoyAutoconocimiento" class="brand-logo" />
+        <span class="brand-text">SoyAutoconocimiento</span>
+      </a>
+
+      <button class="about-trigger-btn" aria-label="Ver Quién Soy">
+        <img src="assets/about_me.jpg" alt="Sobre mí" />
+      </button>
+
+      <nav class="main-nav">
+        <a href="#home">Inicio</a>
+        <button type="button" class="about-desktop-link">Quién Soy</button>
+        <a href="#services">Acompañamientos</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="scroll-snap-container">
+
+    <section class="snap-section hero-section" id="home">
+      <div class="hero-content">
+        <h1>
+          Terapia Floral
+        </h1>
+        <h2>Evolutiva</h2>
+        <div class="hero-actions">
+          <button class="btn btn-primary hero-explore-btn" 
+                  type="button"
+                  data-title="Terapia Floral Evolutiva" 
+                  data-description="La Terapia Floral Evolutiva es un acompañamiento terapéutico basado en el sistema de Flores de Bach, cuyo propósito es favorecer la autoindagación y la observación consciente en el camino hacia el descubrimiento de quienes realmente somos.
+
+Desde este enfoque, cada síntoma y cada emoción son comprendidos como un lenguaje simbólico interno que nos entrega información valiosa sobre nuestros procesos de vida. A través del trabajo con las esencias florales, se potencia la autoexploración y la capacidad de escucha interior. Su acción en el campo vibracional facilita una comprensión cada vez más profunda de uno mismo y de los desafíos que se presentan en el camino.
+
+Mediante un proceso de escucha profunda y autoconocimiento, podrás construir tu propio mapa interior, una guía que te permitirá navegar tu vida con mayor consciencia, claridad y coherencia. Porque cuando comprendemos quiénes somos, podemos vivir de una manera más auténtica y ser fieles a nosotros mismos.
+
+“El bienestar no surge de transformarnos en alguien distinto, sino de conocernos profundamente y vivir en coherencia con nuestra verdadera naturaleza”." 
+                  data-format="Encuentro Online Vía Zoom" 
+                  data-duration="Sesiones de 1 Hora"
+                  data-url-conversar="https://wa.me/1234567890"
+                  data-url-agenda="https://calendar.app.google/bakqzB6p1NStA3Hy6">
+            Explorar
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-symbol">
+        <div id="hero-labyrinth"></div>
+      </div>
+    </section>
+
+    <section class="snap-section services-section" id="services">
+      <div class="section-heading">
+        <span class="section-mark">EL BAZAR</span>
+        <h2>Otras Formas de Acompañarte</h2>
+      </div>
+
+      <div class="services-grid">
+        <article class="service-card" 
+                 data-title="Lectura de Tarot" 
+                 data-description="Herramienta de autoconocimiento que utiliza cartas con imágenes y símbolos arquetípicos para explorar situaciones, emociones y patrones presentes en tu vida. A través de una lectura guiada, las cartas actúan como un espejo que facilita la reflexión, ayudando a identificar perspectivas, desafíos y recursos internos que pueden acompañar y enriquecer el proceso terapéutico floral." 
+                 data-format="Online - Vía Zoom" 
+                 data-duration="Sesión de 1 Hora"
+                 data-url-conversar="[content_card1_url_whatsapp]"
+                 data-url-agenda="https://calendar.app.google/bakqzB6p1NStA3Hy6">
+          <div class="service-visual" style="background-image: url('assets/tarot.png');"></div>
+          <div class="service-body">
+            <h3>Lectura de Tarot</h3>
+            <button class="service-button" type="button">Explorar</button>
+          </div>
+        </article>
+
+        <article class="service-card" 
+                 data-title="Constelaciones Familiares" 
+                 data-description="En un espacio íntimo e individual, la propuesta es a explorar las dinámicas familiares y vinculantes que, sin darte cuenta, pueden estar frenando el desarrollo, crecimiento y expansión del ser extraordinario que eres." 
+                 data-format="Online - Vía Zoom" 
+                 data-duration="Sesión de 1 Hora"
+                 data-url-conversar="https://wa.me/1234567890"
+                 data-url-agenda="https://calendar.app.google/bakqzB6p1NStA3Hy6">
+          <div class="service-visual" style="background-image: url('assets/constelaciones.png');"></div>
+          <div class="service-body">
+            <h3>Constelaciones Familiares</h3>
+            <button class="service-button" type="button">Explorar</button>
+          </div>
+        </article>
+
+        <article class="service-card" 
+                 data-title="Carta Astral" 
+                 data-description="Mapa simbólico elaborado a partir de la fecha, hora y lugar de nacimiento. Ofrece una mirada sobre potencialidades, desafíos y tendencias personales, contribuyendo al autoconocimiento y al desarrollo consciente." 
+                 data-format="Online - Vía Zoom" 
+                 data-duration="Sesión de 1 Hora"
+                 data-url-conversar="https://wa.me/1234567890"
+                 data-url-agenda="https://calendar.app.google/bakqzB6p1NStA3Hy6">
+          <div class="service-visual" style="background-image: url('assets/carta_astral.png');"></div>
+          <div class="service-body">
+            <h3>Carta Astral</h3>
+            <button class="service-button" type="button">Explorar</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="modal-overlay" id="about-modal" aria-hidden="true">
+    <div class="modal-window about-modal-window">
+      
+      <div class="about-grid">
+        <div class="about-image">
+          <div class="image-frame">
+            <img src="assets/about_me.jpg" alt="[content_biografia_imagen_alt]" />
+          </div>
+        </div>
+        <div class="about-content">
+          <h2>Un poco sobre mí</h2>
+          
+          <div class="biography-text-container">
+            <p>Hace varios años que me dedico a acompañar procesos de autoconocimiento en espacios terapéuticos.</p>
+            <p>En mi propio camino, la terapia ha sido uno de los pilares fundamentales que me ha permitido descubrir quién soy y reconocer el propósito de vida que me impulsa cada día.</p>
+            <p>En lo profesional, tras 30 años ligada al mundo corporativo, llegó un momento en el que puse atención “hacia dentro” (de mi) y me atreví a realizar cambios. Asumí nuevos desafíos, tomé riesgos y seguí aquello que me daba sentido. Gracias a ello, hoy me dedico a tiempo completo a lo que amo y me hace profundamente feliz. </p>
+            <p>Con frecuencia nos vemos absorbidos por lo que ocurre en el exterior y perdemos conexión con nuestro mundo interior, alejándonos de quienes realmente somos.</p>  
+            <p>Te invito a emprender un viaje de regreso a tu hogar interno. Te ofrezco mi compañía porque conozco la ruta.</p>
+            <p>Cariños</p>
+          </div>
+
+          <div class="signature-block">
+            <span class="signature-line"></span>
+            <span class="signature-name">
+              Marcela
+              <span class="signature-title">🌹</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="modal-close aria-close-about about-close-external">×</button>
+  </div>
+
+  <div class="modal-overlay" id="service-modal" aria-hidden="true">
+    <div class="modal-window">
+      <div class="modal-content">
+        <h3 id="modal-title">---</h3>
+        <div id="modal-description"></div>
+        <ul class="modal-specs">
+          <li id="modal-format"></li>
+          <li id="modal-duration"></li>
+        </ul>
+        <div class="modal-actions">
+          <a href="#" class="btn btn-primary btn-conversar">
+             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+             
+            </a>
+          <a href="#" class="btn btn-secondary btn-agenda">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            
+          </a>
+        </div>
+      </div>
+    </div>
+    <button class="modal-close service-close-external" aria-label="Cerrar">×</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

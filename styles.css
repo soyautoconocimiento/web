@@ -1,0 +1,927 @@
+/* =======================================================
+   SOY AUTOCONOCIMIENTO — CSS LIMPIO
+   Escrito de cero con arquitectura correcta.
+
+   FILOSOFÍA DE ESTE ARCHIVO:
+   1. Los tokens van primero (los valores de diseño)
+   2. El reset va segundo (limpia lo que el navegador impone)
+   3. Los estilos BASE van tercero — deben funcionar en TODO tamaño
+   4. Los @media van AL FINAL — solo ajustan lo que cambia
+   5. Sin !important en ningún lado — si necesitas !important,
+      significa que el orden está mal, no el valor
+   ======================================================= */
+
+/* =======================================================
+   1. TOKENS DE DISEÑO
+   Los tokens son variables que guardan los valores del diseño.
+   Si quieres cambiar el azul oscuro, lo cambias aquí,
+   una vez, y se actualiza en todo el sitio.
+   ======================================================= */
+
+:root {
+
+  /* PALETA DE COLORES */
+  --night:      #071426;   /* azul más oscuro, fondo base */
+  --midnight:   #0d2240;   /* azul oscuro, botones y fondos */
+  --deep-blue:  #16315b;   /* azul medio */
+  --blue-glow:  #264a80;   /* azul para glows */
+  --paper:      #f3f0ea;   /* crema cálida, fondo de las cards */
+  --stone:      #d8d1c6;   /* gris piedra */
+  --mist:       #e8e3db;   /* crema más clara */
+  --gold:       #c8a15a;   /* dorado principal */
+  --gold-soft:  #dfc48f;   /* dorado suave para textos */
+  --gold-dark:  #a17b3e;   /* dorado oscuro para firma */
+  --ink:        #1c2430;   /* casi negro, texto sobre paper */
+  --ink-soft:   #556070;   /* gris suave, texto secundario */
+
+  /* EFECTOS DECORATIVOS */
+  --line:        rgba(255,255,255,0.08);
+  --line-subtle: rgba(200,161,90,0.03);
+  --gold-glow:   rgba(200,161,90,0.30);
+  --aurora-glow: rgba(38,74,128,0.25);
+
+  /* SOMBRAS — de pequeña a grande */
+  --shadow-sm: 0 10px 30px  rgba(0,0,0,0.08);
+  --shadow-md: 0 20px 60px  rgba(0,0,0,0.12);
+  --shadow-lg: 0 40px 100px rgba(0,0,0,0.18);
+
+  /* BORDES REDONDEADOS */
+  --radius-sm: 15px;
+  --radius-md: 20px;
+  --radius-lg: 32px;
+
+  /* TRANSICIÓN SUAVE — cubic-bezier da sensación elástica */
+  --transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* CONTENEDOR — máximo 1200px, con margen lateral automático */
+  --container: min(1200px, calc(100% - 2rem));
+
+  /* ALTURA DEL HEADER — usada en múltiples lugares */
+  --header-height: 65px;
+
+  /* ALTURA DE PANTALLA — dvh es más preciso en móvil que vh */
+  --app-height: 100dvh;
+}
+
+/* =======================================================
+   2. RESET
+   El navegador aplica márgenes y paddings por defecto.
+   El reset los elimina para que partamos de cero.
+   ======================================================= */
+
+*, *::before, *::after {
+  box-sizing: border-box; /* padding no aumenta el tamaño total del elemento */
+  margin: 0;              /* elimina márgenes por defecto */
+  padding: 0;             /* elimina padding por defecto */
+}
+
+img   { display: block; width: 100%; }           /* imágenes no generan espacio extra abajo */
+a     { color: inherit; text-decoration: none; } /* links heredan el color del padre */
+button { font: inherit; background: transparent; border: none; cursor: pointer; }
+
+/* =======================================================
+   3. BODY
+   El cuerpo de la página. Todo lo demás vive dentro.
+   ======================================================= */
+
+body {
+  font-family: "Inter", sans-serif;
+  background: radial-gradient(
+    circle at 50% 40%,
+    var(--midnight) 0%,
+    var(--night) 75%
+  );
+  color: var(--paper);
+  line-height: 1.5;
+  overflow: hidden;         /* el scroll lo maneja .scroll-snap-container */
+  -webkit-font-smoothing: antialiased; /* texto más nítido en mac/ios */
+}
+
+/* =======================================================
+   4. ARQUITECTURA DE SCROLL SNAP
+   Esta es la estructura principal de la página.
+
+   CÓMO FUNCIONA:
+   .scroll-snap-container = la "ventana" que muestra 1 sección a la vez
+   .snap-section          = cada sección que ocupa la pantalla completa
+
+   El scroll snap hace que al scrollear, la pantalla "salte"
+   limpiamente de una sección a la siguiente.
+   ======================================================= */
+
+.scroll-snap-container {
+  height: var(--app-height);         /* ocupa exactamente la pantalla */
+  overflow-y: scroll;                /* el scroll ocurre aquí adentro */
+  scroll-snap-type: y mandatory;     /* scroll vertical con snap obligatorio */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* scroll fluido en iOS */
+}
+
+.snap-section {
+  scroll-snap-align: start;          /* cada sección se alinea al inicio */
+  scroll-snap-stop: always;          /* no puede saltarse secciones */
+
+  /* IMPORTANTE: estas tres líneas son el corazón de la arquitectura.
+     Cada sección es una columna flex de altura fija.
+     Todo lo que va dentro de la sección VIVE dentro de esta columna. */
+  height: var(--app-height);
+  display: flex;
+  flex-direction: column;
+
+  padding-top: var(--header-height); /* espacio para que el header no tape el contenido */
+  position: relative;
+}
+
+/* =======================================================
+   5. HEADER
+   Fijo en la parte superior, siempre visible.
+   z-index: 100 lo pone encima de todo lo demás.
+   ======================================================= */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--header-height);
+  z-index: 100;
+  backdrop-filter: blur(16px);                       /* difumina lo que está detrás */
+  background: rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(200, 161, 90, 0.15);
+  display: flex;
+  align-items: center;
+}
+
+.header-inner {
+  width: var(--container);
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* LOGO Y MARCA */
+.brand           { display: flex; align-items: center; gap: 6px; }
+.brand-logo      { width: 44px; height: 44px; object-fit: contain; }
+.brand-text      { font-size: 1.22rem; letter-spacing: 0.2em; color: var(--gold-soft); }
+
+/* BOTÓN AVATAR (el círculo con la foto) */
+.about-trigger-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(200, 161, 90, 0.4);
+  padding: 3px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.about-trigger-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: var(--transition);
+}
+
+.about-trigger-btn:hover { border-color: rgba(200, 161, 90, 0.8); }
+.about-trigger-btn:hover img { transform: scale(1.08); }
+
+/* NAVEGACIÓN PRINCIPAL */
+.main-nav { display: none; }
+.main-nav a, .about-desktop-link {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  transition: var(--transition);
+}
+
+.main-nav a:hover, .about-desktop-link:hover { color: var(--gold-soft); }
+
+/* =======================================================
+   6. HERO SECTION
+   La primera sección — sin cambios, funciona bien.
+   ======================================================= */
+
+.hero-section {
+  width: var(--container);
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 3rem;
+}
+
+.hero-content { max-width: 650px; }
+
+/* .section-mark se usa aquí Y en el bazar, por eso está fuera de los dos */
+.section-mark {
+  display: inline-block;
+  color: var(--gold-soft);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.99rem;
+  margin-bottom: 0.3rem;  /* muy poco — basta para separarlo del título */
+}
+
+.hero-section h1 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(4rem, 7.5vw, 7.5rem);
+  line-height: 0.95;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.hero-section h2 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(3rem, 4.5vw, 4.5rem);
+  line-height: 0.95;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.hero-symbol { display: flex; justify-content: center; align-items: center; }
+#hero-labyrinth { width: min(480px, 90vw); aspect-ratio: 1; }
+
+
+/* =======================================================
+   7. BOTONES GENERALES
+   ======================================================= */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 1.25rem;
+  transition: var(--transition);
+  gap: 0.5rem;
+}
+.hero-actions, .modal-actions { 
+  margin-top: 0rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  flex-shrink: 0;
+  padding-top: 0.5rem;
+}
+
+/* y lo pones solo donde lo necesitas: */
+.hero-actions .btn {
+  margin-top: 5vw;
+}
+
+.btn-primary { background: var(--gold); color: var(--night); font-weight: 600; }
+.btn-primary:hover { transform: translateY(-2px); background: var(--gold-soft); }
+
+.btn-secondary { background: var(--ink-soft); border: 1px solid rgba(255,255,255,0.2); color: var(--paper); }
+.btn-secondary:hover { transform: translateY(-2px);border-color: var(--gold); color: var(--gold-soft); }
+
+
+/* =======================================================
+   8. SECCIÓN BAZAR — EL REBUILD LIMPIO
+
+   ARQUITECTURA EN CAPAS (leer de afuera hacia adentro):
+
+   .snap-section              → columna flex, altura fija (100dvh)
+     └── .services-section    → crece para llenar lo que queda (flex: 1)
+           ├── .section-heading → toma solo lo que necesita (flex-shrink: 0)
+           └── .services-grid   → toma TODO lo que queda (flex: 1)
+                 └── .service-card → llena su celda del grid (height: 100%)
+                       ├── .service-visual → CRECE dentro de la card (flex: 1)
+                       └── .service-body   → toma solo lo que necesita (flex-shrink: 0)
+
+   La clave: la cadena de alturas nunca se rompe.
+   Cada nivel sabe cuánto espacio tiene porque el padre se lo dice.
+   ======================================================= */
+
+/* CONTENEDOR DE LA SECCIÓN */
+.services-section {
+
+  /* PASO 1: Esta sección vive dentro de .snap-section (flex column).
+     flex: 1 le dice "toma todo el espacio disponible después del padding-top".
+     min-height: 0 es necesario — sin él, flex-item no puede ser más chico
+     que su contenido, lo que rompe el cálculo de altura. */
+  flex: 1;
+  min-height: 0;
+
+  /* PASO 2: Ahora esta sección se convierte ella misma en una columna flex.
+     Sus hijos (heading + grid) se apilan verticalmente. */
+  display: flex;
+  flex-direction: column;
+
+  /* PASO 3: Ancho máximo y espacio interno */
+  width: var(--container);
+  margin: 0 auto;
+  padding: calc(var(--header-height) + 1.5rem) 0 2rem;
+  gap: 1rem; /* espacio entre el heading y el grid */
+}
+
+/* ENCABEZADO DE SECCIÓN */
+.section-heading {
+  flex-shrink: 0;    /* nunca se encoge, toma exactamente lo que necesita */
+  text-align: center;
+}
+
+.section-heading h2 {
+  font-family: "Cormorant Garamond", serif;
+  /* clamp(mínimo, preferido, máximo) — crece y encoge con la pantalla */
+  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+  font-weight: 400;
+  line-height: 1.05;
+  margin-top: 0.2rem; /* pequeño respiro entre "BAZAR" y el título */
+}
+
+/* GRID DE CARDS */
+.services-grid {
+
+  /* PASO 4: El grid toma TODO el espacio que el heading no usó.
+     flex: 1 + min-height: 0 = la misma fórmula que antes.
+     Es el patrón que hay que aprender: siempre van juntos. */
+  flex: 1;
+  min-height: 0;
+
+  /* Layout de tres columnas iguales */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+
+  /* align-items: stretch hace que las cards estiren hasta llenar la fila */
+  align-items: stretch;
+}
+
+/* CARD INDIVIDUAL */
+.service-card {
+
+  /* PASO 5: La card llena su celda del grid por completo.
+     height: 100% funciona aquí porque el grid tiene una altura definida
+     (la recibió de flex: 1 arriba en la cadena). */
+  height: 100%;
+
+  /* La card también es una columna flex para organizar a sus hijos */
+  display: flex;
+  flex-direction: column;
+
+  /* Estética */
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(200, 161, 90, 0.08); /* borde muy sutil */
+  overflow: hidden;
+  padding: 12px 12px 16px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.service-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(200, 161, 90, 0.35);
+  box-shadow: var(--shadow-md);
+}
+
+/* IMAGEN DE LA CARD */
+.service-visual {
+
+  /* PASO 6: La imagen es flex: 1 — toma TODO el espacio que el
+     .service-body no use. Si la card crece, la imagen crece.
+     Si la card encoge, la imagen encoge. Nunca el texto. */
+  flex: 1;
+  min-height: 80px; /* piso de seguridad en pantallas muy pequeñas */
+
+  border-radius: calc(var(--radius-md) - 4px); /* un poco menos que la card */
+  background-size: cover;
+  background-position: center;
+  background-color: var(--midnight); /* color mientras carga la imagen */
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+/* Imágenes de fondo por card */
+.service-card:nth-child(1) .service-visual {
+  background-image: url("tarot.png");
+}
+.service-card:nth-child(2) .service-visual {
+  background-image: url("constelaciones.png");
+}
+.service-card:nth-child(3) .service-visual {
+  background-image: url("carta_astral.png");
+}
+
+/* CUERPO DE LA CARD (título + botón) */
+.service-body {
+  /* flex-shrink: 0 significa que este bloque NUNCA encoge.
+     Siempre tendrá el mismo tamaño, pase lo que pase con la card.
+     Es el complemento de flex: 1 en .service-visual. */
+  flex-shrink: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  padding-top: 1rem;
+  text-align: center;
+}
+
+/* TÍTULO DEL SERVICIO */
+.service-body h3 {
+  font-family: "Cormorant Garamond", serif;
+  /* vw (viewport width) hace que el texto escale con el ancho de la pantalla */
+  font-size: clamp(1.5rem, 2.2vw, 2.2rem);
+  font-weight:600;
+  line-height: 1.1;
+  color: var(--ink);
+  font-style: bold;
+}
+
+/* BOTÓN EXPLORAR */
+.service-button {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  background: var(--midnight);
+  color: var(--paper);
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  transition: var(--transition);
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+.service-button:hover { background: var(--deep-blue); }
+
+/* =======================================================
+   9. FONDO DECORATIVO (cosmos)
+   ======================================================= */
+
+.cosmos-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+  overflow: hidden;
+  background-image:
+    repeating-linear-gradient(60deg,  var(--line-subtle) 0px, var(--line-subtle) 1px, transparent 1px, transparent 40px),
+    repeating-linear-gradient(-60deg, var(--line-subtle) 0px, var(--line-subtle) 1px, transparent 1px, transparent 40px);
+}
+
+#labyrinth-container {
+  position: absolute;
+  right: -15vw;
+  top: -5vh;
+  width: 88vw;
+  height: 88vw;
+  background: url("laberinto.svg") center / contain no-repeat,
+              url("rosa.svg")      center / contain no-repeat;
+  opacity: 0.06;
+  filter: blur(1px);
+}
+
+/* =======================================================
+   10. NAVEGADOR DE PUNTOS (slide dots)
+   ======================================================= */
+
+.slide-navigator {
+  position: fixed;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  z-index: 90;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.slide-navigator.is-scrolling { opacity: 0.5; pointer-events: auto; }
+
+.nav-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold-soft);
+  background: transparent;
+  transition: var(--transition);
+}
+.nav-dot.active {
+  background: var(--gold);
+  transform: scale(1.3);
+  box-shadow: 0 0 8px var(--gold-glow);
+}
+
+
+/* =======================================================
+   11. MODALES
+   Sin cambios — funcionaban bien antes.
+   ======================================================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 200;
+}
+.modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+.modal-window {
+  background: var(--paper);
+  color: var(--ink);
+  width: min(650px, 100%);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  position: relative;
+  max-height: 90dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--ink-soft);
+}
+
+.modal-content  {
+  align-items: center;
+  text-align: center; 
+  text-justify: center;
+  display: flex;
+  flex-direction: column;
+  flex:1;
+  min-height: 0;
+  height: 100%;
+  gap:0;
+}
+
+.modal-content h3 {
+  flex-shrink: 0;
+  padding-bottom: 1rem;
+  margin-bottom: 0;
+  border-bottom: 1px solid rgba(200, 161, 90, 0.25);
+}
+
+.modal-actions  { justify-content: center; }
+
+/* MODAL DE ABOUT */
+.about-modal-window {
+  width: min(1000px, 100%);
+  padding: 3.5rem 2.5rem;
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 4rem;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+
+.about-image   { max-width: 300px; width: 100%; justify-self: center; }
+.image-frame   { background: white; padding: 1rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+.about-content h2 { font-family: "Cormorant Garamond", serif; font-size: clamp(2.2rem, 4vw, 3.5rem); line-height: 1.05; margin: 0.5rem 0 1.5rem; font-weight: 400; }
+.about-content p  { color: var(--ink-soft); font-size: 1rem; line-height: 1.8; margin-bottom: 1.2rem; }
+.about-content { overflow-y: auto; max-height: 100%; padding: center; text-align: center; }
+.signature-block { margin-top: 0rem; }
+.signature-line  { display: block; width: 80px; height: 1px; background: var(--gold); margin: 0 auto 1rem; }
+.signature-name  { display: block; color: var(--gold-dark); font-weight: 600; font-size: 1rem; }
+.signature-title { display: block; margin-top: 0.2rem; color: var(--ink-soft); font-size: 0.9rem; font-style: italic; }
+
+.modal-specs { 
+
+  list-style: none;
+  margin: 0;
+  padding: 1rem 0 0.5rem;
+  flex-shrink: 0;
+  border-top: 1px solid rgba(200, 161, 90, 0.25);
+  text-align: center;
+}
+
+
+/* =======================================================
+   12. MEDIA QUERIES
+   Ahora que la base es correcta, los media queries
+   solo ajustan lo que genuinamente cambia por tamaño.
+   Son pequeños y limpios porque no están corrigiendo errores.
+   ======================================================= */
+
+/* --- DESKTOP: desde 1025px en adelante --- */
+@media (min-width: 1025px) {
+  .about-grid {
+    align-items: start;
+  }
+  .about-image {
+    position: sticky;
+    top: 2rem;
+    align-self: start;
+  }
+}
+
+
+/* --- TABLET: 769px - 1024px --- */
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  /* En tablet caben 2 cards cómodamente, no 3 */
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* El hero no tiene espacio para dos columnas */
+  .hero-section {
+    grid-template-columns: 1fr;
+    text-align: center;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-actions { justify-content: center; }
+  .hero-symbol { display: none; }
+
+  /* About modal en una columna */
+  .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .about-image { max-width: 200px; }
+}
+
+
+/* --- MÓVIL: hasta 768px --- */
+@media (max-width: 768px) {
+
+  /* El nav horizontal no cabe — se oculta */
+  .main-nav { display: none; }
+
+  .brand-text      { letter-spacing: 0.05em; color: var(--gold-soft); }
+
+  /* El hero en una columna centrada */
+  .hero-section {
+    grid-template-columns: 1fr;
+    text-align: center;
+    justify-items: center;
+    padding: 2rem 0;
+  }
+  .hero-actions { justify-content: center; }
+  .hero-symbol { display: none; }
+  .hero-content { max-width: 90vw; display: flex; flex-direction: column; align-items: center; }
+
+  .hero-section h1 {
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    margin-bottom: 1rem;
+  }
+
+  .hero-section h2 {
+    font-size: clamp(2.5rem, 2.5vw, 2.5rem);
+    font-style: italic;
+  }
+
+  .service-body {
+    flex: none;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;   /* centra el grupo título+botón */
+    padding: 0.75rem 1rem;
+    gap: 0rem;              /* espacio mínimo entre título y botón */
+    /* sin height fijo — el min-height del h3 lo controla */
+  }
+
+  /* EL HEADING SE HACE MÁS COMPACTO EN MÓVIL */
+  .services-section {
+    padding: calc(var(--header-height) + 0.8rem) 0 1rem;
+    gap: 0.6rem;
+  }
+  .section-heading {
+    padding: 0 1rem; /* margen lateral para no tocar el borde */
+  }
+  .section-heading h2 {
+    font-size: clamp(1.6rem, 5vw, 2rem);
+  }
+
+  /* EL GRID SE CONVIERTE EN CARRUSEL HORIZONTAL
+     En lugar de 3 columnas verticales, las cards se deslizan lateralmente.
+     Esta es la forma natural de mostrar múltiples items en móvil. */
+  .services-grid {
+    /* Cambiamos de grid a flex horizontal */
+    display: flex;
+    flex-direction: row;
+    align-items: stretch; /* todas las cards tienen la misma altura */
+
+    /* El scroll horizontal ocurre aquí */
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+
+    /* Rompemos el contenedor para llegar al borde de la pantalla */
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    padding: 0.5rem 1.25rem 1rem;
+    gap: 1rem;
+  }
+  .services-grid::-webkit-scrollbar { display: none; } /* oculta scrollbar visual */
+
+  /* CARD EN MÓVIL: ancho fijo, height automático */
+  .service-card {
+    flex: 0 0 85%;           /* 85% del ancho = se ve el borde de la siguiente */
+    height: 100%;            /* altura automática en móvil */
+    scroll-snap-align: center;
+  }
+
+  /* LA IMAGEN EN MÓVIL: altura fija con clamp
+     En móvil rompemos la cadena de flex: 1 porque la card no tiene
+     altura fija — aquí le damos una altura fija directamente a la imagen */
+  .service-visual {
+    flex: 1;
+    height: clamp(120px);
+  }
+
+   /* CLAVE: el h3 siempre ocupa lo mismo, sin importar el texto */
+  .service-body h3 {
+    justify-content: center; 
+    height: 4rem;           /* reserva espacio para 2 líneas siempre */
+    display: flex;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    display: flex;
+    -webkit-box-orient: vertical;
+  }
+
+  /* ABOUT MODAL EN MÓVIL */
+  #about-modal {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem;
+  }
+  .about-modal-window {
+    padding: 2rem 1.5rem;
+    max-height: 88dvh;
+    overflow-y: auto;
+  }
+  .about-grid    { grid-template-columns: 1fr; gap: 1.2rem; }
+  .about-image   { max-width: 140px; margin: 0 auto; }
+  .image-frame   { padding: 0.3rem; border-radius: 50%; overflow: hidden; }
+  .image-frame img { border-radius: 50%; aspect-ratio: 1; object-fit: cover; }
+  .about-content h2 { font-size: clamp(1.6rem, 5vw, 2rem); margin: 0.3rem 0 0.8rem; }
+  .about-content p  { font-size: 0.95rem; line-height: 1.6; margin-bottom: 0.8rem; }
+  .signature-block  { margin-top: 1.2rem; }
+  .signature-line   { width: 60px; margin: 0 auto 0.5rem; }
+
+  /* BOTONES DE CIERRE EXTERNOS (fuera del modal) */
+  .about-close-external,
+  .service-close-external {
+    position: static;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(200, 161, 90, 0.6);
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+    color: white;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #service-modal {
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+}
+
+/* =======================================================
+   PATCHES 
+   ======================================================= */
+
+#modal-description {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 0;
+}
+
+#modal-description p {
+  margin-bottom: 0.9rem;
+  line-height: 1.75;
+}
+
+#modal-description p:last-child {
+  margin-bottom: 0;
+  font-style: italic;
+}
+
+/* =======================================================
+   PATCHES 2.5 - SELLADO DE ZONA DE ESCAPE (HERMÉTICO)
+   ======================================================= */
+
+/* 1. Eliminamos el espacio inferior de los contenedores para evitar filtraciones */
+#modal-description {
+  flex: 1;
+  overflow-y: auto;
+  padding-top: 1rem !important;
+  padding-bottom: 0 !important; /* Clausura la zona de escape */
+}
+
+.about-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  padding-bottom: 0 !important; /* Clausura la zona de escape */
+}
+
+#modal-description p {
+  margin-bottom: 0.9rem;
+  line-height: 1.75;
+}
+#modal-description p:last-child {
+  margin-bottom: 0;
+  font-style: italic;
+}
+
+/* 2. Rediseño del Tapón: Ahora la flecha es el piso del contenedor */
+.scroll-hint {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: var(--paper);  /* Fondo crema sólido y protector */
+  text-align: center;
+  font-size: 1.2rem;
+  /* El padding ahora vive AQUÍ, sirviendo de colchón al llegar al final */
+  padding: 0.8rem 0 0.5rem 0; 
+  margin-top: 1rem;
+  z-index: 10;
+  color: transparent;        /* Escondemos el glifo nativo de JS */
+  transition: opacity 0.3s ease;
+}
+
+/* 3. Aislamiento óptico del indicador animado */
+.scroll-hint::after {
+  content: "↓";
+  display: inline-block;
+  color: var(--gold);
+  animation: pulse-down 1.5s ease-in-out infinite;
+}
+
+.scroll-hint.oculto {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes pulse-down {
+  0%, 100% { opacity: 0.35; transform: translateY(0); }
+  50%       { opacity: 1;    transform: translateY(4px); }
+}
+
+/* =======================================================
+   PATCH 3.0 - UNIFICACIÓN DE CAROUSEL (MÓVIL + TABLET)
+   ======================================================= */
+
+/* Forzamos el comportamiento de fila horizontal hasta los 1024px */
+@media (max-width: 1024px) {
+  .services-grid {
+    display: flex !important; /* Desactiva la cuadrícula fea */
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    gap: 1.5rem !important;
+    padding: 2rem 1.5rem !important;
+    scrollbar-width: none; /* Oculta scrollbar en Firefox */
+  }
+
+  .services-grid::-webkit-scrollbar {
+    display: none; /* Oculta scrollbar en Chrome/Safari */
+  }
+
+  .service-card {
+    flex: 0 0 75% !important; /* La tarjeta toma presencia, dejando ver un 'peek' de la siguiente */
+    max-width: 420px !important; /* Evita que en pantallas de 1024px la tarjeta sea gigantesca */
+    scroll-snap-align: center !important; /* Centrado perfecto al soltar el scroll */
+  }
+}
+
+/* La cuadrícula de escritorio ahora nace estrictamente desde 1025px */
+@media (min-width: 1025px) {
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 3rem 0;
+  }
+  .service-card {
+    width: 100%;
+  }
+}
