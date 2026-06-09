@@ -455,27 +455,38 @@ body {
    9. FONDO DECORATIVO (cosmos)
    ======================================================= */
 
-.cosmos-layer {
-  position: fixed;
-  inset: 0;
-  z-index: -10;
-  pointer-events: none;
-  overflow: hidden;
+.cosmos-layer{
+  position:fixed;
+  inset:0;
+  z-index:-10;
+  pointer-events:none;
+  overflow:hidden;
+
   background-image:
-    repeating-linear-gradient(60deg,  var(--line-subtle) 0px, var(--line-subtle) 1px, transparent 1px, transparent 40px),
-    repeating-linear-gradient(-60deg, var(--line-subtle) 0px, var(--line-subtle) 1px, transparent 1px, transparent 40px);
+  repeating-radial-gradient(
+    circle at center,
+    rgba(200,161,90,.05) 0px,
+    rgba(200,161,90,.05) 1px,
+    transparent 1px,
+    transparent 60px
+  );
 }
 
 #labyrinth-container {
   position: absolute;
-  right: -15vw;
-  top: -5vh;
-  width: 88vw;
-  height: 88vw;
-  background: url("laberinto.svg") center / contain no-repeat,
-              url("rosa.svg")      center / contain no-repeat;
-  opacity: 0.06;
-  filter: blur(1px);
+  left: 50%;
+  top: 50%;
+
+  width: 200px;
+  height: 200px;
+
+  transform: translate(-50%, -50%);
+
+  background: url("assets/rosa.svg") center / contain no-repeat;
+
+  opacity: .05;
+
+  z-index: -9;
 }
 
 /* =======================================================
