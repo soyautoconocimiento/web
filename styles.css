@@ -219,11 +219,13 @@ body {
 /* .section-mark se usa aquí Y en el bazar, por eso está fuera de los dos */
 .section-mark {
   display: inline-block;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+  font-weight: 400;
   color: var(--gold-soft);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  font-size: 0.99rem;
-  margin-bottom: 0.3rem;  /* muy poco — basta para separarlo del título */
+  margin-bottom: 0.3rem;
 }
 
 .hero-section h1 {
@@ -935,4 +937,30 @@ body {
   .service-card {
     width: 100%;
   }
+}
+
+/* HERO SCROLL TEASER */
+.hero-scroll-teaser {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--gold-soft);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.65;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.hero-scroll-teaser:hover { opacity: 1; }
+
+.teaser-arrow {
+  display: inline-block;
+  animation: pulse-down 1.5s ease-in-out infinite;
 }
