@@ -129,6 +129,33 @@ function initServiceModal() {
   const btnConversar = modal.querySelector(".btn-conversar");
   const btnAgenda = modal.querySelector(".btn-agenda");
 
+  // === SEGUIMIENTO DE CONVERSIONES GA4 ===
+  // Vinculamos los disparadores una sola vez al cargar la estructura del modal
+  if (btnConversar) {
+    btnConversar.addEventListener("click", () => {
+      const nombreServicio = title.textContent || "Desconocido";
+      if (typeof gtag === "function") {
+        gtag("event", "click_whatsapp", {
+          'servicio': nombreServicio,
+          'origen': 'modal_detalles'
+        });
+      }
+    });
+  }
+
+  if (btnAgenda) {
+    btnAgenda.addEventListener("click", () => {
+      const nombreServicio = title.textContent || "Desconocido";
+      if (typeof gtag === "function") {
+        gtag("event", "click_calendar", {
+          'servicio': nombreServicio,
+          'origen': 'modal_detalles'
+        });
+      }
+    });
+  }
+  // =======================================
+
   // Subrutina unificada de extracción y mapeo de contexto de datos
   const renderAndOpenModal = (dataSource) => {
     if (!dataSource) return;
@@ -153,7 +180,7 @@ function initServiceModal() {
 
     // Enrutamiento Dinámico e Inyección de Links de Conversión
     if (btnConversar) {
-      const phone = "56962391328"; // ← your real number here
+      const phone = "56962391328"; // Su número real
       const serviceName = dataSource.dataset.title || "";
       const message = encodeURIComponent(`Hola, me interesa saber más sobre: ${serviceName}`);
       btnConversar.setAttribute("href", `https://wa.me/${phone}?text=${message}`);
@@ -173,7 +200,6 @@ function initServiceModal() {
     // Ejecución de Apertura y Scroll Lock
     modal.classList.add("active");
     modal.setAttribute("aria-hidden", "false");
-    const desc = document.getElementById("modal-description");
     initScrollHint(document.getElementById("modal-description"));
   };
 
@@ -366,13 +392,11 @@ function initCarouselCenter() {
   if (!grid) return;
 
   const centerMiddleCard = () => {
-    // CAMBIO CRUCIAL: Elevamos el umbral de ejecución a 1024px
     if (!window.matchMedia("(max-width: 1024px)").matches) return;
 
     const cards = grid.querySelectorAll(".service-card");
     if (cards.length < 2) return;
 
-    // Apuntamos a la segunda tarjeta para dar contexto de tridimensionalidad lateral
     const middleCard = cards[1]; 
     const offsetCenter = middleCard.offsetLeft - (grid.clientWidth - middleCard.clientWidth) / 2;
     grid.scrollLeft = offsetCenter;
