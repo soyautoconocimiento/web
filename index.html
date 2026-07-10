@@ -26,6 +26,12 @@
   <meta name="description" content="Acompañamiento en Terapia Floral Evolutiva, Tarot y Constelaciones Familiares. Un espacio para conocerte profundamente y vivir con mayor consciencia. Online vía Zoom." />
   <meta name="theme-color" content="#0d2240" />
 
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="SoyAutoconocimiento" />
+  <meta property="og:description" content="Terapia Floral Evolutiva, Tarot, Constelaciones Familiares y Astrología. Un camino hacia adentro. Online vía Zoom." />
+  <meta property="og:image" content="assets/about_me.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
   <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link rel="apple-touch-icon" href="assets/favicon_ios.png" />
 
@@ -47,7 +53,8 @@
 
   <nav class="slide-navigator" aria-label="Navegación de secciones">
     <button class="nav-dot active" data-target="home" aria-label="Ir a Inicio"></button>
-    <button class="nav-dot" data-target="services" aria-label="Ir a Servicios"></button>
+    <button class="nav-dot" data-target="services" aria-label="Ir al Bazar"></button>
+    <button class="nav-dot" data-target="proximamente" aria-label="Ir a Próximamente"></button>
   </nav>
 
   <header class="site-header">
@@ -104,49 +111,38 @@
         <span class="section-mark">EL BAZAR</span>
       </div>
 
-      <div class="services-grid">
-        <article class="service-card" 
-                 data-title="Lectura de Tarot" 
-                 data-description="Herramienta de autoconocimiento que utiliza cartas con imágenes y símbolos arquetípicos para explorar situaciones, emociones y patrones presentes en tu vida. A través de una lectura guiada, las cartas actúan como un espejo que facilita la reflexión, ayudando a identificar perspectivas, desafíos y recursos internos que pueden acompañar y enriquecer el proceso terapéutico floral." 
-                 data-format="Online - Vía Zoom" 
-                 data-duration="Sesión de 1 Hora"
-                 data-url-conversar="https://wa.me/56962391328"
-                 data-url-agenda="https://calendar.app.google/bakqzB6p1NStA3Hy6">
-          <div class="service-visual" style="background-image: url('assets/tarot.png');"></div>
-          <div class="service-body">
-            <h3>Lectura de Tarot</h3>
-            <button class="service-button" type="button">Explorar</button>
-          </div>
-        </article>
-
-        <article class="service-card" 
-                 data-title="Constelaciones Familiares" 
-                 data-description="En un espacio íntimo e individual, la propuesta es a explorar las dinámicas familiares y vinculantes que, sin darte cuenta, pueden estar frenando el desarrollo, crecimiento y expansión del ser extraordinario que eres." 
-                 data-format="Online - Vía Zoom" 
-                 data-duration="Sesión de 1 Hora"
-                 data-url-conversar="https://wa.me/56962391328"
-                 data-url-agenda="https://calendar.app.google/bakqzB6p1NStA3Hy6">
-          <div class="service-visual" style="background-image: url('assets/constelaciones.png');"></div>
-          <div class="service-body">
-            <h3>Constelaciones Familiares</h3>
-            <button class="service-button" type="button">Explorar</button>
-          </div>
-        </article>
-
-        <article class="service-card" 
-                 data-title="Carta Astral" 
-                 data-description="Mapa simbólico elaborado a partir de la fecha, hora y lugar de nacimiento. Ofrece una mirada sobre potencialidades, desafíos y tendencias personales, contribuyendo al autoconocimiento y al desarrollo consciente." 
-                 data-format="Online - Vía Zoom" 
-                 data-duration="Sesión de 1 Hora"
-                 data-url-conversar="https://wa.me/56962391328"
-                 data-url-agenda="https://calendar.app.google/bakqzB6p1NStA3Hy6">
-          <div class="service-visual" style="background-image: url('assets/carta_astral.png');"></div>
-          <div class="service-body">
-            <h3>Carta Astral</h3>
-            <button class="service-button" type="button">Explorar</button>
-          </div>
-        </article>
+      <div class="bazar-tabs" role="tablist" aria-label="Tipo de acompañamiento">
+        <button class="tab-btn active" type="button" data-tab="services" role="tab" aria-selected="true">Servicios</button>
+        <button class="tab-btn" type="button" data-tab="courses" role="tab" aria-selected="false">Cursos</button>
       </div>
+
+      <div class="services-grid" id="services-grid" data-tab-panel="services"></div>
+      <div class="services-grid" id="courses-grid" data-tab-panel="courses" hidden></div>
+
+      <a class="hero-scroll-teaser bazar-scroll-teaser" href="#proximamente">
+        Colores del Alma
+        <span class="teaser-arrow">↓</span>
+      </a>
+    </section>
+
+    <section class="snap-section proximamente-section" id="proximamente">
+      <div class="proximamente-content">
+        <span class="section-mark">PRÓXIMAMENTE</span>
+        <h2>Colores del Alma</h2>
+        <p>Una colección de piezas artesanales hechas a mano. Muy pronto vas a poder conocerlas acá.</p>
+      </div>
+
+      <footer class="site-footer">
+        <a href="#home" class="footer-brand">
+          <img src="assets/logo.png" alt="" />
+          <span>SoyAutoconocimiento</span>
+        </a>
+        <a class="footer-whatsapp" href="https://wa.me/56962391328?text=Hola%2C%20me%20gustar%C3%ADa%20conversar" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </a>
+        <span class="footer-copy">© 2026 SoyAutoconocimiento</span>
+      </footer>
     </section>
 
   </main>
@@ -179,6 +175,11 @@
               <span class="signature-title">🌹</span>
             </span>
           </div>
+
+          <div class="testimonials-block" id="testimonials-block" hidden>
+            <span class="testimonials-heading">Lo que dicen quienes ya vivieron el proceso</span>
+            <div class="testimonials-list" id="testimonials-list"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -209,6 +210,7 @@
     <button class="modal-close service-close-external" aria-label="Cerrar">×</button>
   </div>
 
+  <script src="data.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

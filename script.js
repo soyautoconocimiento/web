@@ -3,12 +3,126 @@
    ========================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
+  renderOfferingCards();
+  renderTestimonials();
+  initBazarTabs();
   initEngineScrollSnap();
   initOnDemandAboutModal();
   initServiceModal();
   initLabyrinth();
   initCarouselCenter();
+  initLazyVisuals();
 });
+
+/* ==========================================================
+   RENDERIZADO DE TARJETAS (Servicios y Cursos) DESDE data.js
+   ========================================================== */
+function renderOfferingCards() {
+  if (typeof SITE_DATA === "undefined") return;
+
+  const renderGrid = (gridEl, items) => {
+    if (!gridEl) return;
+    gridEl.innerHTML = items.map(item => `
+      <article class="service-card"
+               data-title="${item.title}"
+               data-description="${item.description}"
+               data-format="${item.format}"
+               data-duration="${item.duration}"
+               data-url-agenda="${item.urlAgenda}"
+               data-type="${item.type || "service"}">
+        <div class="service-visual" data-bg="${item.image}"></div>
+        <div class="service-body">
+          <h3>${item.title}</h3>
+          <button class="service-button" type="button">Explorar</button>
+        </div>
+      </article>
+    `).join("");
+  };
+
+  renderGrid(document.getElementById("services-grid"), SITE_DATA.services);
+  renderGrid(document.getElementById("courses-grid"), SITE_DATA.courses);
+}
+
+/* ==========================================================
+   CARGA DIFERIDA (LAZY) DE IMÁGENES DE TARJETAS
+   La imagen solo se pide a la red cuando la tarjeta está por
+   entrar en pantalla; al llegar, hace un fundido suave en vez
+   de aparecer de golpe.
+   ========================================================== */
+function initLazyVisuals() {
+  const visuals = document.querySelectorAll(".service-visual[data-bg]");
+  if (!visuals.length) return;
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const src = el.dataset.bg;
+      const img = new Image();
+      img.onload = () => {
+        el.style.backgroundImage = `url('${src}')`;
+        requestAnimationFrame(() => el.classList.add("is-loaded"));
+      };
+      img.src = src;
+      obs.unobserve(el);
+    });
+  }, { rootMargin: "150px" });
+
+  visuals.forEach(el => observer.observe(el));
+}
+
+/* ==========================================================
+   TESTIMONIOS — modal "Quién soy"
+   Se mantiene oculto mientras SITE_DATA.testimonials esté vacío.
+   ========================================================== */
+function renderTestimonials() {
+  const block = document.getElementById("testimonials-block");
+  const list = document.getElementById("testimonials-list");
+  if (!block || !list || typeof SITE_DATA === "undefined") return;
+
+  const items = SITE_DATA.testimonials || [];
+  if (!items.length) return;
+
+  list.innerHTML = items.map(t => `
+    <div class="testimonial-item">
+      <p class="testimonial-quote">${t.quote}</p>
+      <span class="testimonial-author">${t.author}</span>
+    </div>
+  `).join("");
+
+  block.hidden = false;
+}
+
+/* ==========================================================
+   PESTAÑAS DE BAZAR: SERVICIOS / CURSOS
+   ========================================================== */
+function initBazarTabs() {
+  const tabs = document.querySelectorAll(".tab-btn");
+  const panels = document.querySelectorAll("[data-tab-panel]");
+  if (!tabs.length) return;
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      const target = tab.dataset.tab;
+
+      tabs.forEach(t => {
+        t.classList.toggle("active", t === tab);
+        t.setAttribute("aria-selected", t === tab ? "true" : "false");
+      });
+
+      panels.forEach(panel => {
+        panel.hidden = panel.dataset.tabPanel !== target;
+      });
+
+      if (typeof gtag === "function") {
+        gtag("event", "tab_switch", { tab: target });
+      }
+
+      // El carrusel móvil necesita recentrarse sobre el grid recién mostrado
+      requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
+    });
+  });
+}
 
 /* ==========================================================
    INTERACTION ENGINE: SCROLL SNAP & LATERAL NAV
@@ -40,7 +154,7 @@ function initEngineScrollSnap() {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const activeId = entry.target.getAttribute("id");
-        
+
         dots.forEach(dot => {
           if (dot.dataset.target === activeId) {
             dot.classList.add("active");
@@ -48,6 +162,10 @@ function initEngineScrollSnap() {
             dot.classList.remove("active");
           }
         });
+
+        if (typeof gtag === "function") {
+          gtag("event", "view_section", { section: activeId });
+        }
       }
     });
   }, observerOptions);
@@ -67,6 +185,52 @@ function initEngineScrollSnap() {
 }
 
 /* ==========================================================
+   FOCUS TRAP PARA MODALES
+   Sin esto, al navegar con teclado (Tab) dentro de un modal
+   abierto, el foco se escapa hacia elementos de la página que
+   quedaron "detrás" (invisibles pero seleccionables), dejando a
+   alguien que navega solo con teclado sin saber dónde está parado.
+   Esto encierra el Tab dentro del modal mientras está abierto y
+   devuelve el foco a quien lo abrió al cerrarlo.
+   ========================================================== */
+let _focusTrapCleanup = null;
+
+function trapFocus(modal) {
+  const focusable = modal.querySelectorAll(
+    'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])'
+  );
+  if (!focusable.length) return;
+
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  const previouslyFocused = document.activeElement;
+
+  const handleKeydown = e => {
+    if (e.key !== "Tab") return;
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  };
+
+  modal.addEventListener("keydown", handleKeydown);
+  first.focus();
+
+  _focusTrapCleanup = () => {
+    modal.removeEventListener("keydown", handleKeydown);
+    previouslyFocused?.focus();
+  };
+}
+
+function releaseFocus() {
+  _focusTrapCleanup?.();
+  _focusTrapCleanup = null;
+}
+
+/* ==========================================================
    MODAL BAJO DEMANDA: "QUIÊN SOY"
    ========================================================== */
 function initOnDemandAboutModal() {
@@ -81,14 +245,15 @@ function initOnDemandAboutModal() {
     modal.classList.add("active");
     modal.setAttribute("aria-hidden", "false");
     document.body.classList.add("is-modal-open");
-    
+    trapFocus(modal);
+
     // Espera la transición CSS para medir con precisión las alturas reales
     setTimeout(() => {
       const isMobile = window.innerWidth <= 768;
-      const actualScroller = isMobile 
-        ? modal.querySelector(".about-modal-window") 
+      const actualScroller = isMobile
+        ? modal.querySelector(".about-modal-window")
         : modal.querySelector(".about-content");
-        
+
       if (actualScroller) {
         initScrollHint(actualScroller);
       }
@@ -98,7 +263,8 @@ function initOnDemandAboutModal() {
   const closeAbout = () => {
     modal.classList.remove("active");
     modal.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("is-modal-open"); 
+    document.body.classList.remove("is-modal-open");
+    releaseFocus();
   };
 
   triggerMobile?.addEventListener("click", openAbout);
@@ -182,7 +348,11 @@ function initServiceModal() {
     if (btnConversar) {
       const phone = "56962391328"; // Su número real
       const serviceName = dataSource.dataset.title || "";
-      const message = encodeURIComponent(`Hola, me interesa saber más sobre: ${serviceName}`);
+      const isCourse = dataSource.dataset.type === "course";
+      const text = isCourse
+        ? `Hola, quiero información sobre el curso: ${serviceName}`
+        : `Hola, me interesa saber más sobre: ${serviceName}`;
+      const message = encodeURIComponent(text);
       btnConversar.setAttribute("href", `https://wa.me/${phone}?text=${message}`);
       btnConversar.setAttribute("target", "_blank");
     }
@@ -200,7 +370,13 @@ function initServiceModal() {
     // Ejecución de Apertura y Scroll Lock
     modal.classList.add("active");
     modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("is-modal-open");
+    trapFocus(modal);
     initScrollHint(document.getElementById("modal-description"));
+
+    if (typeof gtag === "function") {
+      gtag("event", "view_item", { item_name: dataSource.dataset.title || "Desconocido" });
+    }
   };
 
   // FLUJO A: Escuchador para las Tarjetas del Bazar de Servicios
@@ -228,6 +404,7 @@ function initServiceModal() {
     modal.classList.remove("active");
     modal.setAttribute("aria-hidden", "true");
     document.body.classList.remove("is-modal-open");
+    releaseFocus();
   };
 
   closeBtn?.addEventListener("click", closeModal);
@@ -287,6 +464,45 @@ function initLabyrinth() {
   createLabyrinth(heroContainer, shouldAnimate);
 }
 
+/* Construye el "d" de un path SVG con anillos concéntricos conectados
+   entre sí: cada anillo abre un hueco alternado (arriba/abajo), y ese
+   hueco se une con un puente al anillo siguiente. El resultado es un
+   único trazo desde el borde hasta el centro, sin ramificaciones. */
+function buildLabyrinthPath(center, rings, baseRadius, step, gapDeg) {
+  const toPoint = (radius, angleDeg) => {
+    const angleRad = (angleDeg * Math.PI) / 180;
+    return {
+      x: center + radius * Math.cos(angleRad),
+      y: center + radius * Math.sin(angleRad)
+    };
+  };
+
+  let d = "";
+
+  for (let i = rings; i >= 1; i--) {
+    const radius = baseRadius + i * step;
+    // Misma costura radial en todos los anillos: el puente entre uno y
+    // otro queda corto (mismo ángulo, distinto radio) en vez de cruzar
+    // el diámetro completo, que es lo que rompía la lectura de espiral.
+    const gapAngle = 90;
+    const startAngle = gapAngle + gapDeg / 2;
+    const sweep = 360 - gapDeg;
+    const midAngle = startAngle + sweep / 2;
+    const endAngle = startAngle + sweep;
+
+    const start = toPoint(radius, startAngle);
+    const mid = toPoint(radius, midAngle);
+    const end = toPoint(radius, endAngle);
+
+    d += i === rings ? `M ${start.x} ${start.y} ` : `L ${start.x} ${start.y} `;
+    d += `A ${radius} ${radius} 0 0 1 ${mid.x} ${mid.y} `;
+    d += `A ${radius} ${radius} 0 0 1 ${end.x} ${end.y} `;
+  }
+
+  d += `L ${center} ${center}`;
+  return d;
+}
+
 function createLabyrinth(container, animated = true) {
   if (!container) return;
 
@@ -315,43 +531,19 @@ function createLabyrinth(container, animated = true) {
   const rotation = Math.floor(Math.random() * 360);
   labyrinth.setAttribute("transform", `rotate(${rotation} ${center} ${center})`);
 
-  const rings = 6;
-  for (let i = rings; i > 0; i--) {
-    const circle = document.createElementNS(svgNS, "circle");
-    const radius = 120 + (i * 38);
-    circle.setAttribute("cx", center);
-    circle.setAttribute("cy", center);
-    circle.setAttribute("r", radius);
-    circle.setAttribute("fill", "none");
-    circle.setAttribute("stroke", "#c8a15a");
-    circle.setAttribute("stroke-width", i % 2 === 0 ? 8 : 6);
-    circle.setAttribute("stroke-linecap", "butt");
-
-    const perimeter = Math.PI * 2 * radius;
-    const gap = perimeter * (0.12 + Math.random() * 0.16);
-    circle.setAttribute("stroke-dasharray", `${perimeter - gap} ${gap}`);
-    circle.setAttribute("stroke-dashoffset", Math.random() * perimeter);
-    labyrinth.appendChild(circle);
-  }
-
-  const spokes = 4 + Math.floor(Math.random() * 4);
-  for (let i = 0; i < spokes; i++) {
-    const angle = (Math.PI * 2 * i) / spokes + Math.random() * 0.45;
-    const inner = 150 + Math.random() * 45;
-    const outer = 300 + Math.random() * 40;
-
-    const x1 = center + Math.cos(angle) * inner;
-    const y1 = center + Math.sin(angle) * inner;
-    const x2 = center + Math.cos(angle) * outer;
-    const y2 = center + Math.sin(angle) * outer;
-
-    const line = document.createElementNS(svgNS, "line");
-    line.setAttribute("x1", x1); line.setAttribute("y1", y1);
-    line.setAttribute("x2", x2); line.setAttribute("y2", y2);
-    line.setAttribute("stroke", "#c8a15a");
-    line.setAttribute("stroke-width", "5");
-    labyrinth.appendChild(line);
-  }
+  // Laberinto unicursal clásico: un solo trazo continuo, sin
+  // bifurcaciones ni callejones sin salida — la referencia arqueológica
+  // real detrás del mito del laberinto de Creta y el Minotauro.
+  // En vez de anillos independientes con huecos al azar, cada anillo
+  // se conecta con el siguiente por un puente, formando un único
+  // camino desde el borde hasta el centro.
+  const path = document.createElementNS(svgNS, "path");
+  path.setAttribute("d", buildLabyrinthPath(center, 6, 120, 38, 9));
+  path.setAttribute("fill", "none");
+  path.setAttribute("stroke", "#c8a15a");
+  path.setAttribute("stroke-width", "6");
+  path.setAttribute("stroke-linecap", "round");
+  labyrinth.appendChild(path);
 
   svg.appendChild(labyrinth);
   svg.appendChild(rose);
@@ -388,18 +580,22 @@ function createLabyrinth(container, animated = true) {
    CENTRADOR AUTOMÁTICO CAROUSEL BAZAR (MÓVIL + TABLET)
    ========================================================= */
 function initCarouselCenter() {
-  const grid = document.querySelector(".services-grid");
-  if (!grid) return;
+  const grids = document.querySelectorAll(".services-grid");
+  if (!grids.length) return;
 
   const centerMiddleCard = () => {
     if (!window.matchMedia("(max-width: 1024px)").matches) return;
 
-    const cards = grid.querySelectorAll(".service-card");
-    if (cards.length < 2) return;
+    grids.forEach(grid => {
+      if (grid.hidden) return;
 
-    const middleCard = cards[1]; 
-    const offsetCenter = middleCard.offsetLeft - (grid.clientWidth - middleCard.clientWidth) / 2;
-    grid.scrollLeft = offsetCenter;
+      const cards = grid.querySelectorAll(".service-card");
+      if (cards.length < 2) return;
+
+      const middleCard = cards[1];
+      const offsetCenter = middleCard.offsetLeft - (grid.clientWidth - middleCard.clientWidth) / 2;
+      grid.scrollLeft = offsetCenter;
+    });
   };
 
   requestAnimationFrame(centerMiddleCard);

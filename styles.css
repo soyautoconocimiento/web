@@ -337,6 +337,38 @@ body {
   margin-top: 0.2rem; /* pequeño respiro entre "BAZAR" y el título */
 }
 
+/* PESTAÑAS SERVICIOS / CURSOS */
+.bazar-tabs {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.tab-btn {
+  padding: 0.5rem 1.4rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(200, 161, 90, 0.25);
+  transition: var(--transition);
+}
+
+.tab-btn:hover { color: var(--gold-soft); border-color: rgba(200, 161, 90, 0.5); }
+
+.tab-btn.active {
+  background: var(--gold);
+  color: var(--night);
+  font-weight: 600;
+  border-color: var(--gold);
+}
+
+/* La clase .services-grid define su propio "display" (grid/flex) en
+   varios breakpoints; sin esta regla, [hidden] pierde contra esas
+   reglas y el panel oculto seguiría visible. */
+.services-grid[hidden] { display: none !important; }
+
 /* GRID DE CARDS */
 .services-grid {
 
@@ -399,6 +431,33 @@ body {
   background-color: var(--midnight); /* color mientras carga la imagen */
   overflow: hidden;
   transition: var(--transition);
+
+  /* Estado inicial "no cargada": leve textura dorada en vez de bloque
+     sólido plano, para que la espera se sienta cuidada, no genérica. */
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(200, 161, 90, 0.06) 0px,
+    rgba(200, 161, 90, 0.06) 2px,
+    transparent 2px,
+    transparent 14px
+  );
+}
+
+.service-visual[data-bg] {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(200, 161, 90, 0.06) 0px,
+    rgba(200, 161, 90, 0.06) 2px,
+    transparent 2px,
+    transparent 14px
+  );
+  filter: saturate(0.7) brightness(0.85);
+  transform: scale(1.02);
+}
+
+.service-visual.is-loaded {
+  filter: saturate(1) brightness(1);
+  transform: scale(1);
 }
 
 /* Imágenes de fondo por card */
@@ -661,7 +720,22 @@ body {
     justify-content: center;
   }
   .hero-actions { justify-content: center; }
-  .hero-symbol { display: none; }
+
+  /* En vez de ocultar el laberinto, lo convertimos en marca de agua
+     detrás del texto: no compite por espacio pero el símbolo sigue
+     presente — es parte de la identidad de la marca. */
+  .hero-symbol {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.1;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #hero-labyrinth { width: min(140vw, 640px); }
+  .hero-content { position: relative; z-index: 1; }
 
   /* About modal en una columna */
   .about-grid { grid-template-columns: 1fr; gap: 2rem; }
@@ -685,7 +759,22 @@ body {
     padding: 2rem 0;
   }
   .hero-actions { justify-content: center; }
-  .hero-symbol { display: none; }
+
+  /* En vez de ocultar el laberinto, lo convertimos en marca de agua
+     detrás del texto: no compite por espacio pero el símbolo sigue
+     presente — es parte de la identidad de la marca. */
+  .hero-symbol {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.1;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #hero-labyrinth { width: min(140vw, 640px); }
+  .hero-content { position: relative; z-index: 1; }
   .hero-content { max-width: 90vw; display: flex; flex-direction: column; align-items: center; }
 
   .hero-section h1 {
@@ -963,4 +1052,125 @@ body {
 .teaser-arrow {
   display: inline-block;
   animation: pulse-down 1.5s ease-in-out infinite;
+}
+
+/* =======================================================
+   TESTIMONIOS (dentro del modal "Quién soy")
+   Oculto por defecto vía [hidden] en el HTML; script.js le
+   saca el atributo apenas SITE_DATA.testimonials tenga datos.
+   ======================================================= */
+.testimonials-block {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(200, 161, 90, 0.25);
+}
+
+.testimonials-heading {
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--gold-dark);
+  margin-bottom: 1rem;
+}
+
+.testimonials-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.testimonial-quote {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  font-style: italic;
+}
+
+.testimonial-quote::before { content: "“"; }
+.testimonial-quote::after { content: "”"; }
+
+.testimonial-author {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  font-style: normal;
+  color: var(--gold-dark);
+  font-weight: 600;
+}
+
+/* =======================================================
+   FOOTER (vive dentro de la última sección, no rompe el snap)
+   ======================================================= */
+.site-footer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding-top: 2rem;
+  margin-top: auto;
+  opacity: 0.75;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: var(--gold-soft);
+}
+.footer-brand img { width: 22px; height: 22px; object-fit: contain; }
+
+.footer-whatsapp {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+  transition: var(--transition);
+}
+.footer-whatsapp:hover { color: var(--gold-soft); }
+
+.footer-copy {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* =======================================================
+   SECCIÓN PRÓXIMAMENTE (Artesanías)
+   ======================================================= */
+.proximamente-section {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 1.5rem;
+}
+
+.proximamente-content {
+  width: var(--container);
+  max-width: 650px;
+  margin: auto auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+}
+
+.proximamente-content h2 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.6rem, 5.5vw, 4.5rem);
+  font-weight: 400;
+  line-height: 1;
+  margin: 0.3rem 0 1.2rem;
+}
+
+.proximamente-content p {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 480px;
 }
