@@ -117,6 +117,15 @@ body {
   -webkit-overflow-scrolling: touch; /* scroll fluido en iOS */
 }
 
+/* Con un modal abierto, el fondo no debe poder moverse: sin esto, al
+   llegar al final del contenido scrolleable de un modal, el gesto de
+   scroll "encadena" hacia la sección de atrás y cambia de sección sin
+   que se note — y al cerrar el modal, parece que "se perdió" el lugar
+   donde estabas. */
+body.is-modal-open .scroll-snap-container {
+  overflow: hidden;
+}
+
 .snap-section {
   scroll-snap-align: start;          /* cada sección se alinea al inicio */
   scroll-snap-stop: always;          /* no puede saltarse secciones */
@@ -615,6 +624,16 @@ body {
   color: var(--ink-soft);
 }
 
+/* El foco se lleva al botón de cerrar al abrir el modal (accesibilidad
+   de teclado) — sin esto, Safari le pone su anillo azul por defecto,
+   que desentona. Este es un anillo propio, sutil, acorde a la marca. */
+.modal-close:focus,
+.modal-close:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+
 .modal-content  {
   align-items: center;
   text-align: center; 
@@ -655,7 +674,7 @@ body {
 .image-frame   { background: white; padding: 1rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
 .about-content h2 { font-family: "Cormorant Garamond", serif; font-size: clamp(2.2rem, 4vw, 3.5rem); line-height: 1.05; margin: 0.5rem 0 1.5rem; font-weight: 400; }
 .about-content p  { color: var(--ink-soft); font-size: 1rem; line-height: 1.8; margin-bottom: 1.2rem; }
-.about-content { overflow-y: auto; max-height: 100%; padding: center; text-align: center; }
+.about-content { overflow-y: auto; overscroll-behavior: contain; max-height: 100%; padding: center; text-align: center; }
 .signature-block { margin-top: 0rem; }
 .signature-line  { display: block; width: 80px; height: 1px; background: var(--gold); margin: 0 auto 1rem; }
 .signature-name  { display: block; color: var(--gold-dark); font-weight: 600; font-size: 1rem; }
@@ -861,6 +880,7 @@ body {
     padding: 2rem 1.5rem;
     max-height: 88dvh;
     overflow-y: auto;
+    overscroll-behavior: contain;
   }
   .about-grid    { grid-template-columns: 1fr; gap: 1.2rem; }
   .about-image   { max-width: 140px; margin: 0 auto; }
@@ -922,6 +942,7 @@ body {
 #modal-description {
   flex: 1;
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding-top: 1rem !important;
   padding-bottom: 0 !important; /* Clausura la zona de escape */
 }
@@ -1037,6 +1058,16 @@ body {
 }
 
 .hero-scroll-teaser:hover { opacity: 1; }
+
+/* En El Bazar el teaser no puede quedar flotando sobre las tarjetas
+   como en el hero (ahí sí hay espacio de sobra) — acá se suma al
+   flujo normal para que el grid le ceda espacio en vez de taparlo. */
+.bazar-scroll-teaser {
+  position: static;
+  transform: none;
+  flex-shrink: 0;
+  margin: 0.4rem auto 0;
+}
 
 .teaser-arrow {
   display: inline-block;
