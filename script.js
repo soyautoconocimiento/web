@@ -247,6 +247,10 @@ function initOnDemandAboutModal() {
     document.body.classList.add("is-modal-open");
     trapFocus(modal);
 
+    if (typeof gtag === "function") {
+      gtag("event", "view_about");
+    }
+
     // Espera la transición CSS para medir con precisión las alturas reales
     setTimeout(() => {
       const isMobile = window.innerWidth <= 768;

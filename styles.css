@@ -460,17 +460,6 @@ body {
   transform: scale(1);
 }
 
-/* Imágenes de fondo por card */
-.service-card:nth-child(1) .service-visual {
-  background-image: url("tarot.png");
-}
-.service-card:nth-child(2) .service-visual {
-  background-image: url("constelaciones.png");
-}
-.service-card:nth-child(3) .service-visual {
-  background-image: url("carta_astral.png");
-}
-
 /* CUERPO DE LA CARD (título + botón) */
 .service-body {
   /* flex-shrink: 0 significa que este bloque NUNCA encoge.
