@@ -55,7 +55,7 @@ const SITE_DATA = {
       description: "Un camino hacia adentro.\nDescubre el lenguaje de los astros y explora tu mapa astral en un viaje único de aprendizajes y autoconocimiento.",
       format: "Online - Vía Zoom",
       duration: "Entrevista previa a inscripción",
-      image: "assets/carta_astral.png",
+      image: "assets/curso_astrologia.png",
       urlAgenda: "https://calendar.app.google/bakqzB6p1NStA3Hy6"
     },
     {
@@ -65,7 +65,7 @@ const SITE_DATA = {
       description: "Un camino hacia adentro.\nEl Tarot es un lenguaje simbólico que nos ayuda a comprender nuestros procesos y abrir nuevas miradas sobre la vida. Te invito a recorrer las cartas como un camino de aprendizaje, intuición y autoconocimiento.\nArcanos Mayores y Menores · Tiradas de Tarot · Relación del Tarot con tu carta astral.",
       format: "Online - Vía Zoom",
       duration: "Inicio: Abril 2026",
-      image: "assets/tarot.png",
+      image: "assets/curso_tarot.png",
       urlAgenda: "https://calendar.app.google/bakqzB6p1NStA3Hy6"
     }
   ],

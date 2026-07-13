@@ -154,6 +154,8 @@ function initEngineScrollSnap() {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const activeId = entry.target.getAttribute("id");
+        const depth = Array.from(sections).indexOf(entry.target);
+        document.body.dataset.scrollDepth = depth;
 
         dots.forEach(dot => {
           if (dot.dataset.target === activeId) {
@@ -349,10 +351,11 @@ function initServiceModal() {
     }
 
     // Enrutamiento Dinámico e Inyección de Links de Conversión
+    const isCourse = dataSource.dataset.type === "course";
+
     if (btnConversar) {
       const phone = "56962391328"; // Su número real
       const serviceName = dataSource.dataset.title || "";
-      const isCourse = dataSource.dataset.type === "course";
       const text = isCourse
         ? `Hola, quiero información sobre el curso: ${serviceName}`
         : `Hola, me interesa saber más sobre: ${serviceName}`;
@@ -362,6 +365,9 @@ function initServiceModal() {
     }
 
     if (btnAgenda) {
+      // Los cursos no agendan sesión por calendario: solo WhatsApp.
+      btnAgenda.hidden = isCourse;
+
       const urlAgenda = dataSource.dataset.urlAgenda || "#";
       btnAgenda.setAttribute("href", urlAgenda);
       if (urlAgenda !== "#") {
