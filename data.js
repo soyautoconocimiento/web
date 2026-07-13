@@ -64,7 +64,7 @@ const SITE_DATA = {
       title: "Curso de Tarot 2026",
       description: "Un camino hacia adentro.\nEl Tarot es un lenguaje simbólico que nos ayuda a comprender nuestros procesos y abrir nuevas miradas sobre la vida. Te invito a recorrer las cartas como un camino de aprendizaje, intuición y autoconocimiento.\nArcanos Mayores y Menores · Tiradas de Tarot · Relación del Tarot con tu carta astral.",
       format: "Online - Vía Zoom",
-      duration: "Inicio: Abril 2026",
+      duration: "Entrevista previa a inscripción",
       image: "assets/curso_tarot.png",
       urlAgenda: "https://calendar.app.google/bakqzB6p1NStA3Hy6"
     }
