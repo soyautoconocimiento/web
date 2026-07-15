@@ -1261,7 +1261,7 @@ body[data-scroll-depth="2"] {
     align-items: stretch;
     justify-content: flex-start;
     overflow-x: hidden !important;
-    overflow-y: auto;
+    overflow-y: hidden;
     scroll-snap-type: none !important;
     width: 100%;
     margin-left: 0;
@@ -1270,17 +1270,18 @@ body[data-scroll-depth="2"] {
   }
 
   #courses-grid .service-card {
-    flex: 0 0 auto !important;
+    flex: 1 1 0 !important;
+    min-height: 0;
     width: 100%;
     max-width: none !important;
     height: auto;
-    aspect-ratio: 3 / 2;
+    aspect-ratio: auto;
     scroll-snap-align: none !important;
   }
 }
 
 @media (min-width: 769px) {
-  #courses-grid {
+  #courses-grid:not([hidden]) {
     display: flex !important;
     flex-direction: row !important;
     align-items: stretch;
