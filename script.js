@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderTestimonials();
   initBazarTabs();
   initEngineScrollSnap();
+  initAboutPresenceBubble();
   initOnDemandAboutModal();
   initServiceModal();
   initLabyrinth();
@@ -20,10 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
 function renderOfferingCards() {
   if (typeof SITE_DATA === "undefined") return;
 
-  /* U1/U2: la muestra congelada de Servicio y todos los Cursos usan la
-     carta full-bleed. Los demás Servicios conservan su markup actual. */
+  /* Diseño de carta full-bleed congelado para todas las ofertas. */
   const fullBleedSliceIds = new Set([
+    "tarot",
     "constelaciones",
+    "carta-astral",
     "curso-astrologia",
     "curso-tarot-2026"
   ]);
@@ -253,6 +255,51 @@ function trapFocus(modal) {
 function releaseFocus() {
   _focusTrapCleanup?.();
   _focusTrapCleanup = null;
+}
+
+/* ==========================================================
+   PRESENTACIÓN INICIAL DE MARCELA
+   ========================================================== */
+function initAboutPresenceBubble() {
+  const trigger = document.querySelector(".about-trigger-btn");
+  if (!trigger || trigger.closest(".about-presence-anchor")) return;
+
+  const anchor = document.createElement("span");
+  anchor.className = "about-presence-anchor";
+
+  const bubble = document.createElement("span");
+  bubble.className = "about-presence-bubble";
+  bubble.textContent = "Soy Marcela";
+  bubble.setAttribute("aria-hidden", "true");
+
+  trigger.before(anchor);
+  anchor.append(trigger, bubble);
+
+  const storageKey = "soyautoconocimiento:marcela-intro:v1";
+  let introCompleted = false;
+
+  try {
+    introCompleted = window.localStorage.getItem(storageKey) === "complete";
+  } catch {
+    /* El almacenamiento puede estar restringido; la presentación
+       sigue funcionando durante la visita actual. */
+  }
+
+  anchor.classList.toggle("is-presence-intro", !introCompleted);
+  anchor.classList.toggle("is-presence-complete", introCompleted);
+
+  if (introCompleted) return;
+
+  trigger.addEventListener("click", () => {
+    anchor.classList.remove("is-presence-intro");
+    anchor.classList.add("is-presence-complete");
+
+    try {
+      window.localStorage.setItem(storageKey, "complete");
+    } catch {
+      /* El modal debe abrir normalmente aunque no pueda persistirse. */
+    }
+  }, { once: true });
 }
 
 /* ==========================================================

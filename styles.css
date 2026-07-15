@@ -273,6 +273,84 @@ body[data-scroll-depth="2"] {
 .about-trigger-btn:hover { border-color: rgba(200, 161, 90, 0.8); }
 .about-trigger-btn:hover img { transform: scale(1.08); }
 
+/* PRESENTACIÓN INICIAL "SOY MARCELA" */
+.about-presence-anchor {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.about-presence-bubble {
+  position: absolute;
+  top: calc(100% + 11px);
+  right: 0;
+  z-index: 2;
+  width: max-content;
+  max-width: min(150px, calc(100vw - 2rem));
+  padding: 0.55rem 0.85rem;
+  border: 1px solid rgba(200, 161, 90, 0.42);
+  border-radius: 12px 4px 12px 12px;
+  background: rgba(7, 20, 38, 0.94);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
+  color: var(--gold-soft);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-5px);
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease,
+    visibility 0s linear 0.28s;
+}
+
+.about-presence-bubble::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 16px;
+  width: 10px;
+  height: 10px;
+  border-top: 1px solid rgba(200, 161, 90, 0.42);
+  border-left: 1px solid rgba(200, 161, 90, 0.42);
+  background: rgba(7, 20, 38, 0.94);
+  transform: rotate(45deg);
+}
+
+.about-presence-anchor.is-presence-intro .about-presence-bubble {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+
+/* U5B — después del ciclo inicial, la presentación reaparece solamente
+   en escritorio con mouse real o mediante foco visible de teclado. */
+@media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
+  .about-presence-anchor.is-presence-complete
+    .about-trigger-btn:hover + .about-presence-bubble,
+  .about-presence-anchor.is-presence-complete
+    .about-trigger-btn:focus-visible + .about-presence-bubble {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition-delay: 0s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-presence-bubble {
+    transform: none;
+    transition: none;
+  }
+}
+
 /* NAVEGACIÓN PRINCIPAL */
 .main-nav { display: none; }
 .main-nav a, .about-desktop-link {
@@ -841,6 +919,22 @@ body[data-scroll-depth="2"] {
   gap:0;
 }
 
+/* U6B — composición botánica propia para Servicios y Cursos. */
+#service-modal .modal-window::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: url("assets/floral-vines-b.svg") 48% 52% / cover no-repeat;
+  opacity: 0.07;
+  pointer-events: none;
+}
+
+#service-modal .modal-content {
+  position: relative;
+  z-index: 1;
+}
+
 .modal-content h3 {
   flex-shrink: 0;
   padding-bottom: 1rem;
@@ -855,6 +949,23 @@ body[data-scroll-depth="2"] {
   width: min(1000px, 100%);
   padding: 3.5rem 2.5rem;
 }
+
+/* U6A — patrón botánico continuo y tenue, detrás del contenido. */
+.about-modal-window::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: url("assets/floral-vines-a.svg") center / cover no-repeat;
+  opacity: 0.07;
+  pointer-events: none;
+}
+
+.about-modal-window > .about-grid {
+  position: relative;
+  z-index: 1;
+}
+
 .about-grid {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
@@ -1110,6 +1221,12 @@ body[data-scroll-depth="2"] {
     max-height: 88dvh;
     overflow-y: auto;
     overscroll-behavior: contain;
+  }
+  .about-modal-window::before {
+    opacity: 0.14;
+  }
+  #service-modal .modal-window::before {
+    opacity: 0.13;
   }
   .about-grid    { grid-template-columns: 1fr; gap: 1.2rem; }
   .about-image   { max-width: 140px; margin: 0 auto; }
