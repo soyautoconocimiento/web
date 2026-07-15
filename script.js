@@ -20,23 +20,42 @@ document.addEventListener("DOMContentLoaded", () => {
 function renderOfferingCards() {
   if (typeof SITE_DATA === "undefined") return;
 
+  /* U1: una muestra acotada por tipo antes de extender la carta full-bleed
+     al catálogo completo. El resto conserva exactamente su markup actual. */
+  const fullBleedSliceIds = new Set(["constelaciones", "curso-tarot-2026"]);
+
   const renderGrid = (gridEl, items) => {
     if (!gridEl) return;
-    gridEl.innerHTML = items.map(item => `
-      <article class="service-card"
+    gridEl.innerHTML = items.map(item => {
+      const isFullBleedSlice = fullBleedSliceIds.has(item.id);
+      const cardContent = isFullBleedSlice
+        ? `
+          <button class="service-card-action" type="button">
+            <span class="service-visual" data-bg="${item.image}" aria-hidden="true"></span>
+            <span class="service-card-copy">
+              <span class="service-card-title" role="heading" aria-level="3">${item.title}</span>
+              <span class="service-card-cta">Explorar</span>
+            </span>
+          </button>`
+        : `
+          <div class="service-visual" data-bg="${item.image}"></div>
+          <div class="service-body">
+            <h3>${item.title}</h3>
+            <button class="service-button" type="button">Explorar</button>
+          </div>`;
+
+      return `
+      <article class="service-card${isFullBleedSlice ? " service-card--full-bleed" : ""}"
                data-title="${item.title}"
                data-description="${item.description}"
                data-format="${item.format}"
                data-duration="${item.duration}"
                data-url-agenda="${item.urlAgenda}"
                data-type="${item.type || "service"}">
-        <div class="service-visual" data-bg="${item.image}"></div>
-        <div class="service-body">
-          <h3>${item.title}</h3>
-          <button class="service-button" type="button">Explorar</button>
-        </div>
+        ${cardContent}
       </article>
-    `).join("");
+    `;
+    }).join("");
   };
 
   renderGrid(document.getElementById("services-grid"), SITE_DATA.services);
@@ -392,10 +411,33 @@ function initServiceModal() {
   // FLUJO A: Escuchador para las Tarjetas del Bazar de Servicios
   const cards = document.querySelectorAll(".service-card");
   cards.forEach(card => {
-    const button = card.querySelector(".service-button");
+    const button = card.querySelector(".service-button, .service-card-action");
     if (!button) return;
 
-    button.addEventListener("click", () => {
+    let pointerStart = null;
+    let suppressActivationUntil = 0;
+
+    if (button.classList.contains("service-card-action")) {
+      button.addEventListener("pointerdown", e => {
+        pointerStart = { x: e.clientX, y: e.clientY };
+      });
+
+      button.addEventListener("pointermove", e => {
+        if (!pointerStart) return;
+        const distance = Math.hypot(e.clientX - pointerStart.x, e.clientY - pointerStart.y);
+        if (distance > 10) suppressActivationUntil = performance.now() + 500;
+      });
+
+      button.addEventListener("pointerup", () => { pointerStart = null; });
+      button.addEventListener("pointercancel", () => { pointerStart = null; });
+    }
+
+    button.addEventListener("click", e => {
+      if (performance.now() < suppressActivationUntil) {
+        e.preventDefault();
+        return;
+      }
+
       // Pasamos la tarjeta como la fuente de datos que contiene los datasets
       renderAndOpenModal(card);
     });
