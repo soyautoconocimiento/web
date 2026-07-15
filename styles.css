@@ -630,10 +630,10 @@ body[data-scroll-depth="2"] {
   pointer-events: none;
   background: linear-gradient(
     to top,
-    rgba(7, 20, 38, 0.98) 0%,
-    rgba(7, 20, 38, 0.90) 34%,
-    rgba(7, 20, 38, 0.46) 64%,
-    transparent 100%
+    rgba(7, 20, 38, 0.96) 0%,
+    rgba(7, 20, 38, 0.82) 22%,
+    rgba(7, 20, 38, 0.28) 46%,
+    transparent 68%
   );
 }
 

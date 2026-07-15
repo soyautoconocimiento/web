@@ -20,9 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
 function renderOfferingCards() {
   if (typeof SITE_DATA === "undefined") return;
 
-  /* U1: una muestra acotada por tipo antes de extender la carta full-bleed
-     al catálogo completo. El resto conserva exactamente su markup actual. */
-  const fullBleedSliceIds = new Set(["constelaciones", "curso-tarot-2026"]);
+  /* U1/U2: la muestra congelada de Servicio y todos los Cursos usan la
+     carta full-bleed. Los demás Servicios conservan su markup actual. */
+  const fullBleedSliceIds = new Set([
+    "constelaciones",
+    "curso-astrologia",
+    "curso-tarot-2026"
+  ]);
 
   const renderGrid = (gridEl, items) => {
     if (!gridEl) return;
