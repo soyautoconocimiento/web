@@ -1254,6 +1254,52 @@ body[data-scroll-depth="2"] {
   }
 }
 
+/* U3 — Cursos: lista móvil; fila centrada en tablet y escritorio */
+@media (max-width: 768px) {
+  #courses-grid {
+    flex-direction: column !important;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow-x: hidden !important;
+    overflow-y: auto;
+    scroll-snap-type: none !important;
+    width: 100%;
+    margin-left: 0;
+    padding: 0.5rem 1.25rem 1rem !important;
+    gap: 1rem !important;
+  }
+
+  #courses-grid .service-card {
+    flex: 0 0 auto !important;
+    width: 100%;
+    max-width: none !important;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    scroll-snap-align: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  #courses-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch;
+    justify-content: center;
+    overflow-x: visible !important;
+    scroll-snap-type: none !important;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  #courses-grid .service-card {
+    flex: 1 1 0 !important;
+    min-width: 0;
+    width: auto;
+    max-width: 420px !important;
+    scroll-snap-align: none !important;
+  }
+}
+
 /* La cuadrícula de escritorio ahora nace estrictamente desde 1025px */
 @media (min-width: 1025px) {
   .services-grid {
