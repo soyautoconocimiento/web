@@ -5,12 +5,13 @@
 document.addEventListener("DOMContentLoaded", () => {
   renderOfferingCards();
   renderTestimonials();
+  initWelcomePreload();
   initBazarTabs();
   initEngineScrollSnap();
+  initContinuousAmbientDepth();
   initAboutPresenceBubble();
   initOnDemandAboutModal();
   initServiceModal();
-  initLabyrinth();
   initCarouselCenter();
   initLazyVisuals();
 });
@@ -69,10 +70,126 @@ function renderOfferingCards() {
 }
 
 /* ==========================================================
-   CARGA DIFERIDA (LAZY) DE IMÁGENES DE TARJETAS
-   La imagen solo se pide a la red cuando la tarjeta está por
-   entrar en pantalla; al llegar, hace un fundido suave en vez
-   de aparecer de golpe.
+   APERTURA Y PRECALENTAMIENTO DE ASSETS
+   ========================================================== */
+const visualLoadPromises = new WeakMap();
+
+function loadCardVisual(visual, fetchPriority = "auto") {
+  if (!visual || visual.classList.contains("is-loaded")) return Promise.resolve(true);
+  if (visualLoadPromises.has(visual)) return visualLoadPromises.get(visual);
+
+  const src = visual.dataset.bg;
+  const loadPromise = new Promise((resolve) => {
+    const image = new Image();
+    image.decoding = "async";
+    image.fetchPriority = fetchPriority;
+
+    image.onload = async () => {
+      try {
+        await image.decode();
+      } catch {
+        // onload confirma que la imagen puede utilizarse aunque decode no exista.
+      }
+
+      visual.style.backgroundImage = `url('${src}')`;
+      requestAnimationFrame(() => visual.classList.add("is-loaded"));
+      resolve(true);
+    };
+    image.onerror = () => resolve(false);
+    image.src = src;
+  });
+
+  visualLoadPromises.set(visual, loadPromise);
+  return loadPromise;
+}
+
+function initWelcomePreload() {
+  const sessionKey = "soy-autoconocimiento-welcome-seen";
+  const criticalAssets = [
+    "assets/hero-terapia-floral-warm.webp",
+    "assets/global-botanical-labyrinth.svg",
+    ...Array.from(document.querySelectorAll("img[src]"), (image) => image.currentSrc || image.src)
+  ];
+  const serviceVisuals = Array.from(document.querySelectorAll("#services-grid .service-visual[data-bg]"));
+  const courseVisuals = Array.from(document.querySelectorAll("#courses-grid .service-visual[data-bg]"));
+  const preloadImage = (src) => new Promise((resolve) => {
+    const image = new Image();
+    image.decoding = "async";
+    image.onload = async () => {
+      try {
+        await image.decode();
+      } catch {
+        // La disponibilidad de decode varía; onload sigue siendo suficiente.
+      }
+      resolve(true);
+    };
+    image.onerror = () => resolve(false);
+    image.src = src;
+  });
+  const hydrateServices = () => Promise.all(serviceVisuals.map((visual) => loadCardVisual(visual, "high")));
+  const hydrateCourses = () => Promise.all(courseVisuals.map((visual) => loadCardVisual(visual, "low")));
+  const scheduleCourseHydration = () => {
+    const hydrate = () => hydrateCourses();
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(hydrate, { timeout: 1800 });
+    } else {
+      window.setTimeout(hydrate, 350);
+    }
+  };
+
+  let alreadySeen = false;
+  try {
+    alreadySeen = sessionStorage.getItem(sessionKey) === "true";
+  } catch {
+    // Si el navegador bloquea el almacenamiento, la apertura sigue siendo segura.
+  }
+
+  if (alreadySeen) {
+    hydrateServices();
+    scheduleCourseHydration();
+    return;
+  }
+
+  const welcome = document.createElement("div");
+  welcome.className = "welcome-preload";
+  welcome.setAttribute("aria-hidden", "true");
+  welcome.innerHTML = `
+    <div class="welcome-preload__content">
+      <span class="welcome-preload__brand">Soy Autoconocimiento</span>
+      <svg class="welcome-preload__labyrinth" viewBox="0 0 160 160" aria-hidden="true">
+        <path pathLength="1" d="M72 148 C32 148 10 119 10 80 C10 40 40 10 80 10 C120 10 150 40 150 80 C150 118 120 148 88 148 L88 133 C116 131 135 108 135 80 C135 49 111 25 80 25 C49 25 25 49 25 80 C25 110 49 133 72 133 L72 118 C53 116 40 100 40 80 C40 58 58 40 80 40 C102 40 120 58 120 80 C120 101 102 118 88 118 L88 103 C98 100 105 91 105 80 C105 66 94 55 80 55 C66 55 55 66 55 80 C55 92 64 102 72 103 C68 96 68 88 80 80" />
+      </svg>
+      <span class="welcome-preload__line"></span>
+    </div>`;
+  document.body.append(welcome);
+
+  const minimumDuration = new Promise((resolve) => setTimeout(resolve, 3000));
+  const maximumDuration = new Promise((resolve) => setTimeout(resolve, 10000));
+  const fontReady = document.fonts?.ready ?? Promise.resolve();
+  const criticalReady = Promise.all([
+    fontReady,
+    ...criticalAssets.map((src) => preloadImage(src))
+  ]);
+  const entryReady = Promise.all([criticalReady, hydrateServices()]);
+
+  Promise.all([Promise.race([entryReady, maximumDuration]), minimumDuration]).then(() => {
+    try {
+      sessionStorage.setItem(sessionKey, "true");
+    } catch {
+      // La salida de la apertura no depende del almacenamiento local.
+    }
+
+    welcome.classList.add("is-leaving");
+    scheduleCourseHydration();
+    window.setTimeout(() => welcome.remove(), 320);
+  });
+}
+
+/* ==========================================================
+   RESPALDO DIFERIDO DE IMÁGENES DE TARJETAS
+   La apertura hidrata servicios y cursos por prioridad. Este
+   observador cubre cualquier tarjeta futura que aún no haya sido
+   preparada al acercarse al viewport.
    ========================================================== */
 function initLazyVisuals() {
   const visuals = document.querySelectorAll(".service-visual[data-bg]");
@@ -82,18 +199,14 @@ function initLazyVisuals() {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
       const el = entry.target;
-      const src = el.dataset.bg;
-      const img = new Image();
-      img.onload = () => {
-        el.style.backgroundImage = `url('${src}')`;
-        requestAnimationFrame(() => el.classList.add("is-loaded"));
-      };
-      img.src = src;
+      loadCardVisual(el);
       obs.unobserve(el);
     });
   }, { rootMargin: "150px" });
 
-  visuals.forEach(el => observer.observe(el));
+  visuals.forEach((el) => {
+    if (!el.classList.contains("is-loaded")) observer.observe(el);
+  });
 }
 
 /* ==========================================================
@@ -212,6 +325,72 @@ function initEngineScrollSnap() {
 }
 
 /* ==========================================================
+   FONDO AMBIENTAL CONTINUO
+   ========================================================== */
+function initContinuousAmbientDepth() {
+  const container = document.querySelector(".scroll-snap-container");
+  const sections = Array.from(document.querySelectorAll(".snap-section"));
+  const body = document.body;
+
+  if (!container || sections.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const properties = [
+    "--ambient-photo-opacity",
+    "--ambient-labyrinth-opacity",
+    "--ambient-labyrinth-scale"
+  ];
+  const originalDepth = body.dataset.scrollDepth;
+  const keyframes = [0, 1, 2].map((depth) => {
+    body.dataset.scrollDepth = depth;
+    const styles = getComputedStyle(body);
+    return Object.fromEntries(
+      properties.map((property) => [property, parseFloat(styles.getPropertyValue(property))])
+    );
+  });
+
+  if (originalDepth === undefined) {
+    delete body.dataset.scrollDepth;
+  } else {
+    body.dataset.scrollDepth = originalDepth;
+  }
+
+  const interpolate = (from, to, progress) => from + (to - from) * progress;
+  let frameRequested = false;
+
+  const updateAmbientDepth = () => {
+    frameRequested = false;
+    const offsets = sections.map((section) => section.offsetTop);
+    const scrollTop = container.scrollTop;
+    let segment = 0;
+
+    while (segment < offsets.length - 2 && scrollTop >= offsets[segment + 1]) {
+      segment += 1;
+    }
+
+    const start = offsets[segment];
+    const end = offsets[segment + 1] ?? start;
+    const progress = end === start ? 0 : Math.min(1, Math.max(0, (scrollTop - start) / (end - start)));
+    const from = keyframes[segment];
+    const to = keyframes[segment + 1];
+
+    properties.forEach((property) => {
+      body.style.setProperty(property, interpolate(from[property], to[property], progress).toFixed(4));
+    });
+  };
+
+  const requestUpdate = () => {
+    if (!frameRequested) {
+      frameRequested = true;
+      requestAnimationFrame(updateAmbientDepth);
+    }
+  };
+
+  container.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate, { passive: true });
+  requestUpdate();
+}
+
+/* ==========================================================
    FOCUS TRAP PARA MODALES
    Sin esto, al navegar con teclado (Tab) dentro de un modal
    abierto, el foco se escapa hacia elementos de la página que
@@ -269,7 +448,7 @@ function initAboutPresenceBubble() {
 
   const bubble = document.createElement("span");
   bubble.className = "about-presence-bubble";
-  bubble.textContent = "Soy Marcela";
+  bubble.textContent = "Quién soy";
   bubble.setAttribute("aria-hidden", "true");
 
   trigger.before(anchor);
@@ -554,129 +733,6 @@ function initScrollHint(scrollEl) {
     scrollEl._scrollHintListener = evaluarVisibilidadFlecha;
     scrollEl.addEventListener("scroll", scrollEl._scrollHintListener, { passive: true });
   });
-}
-
-/* ==========================================================
-   LABERINTO UNICURSAL GENERATIVE SVG
-   ========================================================== */
-function initLabyrinth() {
-  const heroContainer = document.getElementById("hero-labyrinth");
-  if (!heroContainer) return;
-
-  const shouldAnimate = window.innerWidth > 1024;
-  createLabyrinth(heroContainer, shouldAnimate);
-}
-
-/* Construye el "d" de un path SVG con anillos concéntricos conectados
-   entre sí: cada anillo abre un hueco alternado (arriba/abajo), y ese
-   hueco se une con un puente al anillo siguiente. El resultado es un
-   único trazo desde el borde hasta el centro, sin ramificaciones. */
-function buildLabyrinthPath(center, rings, baseRadius, step, gapDeg) {
-  const toPoint = (radius, angleDeg) => {
-    const angleRad = (angleDeg * Math.PI) / 180;
-    return {
-      x: center + radius * Math.cos(angleRad),
-      y: center + radius * Math.sin(angleRad)
-    };
-  };
-
-  let d = "";
-
-  for (let i = rings; i >= 1; i--) {
-    const radius = baseRadius + i * step;
-    // Misma costura radial en todos los anillos: el puente entre uno y
-    // otro queda corto (mismo ángulo, distinto radio) en vez de cruzar
-    // el diámetro completo, que es lo que rompía la lectura de espiral.
-    const gapAngle = 90;
-    const startAngle = gapAngle + gapDeg / 2;
-    const sweep = 360 - gapDeg;
-    const midAngle = startAngle + sweep / 2;
-    const endAngle = startAngle + sweep;
-
-    const start = toPoint(radius, startAngle);
-    const mid = toPoint(radius, midAngle);
-    const end = toPoint(radius, endAngle);
-
-    d += i === rings ? `M ${start.x} ${start.y} ` : `L ${start.x} ${start.y} `;
-    d += `A ${radius} ${radius} 0 0 1 ${mid.x} ${mid.y} `;
-    d += `A ${radius} ${radius} 0 0 1 ${end.x} ${end.y} `;
-  }
-
-  d += `L ${center} ${center}`;
-  return d;
-}
-
-function createLabyrinth(container, animated = true) {
-  if (!container) return;
-
-  const size = 750;
-  const center = size / 2;
-  const svgNS = "http://www.w3.org/2000/svg";
-
-  const svg = document.createElementNS(svgNS, "svg");
-  svg.setAttribute("viewBox", `0 0 ${size} ${size}`);
-  svg.setAttribute("width", "100%");
-  svg.setAttribute("height", "100%");
-
-  const labyrinth = document.createElementNS(svgNS, "g");
-  labyrinth.setAttribute("opacity", "0.58");
-
-  const roseSize = 400; 
-  const rosePosition = (size - roseSize) / 2;
-
-  const rose = document.createElementNS(svgNS, "image");
-  rose.setAttribute("href", "assets/rosa.svg");
-  rose.setAttribute("x", rosePosition);
-  rose.setAttribute("y", rosePosition);
-  rose.setAttribute("width", roseSize);
-  rose.setAttribute("height", roseSize);
-
-  const rotation = Math.floor(Math.random() * 360);
-  labyrinth.setAttribute("transform", `rotate(${rotation} ${center} ${center})`);
-
-  // Laberinto unicursal clásico: un solo trazo continuo, sin
-  // bifurcaciones ni callejones sin salida — la referencia arqueológica
-  // real detrás del mito del laberinto de Creta y el Minotauro.
-  // En vez de anillos independientes con huecos al azar, cada anillo
-  // se conecta con el siguiente por un puente, formando un único
-  // camino desde el borde hasta el centro.
-  const path = document.createElementNS(svgNS, "path");
-  path.setAttribute("d", buildLabyrinthPath(center, 6, 120, 38, 9));
-  path.setAttribute("fill", "none");
-  path.setAttribute("stroke", "#c8a15a");
-  path.setAttribute("stroke-width", "6");
-  path.setAttribute("stroke-linecap", "round");
-  labyrinth.appendChild(path);
-
-  svg.appendChild(labyrinth);
-  svg.appendChild(rose);
-  container.innerHTML = "";
-  container.appendChild(svg);
-
-  if (animated) {
-    let current = rotation;
-    let isElementVisible = false;
-    let animationFrameId = null;
-
-    function animateRotation() {
-      if (!isElementVisible) return; 
-      current += 0.015;
-      labyrinth.setAttribute("transform", `rotate(${current} ${center} ${center})`);
-      animationFrameId = requestAnimationFrame(animateRotation);
-    }
-
-    const performanceObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        isElementVisible = entry.isIntersecting;
-        if (isElementVisible) {
-          cancelAnimationFrame(animationFrameId);
-          animationFrameId = requestAnimationFrame(animateRotation);
-        }
-      });
-    }, { threshold: 0.05 }); 
-
-    performanceObserver.observe(container);
-  }
 }
 
 /* ==========================================================
