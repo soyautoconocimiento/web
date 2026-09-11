@@ -65,7 +65,13 @@ function renderOfferingCards() {
     }).join("");
   };
 
-  renderGrid(document.getElementById("services-grid"), SITE_DATA.services);
+  // El que abre el sitio NO se repite abajo. 2026-09-12: al mover Terapia
+  // Floral del html a `data.js`, empezo a salir tambien como tarjeta. Su
+  // regla: `al menos, en servicios , nunca va la que está en el hero`.
+  renderGrid(document.getElementById("services-grid"),
+             SITE_DATA.services.filter(function (s) {
+               return s.id !== SITE_DATA.hero;
+             }));
   renderGrid(document.getElementById("courses-grid"), SITE_DATA.courses);
 }
 
@@ -764,3 +770,36 @@ function initCarouselCenter() {
     setTimeout(centerMiddleCard, 250); 
   }, { passive: true });
 }
+
+// BLOQUE-RECALCULAR
+// 2026-09-12: las tres profundidades viven en reglas
+// `body[data-scroll-depth]` de `styles.css`, y esas pisan a `:root`. Cambiar
+// variables no movia nada. Ahora se acepta TEXTO CSS y se inyecta como hoja
+// propia, que es lo unico que puede ganarles.
+window.recalcularLuzCSS = function(css) {
+  try {
+    var hoja = document.getElementById("luz-del-panel");
+    if (!hoja) {
+      hoja = document.createElement("style");
+      hoja.id = "luz-del-panel";
+      document.head.appendChild(hoja);
+    }
+    hoja.textContent = css;
+    if (typeof initContinuousAmbientDepth === 'function') initContinuousAmbientDepth();
+  } catch (e) { console.error('recalcularLuzCSS:', e); }
+};
+
+window.recalcularLuz = function(opciones) {
+  try {
+    const root = document.documentElement;
+    for (let nombre in opciones) {
+      root.style.setProperty(nombre, opciones[nombre]);
+    }
+    if (typeof initContinuousAmbientDepth === 'function') {
+      initContinuousAmbientDepth();
+    }
+  } catch (error) {
+    console.error('Error en recalcularLuz:', error);
+  }
+};
+// FIN-BLOQUE-RECALCULAR

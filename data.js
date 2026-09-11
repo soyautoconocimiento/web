@@ -6,7 +6,27 @@
 
 const SITE_DATA = {
 
+  /* El servicio que abre el sitio. 2026-09-12: vivia escrito a mano dentro de
+     `index.html`, en el hero, con sus datos en atributos `data-`. Dos fuentes
+     para lo mismo es la falta que el nodo del cliente existe para terminar, y
+     ademas dejaba a Marcela sin poder cambiar con que servicio se presenta.
+     Ahora es un servicio como los otros, marcado con `hero: true`. */
+  hero: "floral",
+
   services: [
+    {
+      id: "floral",
+      type: "service",
+      hero: true,
+      title: "Terapia Floral",
+      subtitle: "Evolutiva",
+      heroTitle: "Terapia Floral Evolutiva",
+      description: "La Terapia Floral Evolutiva es un acompañamiento terapéutico basado en el sistema de Flores de Bach que favorece la autoindagación, la observación consciente.\nUn proceso terapéutico lo transformamos en un viaje de autoconocimiento.\n\n\u201cPorque el bien estar no surge de transformarnos en alguien distinto, sino de conocernos profundamente y vivir en coherencia con nuestra verdadera naturaleza.\u201d",
+      format: "Encuentro Online Vía Zoom",
+      duration: "Sesiones de 1 Hora",
+      image: "assets/hero-terapia-floral-warm.webp",
+      urlAgenda: "https://calendar.app.google/bakqzB6p1NStA3Hy6"
+    },
     {
       id: "tarot",
       type: "service",

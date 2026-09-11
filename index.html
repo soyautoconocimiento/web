@@ -72,22 +72,12 @@
 
     <section class="snap-section hero-section" id="home">
       <div class="hero-content">
-        <h1>
-          Terapia Floral
-        </h1>
-        <h2>Evolutiva</h2>
+        <h1 id="hero-title"></h1>
+        <h2 id="hero-subtitle"></h2>
         <div class="hero-actions">
-          <button class="btn btn-primary hero-explore-btn" 
+          <button class="btn btn-primary hero-explore-btn"
                   type="button"
-                  data-title="Terapia Floral Evolutiva" 
-                  data-description="La Terapia Floral Evolutiva es un acompañamiento terapéutico basado en el sistema de Flores de Bach que favorece la autoindagación, la observación consciente.
-Un proceso terapéutico lo transformamos en un viaje de autoconocimiento.
-
-“Porque el bien estar no surge de transformarnos en alguien distinto, sino de conocernos profundamente y vivir en coherencia con nuestra verdadera naturaleza.”" 
-                  data-format="Encuentro Online Vía Zoom" 
-                  data-duration="Sesiones de 1 Hora"
-                  data-url-conversar="https://wa.me/1234567890"
-                  data-url-agenda="https://calendar.app.google/bakqzB6p1NStA3Hy6">
+                  id="hero-explore">
             Explorar
           </button>
         </div>
@@ -201,7 +191,43 @@ Un proceso terapéutico lo transformamos en un viaje de autoconocimiento.
     <button class="modal-close service-close-external" aria-label="Cerrar">×</button>
   </div>
 
+  <script>
+    /* LA HORA ELIGE LA LUZ. Va antes de todo para que no haya parpadeo.
+       De dia la mas clara, al atardecer la intermedia, de noche la original.
+       Si alguien pide `?luz=oscuro` se respeta, para poder mirarlas. */
+    (function () {
+      var pedida = new URLSearchParams(location.search).get("luz");
+      var h = new Date().getHours();
+      var cual = pedida || (h >= 8 && h < 18 ? "claro"
+                          : (h >= 18 && h < 21 ? "medio" : "oscuro"));
+      document.documentElement.dataset.luz = cual;
+    })();
+  </script>
   <script src="data.js"></script>
+  <script>
+    /* El hero se llena desde `data.js`. 2026-09-12: estaba escrito a mano
+       aqui, con sus datos en atributos `data-`, asi que habia dos fuentes
+       para lo mismo y Marcela no podia cambiar con que servicio se presenta.
+       Ahora lo elige `SITE_DATA.hero`. */
+    (function () {
+      var d = window.SITE_DATA || SITE_DATA;
+      // Nunca en blanco: si no encuentra el que manda `hero`, usa el
+      // primero. 2026-09-12 el titulo desaparecio, y la causa mas probable
+      // fue un `data.js` viejo en cache sin el campo `hero`.
+      var s = (d.services || []).filter(function (x) { return x.id === d.hero; })[0]
+              || (d.services || [])[0];
+      if (!s) return;
+      document.getElementById('hero-title').textContent = s.title || '';
+      document.getElementById('hero-subtitle').textContent = s.subtitle || '';
+      var b = document.getElementById('hero-explore');
+      if (!b) return;
+      b.dataset.title = s.heroTitle || s.title || '';
+      b.dataset.description = s.description || '';
+      b.dataset.format = s.format || '';
+      b.dataset.duration = s.duration || '';
+      b.dataset.urlAgenda = s.urlAgenda || '';
+    })();
+  </script>
   <script src="script.js"></script>
 </body>
 </html>

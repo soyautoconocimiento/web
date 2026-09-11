@@ -93,8 +93,8 @@
 :root {
 
   /* PALETA DE COLORES */
-  --night:      #071426;   /* azul más oscuro, fondo base */
-  --midnight:   #153055;   /* azul oscuro, botones y fondos */
+  --night:      #123054;   /* azul más oscuro, fondo base */
+  --midnight:   #2b5286;   /* azul oscuro, botones y fondos */
   --deep-blue:  #16315b;   /* azul medio */
   --blue-glow:  #264a80;   /* azul para glows */
   --paper:      #f3f0ea;   /* crema cálida, fondo de las cards */
@@ -157,11 +157,22 @@ button { font: inherit; background: transparent; border: none; cursor: pointer; 
    ======================================================= */
 
 body {
-  --ambient-photo-opacity: 0.72;
+  --ambient-photo-opacity: 0.92;
   --ambient-labyrinth-opacity: 0.004;
   --ambient-labyrinth-scale: 2.65;
   font-family: "Inter", sans-serif;
+  /* CIELO, NO PAPEL PINTADO. 2026-09-12, su idea: `que el background no sea
+     solido, podria ser como un cielo abstracto difuminado con variantes ; el
+     que hoy sea solido igual se siente como duro, como estatico`.
+     Tres manchas grandes, suaves y fuera de centro, en tonos vecinos: es lo
+     que rompe la sensacion de plano sin dibujar nada. */
   background:
+    radial-gradient(ellipse 90% 70% at 18% 22%,
+      rgba(86, 132, 196, 0.34) 0%, rgba(86, 132, 196, 0) 62%),
+    radial-gradient(ellipse 80% 65% at 86% 30%,
+      rgba(120, 104, 178, 0.28) 0%, rgba(120, 104, 178, 0) 60%),
+    radial-gradient(ellipse 110% 80% at 60% 96%,
+      rgba(46, 96, 140, 0.38) 0%, rgba(46, 96, 140, 0) 66%),
     radial-gradient(
       ellipse 70% 78% at 32% 38%,
       var(--hero-light-color) 0%,
@@ -266,7 +277,7 @@ body {
    solo --glow-color/--glow-radius (en vez de todo el gradiente)
    es lo que permite que la transición de arriba sea gradual. */
 body[data-scroll-depth="1"] {
-  --ambient-photo-opacity: 0.28;
+  --ambient-photo-opacity: 0.42;
   --ambient-labyrinth-opacity: 0.04;
   --ambient-labyrinth-scale: 2.18;
   --hero-light-color: rgba(70, 118, 184, 0);
@@ -275,7 +286,7 @@ body[data-scroll-depth="1"] {
 }
 
 body[data-scroll-depth="2"] {
-  --ambient-photo-opacity: 0.08;
+  --ambient-photo-opacity: 0.04;
   --ambient-labyrinth-opacity: 0.08;
   --ambient-labyrinth-scale: 1.85;
   --hero-light-color: rgba(70, 118, 184, 0);
@@ -332,7 +343,11 @@ body[data-scroll-depth="2"] {
   height: var(--header-height);
   z-index: 100;
   backdrop-filter: blur(16px);                       /* difumina lo que está detrás */
-  background: rgba(0, 0, 0, 0.2);
+  /* El velo era NEGRO puro: con el fondo oscuro no se veia, y al aclararse
+     la ultima seccion quedaba como una banda oscura. 2026-09-12, el lo vio:
+     `como que en la ultima se hace mas oscuro`. Ahora es el azul del sitio,
+     asi que es parte del cielo y no un parche. */
+  background: rgba(18, 48, 84, 0.26);
   border-bottom: 1px solid rgba(200, 161, 90, 0.15);
   display: flex;
   align-items: center;
@@ -1678,3 +1693,26 @@ body[data-scroll-depth="2"] {
   line-height: 1.7;
   max-width: 480px;
 }
+
+/* ==========================================================
+   TRES LUCES, Y LA ELIGE LA HORA
+   2026-09-12, su idea: `guardar la version original, algun intermedio, y
+   esta en particular como las opciones posibles (...) de noche se vea la
+   mas oscura ; de dia la mas clara`.
+   `claro` es lo que hay en :root y en las reglas de profundidad de arriba.
+   ========================================================== */
+html[data-luz="oscuro"] {
+  --night: #071426;
+  --midnight: #153055;
+}
+html[data-luz="oscuro"] body { --ambient-photo-opacity: 0.72; }
+html[data-luz="oscuro"] body[data-scroll-depth="1"] { --ambient-photo-opacity: 0.28; }
+html[data-luz="oscuro"] body[data-scroll-depth="2"] { --ambient-photo-opacity: 0.08; }
+
+html[data-luz="medio"] {
+  --night: #0c1f38;
+  --midnight: #20406e;
+}
+html[data-luz="medio"] body { --ambient-photo-opacity: 0.85; }
+html[data-luz="medio"] body[data-scroll-depth="1"] { --ambient-photo-opacity: 0.34; }
+html[data-luz="medio"] body[data-scroll-depth="2"] { --ambient-photo-opacity: 0.06; }

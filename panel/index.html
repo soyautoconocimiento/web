@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel de tu sitio</title>
+<style>
+  :root{
+    --azul:#264a80; --tinta:#0d1b2e; --papel:#f3ede2;
+    --linea:#c9bda6; --suave:#5b5142;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Inter",system-ui,-apple-system,sans-serif;
+    background:var(--papel);color:var(--tinta);line-height:1.5;
+    max-width:1100px;margin:0 auto;
+  }
+  h1{font-weight:600;margin-bottom:.25rem}
+  p.intro{color:var(--suave);margin-bottom:1.5rem;max-width:56ch}
+  .zona{
+    background:#fff;border:1px solid var(--linea);border-radius:12px;margin-bottom:1.25rem;
+  }
+  .zona>h2{font-size:1.1rem;margin-bottom:1rem;color:var(--azul)}
+  .luz-fila{flex-wrap:wrap}
+  .luz-controles{flex:1 1 320px;min-width:280px}
+  .luz-previa{flex:1 1 380px;min-width:280px}
+  .grupo{border:1px solid var(--linea);border-radius:10px;padding:.9rem;margin-bottom:.9rem}
+  .grupo>h3{font-size:.95rem;margin-bottom:.4rem}
+  label{display:block;font-size:.9rem;margin:.7rem 0 .15rem}
+  input[type=range]{width:100%}
+  /* EL CASCARON */
+  .partes{display:flex;gap:.5rem;flex-wrap:wrap}
+  .partes button{border:1px solid var(--linea);background:transparent;color:var(--suave);border-radius:999px;cursor:pointer;font:inherit}
+  .partes button.viva{background:var(--azul);color:#fff;border-color:var(--azul)}
+  /* Sin scroll de pagina: lo que sobra se desplaza DENTRO de su caja. */
+  html,body{height:100%}
+  body{display:flex;flex-direction:column;overflow:hidden}
+  /* La belleza es que no haya que hacer scroll para llegar a un control.
+     2026-09-12, el lo dijo tres veces. La zona NO se desplaza: solo la lista
+     de 34 piezas se desplaza dentro de su columna, que con 34 es inevitable,
+     y jamas para alcanzar un campo. */
+  /* DOS COLUMNAS. Sus palabras, 2026-09-12: `si quiero editar el hero, me
+     aparecen solo las opciones que afectan el hero (...) y darle prioridad a
+     la vista previa`. Los controles a la izquierda cambian por seccion; la
+     previa esta SIEMPRE a la vista, y es la que manda en la pantalla. */
+  .doble{flex:1;min-height:0;display:grid;grid-template-columns:minmax(300px,30%) 1fr;gap:1.1rem}
+  .controles{min-height:0;display:flex;flex-direction:column}
+  .previa-lado{min-height:0;display:flex;flex-direction:column}
+  /* Sin `flex`: la altura la calcula el escalado. Con las dos cosas se
+     peleaban y el sitio salia achatado. 2026-09-12. */
+  .previa-lado iframe{border:1px solid var(--linea);background:#fff;display:block}
+  .marco-previa{flex:1;min-height:0;overflow:hidden}
+  .previa-lado{overflow:hidden}
+  .ranura-luz{margin-top:.9rem;border-top:1px solid var(--linea);padding-top:.7rem}
+  @media (max-width:900px){.doble{grid-template-columns:1fr}}
+  .zona{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column}
+  /* `display:flex` anula el atributo `hidden`, que oculta con `display:none`.
+     2026-09-12: se veian las cajas de todas las secciones a la vez. */
+  .zona[hidden]{display:none !important}
+  .piezas-fila{flex:1;min-height:0}
+  .piezas-ficha{overflow:auto;min-height:0}
+  .piezas-ficha textarea{min-height:4.5rem}
+  .luz-fila{flex:1;min-height:0;display:flex;gap:1rem}
+  .luz-fila>*{min-height:0}
+
+  /* DENSIDAD. 2026-09-12: `veo mucho espacio negativo, desaprovechado o mal
+     utilizado; arriba entre el titulo y la bajada se pierde demasiado`.
+     Lo de arriba se aprieta y ese espacio pasa a la previa, que es lo que
+     ella mira. */
+  body{padding:.9rem 1.1rem;gap:0}
+  h1{font-size:1.15rem;margin:0 0 .15rem;line-height:1.2}
+  .intro{margin:0 0 .7rem;font-size:.82rem;opacity:.7;line-height:1.35;
+    max-width:70ch}
+  .partes{margin:0 0 .7rem}
+  .partes button{padding:.4rem .85rem;font-size:.88rem}
+  h2{font-size:1rem;margin:0 0 .35rem}
+  .ayuda{font-size:.82rem}
+  .zona{padding:0}
+  /* La previa manda: se queda con todo el alto que sobra. */
+  .luz-fila{align-items:stretch}
+  iframe{min-height:0}
+  .visores{display:flex;gap:.4rem;margin:0 0 .6rem}
+  .visores button{border:1px solid var(--linea);background:transparent;color:var(--suave);
+    padding:.35rem .8rem;border-radius:999px;cursor:pointer;font:inherit;font-size:.85rem}
+  .visores button.viva{background:var(--azul);color:#fff}
+  iframe{transition:width .25s ease}
+  .ayuda{opacity:.75;margin:.2rem 0 1rem}
+  .piezas-fila{display:grid;gap:1.2rem}
+  .piezas-lista{max-height:60vh;overflow:auto;display:flex;flex-direction:column;gap:.3rem}
+  .piezas-lista button{text-align:left;border:0;background:transparent;color:inherit;
+    padding:.4rem .6rem;border-radius:6px;cursor:pointer;font:inherit}
+  .piezas-lista button.viva{background:var(--azul);color:#fff}
+  /* La etiqueta y el campo no pueden verse igual: el 2026-09-12 no se
+     distinguian. La etiqueta es tenue y pequena; el campo tiene fondo. */
+  .piezas-ficha label,.piezas-ficha>div{display:block;margin:.7rem 0 .2rem;
+    font-size:.8rem;letter-spacing:.02em;text-transform:uppercase}
+  /* Con SUS colores. 2026-09-12: el panel es de tema claro -- papel crema,
+     tinta oscura -- y estas reglas se escribieron con colores de tema oscuro,
+     asi que la etiqueta y el campo se veian del mismo color. */
+  /* Contraste de verdad: la etiqueta en tinta plena y el campo en blanco con
+     texto negro. 2026-09-12: con `--suave` seguia sin leerse. */
+  .piezas-ficha label,.piezas-ficha>div{color:var(--tinta);opacity:1;
+    font-weight:600}
+  .piezas-ficha input,.piezas-ficha textarea,.piezas-ficha select{
+    background:#fff;border:1px solid var(--linea);color:#000;
+    opacity:1;font-size:.95rem;border-radius:6px;padding:.55rem;width:100%}
+  .piezas-ficha input:focus,.piezas-ficha textarea:focus,
+  .piezas-ficha select:focus{outline:2px solid var(--azul);
+    border-color:var(--azul)}
+  /* La regla de tema oscuro que ganaba a la buena se quito el 2026-09-12. */
+  @media (max-width:700px){.piezas-fila{grid-template-columns:1fr}}
+  .valor{font-size:.8rem;color:var(--suave)}
+  iframe{
+    width:100%;height:520px;border:1px solid var(--linea);
+    border-radius:10px;background:var(--tinta);
+  }
+  .previa-botones{display:flex;gap:.4rem;margin-bottom:.6rem;flex-wrap:wrap}
+  .previa-botones button{
+    border:1px solid var(--azul);color:var(--azul);border-radius:999px;
+    padding:.3rem .8rem;font-size:.82rem;
+  }
+  .previa-botones button.activo{background:var(--azul);color:#fff}
+  .previa-nota{font-size:.78rem;color:var(--suave);margin-top:.4rem}
+  textarea{
+    width:100%;font:inherit;font-size:.9rem;border:1px solid var(--linea);
+    border-radius:8px;padding:.55rem;resize:vertical;min-height:2.6rem;
+  }
+  .campo{margin-bottom:.9rem}
+  .campo>span{display:block;font-size:.82rem;color:var(--suave);margin-bottom:.2rem}
+  .ficha{border-top:1px solid var(--linea);padding-top:.9rem;margin-top:.9rem}
+  .ficha:first-child{border-top:none;padding-top:0;margin-top:0}
+  .ficha>h3{font-size:.95rem;margin-bottom:.5rem}
+  .pieza{display:flex;align-items:center;gap:.7rem;padding:.35rem 0}
+  .pieza img{width:44px;height:59px;object-fit:cover;border-radius:6px;border:1px solid var(--linea)}
+  .pieza label{margin:0;font-size:.9rem}
+  .vacio{color:var(--suave);font-size:.9rem}
+  pre#salida{
+    background:var(--tinta);color:#dfe7f2;padding:1rem;border-radius:10px;
+    overflow:auto;max-height:340px;font-size:.8rem;white-space:pre;margin-top:.7rem;
+  }
+  .estado{margin:.2rem 0 .7rem;font-size:.9rem;font-weight:600}
+  .estado.ok{color:#1d6b3a}
+  .estado.mal{color:#a5321f}
+  button.copiar{
+    background:var(--azul);color:#fff;border-radius:8px;
+    padding:.55rem 1.2rem;font-size:.95rem;
+  }
+  button.copiar[disabled]{opacity:.4;cursor:not-allowed}
+</style>
+</head>
+<body>
+  <h1>Panel de tu sitio</h1>
+  <p class="intro">Acá elegís una parte y la trabajás sola, sin buscar entre
+    todo lo demás. Nada se guarda solo: cuando termines, copiás el resultado
+    y se entrega. Si algo queda mal escrito, el panel avisa y no deja copiar.</p>
+
+  <!-- EL CASCARON, 2026-09-12. Sus palabras: `que el panel permita editar por
+       seccion, y sin tener que scrollear ; seccion por seccion ; contenido por
+       contenido`. Una parte visible a la vez, y las demas apagadas. -->
+  <nav class="partes" id="partes">
+    <button type="button" data-parte="portada" class="viva">Portada</button>
+    <button type="button" data-parte="servicios">Servicios y cursos</button>
+    <button type="button" data-parte="tucontu">TuConTu</button>
+    <button type="button" data-parte="guardar">Guardar</button>
+  </nav>
+
+    <main class="doble">
+    <aside class="controles">
+
+      <div class="zona" data-zona="portada">
+        <h2>Portada</h2>
+        <p class="ayuda">Lo primero que ve quien llega: con qué servicio te presentás y su luz.</p>
+        <div id="hero-selector"></div>
+      </div>
+
+      <div class="zona" data-zona="servicios" hidden>
+        <h2>Servicios y cursos</h2>
+        <p class="ayuda">Elegí uno y escribilo solo. Uno a la vez.</p>
+        <div class="piezas-fila">
+          <div class="piezas-lista" id="textos-lista"></div>
+          <div class="piezas-ficha" id="textos-ficha"></div>
+        </div>
+      </div>
+
+      <div class="zona" data-zona="tucontu" hidden>
+        <h2>TuConTu</h2>
+        <p class="ayuda">Elegí una pieza y contá lo suyo. Una a la vez.</p>
+        <div class="piezas-fila">
+          <div class="piezas-lista" id="piezas-lista"></div>
+          <div class="piezas-ficha" id="piezas-ficha"></div>
+        </div>
+      </div>
+
+      <div class="zona" data-zona="guardar" hidden>
+        <h2>Guardar</h2>
+        <div id="guardar-caja">
+          <!-- BLOQUE-GUARDAR -->
+          <p class="ayuda">Tu llave se queda en este navegador y no se guarda
+            en ningún otro sitio.</p>
+          <label for="llave">Tu llave</label>
+          <input type="password" id="llave" placeholder="Pega aquí tu llave">
+          <button type="button" id="guardar">Guardar y publicar</button>
+          <p id="guardar-estado"></p>
+          <!-- FIN-BLOQUE-GUARDAR -->
+        </div>
+        <p class="estado" id="estado"></p>
+        <button type="button" class="copiar" id="copiar">Copiar el resultado</button>
+        <pre id="salida"></pre>
+      </div>
+
+      <div id="luz-controles" hidden></div>
+      <div id="textos" hidden></div>
+      <div id="piezas" hidden></div>
+    </aside>
+
+    <section class="previa-lado">
+      <div class="visores" id="visores">
+          <button type="button" data-ancho="390">Teléfono</button>
+          <button type="button" data-ancho="820">Tablet</button>
+          <button type="button" data-ancho="1440" class="viva">Escritorio</button>
+        </div>
+        <div class="previa-botones" id="previa-botones">
+          <button type="button" data-capa="bienvenida" class="activo">Portada</button>
+          <button type="button" data-capa="prof1">Servicios y Cursos</button>
+          <button type="button" data-capa="prof2">Colores del Alma</button>
+        </div>
+        <div class="marco-previa"><iframe id="previa" src="../index.html" title="Vista previa del sitio"></iframe></div>
+    </section>
+  </main>
+
+<script src="../data.js"></script>
+<script>
+  // La luz salio del panel el 2026-09-12. Ya no es un control de nadie: el
+  // sitio guarda tres versiones -- oscuro, medio y claro -- y la elige la
+  // HORA. Un control aqui contradiria eso, y ademas nunca llego a verse.
+  // Se miran con `?luz=oscuro`, `?luz=medio` o `?luz=claro`.
+
+  // BLOQUE-GUARDAR-JS
+  // 2026-09-12: la version anterior leia `document.getElementById("repo")`,
+  // un campo que no existe, asi que reventaba ANTES de cualquier aviso y el
+  // panel se quedaba en `Guardando` con el boton apagado. **Todo lo que
+  // pueda fallar tiene que terminar en un mensaje en espanol**, o ella se
+  // queda mirando una palabra para siempre.
+  (function () {
+    var llave = document.getElementById("llave");
+    var boton = document.getElementById("guardar");
+    var estado = document.getElementById("guardar-estado");
+    if (!llave || !boton || !estado) return;
+
+    try { llave.value = localStorage.getItem("llave-marcela") || ""; } catch (e) {}
+    llave.addEventListener("input", function () {
+      try { localStorage.setItem("llave-marcela", llave.value); } catch (e) {}
+    });
+
+    function decir(t) { estado.textContent = t; }
+
+    boton.addEventListener("click", function () {
+      var token = (llave.value || "").trim();
+      if (!token) { decir("Falta tu llave."); return; }
+
+      var repo;
+      try { repo = localStorage.getItem("repo-marcela"); } catch (e) {}
+      if (!repo) {
+        repo = prompt("¿En qué repositorio está tu sitio? Ejemplo: usuario/web");
+        if (!repo) { decir("Sin repositorio no se puede guardar."); return; }
+        try { localStorage.setItem("repo-marcela", repo.trim()); } catch (e) {}
+        repo = repo.trim();
+      }
+
+      // La carpeta `web/` de aqui ES la raiz del repositorio alla, segun el
+      // RUNBOOK: `carpeta: la raiz del repositorio`. Con `web/` delante daba
+      // 404. 2026-09-12.
+      var ruta = "https://api.github.com/repos/" + repo +
+                 "/contents/tucontu/piezas.json";
+      var cab = { "Authorization": "token " + token,
+                  "Accept": "application/vnd.github+json" };
+
+      boton.disabled = true;
+      decir("Guardando…");
+
+      fetch(ruta, { headers: cab })
+        .then(function (r) {
+          if (r.status === 401) throw new Error("Tu llave no sirve o caducó.");
+          if (r.status === 404) throw new Error("No encuentro ese repositorio o ese archivo: " + repo);
+          if (!r.ok) throw new Error("GitHub respondió " + r.status);
+          return r.json();
+        })
+        .then(function (info) {
+          var texto = JSON.stringify(window.PIEZAS || {}, null, 2);
+          var b64 = btoa(unescape(encodeURIComponent(texto)));
+          return fetch(ruta, {
+            method: "PUT",
+            headers: cab,
+            body: JSON.stringify({
+              message: "Marcela edita sus piezas",
+              content: b64,
+              sha: info.sha
+            })
+          });
+        })
+        .then(function (r) {
+          if (!r.ok) return r.json().then(function (e) {
+            throw new Error(e.message || ("GitHub respondió " + r.status));
+          });
+          decir("Guardado. Tu sitio se actualiza solo en un minuto.");
+        })
+        .catch(function (e) {
+          decir("No se guardó: " + e.message + " — lo que escribiste sigue acá.");
+        })
+        .then(function () { boton.disabled = false; });
+    });
+  })();
+  // FIN-BLOQUE-GUARDAR-JS
+
+  // BLOQUE-FICHA
+  // 2026-09-12, tercer intento. El anterior dejo `Object.entries(data)` en el
+  // nivel superior y `data` no existe en este script: reventaba al cargar, el
+  // cascaron no llegaba a correr, y se veian las cuatro zonas a la vez.
+  (function () {
+    var CAMPOS = [
+      { k: "nombre", t: "Nombre" },
+      { k: "color", t: "Color" },
+      { k: "tamano", t: "Tamaño", op: ["", "S", "M", "L"] },
+      { k: "genero", t: "Género", op: ["", "algodon", "tela", "hilo"] },
+      { k: "dimensiones", t: "Dimensiones" },
+      { k: "historia", t: "Su historia", largo: true }
+    ];
+
+    function ficha(pieza) {
+      var caja = document.getElementById("piezas-ficha");
+      caja.innerHTML = "";
+      CAMPOS.forEach(function (c) {
+        var lab = document.createElement("label");
+        lab.textContent = c.t;
+        var campo;
+        if (c.op) {
+          campo = document.createElement("select");
+          c.op.forEach(function (o) {
+            var opt = document.createElement("option");
+            opt.value = o; opt.textContent = o || "—";
+            campo.appendChild(opt);
+          });
+          campo.value = pieza[c.k] || "";
+          campo.addEventListener("change", function () { pieza[c.k] = campo.value; });
+        } else {
+          campo = document.createElement(c.largo ? "textarea" : "input");
+          campo.value = pieza[c.k] || "";
+          campo.addEventListener("input", function () { pieza[c.k] = campo.value; });
+        }
+        lab.appendChild(campo);
+        caja.appendChild(lab);
+      });
+    }
+
+    fetch("../tucontu/piezas.json")
+      .then(function (r) { return r.json(); })
+      .then(function (piezas) {
+        window.PIEZAS = piezas;
+        var lista = document.getElementById("piezas-lista");
+        lista.innerHTML = "";
+        Object.keys(piezas).forEach(function (clave) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.textContent = piezas[clave].nombre || clave;
+          b.addEventListener("click", function () {
+            lista.querySelectorAll("button").forEach(function (o) {
+              o.classList.remove("viva");
+            });
+            b.classList.add("viva");
+            ficha(piezas[clave]);
+          });
+          lista.appendChild(b);
+        });
+      })
+      .catch(function (e) {
+        document.getElementById("piezas-lista").textContent =
+          "No se pudieron leer las piezas: " + e;
+      });
+  })();
+  // FIN-BLOQUE-FICHA
+  
+
+  // BLOQUE-TEXTOS
+  (() => {
+      var servicesAndCourses = [...SITE_DATA.services, ...SITE_DATA.courses];
+      const textosLista = document.getElementById('textos-lista');
+      const textosFicha = document.getElementById('textos-ficha');
+
+      const renderList = () => {
+          textosLista.innerHTML = '';
+          // La lista se arma CADA VEZ. 2026-09-12: recorria una copia hecha
+          // una sola vez, asi que `Agregar servicio` empujaba en SITE_DATA y
+          // la pantalla no cambiaba nunca.
+          servicesAndCourses = (SITE_DATA.services || [])
+              .concat(SITE_DATA.courses || []);
+          servicesAndCourses.forEach((item, index) => {
+              const button = document.createElement('button');
+              button.textContent = item.title;
+              button.addEventListener('click', () => {
+                  document.querySelectorAll('.viva').forEach(btn => btn.classList.remove('viva'));
+                  button.classList.add('viva');
+                  renderFicha(item);
+              });
+              textosLista.appendChild(button);
+          });
+          const addButton = document.createElement('button');
+          addButton.textContent = 'Agregar servicio';
+          addButton.addEventListener('click', () => {
+              const newItem = { id: '', type: 'service', title: 'Nuevo servicio', description: '', format: '', duration: '' };
+              SITE_DATA.services.push(newItem);
+              renderList();
+          });
+          textosLista.appendChild(addButton);
+      };
+
+      const renderFicha = (item) => {
+          textosFicha.innerHTML = '';
+          // En su idioma, no en el del codigo. 2026-09-12.
+          const NOMBRES = { title: 'Título', description: 'Descripción',
+                            format: 'Formato', duration: 'Duración' };
+          ['title', 'description', 'format', 'duration'].forEach(key => {
+              const div = document.createElement('label');
+              div.textContent = NOMBRES[key];
+              const input = document.createElement(key === 'description' ? 'textarea' : 'input');
+              input.value = item[key];
+              input.addEventListener('input', () => {
+                  item[key] = input.value;
+              });
+              div.appendChild(input);
+              textosFicha.appendChild(div);
+          });
+      };
+
+      renderList();
+  })();
+  // FIN-BLOQUE-TEXTOS
+  
+
+  // BLOQUE-HERO
+  // Con que servicio se presenta su sitio. `SITE_DATA.hero` manda desde el
+  // 2026-09-12, cuando `Terapia Floral` dejo de estar escrita a mano en el
+  // html. El que sube al hero NO se repite como tarjeta abajo.
+  (function () {
+    window.construirHero = function () {
+      var caja = document.getElementById("hero-selector");
+      if (!caja || typeof SITE_DATA === "undefined") return;
+      caja.innerHTML = "";
+      var lab = document.createElement("label");
+      lab.textContent = "Con qué servicio se presenta tu sitio";
+      var sel = document.createElement("select");
+      (SITE_DATA.services || []).forEach(function (s) {
+        var o = document.createElement("option");
+        o.value = s.id; o.textContent = s.title || s.id;
+        sel.appendChild(o);
+      });
+      sel.value = SITE_DATA.hero || "";
+      sel.addEventListener("change", function () {
+        // EL QUE BAJA OCUPA EL LUGAR DEL QUE SUBE. Sus palabras, 2026-09-12:
+        // `el servicio que aparece arriba cambia su lugar por la tarjeta de
+        // abajo`. Sin esto, el que baja aparece en su sitio de siempre y el
+        // orden de las tarjetas se mueve solo.
+        var lista = SITE_DATA.services || [];
+        var iBaja = lista.findIndex(function (x) { return x.id === SITE_DATA.hero; });
+        var iSube = lista.findIndex(function (x) { return x.id === sel.value; });
+        if (iBaja > -1 && iSube > -1 && iBaja !== iSube) {
+          var t = lista[iBaja]; lista[iBaja] = lista[iSube]; lista[iSube] = t;
+        }
+        SITE_DATA.hero = sel.value;
+        // La previa lo muestra al momento: se recarga con el dato nuevo.
+        try {
+          var marco = document.getElementById("previa");
+          marco.contentWindow.SITE_DATA.hero = sel.value;
+          marco.contentWindow.SITE_DATA.services = lista;
+          marco.contentWindow.location.reload();
+        } catch (e) { /* la previa aun no responde */ }
+      });
+      lab.appendChild(sel);
+      caja.appendChild(lab);
+    };
+  })();
+  // FIN-BLOQUE-HERO
+
+  // El cascaron: una parte viva y las demas apagadas.
+  (function () {
+    var botones = document.querySelectorAll('#partes button');
+    var zonas = document.querySelectorAll('.zona');
+    function mostrar(cual) {
+      zonas.forEach(function (z) { z.hidden = z.dataset.zona !== cual; });
+      botones.forEach(function (b) {
+        b.classList.toggle('viva', b.dataset.parte === cual);
+      });
+    }
+    botones.forEach(function (b) {
+      b.addEventListener('click', function () { mostrar(b.dataset.parte); });
+    });
+    // Abre en LO SUYO. La luz se ajusta una vez; sus piezas, cada semana.
+    // La luz de cada seccion se muda a su ranura: un solo juego de
+    // controles, colocado donde corresponde. 2026-09-12.
+    var CAPA_DE = { portada: "bienvenida", servicios: "prof1", tucontu: "prof2" };
+    var luzCont = document.getElementById("luz-controles");
+    var mostrarOriginal = mostrar;
+    mostrar = function (cual) {
+      mostrarOriginal(cual);
+      // La luz es UNA curva del sitio entero, no un ajuste por seccion: los
+      // tres controles viven solo en Portada. En las otras, la previa se
+      // desplaza a su seccion y nada mas. 2026-09-12.
+      var capa = CAPA_DE[cual];
+      if (capa && typeof mostrarCapa === "function") mostrarCapa(capa);
+
+    };
+    if (typeof construirHero === 'function') construirHero();
+    mostrar('portada');
+    // Al cargar se escalaba antes de que el navegador midiera la columna, y
+    // la previa quedaba en un tamano que no era ninguno de los tres.
+    window.addEventListener('load', escalarPrevia);
+    requestAnimationFrame(escalarPrevia);
+
+    // A ESCALA, NO A ANCHO. 2026-09-12, sus palabras: `al cambiar entre
+    // tablet y desktop practicamente no pasa nada`. La columna mide unos
+    // 700px, asi que el sitio veia ancho de tablet siempre y se apilaba.
+    // Ahora se DIBUJA al ancho real y se reduce con transform, como una
+    // maqueta: el sitio cree que tiene 1440 y aqui se ve pequeno.
+    var anchoElegido = 1440;
+    function escalarPrevia() {
+      var marco = document.getElementById('previa');
+      var caja = marco.parentElement;
+      var disponible = caja.clientWidth || 700;
+      var escala = Math.min(1, disponible / anchoElegido);
+      marco.style.width = anchoElegido + 'px';
+      marco.style.height = Math.round(caja.clientHeight / escala) + 'px';
+      marco.style.transformOrigin = 'top left';
+      marco.style.transform = 'scale(' + escala + ')';
+    }
+    window.addEventListener('resize', escalarPrevia);
+
+    var visores = document.querySelectorAll('#visores button');
+    visores.forEach(function (b) {
+      b.addEventListener('click', function () {
+        anchoElegido = parseInt(b.dataset.ancho, 10);
+        visores.forEach(function (o) { o.classList.toggle('viva', o === b); });
+        escalarPrevia();
+      });
+    });
+  })();
+</script>
+<script>
+(function(){
+  "use strict";
+
+  /* Valores de luz por defecto: los mismos que define el plan 027, fila 3.
+     Si data.js todavía no trae "luz", el panel parte de acá y el sitio
+     sigue viéndose como hoy hasta que se copie el resultado. */
+  var LUZ_DEF = {
+    heroLight: "rgba(70, 118, 184, 0.18)",
+    profundidad1: { glowRadius: "60%",  fotoOpacidad: 0.28 },
+    profundidad2: { glowRadius: "100%", fotoOpacidad: 0.08 }
+  };
+
+  var base = (typeof SITE_DATA === "object" && SITE_DATA) ? SITE_DATA : {};
+  var data = JSON.parse(JSON.stringify(base));
+
+  if(!data.luz || typeof data.luz !== "object") data.luz = clon(LUZ_DEF);
+  if(!data.luz.profundidad1) data.luz.profundidad1 = clon(LUZ_DEF.profundidad1);
+  if(!data.luz.profundidad2) data.luz.profundidad2 = clon(LUZ_DEF.profundidad2);
+  if(!data.luz.heroLight) data.luz.heroLight = LUZ_DEF.heroLight;
+
+  function clon(x){ return JSON.parse(JSON.stringify(x)); }
+  function alphaDe(rgba){
+    var m = /rgba?\(([^)]+)\)/.exec(rgba || "");
+    if(!m) return 0.18;
+    var p = m[1].split(",");
+    return p.length >= 4 ? (parseFloat(p[3]) || 0) : 1;
+  }
+  function numDe(txt){ return parseFloat(String(txt).replace("%","")) || 0; }
+
+  /* ---------------- LA LUZ ---------------- */
+  var capaActual = "bienvenida";
+
+  // BLOQUE-MANDAR
+  // 2026-09-12. La version anterior buscaba `.layer.active` dentro del sitio
+  // y usaba claves literales `doble-guion-...`, porque la tarea decia esas
+  // palabras y el modelo las escribio tal cual. Un nombre dictado en prosa
+  // se copia como texto.
+  function mandarLuz(){ /* la luz ya no es del panel */ }
+  // FIN-BLOQUE-MANDAR
+
+  // 2026-09-12: `pintarPrevia` escribia las variables de luz sobre el body
+  // del iframe, y desde que la luz la decide la HORA en el propio sitio, eso
+  // solo servia para borrar lo que el sitio acababa de elegir. La previa
+  // tiene que mostrar el sitio tal cual es, no una version pintada encima.
+  function pintarPrevia(){ /* la luz ya no es del panel */ }
+
+  function slider(etiqueta, min, max, paso, valor, alMover){
+    var wrap = document.createElement("div");
+    var lab = document.createElement("label");
+    lab.textContent = etiqueta;
+    var inp = document.createElement("input");
+    inp.type = "range"; inp.min = min; inp.max = max; inp.step = paso; inp.value = valor;
+    var val = document.createElement("span");
+    val.className = "valor"; val.textContent = valor;
+    inp.addEventListener("input", function(){
+      val.textContent = inp.value;
+      alMover(parseFloat(inp.value));
+      // El panel MANDA. `pintarPrevia` pinta encima del sitio y el sitio lo
+      // borra en el siguiente desplazamiento; `mandarLuz` cambia la fuente y
+      // le pide al sitio que vuelva a leerla. 2026-09-12.
+      mandarLuz();
+      pintarPrevia();
+      regenerar();
+    });
+    wrap.appendChild(lab); wrap.appendChild(inp); wrap.appendChild(val);
+    return wrap;
+  }
+
+  // BLOQUE-CAPA
+  // 2026-09-12. Tres errores de la version anterior, y el primero del
+  // planificador: la tarea decia `el primer grupo, el segundo, el tercero` y
+  // el modelo uso clases que no existen, asi que escondia los tres. Ademas
+  // corria antes de que `construirLuz` creara los grupos, y colgaba los
+  // escuchadores DENTRO de si misma, multiplicandolos en cada clic.
+  var CAPAS = ["bienvenida", "prof1", "prof2"];
+
+  function mostrarCapa(nombre) {
+    var grupos = document.querySelectorAll("#luz-controles .grupo");
+    var n = CAPAS.indexOf(nombre);
+    grupos.forEach(function (g, k) { g.hidden = (k !== n); });
+
+    document.querySelectorAll("#previa-botones button[data-capa]")
+      .forEach(function (b) {
+        b.classList.toggle("activo", b.dataset.capa === nombre);
+      });
+
+    capaActual = nombre;
+    pintarPrevia();
+
+    // La previa se va a esa seccion del sitio.
+    try {
+      var doc = document.getElementById("previa").contentDocument;
+      var secciones = doc.querySelectorAll(".snap-section");
+      if (secciones[n]) secciones[n].scrollIntoView({ behavior: "smooth" });
+    } catch (e) { /* la previa no es accesible todavia */ }
+  }
+
+  document.querySelectorAll("#previa-botones button[data-capa]")
+    .forEach(function (b) {
+      b.addEventListener("click", function () { mostrarCapa(b.dataset.capa); });
+    });
+  // FIN-BLOQUE-CAPA
+
+  function construirLuz(){
+    var cont = document.getElementById("luz-controles");
+
+    var g1 = document.createElement("div"); g1.className = "grupo";
+    var t1 = document.createElement("h3"); t1.textContent = "Portada"; g1.appendChild(t1);
+    g1.appendChild(slider("Intensidad de la luz", 0, 0.4, 0.01, alphaDe(data.luz.heroLight), function(v){
+      data.luz.heroLight = "rgba(70, 118, 184, " + v + ")";
+    }));
+    cont.appendChild(g1);
+
+    [["profundidad1","Servicios y Cursos"], ["profundidad2","Colores del Alma"]].forEach(function(par){
+      var p = data.luz[par[0]];
+      var g = document.createElement("div"); g.className = "grupo";
+      var h = document.createElement("h3"); h.textContent = par[1]; g.appendChild(h);
+      g.appendChild(slider("Extensión del brillo", 30, 120, 1, numDe(p.glowRadius), function(v){
+        p.glowRadius = v + "%";
+      }));
+      g.appendChild(slider("Visibilidad de las fotos", 0, 1, 0.01, p.fotoOpacidad, function(v){
+        p.fotoOpacidad = v;
+      }));
+      cont.appendChild(g);
+    });
+  }
+
+  document.getElementById("previa-botones").addEventListener("click", function(e){
+    var btn = e.target.closest("button");
+    if(!btn) return;
+    capaActual = btn.dataset.capa;
+    var hijos = this.children;
+    for(var i = 0; i < hijos.length; i++){ hijos[i].classList.toggle("activo", hijos[i] === btn); }
+    pintarPrevia();
+  });
+  document.getElementById("previa").addEventListener("load", pintarPrevia);
+
+  /* ---------------- LOS TEXTOS ---------------- */
+  function caja(etiqueta, valor, alEscribir){
+    var campo = document.createElement("div"); campo.className = "campo";
+    var sp = document.createElement("span"); sp.textContent = etiqueta;
+    var ta = document.createElement("textarea");
+    ta.value = (valor == null) ? "" : valor;
+    ta.addEventListener("input", function(){ alEscribir(ta.value); regenerar(); });
+    campo.appendChild(sp); campo.appendChild(ta);
+    return campo;
+  }
+
+  var CAMPOS = [
+    ["title","Título"], ["description","Descripción"],
+    ["format","Formato"], ["duration","Duración"]
+  ];
+
+  function construirTextos(){
+    var cont = document.getElementById("textos");
+    [["Servicios", data.services || []], ["Cursos", data.courses || []]].forEach(function(gr){
+      gr[1].forEach(function(item, i){
+        var ficha = document.createElement("div"); ficha.className = "ficha";
+        var h = document.createElement("h3");
+        h.textContent = gr[0] + " · " + (item.title || ("#" + (i + 1)));
+        ficha.appendChild(h);
+        CAMPOS.forEach(function(c){
+          if(!(c[0] in item)) return;
+          ficha.appendChild(caja(c[1], item[c[0]], function(v){ item[c[0]] = v; }));
+        });
+        cont.appendChild(ficha);
+      });
+    });
+    if("historia" in data){
+      var ficha = document.createElement("div"); ficha.className = "ficha";
+      var h = document.createElement("h3"); h.textContent = "Colores del alma · Historia";
+      ficha.appendChild(h);
+      ficha.appendChild(caja("Texto que acompaña las piezas", data.historia, function(v){ data.historia = v; }));
+      cont.appendChild(ficha);
+    }
+  }
+
+  /* ---------------- LAS PIEZAS ---------------- */
+  function construirPiezas(){
+    var cont = document.getElementById("piezas");
+    var visibles = Array.isArray(data.tucontu) ? data.tucontu.slice() : null;
+    var ocultas  = Array.isArray(data.tucontuOcultas) ? data.tucontuOcultas.slice() : [];
+
+    if(visibles === null && ocultas.length === 0){
+      cont.innerHTML = '<p class="vacio">Todavía no hay piezas cargadas. ' +
+        'Agregar una es subir su foto al sitio; eso no se hace desde acá.</p>';
+      return;
+    }
+
+    var todas = (visibles || []).concat(ocultas);   // orden fijo desde esta carga
+    data.tucontu = (visibles || []).slice();
+    data.tucontuOcultas = ocultas.slice();
+
+    var checks = {};
+    todas.forEach(function(nombre){
+      var fila = document.createElement("div"); fila.className = "pieza";
+      var img = document.createElement("img");
+      img.src = "../assets/tucontu/" + nombre; img.alt = "";
+      var lab = document.createElement("label");
+      var chk = document.createElement("input"); chk.type = "checkbox";
+      chk.checked = data.tucontu.indexOf(nombre) !== -1;
+      checks[nombre] = chk;
+      chk.addEventListener("change", function(){
+        data.tucontu = todas.filter(function(n){ return checks[n].checked; });
+        data.tucontuOcultas = todas.filter(function(n){ return !checks[n].checked; });
+        regenerar();
+      });
+      lab.appendChild(chk);
+      lab.appendChild(document.createTextNode(" Mostrar"));
+      fila.appendChild(img); fila.appendChild(lab);
+      cont.appendChild(fila);
+    });
+  }
+
+  /* ---------------- EL RESULTADO ---------------- */
+  function serializar(){
+    var salida = clon(data);
+    if(Array.isArray(salida.tucontuOcultas) && salida.tucontuOcultas.length === 0){
+      delete salida.tucontuOcultas;
+    }
+    return "/* Generado por el panel del sitio. Se edita desde panel/ , no a mano. */\n" +
+           "const SITE_DATA = " + JSON.stringify(salida, null, 2) + ";\n";
+  }
+
+  function revisar(texto){
+    var v;
+    try{
+      v = new Function('"use strict";' + texto + "\nreturn SITE_DATA;")();
+    }catch(err){
+      return "El texto quedó mal y no se puede leer: " + err.message;
+    }
+    if(!v || typeof v !== "object") return "El resultado no es válido.";
+    if(!Array.isArray(v.services)) return "Faltan los servicios.";
+    if(!Array.isArray(v.courses)) return "Faltan los cursos.";
+    return null;
+  }
+
+  function regenerar(){
+    var texto = serializar();
+    var problema = revisar(texto);
+    var estado = document.getElementById("estado");
+    var boton = document.getElementById("copiar");
+    document.getElementById("salida").textContent = texto;
+    if(problema){
+      estado.className = "estado mal";
+      estado.textContent = problema + " No se puede copiar así.";
+      boton.disabled = true;
+    }else{
+      estado.className = "estado ok";
+      estado.textContent = "Listo para copiar.";
+      boton.disabled = false;
+    }
+  }
+
+  function copiar(texto){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      return navigator.clipboard.writeText(texto);
+    }
+    var t = document.createElement("textarea");
+    t.value = texto;
+    document.body.appendChild(t); t.select();
+    try{ document.execCommand("copy"); }catch(e){}
+    document.body.removeChild(t);
+    return Promise.resolve();
+  }
+
+  document.getElementById("copiar").addEventListener("click", function(){
+    if(this.disabled) return;
+    var boton = this;
+    copiar(document.getElementById("salida").textContent).then(function(){
+      var antes = boton.textContent;
+      boton.textContent = "Copiado";
+      setTimeout(function(){ boton.textContent = antes; }, 1500);
+    });
+  });
+
+  construirLuz();
+  mostrarCapa("bienvenida");   // despues de que los grupos existen
+  construirTextos();
+  construirPiezas();
+  regenerar();
+})();
+</script>
+</body>
+</html>
