@@ -1,233 +1,203 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VFDMB58YLK"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    // Configuración de consentimiento por defecto
-    gtag('consent', 'default', {
-      'ad_storage': 'granted',
-      'analytics_storage': 'granted',
-      'ad_user_data': 'granted',
-      'ad_personalization': 'granted',
-      'wait_for_update': 500
-    });
-    gtag('js', new Date());
-
-    gtag('config', 'G-VFDMB58YLK');
-  </script>
-
-  <title>SoyAutoconocimiento</title>
-
-  <meta name="description" content="Acompañamiento en Terapia Floral Evolutiva, Tarot y Constelaciones Familiares. Un espacio para conocerte profundamente y vivir con mayor consciencia. Online vía Zoom." />
-  <meta name="theme-color" content="#0d2240" />
-
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="SoyAutoconocimiento" />
-  <meta property="og:description" content="Terapia Floral Evolutiva, Tarot, Constelaciones Familiares y Astrología. Un camino hacia adentro. Online vía Zoom." />
-  <meta property="og:image" content="assets/content.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-
-  <link rel="icon" type="image/png" href="assets/favicon.png" />
-  <link rel="apple-touch-icon" href="assets/favicon_ios.png" />
-
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#14283c">
+  <meta name="description" content="Acompañamiento terapéutico y experiencias de autoconocimiento con Marcela. Terapia floral, tarot, constelaciones y TuconTu.">
+  <title>SoyAutoconocimiento · Camino al Sol 2026</title>
+  <link rel="canonical" href="https://www.soyautoconocimiento.cl/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SoyAutoconocimiento · Camino al Sol 2026">
+  <meta property="og:description" content="Un camino de autoconocimiento acompañado por Marcela.">
+  <meta property="og:url" content="https://www.soyautoconocimiento.cl/">
+  <meta property="og:image" content="https://www.soyautoconocimiento.cl/assets/content.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="preview.css?v=20261009-copy-pass-1">
+  <link rel="stylesheet" href="tucontu-builder.css?v=20261010-fixed-structure-2">
+  <script src="../data.js?v=20261010-marcela-copy-builder-2" defer></script>
+  <script src="collision-geometry.js" defer></script>
+  <script src="contact-links.js" defer></script>
+  <script src="dialog-close.js?v=20260930-native-close" defer></script>
+  <script src="viewport-experience.js?v=20261010-layered-core-1" defer></script>
+  <script src="preview.js?v=20261010-tucontu-review-2" defer></script>
+  <script src="loading-experience.js?v=20261009-entry-1" defer></script>
+  <link rel="stylesheet" href="privacy-consent.css?v=20261008-preferences-1">
+  <link rel="stylesheet" href="candidate-responsive.css?v=20261008-responsive-2">
+  <link rel="stylesheet" href="candidate-refinement.css?v=20261010-tucontu-review-6">
 </head>
-<body>
-
-  <div class="cosmos-layer" aria-hidden="true">
-    <div id="labyrinth-container"></div>
-  </div>
-
-  <nav class="slide-navigator" aria-label="Navegación de secciones">
-    <button class="nav-dot active" data-target="home" aria-label="Ir a Inicio"></button>
-    <button class="nav-dot" data-target="services" aria-label="Ir al Bazar"></button>
-    <button class="nav-dot" data-target="proximamente" aria-label="Ir a Próximamente"></button>
-  </nav>
-
-  <header class="site-header">
-    <div class="header-inner">
-      <a href="#home" class="brand">
-        <img src="assets/logo.png" alt="SoyAutoconocimiento" class="brand-logo" />
-        <span class="brand-text">SoyAutoconocimiento</span>
+<body class="editorial-preview">
+  <div class="site-shell">
+    <a class="skip-link" href="#main">Ir al contenido</a>
+    <header class="site-header">
+      <a class="brand" href="#inicio" aria-label="SoyAutoconocimiento, inicio">
+        <img src="assets/logo.png" alt="">
+        <span class="brand-lines"><strong>SoyAutoconocimiento</strong></span>
       </a>
-
-      <button class="about-trigger-btn" aria-label="Ver Quién Soy">
-        <img src="assets/about_me.jpg" alt="Sobre mí" />
-      </button>
-
-      <nav class="main-nav">
-        <a href="#home">Inicio</a>
-        <button type="button" class="about-desktop-link">Quién Soy</button>
-        <a href="#services">Acompañamientos</a>
+      <button class="menu-toggle" id="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+      <nav class="main-nav" id="main-nav" aria-label="Navegación principal">
+        <a href="#inicio" data-link="inicio" aria-label="El camino"><svg class="nav-symbol" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 21s-6-4.3-6-10a6 6 0 1 1 12 0c0 5.7-6 10-6 10Z"/><circle cx="12" cy="11" r="2"/></svg><span>Camino</span></a>
+        <a href="#acompanamientos" data-link="acompanamientos" aria-label="Acompañamientos"><svg class="nav-symbol" aria-hidden="true" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c.4-3.2 2.2-5 5.5-5s5.1 1.8 5.5 5M16 5.5a3 3 0 0 1 0 5.8M17 14c2.1.5 3.3 2.1 3.5 5"/></svg><span>Acompaña</span></a>
+        <a href="#tucontu" data-link="tucontu" aria-label="Colores del alma"><svg class="nav-symbol" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18h1.2a2 2 0 0 0 1.2-3.5 1.6 1.6 0 0 1 1.5-2.7A5.9 5.9 0 0 0 21 9.2 8.9 8.9 0 0 0 12 3Z"/><circle cx="7.5" cy="10" r=".9"/><circle cx="11" cy="6.8" r=".9"/><circle cx="16" cy="8" r=".9"/></svg><span>Colores</span></a>
+        <button class="nav-modal-trigger" id="about-open" type="button" aria-label="Quién soy, Marcela" aria-haspopup="dialog" aria-controls="about-dialog"><svg class="nav-symbol" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c.5-4.1 2.8-6.2 7-6.2s6.5 2.1 7 6.2"/></svg><span>Marcela</span></button>
+        <button class="nav-modal-trigger" type="button" data-open-privacy aria-label="Privacidad y cookies" aria-haspopup="dialog" aria-controls="privacy-dialog"><svg class="nav-symbol" aria-hidden="true" viewBox="0 0 24 24"><path d="M20.4 13.2A8.5 8.5 0 1 1 10.8 3.6a6.3 6.3 0 0 0 9.6 9.6Z"/><path d="M18.4 4.7v3.1m-1.55-1.55h3.1"/><circle cx="8" cy="10" r=".7"/><circle cx="11" cy="16" r=".7"/><circle cx="14" cy="11.5" r=".7"/></svg><span>Privacidad</span></button>
       </nav>
-    </div>
-  </header>
+    </header>
 
-  <main class="scroll-snap-container">
-
-    <section class="snap-section hero-section" id="home">
-      <div class="hero-content">
-        <h1 id="hero-title"></h1>
-        <h2 id="hero-subtitle"></h2>
-        <div class="hero-actions">
-          <button class="btn btn-primary hero-explore-btn"
-                  type="button"
-                  id="hero-explore">
-            Explorar
-          </button>
-        </div>
-      </div>
-
-      <a class="hero-scroll-teaser" href="#services">
-      Otras formas de acompañarte
-      <span class="teaser-arrow">↓</span>
-    </a>
-    </section>
-    <section class="snap-section services-section" id="services">
-      <div class="section-heading">
-        <span class="section-mark">EL BAZAR</span>
-      </div>
-
-      <div class="bazar-tabs" role="tablist" aria-label="Tipo de acompañamiento">
-        <button class="tab-btn active" type="button" data-tab="services" role="tab" aria-selected="true">Servicios</button>
-        <button class="tab-btn" type="button" data-tab="courses" role="tab" aria-selected="false">Cursos</button>
-      </div>
-
-      <div class="services-grid" id="services-grid" data-tab-panel="services"></div>
-      <div class="services-grid" id="courses-grid" data-tab-panel="courses" hidden></div>
-
-      <a class="hero-scroll-teaser bazar-scroll-teaser" href="#proximamente">
-        Colores del Alma
-        <span class="teaser-arrow">↓</span>
-      </a>
-    </section>
-
-    <section class="snap-section proximamente-section" id="proximamente">
-      <div class="proximamente-content">
-        <span class="section-mark">PRÓXIMAMENTE</span>
-        <h2>Colores del Alma</h2>
-      </div>
-
-      <footer class="site-footer">
-        <a href="#home" class="footer-brand">
-          <img src="assets/logo.png" alt="" />
-          <span>SoyAutoconocimiento</span>
-        </a>
-        <a class="footer-whatsapp" href="https://wa.me/56962391328?text=Hola%2C%20me%20gustar%C3%ADa%20conversar" target="_blank" rel="noopener">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          WhatsApp
-        </a>
-        <span class="footer-copy">© 2026 SoyAutoconocimiento</span>
-      </footer>
-    </section>
-
-  </main>
-
-  <div class="modal-overlay" id="about-modal" aria-hidden="true">
-    <div class="modal-window about-modal-window">
-      
-      <div class="about-grid">
-        <div class="about-image">
-          <div class="image-frame">
-            <img src="assets/about_me.jpg" alt="Marcela - Soy Autoconocimiento" />
+    <main class="stage" id="main" tabindex="0" aria-label="Recorrido SoyAutoconocimiento">
+      <section class="view view-home" id="inicio" aria-labelledby="home-title">
+        <div class="view-inner home-layout">
+          <div class="home-copy">
+            <div class="home-copy-main">
+              <span class="eyebrow"><span class="eyebrow-line"></span>SoyAutoconocimiento · Marcela</span>
+              <h1 id="home-title">Terapia Floral</h1>
+              <p class="home-lead" id="home-lead"><em>Evolutiva</em></p>
+              <p class="home-body">Transformamos el proceso terapéutico en tu viaje de autoconocimiento.</p>
+              <div class="home-actions">
+                <button class="button button-gold" id="hero-floral-link" type="button"><span class="hero-action-full">Explorar Terapia Floral Evolutiva <span aria-hidden="true">↗</span></span><span class="hero-action-mobile">Explorar</span></button>
+                <a class="button button-outline" href="#acompanamientos">Ver todos los caminos</a>
+              </div>
+              <a class="home-more-mobile" href="#acompanamientos">Conoce otros servicios <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M12 4v15m-6-6 6 6 6-6"/></svg></a>
+            </div>
+            <div class="home-note"><span>01</span><div>Observación consciente</div></div>
+          </div>
+          <div class="home-visual">
+            <div class="arch-frame"><img src="assets/hero-terapia-floral-warm.webp" fetchpriority="high" alt="Flores frescas y esencias de Terapia Floral Evolutiva junto a una ventana cálida"></div>
+            <div class="visual-quote">Conocernos profundamente.</div>
+            <span class="visual-mark" aria-hidden="true">✦</span>
           </div>
         </div>
-        <div class="about-content">
-          <h2>Un poco sobre mí</h2>
-          
-          <div class="biography-text-container">
-            <p>Hace varios años que me dedico a acompañar procesos de autoconocimiento en espacios terapéuticos.</p>
-            <p>En mi propio camino, la terapia ha sido uno de los pilares fundamentales que me ha permitido descubrir quién soy y reconocer el propósito de vida que me impulsa cada día.</p>
-            <p>En lo profesional, tras 30 años ligada al mundo corporativo, llegó un momento en el que puse atención “hacia dentro” (de mi) y me atreví a realizar cambios. Asumí nuevos desafíos, tomé riesgos y seguí aquello que me daba sentido. Gracias a ello, hoy me dedico a tiempo completo a lo que amo y me hace profundamente feliz. </p>
-            <p>Con frecuencia nos vemos absorbidos por lo que ocurre en el exterior y perdemos conexión con nuestro mundo interior, alejándonos de quienes realmente somos.</p>  
-            <p>Te invito a emprender un viaje de regreso a tu hogar interno. Te ofrezco mi compañía porque conozco la ruta.</p>
-            <p>Cariños</p>
-          </div>
+      </section>
 
-          <div class="signature-block">
-            <span class="signature-line"></span>
-            <span class="signature-name">
-              Marcela
-              <span class="signature-title">🌹</span>
-            </span>
+      <section class="view view-services" id="acompanamientos" aria-labelledby="services-title">
+        <button class="prototype-return" id="prototype-return" type="button" hidden aria-label="Volver">← <span>Volver</span></button>
+        <div class="view-inner services-layout">
+          <article class="prototype-floral-card" id="prototype-floral-card" aria-labelledby="prototype-floral-title" hidden>
+            <span class="eyebrow">El camino</span>
+            <h2 id="prototype-floral-title">Terapia Floral <em>Evolutiva</em></h2>
+            <p>Transformamos el proceso terapéutico en tu viaje de autoconocimiento.</p>
+            <div class="prototype-floral-actions">
+              <button class="button button-gold" id="prototype-more-services" type="button">Más servicios <span aria-hidden="true">↓</span></button>
+              <button class="button button-outline" id="prototype-go-tucontu" type="button">Colores del alma <span aria-hidden="true">↗</span></button>
+            </div>
+          </article>
+          <div class="section-heading">
+            <div><span class="eyebrow"><span class="services-eyebrow-full">02 · Acompañamientos / El Bazar</span><span class="services-eyebrow-mobile">El Bazar</span></span><h2 id="services-title">Distintas puertas,<br><em>un mismo viaje.</em></h2></div>
           </div>
+          <div class="category-tabs" role="tablist" aria-label="Tipo de acompañamiento">
+            <button type="button" class="category-tab is-active" id="services-tab" data-category="services" role="tab" aria-selected="true" aria-controls="service-grid" tabindex="0">Servicios</button>
+            <button type="button" class="category-tab" id="courses-tab" data-category="courses" role="tab" aria-selected="false" aria-controls="service-grid" tabindex="-1">Cursos</button>
+          </div>
+          <div class="service-grid" id="service-grid" role="tabpanel" aria-labelledby="services-tab" tabindex="0" aria-live="polite"></div>
+          <div class="service-rail-position" id="service-rail-position" aria-label="Posición en la lista">
+            <span id="service-rail-count" aria-live="polite">01 / 01</span>
+            <span class="service-rail-track" aria-hidden="true"><span id="service-rail-progress"></span></span>
+          </div>
+          <a class="services-more-mobile" href="#tucontu">Explora nuevos productos <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M12 4v15m-6-6 6 6 6-6"/></svg></a>
+        </div>
+      </section>
 
-          <div class="testimonials-block" id="testimonials-block" hidden>
-            <span class="testimonials-heading">Lo que dicen quienes ya vivieron el proceso</span>
-            <div class="testimonials-list" id="testimonials-list"></div>
+      <section class="view view-tucontu" id="tucontu" aria-labelledby="tucontu-title">
+        <div class="view-inner tucontu-layout">
+          <div class="tucontu-content">
+            <span class="eyebrow">Colores del alma</span>
+            <h2 id="tucontu-title">TuconTu</h2>
+            <p class="tucontu-intro"><strong>Accesorio artesanal</strong> tejido a mano para llevar en el pelo.</p>
+          </div>
+          <div class="tucontu-visual">
+            <figure class="tucontu-piece-photo is-cover-photo"><img id="tucontu-home-photo" src="assets/tucontu/product/img-3332.webp" loading="lazy" decoding="async" alt="TuconTu en el cabello con colet negro y cordones de distintas texturas"><figcaption id="tucontu-home-caption">Una pieza TuconTu con colet negro y cordones de colores, junto al cabello.</figcaption></figure>
+          </div>
+          <div class="tucontu-actions">
+            <button class="button button-tucontu-gallery" id="tucontu-gallery-open" type="button" aria-haspopup="dialog" aria-controls="tucontu-gallery-dialog" aria-label="Conocer la historia, las fotografías y el video de TuconTu">Historia y galería</button>
+            <button class="button button-tucontu-create" id="tucontu-create" type="button" aria-haspopup="dialog" aria-controls="tucontu-builder-dialog">Personaliza el tuyo</button>
+            <button class="button button-tucontu-manual" id="tucontu-manual-open" type="button" aria-haspopup="dialog" aria-controls="tucontu-gallery-dialog">Ver manual</button>
           </div>
         </div>
-      </div>
-    </div>
-    <button class="modal-close aria-close-about about-close-external">×</button>
+        <dialog class="tucontu-gallery-dialog" id="tucontu-gallery-dialog" aria-labelledby="tucontu-gallery-title">
+          <div class="tucontu-gallery-shell">
+            <header class="tucontu-gallery-header"><div><span class="eyebrow">Archivo vivo</span><h2 id="tucontu-gallery-title">Historia</h2></div><button class="dialog-close" id="tucontu-gallery-close" type="button" aria-label="Cerrar historia y galería">×</button></header>
+            <div class="tucontu-gallery-tabs" role="tablist" aria-label="Contenido de TuconTu">
+              <button id="tucontu-history-tab" type="button" role="tab" aria-selected="true" aria-controls="tucontu-history-panel" tabindex="0" class="is-active" data-gallery-mode="historia">Historia</button>
+              <button id="tucontu-photos-tab" type="button" role="tab" aria-selected="false" aria-controls="tucontu-photos-panel" tabindex="-1" data-gallery-mode="fotos">Fotos</button>
+              <button id="tucontu-video-tab" type="button" role="tab" aria-selected="false" aria-controls="tucontu-video-panel" tabindex="-1" data-gallery-mode="video">Video</button>
+              <button id="tucontu-manual-tab" type="button" role="tab" aria-selected="false" aria-controls="tucontu-manual-panel" tabindex="-1" data-gallery-mode="manual">Manual</button>
+            </div>
+            <section class="tucontu-gallery-panel tucontu-history-panel" id="tucontu-history-panel" role="tabpanel" aria-labelledby="tucontu-history-tab" aria-label="Historia de TuconTu" data-gallery-panel="historia">
+              <div class="tucontu-history"><p data-write-once>TuconTu nació como un hijo creativo de mi trabajo y de mi propio camino personal.</p><p data-write-once>Una amiga me hizo notar que a menudo repetía: «Tú con Tú es la clave».</p><p data-write-once>Estar contigo. Volver a ti, reconocerte y elegirte. «Hacer de lo ordinario algo extraordinario». —Santa Teresa de Calcuta.</p></div>
+            </section>
+            <section class="tucontu-gallery-panel" id="tucontu-photos-panel" role="tabpanel" aria-labelledby="tucontu-photos-tab" data-gallery-panel="fotos" aria-label="Fotografías de TuconTu" hidden><figure class="gallery-featured"><img id="gallery-featured" src="assets/tucontu/product/img-3331.webp" loading="lazy" decoding="async" alt="Detalle de un TuconTu de fibras crudas y terracota junto al cabello."></figure><div class="gallery-collection"><div class="gallery-collection-meta"><h3>Fotografías</h3><output id="gallery-selection-count" aria-live="polite">Fotografía 1 de 9</output></div><div class="gallery-grid" id="gallery-grid" aria-label="Elegir una fotografía de TuconTu"></div></div></section>
+            <section class="tucontu-gallery-panel" id="tucontu-video-panel" role="tabpanel" aria-labelledby="tucontu-video-tab" data-gallery-panel="video" aria-label="Video de presentación de TuconTu" hidden><div class="tucontu-video-copy"><h3>Video</h3><p class="video-intro">La presentación de TuconTu, en palabras e imágenes.</p></div><video id="tucontu-video" controls preload="none" poster="assets/tucontu/video-cover-marcela.webp"><source src="assets/tucontu/video_presentacion.mp4" type="video/mp4">Tu navegador no puede reproducir este video.</video></section>
+            <section class="tucontu-gallery-panel tucontu-manual-panel" id="tucontu-manual-panel" role="tabpanel" aria-labelledby="tucontu-manual-tab" data-gallery-panel="manual" aria-label="Manual técnico de TuconTu" hidden><div class="tucontu-manual-copy"><span class="eyebrow">Guía de la pieza</span><h3>Una estructura, tres gestos</h3><p>El largo cambia; la composición se conserva.</p><ol><li><strong>Colet</strong><span>Negro o blanco. Es la base de sujeción.</span></li><li><strong>Trenza · izquierda</strong><span>Tres cordones, sin embarrilado. Eliges sus colores.</span></li><li><strong>Centro</strong><span>Cuatro cordones del color del colet, completamente embarrilados en hasta tres secciones de lana y/o algodón.</span></li><li><strong>Espiral · derecha</strong><span>Dos cordones con una vuelta ascendente de algodón que deja ver parte de la estructura.</span></li></ol><p class="tucontu-manual-sizes"><strong>Perséfone</strong> · 30 cm <span>Afrodita · 60 cm</span> <span>Héstia · 90 cm</span></p></div></section>
+          </div>
+        </dialog>
+      </section>
+    </main>
+
+    <footer class="journey-footer" aria-label="Avanzar por el sitio">
+      <div class="journey-position"><span id="journey-number">01 / 03</span><span class="position-rule" aria-hidden="true"></span><span id="journey-name">El camino</span><details class="layout-audit" id="layout-audit" hidden><summary class="layout-collision-status" id="layout-collision-status" role="status" aria-live="polite" aria-atomic="true">Checking layout…</summary><ul class="layout-collision-details" id="layout-collision-details"></ul></details></div>
+      <div class="journey-controls"><button id="page-prev" type="button" aria-label="Sección anterior">←</button><button id="page-next" type="button" aria-label="Sección siguiente">→</button></div>
+      <span class="footer-motto">Un camino más consciente es posible</span>
+    </footer>
   </div>
 
-  <div class="modal-overlay" id="service-modal" aria-hidden="true">
-    <div class="modal-window">
-      <div class="modal-content">
-        <h3 id="modal-title">---</h3>
-        <div id="modal-description"></div>
-        <ul class="modal-specs">
-          <li id="modal-format"></li>
-          <li id="modal-duration"></li>
-        </ul>
-        <div class="modal-actions">
-          <a href="#" class="btn btn-primary btn-conversar">
-             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-             Conversar
-            </a>
-          <a href="#" class="btn btn-secondary btn-agenda">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            Agendar
-          </a>
+  <dialog class="about-dialog" id="about-dialog" aria-labelledby="about-title" aria-describedby="about-quote">
+    <button type="button" class="dialog-close about-close" id="about-close" aria-label="Cerrar Quién soy">×</button>
+    <div class="about-layout">
+      <div class="about-visual">
+        <div class="portrait-frame"><img src="assets/about_me.jpg" loading="lazy" decoding="async" alt="Retrato"></div>
+      </div>
+      <div class="about-copy">
+        <span class="eyebrow">Quién soy</span>
+        <h2 id="about-title">Un poco sobre mí</h2>
+        <p id="about-copy-one">Hace varios años que me dedico a acompañar procesos de autoconocimiento en espacios terapéuticos.</p>
+        <p id="about-copy-two">En lo profesional, estuve por casi 30 años ligada al mundo corporativo. Llegó un momento en el que puse atención “hacia dentro”, hacia mí, y me atreví a realizar cambios. Asumí nuevos desafíos, tomé riesgos y seguí aquello que me daba sentido. Gracias a ello, hoy me dedico a tiempo completo a lo que amo y me hace profundamente feliz.</p>
+        <blockquote id="about-quote">Te invito a emprender el viaje de regreso a tu hogar interno. Te ofrezco mi compañía porque conozco la ruta.</blockquote>
+        <p class="about-signoff">Cariños</p>
+        <span class="signature">Marcela</span>
+        <div class="about-mobile-reader" id="about-mobile-reader" hidden>
+          <div class="about-mobile-step" id="about-mobile-step" aria-live="polite"></div>
+          <div class="about-reading-controls">
+            <button type="button" id="about-reading-prev" aria-label="Anterior"><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+            <span class="about-reading-position"><output id="about-reading-position" aria-live="polite">01 / 02</output><span class="about-reading-track" aria-hidden="true"><span id="about-reading-marker"></span></span></span>
+            <button type="button" id="about-reading-next" aria-label="Siguiente"><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+          </div>
         </div>
+        <a class="text-link about-path-link" href="#acompanamientos">Conocer los acompañamientos <span aria-hidden="true">↗</span></a>
       </div>
     </div>
-    <button class="modal-close service-close-external" aria-label="Cerrar">×</button>
-  </div>
+  </dialog>
 
-  <script>
-    /* LA HORA ELIGE LA LUZ. Va antes de todo para que no haya parpadeo.
-       De dia la mas clara, al atardecer la intermedia, de noche la original.
-       Si alguien pide `?luz=oscuro` se respeta, para poder mirarlas. */
-    (function () {
-      var pedida = new URLSearchParams(location.search).get("luz");
-      var h = new Date().getHours();
-      var cual = pedida || (h >= 8 && h < 18 ? "claro"
-                          : (h >= 18 && h < 21 ? "medio" : "oscuro"));
-      document.documentElement.dataset.luz = cual;
-    })();
-  </script>
-  <script src="data.js"></script>
-  <script>
-    /* El hero se llena desde `data.js`. 2026-09-12: estaba escrito a mano
-       aqui, con sus datos en atributos `data-`, asi que habia dos fuentes
-       para lo mismo y Marcela no podia cambiar con que servicio se presenta.
-       Ahora lo elige `SITE_DATA.hero`. */
-    (function () {
-      var d = window.SITE_DATA || SITE_DATA;
-      // Nunca en blanco: si no encuentra el que manda `hero`, usa el
-      // primero. 2026-09-12 el titulo desaparecio, y la causa mas probable
-      // fue un `data.js` viejo en cache sin el campo `hero`.
-      var s = (d.services || []).filter(function (x) { return x.id === d.hero; })[0]
-              || (d.services || [])[0];
-      if (!s) return;
-      document.getElementById('hero-title').textContent = s.title || '';
-      document.getElementById('hero-subtitle').textContent = s.subtitle || '';
-      var b = document.getElementById('hero-explore');
-      if (!b) return;
-      b.dataset.title = s.heroTitle || s.title || '';
-      b.dataset.description = s.description || '';
-      b.dataset.format = s.format || '';
-      b.dataset.duration = s.duration || '';
-      b.dataset.urlAgenda = s.urlAgenda || '';
-    })();
-  </script>
-  <script src="script.js"></script>
+  <dialog class="service-dialog" id="service-dialog" aria-labelledby="dialog-title">
+    <button type="button" class="dialog-close" id="dialog-close" aria-label="Cerrar detalles">×</button>
+    <div class="dialog-image"><img id="dialog-image" alt=""></div>
+    <div class="dialog-copy"><h2 id="dialog-title"></h2><div id="dialog-description"></div><div class="dialog-meta"><span id="dialog-format"></span><span id="dialog-detail"></span></div><div class="dialog-actions"><a class="button button-gold" id="dialog-calendar" target="_blank" rel="noopener noreferrer" hidden>Agendar <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M7 2v4m10-4v4M4 9h16M5 4h14a1 1 0 0 1 1 1v14H4V5a1 1 0 0 1 1-1Z"/></svg></a><a class="button button-whatsapp" id="dialog-whatsapp" target="_blank" rel="noopener noreferrer" hidden>Conversar <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.4L3 20l.9-4.7a8.5 8.5 0 1 1 16.6-3.6Z"/><path d="M8.2 7.9c.2-.5.5-.5.8-.5h.5c.2 0 .4.1.5.4l.8 1.9c.1.2.1.4-.1.6l-.6.7c-.2.2-.2.4-.1.6.5.9 1.2 1.6 2.1 2.1.2.1.4.1.6-.1l.7-.8c.2-.2.4-.3.6-.2l1.8.9c.2.1.3.3.3.5 0 .4-.2 1.2-.7 1.6-.5.5-1.3.7-2 .5-1.1-.3-2.4-.9-3.7-2.1-1.1-1-1.9-2.3-2.1-3.3-.2-.9.1-1.9.6-2.8Z"/></svg></a></div></div>
+  </dialog>
+
+  <dialog class="tucontu-dialog" id="tucontu-builder-dialog" aria-label="Crear mi TuconTu">
+    <div class="app">
+      <header class="topbar"><div class="brand"><strong>TuconTu</strong></div><div class="topbar-actions"><button class="quiet topbar-icon" id="myDesignsOpen" type="button" aria-label="Mis TuconTu" title="Mis TuconTu" aria-haspopup="dialog" hidden><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5 5.5h14M5 10h14M5 14.5h9M5 19h14"/></svg></button><button class="quiet topbar-icon reset-icon" id="resetBtn" type="button" aria-label="Empezar de cero" title="Empezar de cero" hidden><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a8 8 0 1 1 2.3 5.6"/><path d="M4 5v6h6"/></svg></button><button class="topbar-help" id="builderHelp" type="button" aria-label="Más información sobre elegir el largo" aria-haspopup="dialog">?</button><button type="button" class="dialog-close tucontu-builder-close" id="tucontu-builder-close" aria-label="Cerrar creador">×</button></div></header>
+      <section class="builder-intro" id="builderIntro" aria-labelledby="builderIntroTitle">
+        <div class="builder-intro-copy"><h2 id="builderIntroTitle">Elige el largo</h2><p class="builder-migration-note" id="builderMigrationNotice" hidden>Actualizamos el creador para reflejar la estructura real de la pieza. Conservamos tu borrador anterior en este navegador; revisa la composición antes de guardar.</p></div>
+        <figure class="builder-intro-photo"><div class="builder-intro-art" id="builderIntroArt" aria-live="polite"></div></figure>
+        <div class="builder-size-picker" role="group" aria-label="Elige el largo de tu TuconTu">
+          <button type="button" class="builder-size" data-size-choice="artemisa" aria-pressed="false"><span class="builder-size-name">Perséfone</span><span class="builder-size-measure">30 cm</span></button>
+          <button type="button" class="builder-size active" data-size-choice="afrodita" aria-pressed="true"><span class="builder-size-name">Afrodita</span><span class="builder-size-measure">60 cm</span></button>
+          <button type="button" class="builder-size" data-size-choice="hestia" aria-pressed="false"><span class="builder-size-name">Héstia</span><span class="builder-size-measure">90 cm</span></button>
+        </div>
+        <div class="builder-intro-actions"><span id="builder-intro-selection" class="visually-hidden" aria-live="polite">Afrodita · 60 cm</span><button class="favorite-open" id="favoritesOpen" type="button" aria-label="Mis TuconTu, diseños guardados">Mis TuconTu <span id="favoriteCount">0</span></button><button class="primary" id="builderStart" type="button">Personalizar</button></div>
+      </section>
+      <main class="builder" id="builderWorkspace" data-step="base" hidden>
+        <section class="preview" aria-label="Vista previa de tu diseño"><div id="svgMount" class="svg-mount"></div></section>
+        <section class="config" aria-label="Personalización"><div class="step-progress" id="stepProgress" role="progressbar" aria-label="Progreso de personalización" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" aria-valuetext="Paso 1 de 5: Base"><span></span><span></span><span></span><span></span><span></span></div><div id="panel" class="panel" aria-live="polite"></div></section>
+      </main>
+      <footer class="rail" id="builderRail" hidden><button id="stepBack" class="secondary" type="button">Anterior</button><button id="stepNext" class="primary" type="button">Continuar</button></footer>
+    </div><div id="modalRoot"></div>
+  </dialog>
+
+  <script src="tucontu-dialog.js?v=20261008-tucontu-launch-11" defer></script><script src="tucontu-core.js?v=20261007-modal-gallery-2" defer></script><script src="tucontu-builder-core.js?v=20261010-fixed-structure-3" defer></script><script src="tucontu-builder-app.js?v=20261010-fixed-structure-4" defer></script>
+  <script src="privacy-consent.js?v=20261009-event-coverage-3" defer></script>
 </body>
 </html>
