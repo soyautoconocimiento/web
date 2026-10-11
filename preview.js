@@ -455,10 +455,10 @@
   let activeOffer = null;
   const mobileDialogViewport = matchMedia('(max-width: 47.5rem)');
   const previewCardImages = Object.freeze({
-    tarot: 'service-tarot-fool.webp',
+    tarot: 'service-tarot-fool-display.jpg',
     'curso-tarot-2026': 'assets/curso_tarot-marcela-20261009.webp',
-    constelaciones: 'service-constelaciones-stone.webp',
-    'carta-astral': 'service-carta-astral-astrolabe.webp'
+    constelaciones: 'service-constelaciones-stone-display.jpg',
+    'carta-astral': 'service-carta-astral-astrolabe-display.jpg'
   });
 
   function updateServiceRailPosition() {
@@ -693,7 +693,12 @@
     const photo = galleryPhotos[index];
     if (!photo) return;
     if (galleryFeatured) { galleryFeatured.src = photo.src; galleryFeatured.alt = photo.alt; }
-    if (updateHomePhoto && homePhoto) { homePhoto.src = photo.src; homePhoto.alt = photo.alt; }
+    if (updateHomePhoto && homePhoto) {
+      homePhoto.src = photo.src;
+      homePhoto.srcset = `${photo.src.replace(/\.webp$/i, '-display-260.jpg')} 260w, ${photo.src.replace(/\.webp$/i, '-display-940.jpg')} 940w`;
+      homePhoto.sizes = '(max-width: 47.5rem) 8.5rem, 29.5rem';
+      homePhoto.alt = photo.alt;
+    }
     if (updateHomePhoto && homePhotoCaption) homePhotoCaption.textContent = photo.alt;
     const order = index + 1;
     if (gallerySelectionCount) gallerySelectionCount.textContent = 'Fotografía ' + order + ' de ' + galleryPhotos.length;
