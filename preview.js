@@ -561,11 +561,12 @@
     if (floralOffer) openOffer(floralOffer, event.currentTarget);
     else goToSection(1);
   });
-  function renderOffers(category) {
+  let offerRenderVersion = 0;
+  async function renderOffers(category) {
+    const renderVersion = ++offerRenderVersion;
     const offers = (category === 'courses' ? SITE_DATA.courses : SITE_DATA.services)
       .filter(offer => !SITE_DATA.hero || offer.id !== SITE_DATA.hero);
-    serviceGrid.replaceChildren();
-    serviceGrid.classList.toggle('is-courses', category === 'courses');
+    const cards = [];
     offers.forEach((offer, index) => {
       const card = document.createElement('button');
       card.type = 'button';
@@ -578,7 +579,8 @@
       const image = document.createElement('img');
       image.src = offerImage(offer);
       image.alt = '';
-      image.loading = 'lazy';
+      image.loading = 'eager';
+      image.decoding = 'sync';
       visual.append(image);
       const body = document.createElement('span');
       body.className = 'service-card-body';
@@ -591,8 +593,21 @@
       body.append(title, action);
       card.append(visual, body);
       card.addEventListener('click', () => openOffer(offer, card));
-      serviceGrid.append(card);
+      cards.push(card);
     });
+    await Promise.all(cards.map(card => {
+      const image = card.querySelector('img');
+      if (!image) return Promise.resolve();
+      if (image.complete && image.naturalWidth > 0) return Promise.resolve();
+      if (typeof image.decode === 'function') return image.decode().catch(() => undefined);
+      return new Promise(resolve => {
+        image.addEventListener('load', resolve, { once: true });
+        image.addEventListener('error', resolve, { once: true });
+      });
+    }));
+    if (renderVersion !== offerRenderVersion) return;
+    serviceGrid.replaceChildren(...cards);
+    serviceGrid.classList.toggle('is-courses', category === 'courses');
     updateServiceRailPosition();
     scheduleLayoutCheck();
   }

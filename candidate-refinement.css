@@ -3,6 +3,66 @@
   scroll-snap-type: y mandatory;
   overscroll-behavior-y: contain;
 }
+
+/* Readable mobile type and touch targets across the site and builder. */
+@media (max-width:47.5rem) {
+  body.editorial-preview { font-size:1rem; }
+  body.editorial-preview .eyebrow,
+  body.editorial-preview .label,
+  body.editorial-preview .services-eyebrow-mobile,
+  body.editorial-preview .service-card-action,
+  body.editorial-preview .category-tab,
+  body.editorial-preview .main-nav a,
+  body.editorial-preview .nav-modal-trigger { font-size:clamp(.875rem,3.7vw,1rem); }
+  body.editorial-preview #inicio .home-lead,
+  body.editorial-preview #tucontu .tucontu-intro,
+  body.editorial-preview .service-card-body,
+  body.editorial-preview .home-copy p,
+  body.editorial-preview .about-mobile-passage p,
+  body.editorial-preview .service-dialog p { font-size:clamp(1rem,4.1vw,1.125rem); }
+  body.editorial-preview button,
+  body.editorial-preview .button,
+  body.editorial-preview .category-tab,
+  .tucontu-dialog button { min-height:2.75rem; }
+  .tucontu-dialog .brand span,
+  .tucontu-dialog .quiet,
+  .tucontu-dialog .tabs button,
+  .tucontu-dialog .panel-head p,
+  .tucontu-dialog .label,
+  .tucontu-dialog .choice small,
+  .tucontu-dialog .group-chip,
+  .tucontu-dialog .swatch span,
+  .tucontu-dialog .preview-meta,
+  .tucontu-dialog .preview-note,
+  .tucontu-dialog .structure-intro,
+  .tucontu-dialog .structure-note,
+  .tucontu-dialog .fixed-structure-card p,
+  .tucontu-dialog .finish-limit,
+  .tucontu-dialog .wrap-hint { font-size: max(.875rem,1em) !important; }
+  .tucontu-dialog .swatch { min-height:3.5rem; }
+  .tucontu-dialog .current-color { min-height:2.75rem; }
+}
+
+/* A real product example accompanies the configurable drawing in the final step. */
+.tucontu-dialog .center-color-status {
+  display:flex; align-items:center; gap:.5rem; min-height:2.75rem;
+  padding:.4rem .65rem; border:1px solid var(--line); background:rgba(255,255,255,.55);
+  color:var(--night); font-size:.875rem; font-weight:600;
+}
+.tucontu-dialog .center-color-status i {
+  flex:0 0 1.35rem; width:1.35rem; height:1.35rem; border:1px solid rgba(7,20,38,.25);
+  border-radius:50%; background:var(--swatch);
+}
+.tucontu-dialog .review-real-photo { margin:.75rem 0; }
+.tucontu-dialog .review-real-photo img {
+  display:block; width:100%; max-height:12rem; object-fit:cover; object-position:center 45%;
+  border:1px solid var(--line); border-radius:.5rem;
+}
+.tucontu-dialog .review-real-photo figcaption { margin-top:.35rem; color:var(--muted); font-size:.875rem; }
+@media(max-width:47.5rem) {
+  .tucontu-dialog .review-real-photo img { max-height:9rem; }
+  .tucontu-dialog .saved-design-modal .review-details { overflow:visible; }
+}
 .view { scroll-snap-align: start; scroll-snap-stop: always; }
 /* Bazar cards snap inline in the mobile rail, never as vertical page stops. */
 #acompanamientos .service-card { scroll-snap-align: none start; }
