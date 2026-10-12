@@ -1,0 +1,386 @@
+.service-card-name { font-size: clamp(2.25rem, 10vw, 3rem) !important; }
+.service-card-action { font-size: 0.6em !important; }
+.service-card-name { text-align: right !important; }
+.service-card-action { margin-left: auto !important; }
+.service-card-action { border: 0 !important; }
+.service-card-action { background: none !important; }
+.service-card-action::before { content: '+ ' !important; }
+#acompanamientos .category-tabs { background: none !important; }
+#acompanamientos .category-tabs { box-shadow: none !important; }
+#acompanamientos .category-tab { border-radius: 999em !important; }
+#acompanamientos .category-tab { background: rgba(86, 96, 68, .55) !important; }
+#acompanamientos .category-tab { color: #FCF8F0 !important; }
+#acompanamientos .category-tab { min-height: auto !important; }
+#acompanamientos .category-tab { padding: .45em 1.2em !important; }
+#acompanamientos .category-tab[aria-selected="true"] { background: #566044 !important; }
+#acompanamientos .section-heading h2 { font-size: clamp(1.8rem, 7vw, 2.4rem) !important; }
+#acompanamientos .service-card::after { background: linear-gradient(transparent 40%, rgba(169, 130, 68, .88)) !important; }
+.service-card-name { color: #FCF8F0 !important; }
+
+/* Marcela · E dorado: heading and offer cards */
+#acompanamientos .section-heading { align-items: start !important; margin-bottom: clamp(.35rem, 1vh, .75rem) !important; }
+#acompanamientos .section-heading h2 {
+  margin: .2rem 0 0 !important;
+  font-size: clamp(1.2rem, 3.3vw, 2.65rem) !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  letter-spacing: -.035em !important;
+}
+#acompanamientos .services-heading-primary { display: block; white-space: nowrap; }
+#acompanamientos .section-heading h2 em {
+  display: block;
+  margin-top: clamp(.15rem, .6vw, .45rem);
+  color: #866333 !important;
+  font-size: clamp(1rem, 2.35vw, 1.75rem);
+  font-weight: 500;
+  line-height: 1.05;
+  text-align: right;
+}
+
+#acompanamientos .category-tabs {
+  display: flex !important;
+  width: max-content;
+  max-width: 100%;
+  justify-content: center;
+  gap: .2rem;
+  margin: clamp(.35rem, 1vh, .75rem) auto !important;
+  padding: .22rem;
+  border: 1px solid rgba(134, 99, 51, .25);
+  border-radius: 999em;
+  background: rgba(255, 252, 246, .78) !important;
+  box-shadow: 0 .25rem .8rem rgba(55, 41, 27, .08) !important;
+}
+#acompanamientos .category-tab {
+  flex: 1 1 50%;
+  min-width: clamp(6rem, 11vw, 8rem) !important;
+  min-height: 2.65rem !important;
+  padding: .5em 1em !important;
+  border: 0 !important;
+  border-radius: 999em !important;
+  background: transparent !important;
+  color: #665a4e !important;
+  font-size: clamp(.85rem, 1.15vw, 1rem) !important;
+  font-weight: 600;
+  letter-spacing: .015em;
+}
+#acompanamientos .category-tab[aria-selected="true"] {
+  background: #866333 !important;
+  color: #fffaf2 !important;
+  box-shadow: 0 .15rem .45rem rgba(76, 51, 25, .2);
+}
+
+#acompanamientos .service-grid { overflow-y: visible; padding-block: clamp(.4rem, 1.2vh, .8rem); scroll-padding-block: .8rem; }
+#acompanamientos .service-card {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  border: 1px solid rgba(255, 248, 235, .72);
+  border-radius: clamp(.7rem, 1.6vw, 1.1rem);
+  background: #32261d;
+  box-shadow: 0 .65rem 1.4rem rgba(42, 32, 22, .16);
+  transition: transform .24s ease, box-shadow .24s ease;
+}
+#acompanamientos .service-card:hover {
+  z-index: 3;
+  transform: none;
+  box-shadow: 0 .65rem 1.4rem rgba(42, 32, 22, .16);
+}
+#acompanamientos .service-card:focus-visible { transform: none; }
+#acompanamientos .service-card:hover img { transform: none; }
+#acompanamientos .service-card-image { position: relative; z-index: 0; width: 100%; }
+#acompanamientos .service-card-image img { width: 100%; height: 100%; object-fit: cover; }
+#acompanamientos .service-card::after {
+  position: absolute;
+  z-index: 1;
+  inset: 24% 0 0;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(133, 92, 45, .24) 38%, rgba(47, 32, 20, .9) 100%) !important;
+}
+#acompanamientos .service-grid.is-courses .service-card::after {
+  background: linear-gradient(180deg, transparent 0%, rgba(198, 181, 151, .18) 38%, rgba(35, 49, 51, .9) 100%) !important;
+}
+#acompanamientos .service-grid { opacity: 1; transition: opacity .2s ease; }
+#acompanamientos .service-grid.is-switching { opacity: 0; }
+#acompanamientos .service-card-body {
+  position: absolute;
+  z-index: 2;
+  inset: auto 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: .75rem;
+  width: 100%;
+  padding: clamp(.85rem, 3vw, 1.5rem) !important;
+  color: #fffdf8;
+  pointer-events: none;
+}
+#acompanamientos .service-card-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0 !important;
+  color: #fffdf8 !important;
+  font-size: clamp(2rem, 4.3vw, 3rem) !important;
+  font-weight: 600;
+  line-height: .98 !important;
+  letter-spacing: -.025em;
+  text-shadow: 0 .12em .48em rgba(18, 15, 13, .82);
+}
+#acompanamientos .service-card-action {
+  display: inline-flex !important;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 0 !important;
+  margin: 0 0 .08em auto !important;
+  padding: .3em 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #f4d9a4 !important;
+  font-size: clamp(.58rem, .85vw, .75rem) !important;
+  font-weight: 600;
+  letter-spacing: .08em;
+  line-height: 1;
+  opacity: .9;
+  text-shadow: 0 .12em .4em rgba(18, 15, 13, .8);
+  pointer-events: none;
+}
+#acompanamientos .service-card-action::before { content: "+ " !important; }
+#acompanamientos .category-tab {
+  transition: background-color .24s ease, color .24s ease, box-shadow .24s ease;
+}
+#acompanamientos #courses-tab[aria-selected="true"] {
+  background: #3e7c88 !important;
+  color: #fcf8f0 !important;
+  box-shadow: 0 .15rem .45rem rgba(36, 70, 76, .2);
+}
+#acompanamientos .service-grid.is-courses .service-card-action { color: #fcf8f0 !important; }
+
+@media (max-width: 47.5rem) {
+  #acompanamientos .section-heading { width: 100%; }
+  #acompanamientos .section-heading h2 { width: 100%; font-size: clamp(1.2rem, 5.7vw, 2rem) !important; text-align: right; }
+  #acompanamientos .section-heading h2 em { margin-top: .18rem; font-size: clamp(1rem, 4vw, 1.4rem); }
+  #acompanamientos .category-tabs { margin-inline: auto !important; }
+  #acompanamientos .category-tab { min-width: clamp(6rem, 35vw, 8rem) !important; min-height: 2.75rem !important; }
+  #acompanamientos .service-grid { padding-block: .65rem; scroll-padding-block: .65rem; }
+  #acompanamientos .service-card { border-radius: clamp(.7rem, 3vw, 1rem); }
+  #acompanamientos .service-card-body { gap: .5rem; padding: clamp(.85rem, 4.5vw, 1.25rem) !important; }
+  #acompanamientos .service-card-name { font-size: clamp(1.8rem, 8vw, 2.7rem) !important; }
+  #acompanamientos .service-card-action { font-size: clamp(.58rem, 2.4vw, .72rem) !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #acompanamientos .service-grid,
+  #acompanamientos .category-tab { transition: none !important; }
+}
+
+/* Mobile refinements requested for the Marcela review. */
+@media (max-width: 47.5rem) {
+  body.editorial-preview .main-nav {
+    justify-items: stretch;
+    padding-inline: clamp(1rem, 5vw, 1.5rem);
+  }
+  body.editorial-preview .main-nav a,
+  body.editorial-preview .main-nav .nav-modal-trigger {
+    justify-self: stretch !important;
+    justify-content: flex-start;
+    flex-direction: row-reverse;
+    gap: clamp(.65rem, 3vw, 1rem);
+    text-align: right;
+  }
+  body.editorial-preview .main-nav a > span,
+  body.editorial-preview .main-nav .nav-modal-trigger > span { margin-left: auto; }
+  body.editorial-preview .main-nav .nav-symbol { width: 1.35em; height: 1.35em; }
+
+  body.editorial-preview .menu-toggle {
+    min-width: 0;
+    width: auto;
+    height: auto;
+    min-height: 2.75rem;
+    flex-direction: row;
+    align-items: center;
+    gap: .55rem;
+    padding: .25rem;
+    border: 0;
+    border-radius: 999em;
+    background: transparent;
+    box-shadow: none;
+  }
+  body.editorial-preview .menu-toggle .menu-icon {
+    display: none;
+  }
+  body.editorial-preview .menu-toggle .menu-icon > span {
+    height: .09rem;
+    border-radius: 999em;
+    background: var(--header-highlight);
+  }
+  body.editorial-preview .menu-toggle .menu-label {
+    padding: .25rem .1rem;
+    border: 0;
+    border-radius: 999em;
+    background: transparent !important;
+    color: var(--header-text);
+  }
+
+  #acompanamientos .section-heading h2 { font-size: clamp(1.35rem, 6.4vw, 2.25rem) !important; }
+  #acompanamientos .section-heading h2 em { font-size: clamp(1.05rem, 4.5vw, 1.5rem); }
+  #acompanamientos .service-card-name { font-size: clamp(2.1rem, 10vw, 3.25rem) !important; }
+  #acompanamientos .service-grid.is-courses .service-card::after {
+    background: linear-gradient(180deg, transparent 0%, rgba(121, 82, 77, .22) 38%, rgba(47, 37, 48, .94) 100%) !important;
+  }
+
+  #acompanamientos .category-tabs {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: .22rem;
+    border-color: rgba(134, 99, 51, .25);
+    background: rgba(255, 252, 246, .78) !important;
+  }
+  #acompanamientos .category-tabs::before {
+    position: absolute;
+    z-index: -1;
+    inset: .22rem auto .22rem .22rem;
+    width: calc(50% - .22rem);
+    border-radius: 999em;
+    background: #866333;
+    content: "";
+    transition: transform .62s cubic-bezier(.22, 1.35, .42, 1), background-color .62s ease;
+  }
+  #acompanamientos .category-tab {
+    position: relative;
+    z-index: 1;
+    background: transparent !important;
+    color: #665a4e !important;
+    transition: color .35s ease !important;
+  }
+  #acompanamientos .category-tab[aria-selected="true"] { color: #fffaf2 !important; box-shadow: none !important; }
+  #acompanamientos:has(#courses-tab[aria-selected="true"]) .category-tabs::before {
+    transform: translateX(100%);
+    background: #3e7c88;
+  }
+
+  body.editorial-preview #inicio .home-layout { justify-items: center; }
+  body.editorial-preview #inicio .home-visual { justify-content: center; align-items: center; }
+  body.editorial-preview #inicio .arch-frame {
+    box-sizing: border-box;
+    width: clamp(10rem, 50vw, 13.5rem);
+    height: clamp(13rem, 38dvh, 18rem);
+    margin-inline: auto;
+    padding: clamp(.2rem, 1vw, .35rem);
+    transform: none;
+  }
+  body.editorial-preview #inicio .arch-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  body.editorial-preview #inicio #hero-floral-link {
+    min-width: min(75vw, 18rem);
+    border-radius: 999em;
+    background: #866333;
+    box-shadow: 0 .35rem 1rem rgba(65, 46, 24, .16);
+  }
+
+  body.editorial-preview .button,
+  body.editorial-preview .category-tab,
+  body.editorial-preview .dialog-close,
+  body.editorial-preview .nav-modal-trigger,
+  body.editorial-preview .about-reading-controls button,
+  body.editorial-preview .prototype-floral-actions > * {
+    border-radius: 999em !important;
+  }
+  #acompanamientos .service-card { border-radius: clamp(1rem, 5vw, 1.5rem); }
+  #acompanamientos .service-grid,
+  #acompanamientos .service-card { transition: opacity .24s ease, border-radius .3s ease, box-shadow .3s ease; }
+  #acompanamientos .service-grid.is-switching .service-card { opacity: 0; }
+
+  .about-dialog[open] {
+    height: min(90dvh, 56rem);
+    padding: clamp(.75rem, 4vw, 1.25rem);
+    border-radius: clamp(1rem, 5vw, 1.5rem);
+  }
+  .about-dialog .about-layout { padding-top: .35rem; }
+  .about-dialog .about-visual { min-height: 0; padding: 0; justify-content: center; }
+  .about-dialog .portrait-frame {
+    width: clamp(8rem, 29vw, 11rem);
+    margin: 0;
+    padding: clamp(.2rem, 1vw, .35rem);
+    border-radius: 1.2em;
+    transform: none;
+  }
+  .about-dialog .portrait-frame img { display: block; border-radius: .85em; }
+  .about-dialog .about-copy { gap: clamp(.2rem, 1vh, .5rem); padding: .35rem 0 .2rem; }
+  .about-dialog .about-copy h2 {
+    margin: .25rem 0 .45rem;
+    font-size: clamp(2.6rem, 11vw, 4rem);
+    line-height: .9;
+  }
+  .about-dialog .about-copy p,
+  .about-dialog .about-mobile-passage p:not(.about-signoff) {
+    margin-bottom: .45rem;
+    font-size: clamp(1.05rem, 4.4vw, 1.25rem);
+    line-height: 1.5;
+  }
+  .about-dialog .about-mobile-reader { padding-bottom: .15rem; }
+  .about-dialog .about-reading-controls { margin-top: .25rem; padding-top: .2rem; }
+  .about-dialog .about-signoff::after {
+    display: inline-block;
+    width: clamp(1.5em, 5vw, 2em);
+    aspect-ratio: 1;
+    margin-left: .45em;
+    background: url("assets/rosa.svg") center / contain no-repeat;
+    content: "";
+    vertical-align: middle;
+  }
+  .about-dialog .dialog-close { border: 0; background: transparent; box-shadow: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #acompanamientos .category-tabs::before,
+  #acompanamientos .category-tab,
+  #acompanamientos .service-grid,
+  #acompanamientos .service-card { transition: none !important; }
+}
+
+/* Ajustes de la ronda de escritorio de Marcela; los tamaños se adaptan al contenido. */
+@media (min-width: 47.5625rem) {
+  body.editorial-preview .site-shell { grid-template-rows: calc(var(--header-height) * .94) minmax(0,1fr); }
+  body.editorial-preview .site-header { height: calc(var(--header-height) * .94); }
+  body.editorial-preview .brand strong,
+  body.editorial-preview .site-header .nav-modal-trigger { font-size: clamp(.82rem, 1vw, 1rem); }
+  body.editorial-preview .site-header .main-nav { gap: clamp(.7rem, 1.5vw, 1.5rem); }
+  body.editorial-preview .site-header .nav-modal-trigger { margin-left: 0; padding-left: 0; border-left: 0; }
+  body.editorial-preview #inicio .home-copy h1 { font-size: clamp(4rem, 8vw, 7.5rem); }
+  body.editorial-preview #inicio .home-lead { font-size: clamp(2.2rem, 4vw, 3.8rem); }
+  body.editorial-preview #inicio .home-actions #hero-floral-link { font-size: clamp(.82rem, .95vw, 1rem); font-weight: 500; letter-spacing: .035em; }
+  body.editorial-preview #inicio .home-note { left: clamp(1rem, 4vw, 5rem); bottom: clamp(1.5rem, 4vh, 3.5rem); font-size: clamp(1.2rem, 1.8vw, 1.6rem); }
+  body.editorial-preview #acompanamientos .services-layout { padding-top: clamp(1rem, 2.5vh, 2rem); }
+  body.editorial-preview #acompanamientos .section-heading { margin-bottom: 0; }
+  body.editorial-preview #acompanamientos .bazar-eyebrow { display: block; margin-bottom: .25em; font-size: clamp(.7rem, .85vw, .82rem); letter-spacing: .12em; }
+  body.editorial-preview #acompanamientos .services-heading-primary { display: inline; }
+  body.editorial-preview #acompanamientos .category-tabs { margin-block: clamp(.2rem, .6vh, .5rem) !important; }
+  body.editorial-preview #acompanamientos .service-grid { min-height: 0; }
+  body.editorial-preview .service-card--full-bleed .service-card-cta { text-transform: none; font-size: clamp(.7rem, .85vw, .9rem); letter-spacing: .04em; }
+  body.editorial-preview .service-card--full-bleed .service-card-title { font-size: clamp(1.6rem, 2.6vw, 3rem); }
+  body.editorial-preview .service-card--full-bleed .service-card-copy { align-items: flex-end; }
+  
+  body.editorial-preview #acompanamientos .service-card-image::after {
+    inset: 32% 0 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(255,250,239,.14) 48%, rgba(255,250,239,.9) 100%);
+  }
+  body.editorial-preview #acompanamientos .service-card-body { align-items: flex-end; gap: .35rem; }
+  body.editorial-preview #acompanamientos .service-card-name { font-size: clamp(1.8rem, 3vw, 2.8rem); text-align: right; }
+  body.editorial-preview #acompanamientos .service-card-action { width: auto; margin-left: auto; border: 0; padding: .2em 0; background: transparent; font-size: clamp(.62rem, .8vw, .75rem); letter-spacing: .05em; }
+  body.editorial-preview #acompanamientos .service-card-action::before { content: "+ "; }
+  body.editorial-preview #acompanamientos .service-card[data-offer-id="tarot"] .service-card-image img { object-position: center 48%; }
+  .tucontu-gallery-panel[data-gallery-panel="fotos"] { grid-template-columns: minmax(0, 1.3fr) minmax(16rem, .7fr); }
+  .gallery-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .gallery-grid button { aspect-ratio: 1.15; }
+  .tucontu-history p { font-size: clamp(1.35rem, 2.4vw, 2rem); }
+  .tucontu-ordinary-quote { justify-self: end; width: min(78%, 38rem); margin-top: clamp(.5rem, 2vh, 1.5rem); color: var(--gold-text); font: italic clamp(1.5rem, 2.8vw, 2.2rem)/1.25 Cormorant, Georgia, serif; text-align: right; }
+  .tucontu-ordinary-quote cite { display: block; margin-top: .65em; font: 500 .55em/1.3 Inter, Arial, sans-serif; }
+}
+@media (max-width: 47.5rem) {
+  #inicio .home-actions .hero-action-full { display: none; }
+  #inicio .home-actions .hero-action-mobile { display: inline; }
+}
+#tucontu-manual-open { display: none !important; }

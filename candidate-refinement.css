@@ -13,7 +13,7 @@
   body.editorial-preview .service-card-action,
   body.editorial-preview .category-tab,
   body.editorial-preview .main-nav a,
-  body.editorial-preview .nav-modal-trigger { font-size:clamp(.875rem,3.7vw,1rem); }
+  body.editorial-preview .nav-modal-trigger {  }
   body.editorial-preview #inicio .home-lead,
   body.editorial-preview #tucontu .tucontu-intro,
   body.editorial-preview .service-card-body,
@@ -132,7 +132,7 @@
   }
   #acompanamientos .service-card-name {
     min-height: 0;
-    font-size: clamp(1.8rem, 2.2vw, 2.5rem);
+    
     line-height: 1;
   }
   #acompanamientos .service-card-action {
@@ -144,7 +144,7 @@
     padding-top: .65rem;
     border-top: 1px solid var(--gold-line);
     color: var(--gold-text);
-    font-size: .85rem;
+    
     font-weight: 600;
     letter-spacing: .03em;
   }
@@ -1016,7 +1016,7 @@ body.viewport-experience-prototype #tucontu[data-experience-role="focus"] .tucon
 
 @media (max-width: 68.75rem) {
   body.viewport-experience-prototype #acompanamientos[data-experience-role="focus"] .section-heading h2 { font-size: clamp(1.8rem, 4.2vw, 3rem); }
-  body.viewport-experience-prototype #acompanamientos[data-experience-role="focus"] .service-card-name { font-size: clamp(1.3rem, 2.5vw, 2rem); }
+  body.viewport-experience-prototype #acompanamientos[data-experience-role="focus"] .service-card-name {  }
 }
 @media (min-width: 47.51rem) and (max-width: 56.25rem) {
   body.viewport-experience-prototype #acompanamientos[data-experience-role="focus"] .service-grid {
@@ -1079,7 +1079,7 @@ body.viewport-experience-prototype #tucontu[data-experience-role="focus"] .tucon
   body.viewport-experience-prototype #acompanamientos[data-experience-role="focus"] .service-grid { display: flex; align-items: stretch; gap: .65rem; padding: 0 0 .4rem; }
   body.viewport-experience-prototype #acompanamientos[data-experience-role="focus"] .service-card { flex: 0 0 min(78vw, 20rem); width: min(78vw, 20rem); height: 100%; }
   body.viewport-experience-prototype #acompanamientos[data-experience-role="focus"] .service-card-image { flex-basis: 56%; }
-  body.viewport-experience-prototype #acompanamientos[data-experience-role="focus"] .service-card-name { font-size: clamp(1.35rem, 5vw, 1.8rem); }
+  body.viewport-experience-prototype #acompanamientos[data-experience-role="focus"] .service-card-name {  }
   body.viewport-experience-prototype #acompanamientos[data-experience-role="anchor"] .services-layout { padding-inline: .4rem; }
   body.viewport-experience-prototype #acompanamientos[data-experience-role="anchor"] .section-heading h2 { font-size: 1rem; }
   body.viewport-experience-prototype #tucontu[data-experience-role="anchor"] .tucontu-layout { width: calc(100% - 1.5rem); }
@@ -1896,7 +1896,7 @@ body.editorial-preview :is(
   .brand small, .main-nav a, .nav-modal-trigger, .eyebrow, .button, .journey-position,
   .category-tab, .service-card-name, .service-card-action, .tucontu-tab,
   .page-count, .image-label, .dialog-meta span, .story-controls button, .layout-collision-status
-) { font-size: max(.875rem, .75em) !important; }
+) {  }
 body.editorial-preview .brand { min-height: 2.75rem; }
 body.editorial-preview .menu-toggle {
   width: auto; min-width: 4.5rem; height: 2.75rem; min-height: 2.75rem;
@@ -1913,13 +1913,189 @@ body.editorial-preview .service-card-action {
 }
 body.editorial-preview #tucontu .tucontu-tab { min-height: 2.75rem; }
 body.editorial-preview #tucontu .tucontu-actions .button { min-height: 2.75rem; }
+
+/* Mobile recovery of the old photo-first offering card, with its text as HUD. */
+@media (max-width: 47.5rem) {
+  #acompanamientos .service-grid {
+    gap: .75rem;
+    padding-inline: 0;
+    scroll-padding-inline: 0;
+  }
+  #acompanamientos .service-card {
+    position: relative;
+    flex: 0 0 100% !important;
+    width: 100%;
+    max-width: none !important;
+    height: 100%;
+    min-height: 0;
+    border: 1px solid rgba(200,161,90,.38);
+    border-radius: .45rem;
+    background: #071426;
+    color: #fffdf8;
+    box-shadow: 0 .75rem 1.75rem rgba(7,20,38,.2);
+    isolation: isolate;
+  }
+  #acompanamientos .service-card::after {
+    position: absolute;
+    z-index: 1;
+    inset: 30% 0 0;
+    content: "";
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent, rgba(7,20,38,.34) 40%, rgba(7,20,38,.94));
+  }
+  #acompanamientos .service-card-image {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    flex: none;
+  }
+  #acompanamientos .service-card-image::after { display: none; }
+  #acompanamientos .service-card-image img { object-fit: cover; }
+  #acompanamientos .service-card-body {
+    position: absolute;
+    z-index: 2;
+    inset: auto 0 0;
+    display: flex;
+    flex: none;
+    min-height: 0;
+    gap: .65rem;
+    padding: clamp(1.25rem, 6vw, 2rem);
+    color: #fffdf8;
+  }
+  #acompanamientos .service-card-name {
+    min-height: 0;
+    color: #fffdf8;
+    
+    line-height: 1.02;
+    text-shadow: 0 2px 16px rgba(0,0,0,.6);
+  }
+  #acompanamientos .service-card-action {
+    min-height: 2.75rem;
+    margin: .2rem 0 0;
+    padding: .65rem .9rem;
+    border: 1px solid rgba(241,219,168,.72);
+    border-radius: .25rem;
+    color: #fff3d1;
+    background: rgba(7,20,38,.32);
+    
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  /* TuconTu keeps its title and actions over its real product photograph. */
+  body.editorial-preview #tucontu.view > .view-inner.tucontu-layout {
+    position: relative;
+    display: flex;
+    width: calc(100% - 1.5rem);
+    height: calc(100dvh - var(--header-height) - 1rem);
+    min-height: 0;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: .75rem;
+    overflow: hidden;
+    padding: 0 0 max(1rem, env(safe-area-inset-bottom));
+    isolation: isolate;
+    background: #071426;
+  }
+  body.editorial-preview #tucontu .tucontu-visual {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+  }
+  body.editorial-preview #tucontu .tucontu-visual::after {
+    position: absolute;
+    inset: 35% 0 0;
+    content: "";
+    background: linear-gradient(transparent, rgba(7,20,38,.38) 36%, rgba(7,20,38,.96));
+  }
+  body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: #071426;
+  }
+  body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
+    object-fit: cover;
+    object-position: center 38%;
+  }
+  body.editorial-preview #tucontu .tucontu-piece-photo figcaption { display: none; }
+  body.editorial-preview #tucontu .tucontu-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: 1rem 1.1rem 0;
+    color: #fffdf8;
+    text-align: left;
+  }
+  body.editorial-preview #tucontu .tucontu-content h2,
+  body.editorial-preview #tucontu .tucontu-intro,
+  body.editorial-preview #tucontu .eyebrow { color: #fffdf8; }
+  body.editorial-preview #tucontu .tucontu-actions {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    width: calc(100% - 2.2rem);
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: .6rem;
+    margin: 0 auto;
+  }
+  body.editorial-preview #tucontu .tucontu-actions .button {
+    min-height: 3rem;
+    border-color: rgba(241,219,168,.72);
+    background: rgba(7,20,38,.78);
+    color: #fffdf8;
+    white-space: normal;
+  }
+  body.editorial-preview #tucontu .button-tucontu-manual { grid-column: 1 / -1; }
+}
 @media (max-width: 47.5rem) {
   body.editorial-preview :is(
     .brand small, .main-nav a, .nav-modal-trigger, .eyebrow, .button, .journey-position,
     .category-tab, .service-card-name, .service-card-action, .tucontu-tab,
     .page-count, .image-label, .dialog-meta span, .story-controls button, .layout-collision-status
-  ) { font-size: max(1rem, .75em) !important; }
+  ) {  }
   body.editorial-preview .menu-toggle { min-width: 4.5rem; }
   body.editorial-preview .home-more-mobile,
   body.editorial-preview .services-more-mobile { display: flex; }
+}
+
+
+/* Cortina temporal de Colores del alma; retirar la clase del section para quitarla. */
+#tucontu.has-coming-curtain > .tucontu-coming-curtain {
+  position: absolute;
+  z-index: 20;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 5vw, 3rem);
+  background: var(--paper-veil-strong);
+  text-align: center;
+}
+#tucontu.has-coming-curtain .tucontu-coming-curtain p {
+  max-width: 24em;
+  margin: 0;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  border: 1px solid var(--gold-line);
+  color: var(--navy);
+  box-shadow: 0 .5rem 1.5rem var(--warm-shadow-soft);
+  font: 500 clamp(1.35rem, 3.2vw, 2.35rem)/1.18 Cormorant, Georgia, serif;
+}
+#tucontu.has-coming-curtain .tucontu-coming-curtain p span {
+  display: inline-block;
+  margin-top: .35em;
+  color: var(--gold-text);
+  font-size: .78em;
+  font-style: italic;
 }

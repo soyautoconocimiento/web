@@ -611,7 +611,9 @@
     updateServiceRailPosition();
     scheduleLayoutCheck();
   }
-  function selectCategoryTab(tab, moveFocus = false) {
+  let categorySwitchToken = 0;
+  async function selectCategoryTab(tab, moveFocus = false) {
+    const switchToken = ++categorySwitchToken;
     categoryTabs.forEach(item => {
       const active = item === tab;
       item.classList.toggle('is-active', active);
@@ -620,7 +622,16 @@
     });
     serviceGrid.setAttribute('aria-labelledby', tab.id);
     if (moveFocus) tab.focus();
-    renderOffers(tab.dataset.category);
+    serviceGrid.setAttribute('aria-busy', 'true');
+    serviceGrid.classList.add('is-switching');
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      await new Promise(resolve => window.setTimeout(resolve, 140));
+    }
+    if (switchToken !== categorySwitchToken) return;
+    await renderOffers(tab.dataset.category);
+    if (switchToken !== categorySwitchToken) return;
+    serviceGrid.classList.remove('is-switching');
+    serviceGrid.removeAttribute('aria-busy');
   }
   categoryTabs.forEach((tab, index) => {
     tab.addEventListener('click', () => selectCategoryTab(tab));

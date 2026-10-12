@@ -159,7 +159,7 @@ body.editorial-preview #tucontu .tucontu-actions .button:hover { transform: none
 /* Service cards are a measured grid on wide screens, a natural vertical list on phones. */
 #acompanamientos .service-rail-position { display: none; }
 #acompanamientos .service-card { min-width: 0; scroll-snap-align: none; scroll-snap-stop: normal; }
-#acompanamientos .service-card-action { display: flex; width: max-content; align-items: center; gap: .45rem; margin-top: auto; padding-top: .55rem; border-top: 1px solid var(--gold-line); color: var(--gold-text); font-size: .84rem; font-weight: 600; letter-spacing: .025em; }
+#acompanamientos .service-card-action { display: flex; width: max-content; align-items: center; gap: .45rem; margin-top: auto; padding-top: .55rem; border-top: 1px solid var(--gold-line); color: var(--gold-text);  font-weight: 600; letter-spacing: .025em; }
 #acompanamientos .service-card-action::after { content: "↗"; }
 @media (min-width: 68.8125rem) {
   #acompanamientos .services-layout { height: 100%; min-height: 100%; }
@@ -368,7 +368,7 @@ body.editorial-preview #tucontu .tucontu-actions .button:hover { transform: none
   body.editorial-preview #acompanamientos .service-card { display:flex; width:100%; height:auto; min-height:0; flex:none; overflow:hidden; scroll-snap-align:none; scroll-snap-stop:normal; }
   body.editorial-preview #acompanamientos .service-card-image { flex:none; height:clamp(12.5rem,52vw,18rem); min-height:0; }
   body.editorial-preview #acompanamientos .service-card-body { display:flex; min-height:7rem; flex:1 1 auto; gap:.55rem; padding:.85rem .9rem; }
-  body.editorial-preview #acompanamientos .service-card-name { min-height:0; margin:0; font-size:clamp(1.7rem,7vw,2.15rem); line-height:1.02; }
+  body.editorial-preview #acompanamientos .service-card-name { min-height:0; margin:0;  line-height:1.02; }
   body.editorial-preview #acompanamientos .service-card-action { margin-top:auto; }
   body.editorial-preview #acompanamientos .service-rail-position { display:none; }
   body.editorial-preview #acompanamientos .services-more-mobile { display:flex; align-items:center; justify-content:center; gap:.5rem; margin:.2rem auto 0; padding:.45rem; color:var(--gold-text); font-size:.9rem; font-weight:600; }

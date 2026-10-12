@@ -326,7 +326,7 @@ em { font-weight: 400; }
   .service-grid.is-courses { max-width: none; }
   .service-card { flex: 0 0 min(77vw,19.6875rem); scroll-snap-align: start; }
   .service-card-image { height: clamp(14rem,34svh,20rem); }
-  .service-card-name { min-height: 0; font-size: clamp(1.625rem,7vw,2.125rem); line-height: 1; }
+  .service-card-name { min-height: 0;  line-height: 1; }
   .service-rail-position { display: flex; align-items: center; justify-content: center; gap: 0.625rem; margin: 0.125rem 0 0.5rem; color: var(--gold-text); font: 600 0.75rem/1 Inter,Arial,sans-serif; font-variant-numeric: tabular-nums; letter-spacing: .08em; }
   .service-rail-track { display: block; width: clamp(4.5rem,24vw,7rem); height: 0.1875rem; overflow: hidden; background: var(--gold-rule-soft); }
   .service-rail-track > span { display: block; width: 100%; height: 100%; background: var(--aged-gold); transform: scaleX(0); transform-origin: left center; transition: transform .18s ease; }
@@ -704,7 +704,7 @@ body.editorial-preview :is(
   .brand small, .main-nav a, .nav-modal-trigger, .eyebrow, .button, .journey-position,
   .category-tab, .service-card-name, .tucontu-tab,
   .page-count, .image-label, .dialog-meta span, .story-controls button, .layout-collision-status
-) { font-size: max(0.75rem,0.75em); }
+) {  }
 
 /* Current hero hierarchy: the service name leads, with its descriptor as a clear partner. */
 body.editorial-preview #inicio .home-copy h1 {
@@ -1075,7 +1075,7 @@ body.editorial-preview #inicio .home-layout { min-height: calc(100dvh - var(--he
   #acompanamientos .service-card-body { padding: 0.9375rem clamp(0.8125rem, 1.25vw, 1.125rem); }
   #acompanamientos .service-card-name {
     min-height: 3.75rem;
-    font-size: clamp(1.875rem, 2.45vw, 2.5rem);
+    
   }
 }
 
@@ -1139,8 +1139,8 @@ body.editorial-preview #inicio .home-layout { min-height: calc(100dvh - var(--he
   #acompanamientos .service-card { height: 100%; min-height: 0; scroll-snap-stop: always; }
   #acompanamientos .service-card-image { flex: 1 1 auto; height: auto; min-height: clamp(8.5rem, 22svh, 13rem); }
   #acompanamientos .service-card-body { flex: 0 0 clamp(8rem, 17svh, 10.5rem); gap: 0.5rem; padding: 0.75rem 0.8125rem; }
-  #acompanamientos .service-card-name { margin: 0; font-size: clamp(1.75rem, 7.5vw, 2.25rem); line-height: 1.02; }
-  #acompanamientos .service-card-action { display: block; width: max-content; margin-top: auto; padding-top: 0.5rem; border-top: 0.0625rem solid var(--gold-line); color: var(--gold-text); font-size: 0.9375rem; font-weight: 600; letter-spacing: 0.04em; }
+  #acompanamientos .service-card-name { margin: 0;  line-height: 1.02; }
+  #acompanamientos .service-card-action { display: block; width: max-content; margin-top: auto; padding-top: 0.5rem; border-top: 0.0625rem solid var(--gold-line); color: var(--gold-text);  font-weight: 600; letter-spacing: 0.04em; }
   #acompanamientos .service-rail-position { flex: 0 0 auto; margin-block: 0.25rem clamp(0.5rem, 1.5svh, 1rem); }
   #acompanamientos .service-rail-track { position: relative; overflow: visible; }
   #acompanamientos .service-rail-track > span { position: absolute; top: 50%; left: 0; width: 0.625rem; height: 0.625rem; border-radius: 50%; background: var(--aged-gold); transform: translateY(-50%); }
