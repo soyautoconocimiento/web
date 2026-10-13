@@ -361,18 +361,19 @@ body.editorial-preview .site-header .nav-modal-trigger { font-size: clamp(.75rem
   body.editorial-preview #inicio .home-note { left: clamp(1rem, 4vw, 5rem); bottom: clamp(1.5rem, 4vh, 3.5rem); font-size: clamp(1.2rem, 1.8vw, 1.6rem); }
   body.editorial-preview #acompanamientos .services-layout { padding-top: clamp(1rem, 2.5vh, 2rem); }
   body.editorial-preview #acompanamientos .section-heading { margin-bottom: 0; }
-  body.editorial-preview #acompanamientos .bazar-eyebrow { display: block; margin-bottom: .25em; font-size: clamp(.7rem, .85vw, .82rem); letter-spacing: .12em; }
+  body.editorial-preview #acompanamientos .section-heading > div { display: flex; align-items: baseline; gap: clamp(.45rem, 1.2vw, .9rem); }
+  body.editorial-preview #acompanamientos .bazar-eyebrow { display: inline-block; margin: 0; font-size: clamp(.7rem, .85vw, .82rem); letter-spacing: .12em; }
+  body.editorial-preview #acompanamientos .section-heading h2 { margin: 0; }
   body.editorial-preview #acompanamientos .services-heading-primary { display: inline; }
+  body.editorial-preview #acompanamientos .section-heading h2 em { display: inline; margin: 0 0 0 .3em; text-align: left; }
   body.editorial-preview #acompanamientos .category-tabs { margin-block: clamp(.2rem, .6vh, .5rem) !important; }
   body.editorial-preview #acompanamientos .service-grid { min-height: 0; }
   body.editorial-preview .service-card--full-bleed .service-card-cta { text-transform: none; font-size: clamp(.7rem, .85vw, .9rem); letter-spacing: .04em; }
   body.editorial-preview .service-card--full-bleed .service-card-title { font-size: clamp(1.6rem, 2.6vw, 3rem); }
   body.editorial-preview .service-card--full-bleed .service-card-copy { align-items: flex-end; }
   
-  body.editorial-preview #acompanamientos .service-card-image::after {
-    inset: 32% 0 0;
-    background: linear-gradient(180deg, transparent 0%, rgba(255,250,239,.14) 48%, rgba(255,250,239,.9) 100%);
-  }
+  body.editorial-preview #acompanamientos .service-card-image { position: absolute; inset: 0; height: 100%; flex: none; }
+  body.editorial-preview #acompanamientos .service-card-image::after { display: none; }
   body.editorial-preview #acompanamientos .service-card-body { align-items: flex-end; gap: .35rem; }
   body.editorial-preview #acompanamientos .service-card-name { font-size: clamp(1.8rem, 3vw, 2.8rem); text-align: right; }
   body.editorial-preview #acompanamientos .service-card-action { width: auto; margin-left: auto; border: 0; padding: .2em 0; background: transparent; font-size: clamp(.62rem, .8vw, .75rem); letter-spacing: .05em; }

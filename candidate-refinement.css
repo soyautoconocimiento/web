@@ -117,7 +117,7 @@
     gap: clamp(.75rem, 1.5vw, 1.25rem);
   }
   #acompanamientos .service-card {
-    height: clamp(22rem, 58dvh, 38rem);
+    height: clamp(22rem, 62dvh, 40rem);
     max-width: none;
     box-shadow: 0 .75rem 1.75rem rgba(38,31,24,.09);
   }
