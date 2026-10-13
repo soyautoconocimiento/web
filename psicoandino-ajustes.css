@@ -80,13 +80,16 @@
   box-shadow: 0 .65rem 1.4rem rgba(42, 32, 22, .16);
   transition: transform .24s ease, box-shadow .24s ease;
 }
-#acompanamientos .service-card:hover {
+#acompanamientos .service-card:hover,
+#acompanamientos .service-card:focus-visible,
+#acompanamientos .service-card:active {
   z-index: 3;
-  transform: none;
-  box-shadow: 0 .65rem 1.4rem rgba(42, 32, 22, .16);
+  transform: translateY(-.3125rem);
+  box-shadow: 0 1.125rem 1.8125rem var(--warm-shadow-hover);
 }
-#acompanamientos .service-card:focus-visible { transform: none; }
-#acompanamientos .service-card:hover img { transform: none; }
+#acompanamientos .service-card:hover img,
+#acompanamientos .service-card:focus-visible img,
+#acompanamientos .service-card:active img { transform: scale(1.04); }
 #acompanamientos .service-card-image { position: relative; z-index: 0; width: 100%; }
 #acompanamientos .service-card-image img { width: 100%; height: 100%; object-fit: cover; }
 #acompanamientos .service-card::after {
