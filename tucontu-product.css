@@ -336,9 +336,6 @@ body.editorial-preview #tucontu .tucontu-actions .button:hover { transform: none
 .tucontu-dialog .library-footer { display:flex; align-items:center; justify-content:space-between; gap:.75rem; }
 .tucontu-dialog .library-footer p { margin:0; font-size:.76rem; }
 
-/* Privacy is available on request; the large consent sheet never appears on entry. */
-.privacy-dialog { width:min(34rem,calc(100vw - 2rem)); max-height:calc(100dvh - 2rem - var(--safe-top) - var(--safe-bottom)); overflow:auto; margin:auto; border:1px solid var(--gold-line); border-radius:.55rem; background:#faf8f2; color:var(--ink); }
-.privacy-dialog::backdrop { background:rgba(20,40,60,.52); }
 
 @media (max-width: 68.75rem) {
   body.editorial-preview .main-nav { gap:clamp(.7rem,1.5vw,1rem); }
