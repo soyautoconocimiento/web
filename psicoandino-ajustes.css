@@ -51,6 +51,8 @@
   box-shadow: 0 .25rem .8rem rgba(55, 41, 27, .08) !important;
 }
 #acompanamientos .category-tab {
+  position: relative;
+  z-index: 1;
   flex: 1 1 50%;
   min-width: clamp(6rem, 11vw, 8rem) !important;
   min-height: 2.65rem !important;
@@ -64,9 +66,26 @@
   letter-spacing: .015em;
 }
 #acompanamientos .category-tab[aria-selected="true"] {
-  background: #866333 !important;
+  background: transparent !important;
   color: #fffaf2 !important;
+  box-shadow: none !important;
+}
+#acompanamientos .category-tabs { position: relative; isolation: isolate; overflow: hidden; }
+#acompanamientos .category-tabs::before {
+  position: absolute;
+  z-index: -1;
+  inset: .22rem auto .22rem .22rem;
+  width: calc(50% - .22rem);
+  border-radius: .55rem;
+  background: #866333;
   box-shadow: 0 .15rem .45rem rgba(76, 51, 25, .2);
+  content: "";
+  transition: transform .62s cubic-bezier(.22, 1.35, .42, 1), background-color .62s ease, box-shadow .62s ease;
+}
+#acompanamientos:has(#courses-tab[aria-selected="true"]) .category-tabs::before {
+  transform: translateX(100%);
+  background: #3e7c88;
+  box-shadow: 0 .15rem .45rem rgba(36, 70, 76, .2);
 }
 
 #acompanamientos .service-grid { overflow-y: visible; padding-block: clamp(.4rem, 1.2vh, .8rem); scroll-padding-block: .8rem; }
@@ -152,12 +171,12 @@
 }
 #acompanamientos .service-card-action::before { content: "+ " !important; }
 #acompanamientos .category-tab {
-  transition: background-color .24s ease, color .24s ease, box-shadow .24s ease;
+  transition: color .35s ease !important;
 }
 #acompanamientos #courses-tab[aria-selected="true"] {
-  background: #3e7c88 !important;
+  background: transparent !important;
   color: #fcf8f0 !important;
-  box-shadow: 0 .15rem .45rem rgba(36, 70, 76, .2);
+  box-shadow: none !important;
 }
 #acompanamientos .service-grid.is-courses .service-card-action { color: #fcf8f0 !important; }
 
@@ -233,37 +252,6 @@
   #acompanamientos .service-card-name { font-size: clamp(2.1rem, 10vw, 3.25rem) !important; }
   #acompanamientos .service-grid.is-courses .service-card::after {
     background: linear-gradient(180deg, transparent 0%, rgba(121, 82, 77, .22) 38%, rgba(47, 37, 48, .94) 100%) !important;
-  }
-
-  #acompanamientos .category-tabs {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    padding: .22rem;
-    border-color: rgba(134, 99, 51, .25);
-    background: rgba(255, 252, 246, .78) !important;
-  }
-  #acompanamientos .category-tabs::before {
-    position: absolute;
-    z-index: -1;
-    inset: .22rem auto .22rem .22rem;
-    width: calc(50% - .22rem);
-    border-radius: .55rem;
-    background: #866333;
-    content: "";
-    transition: transform .62s cubic-bezier(.22, 1.35, .42, 1), background-color .62s ease;
-  }
-  #acompanamientos .category-tab {
-    position: relative;
-    z-index: 1;
-    background: transparent !important;
-    color: #665a4e !important;
-    transition: color .35s ease !important;
-  }
-  #acompanamientos .category-tab[aria-selected="true"] { color: #fffaf2 !important; box-shadow: none !important; }
-  #acompanamientos:has(#courses-tab[aria-selected="true"]) .category-tabs::before {
-    transform: translateX(100%);
-    background: #3e7c88;
   }
 
   body.editorial-preview #inicio .home-layout { justify-items: center; }
