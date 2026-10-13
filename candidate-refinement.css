@@ -148,7 +148,7 @@
     font-weight: 600;
     letter-spacing: .03em;
   }
-  #acompanamientos .service-card-action::after { content: "↗"; }
+  #acompanamientos .service-card-action::after { content: "✦"; }
 
   body.editorial-preview #tucontu.view > .view-inner.tucontu-layout {
     width: min(calc(100% - clamp(3rem, 8vw, 8rem)), 88rem);
@@ -278,9 +278,9 @@
 @media (min-width: 68.8125rem) {
   body.editorial-preview #acompanamientos .service-grid.is-courses {
     width: 100%;
-    max-width: min(100%, 82rem);
+    max-width: min(100%, 54rem);
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-inline: 0;
+    margin-inline: auto;
   }
 }
 
@@ -1923,9 +1923,9 @@ body.editorial-preview #tucontu .tucontu-actions .button { min-height: 2.75rem; 
   }
   #acompanamientos .service-card {
     position: relative;
-    flex: 0 0 100% !important;
+    flex: 0 0 76%;
     width: 100%;
-    max-width: none !important;
+    max-width: none;
     height: 100%;
     min-height: 0;
     border: 1px solid rgba(200,161,90,.38);

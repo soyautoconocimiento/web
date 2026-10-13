@@ -82,7 +82,15 @@
   let aboutPassageIndex = 0;
   function showAboutPassage(index) {
     aboutPassageIndex = Math.max(0, Math.min(index, aboutPassages.length - 1));
-    aboutPassages.forEach((passage, passageIndex) => { passage.hidden = passageIndex !== aboutPassageIndex; });
+    aboutPassages.forEach((passage, passageIndex) => {
+      passage.hidden = passageIndex !== aboutPassageIndex;
+      passage.classList.remove('is-revealing');
+    });
+    const activePassage = aboutPassages[aboutPassageIndex];
+    if (aboutDialog.open && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      void activePassage.offsetWidth;
+      activePassage.classList.add('is-revealing');
+    }
     aboutReadingPrevious.disabled = aboutPassageIndex === 0;
     aboutReadingNext.disabled = aboutPassageIndex === aboutPassages.length - 1;
     aboutReadingPosition.textContent = `${String(aboutPassageIndex + 1).padStart(2, '0')} / ${String(aboutPassages.length).padStart(2, '0')}`;
@@ -111,9 +119,19 @@
     professionalEnding.textContent = secondProfessionalPart;
     const invitation = document.createElement('blockquote');
     invitation.textContent = aboutQuote.textContent;
-    const signoff = aboutSignoff.cloneNode(true);
-    const signature = aboutSignature.cloneNode(true);
-    finalPassage.append(professionalEnding, invitation, signoff, signature);
+    const closing = document.createElement('p');
+    closing.className = 'about-mobile-closing';
+    const farewell = document.createElement('span');
+    farewell.textContent = `${aboutSignoff.textContent.trim()},`;
+    const signature = document.createElement('span');
+    signature.className = 'about-mobile-signature';
+    signature.textContent = aboutSignature.textContent.trim();
+    const rose = document.createElement('span');
+    rose.className = 'about-mobile-rose';
+    rose.setAttribute('aria-hidden', 'true');
+    rose.textContent = '🌹';
+    closing.append(farewell, signature, rose);
+    finalPassage.append(professionalEnding, invitation, closing);
     aboutPassages = [firstPassage, finalPassage];
     aboutMobileStep.replaceChildren(...aboutPassages);
     showAboutPassage(0);
@@ -349,6 +367,7 @@
     closeMenu();
     aboutTrigger = aboutOpen;
     aboutDialog.showModal();
+    if (aboutMobileViewport.matches) showAboutPassage(aboutPassageIndex);
     scheduleLayoutCheck();
   });
   aboutClose.addEventListener('click', () => aboutCloseController.requestClose());
@@ -405,7 +424,7 @@
     }, { passive: false });
     let touchStart = null;
     stage.addEventListener('touchstart', event => {
-      if (event.touches.length !== 1 || event.target.closest('a,button,input,textarea,select,[role="tab"]')) {
+      if (event.touches.length !== 1 || event.target.closest('a,button:not(.service-card),input,textarea,select,[role="tab"]')) {
         touchStart = null;
         return;
       }
@@ -466,6 +485,8 @@
     if (!cards.length) return;
     const index = cards.reduce((best, card, cardIndex) =>
       Math.abs(card.offsetLeft - serviceGrid.scrollLeft) < Math.abs(cards[best].offsetLeft - serviceGrid.scrollLeft) ? cardIndex : best, 0);
+    serviceGrid.classList.toggle('is-at-start', index === 0);
+    serviceGrid.classList.toggle('is-at-end', index === cards.length - 1);
     serviceRailCount.textContent = `${String(index + 1).padStart(2, '0')} / ${String(cards.length).padStart(2, '0')}`;
     const travel = Math.max(0, serviceRailTrack.clientWidth - serviceRailProgress.offsetWidth);
     const fraction = cards.length < 2 ? 0 : index / (cards.length - 1);
@@ -589,7 +610,7 @@
       title.textContent = offerTitle(offer);
       const action = document.createElement('span');
       action.className = 'service-card-action';
-      action.textContent = 'Explorar';
+      action.textContent = 'CONOCER';
       body.append(title, action);
       card.append(visual, body);
       card.addEventListener('click', () => openOffer(offer, card));
@@ -608,6 +629,19 @@
     if (renderVersion !== offerRenderVersion) return;
     serviceGrid.replaceChildren(...cards);
     serviceGrid.classList.toggle('is-courses', category === 'courses');
+    serviceGrid.scrollTop = 0;
+    if (category === 'services' && matchMedia('(max-width: 68.75rem)').matches && cards.length) {
+      const middleCard = cards[Math.floor(cards.length / 2)];
+      requestAnimationFrame(() => {
+        if (renderVersion !== offerRenderVersion) return;
+        const gridBounds = serviceGrid.getBoundingClientRect();
+        const cardBounds = middleCard.getBoundingClientRect();
+        serviceGrid.scrollLeft += cardBounds.left - gridBounds.left - (gridBounds.width - cardBounds.width) / 2;
+        updateServiceRailPosition();
+      });
+    } else {
+      serviceGrid.scrollLeft = 0;
+    }
     updateServiceRailPosition();
     scheduleLayoutCheck();
   }

@@ -1097,6 +1097,7 @@ body.editorial-preview #inicio .home-layout { min-height: calc(100dvh - var(--he
 .services-eyebrow-mobile,
 .services-more-mobile,
 .about-mobile-reader { display: none; }
+@keyframes home-arrow-float { 50% { transform: translateY(0.25rem); } }
 @media (max-width: 47.5rem) {
   
   
@@ -1126,8 +1127,6 @@ body.editorial-preview #inicio .home-layout { min-height: calc(100dvh - var(--he
     text-decoration: none;
   }
   body.editorial-preview #inicio .home-more-mobile svg { width: 1.125rem; height: 1.125rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; animation: home-arrow-float 1.8s ease-in-out infinite; }
-  @keyframes home-arrow-float { 50% { transform: translateY(0.25rem); } }
-
   #acompanamientos .services-layout { display: flex; height: calc(100dvh - var(--header-height)); min-height: calc(100dvh - var(--header-height)); flex-direction: column; padding-block: clamp(1rem, 3svh, 1.5rem); }
   #acompanamientos .section-heading { margin-bottom: clamp(0.375rem, 1svh, 0.75rem); }
   #acompanamientos .section-heading h2 { font-size: clamp(2.5rem, 9vw, 3.5rem); }
@@ -1360,39 +1359,6 @@ body.editorial-preview #inicio .home-layout { min-height: calc(100dvh - var(--he
     margin: 0;
   }
 }
-
-/* BEGIN RESPONSIVE LAB VISUAL PROPOSAL */
-/* RESPONSIVE-LAB-BASE64:Cg== */
-@media (max-width: 47.5rem) {
-#home-title {
-  translate: 0px -32px !important;
-  font-size: 64.41px !important;
-}
-
-#home-lead {
-  translate: 0px -34px !important;
-  font-size: 43.0267px !important;
-}
-
-div.home-visual {
-  translate: 0px -32px !important;
-  height: 204px !important;
-}
-
-div.arch-frame {
-  translate: 0px 11px !important;
-  height: 219px !important;
-}
-
-a.home-more-mobile {
-  translate: 0px 64px !important;
-}
-
-#hero-floral-link {
-  translate: 0px 11px !important;
-}
-}
-/* END RESPONSIVE LAB VISUAL PROPOSAL */
 
 /* TEXTURA MINERAL Y LUZ CONTINUA DE PIEDRA CALIZA / TRAVERTINO EN MÓVIL */
 @media (max-width: 47.5rem) {
@@ -1711,6 +1677,61 @@ body.editorial-preview .view::after {
 .tucontu-gallery-dialog .tucontu-history-panel::before {
   left: clamp(.5rem,2vw,1.25rem);
   opacity: .5;
+}
+
+@media (min-width: 47.5625rem) {
+  body.editorial-preview #inicio .home-actions .button-outline { display: none; }
+  body.editorial-preview #inicio .home-more-mobile {
+    display: flex;
+    width: max-content;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    margin-top: clamp(.5rem, 1.5vh, .875rem);
+    padding: .25rem .5rem;
+    color: var(--gold-text);
+    font-size: .875rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  body.editorial-preview #inicio .home-more-mobile svg {
+    width: 1.125rem;
+    height: 1.125rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: home-arrow-float 1.8s ease-in-out infinite;
+  }
+  body.editorial-preview #acompanamientos .services-layout {
+    display: flex;
+    flex-direction: column;
+  }
+  body.editorial-preview #acompanamientos .services-more-mobile {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    align-self: center;
+    margin-top: auto;
+    padding: .25rem .5rem;
+    color: var(--gold-text);
+    font-size: .875rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+  }
+  body.editorial-preview #acompanamientos .services-more-mobile svg {
+    width: 1.125rem;
+    height: 1.125rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
 }
 
 /* Mobile review: rebalance the opening, align section labels and calm the product photos. */
@@ -2232,4 +2253,38 @@ body.editorial-preview #tucontu .tucontu-actions .button {
   text-align: justify;
   text-align-last: start;
   hyphens: auto;
+}
+
+/* Keep both section cues aligned to one shared bottom anchor. */
+body.editorial-preview {
+  --section-cue-inset: .875rem;
+}
+body.editorial-preview #inicio .home-more-mobile,
+body.editorial-preview #acompanamientos .services-more-mobile {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  bottom: var(--section-cue-inset);
+  left: 50%;
+  margin: 0;
+  padding: .25rem .5rem;
+  transform: translateX(-50%);
+}
+body.editorial-preview #inicio .home-note {
+  position: absolute;
+  z-index: 3;
+  bottom: var(--section-cue-inset);
+  left: 0;
+  margin: 0;
+  padding: 0;
+}
+@media (max-width: 47.5rem) {
+  body.editorial-preview #inicio .home-note {
+    display: none;
+  }
+}
+@media (min-width: 47.5625rem) and (max-width: 68.75rem) {
+  body.editorial-preview #inicio .home-note {
+    display: none;
+  }
 }
