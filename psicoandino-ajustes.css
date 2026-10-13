@@ -160,8 +160,9 @@
 
 @media (max-width: 47.5rem) {
   #acompanamientos .section-heading { width: 100%; }
-  #acompanamientos .section-heading h2 { width: 100%; font-size: clamp(1.2rem, 5.7vw, 2rem) !important; text-align: right; }
-  #acompanamientos .section-heading h2 em { margin-top: .18rem; font-size: clamp(1rem, 4vw, 1.4rem); }
+  #acompanamientos .section-heading { justify-content: center; }
+  #acompanamientos .section-heading > div { width: 100%; }
+  #acompanamientos .section-heading h2 { width: 100%; font-size: clamp(1.2rem, 5.7vw, 2rem) !important; text-align: center; }
   #acompanamientos .category-tabs { margin-inline: auto !important; }
   #acompanamientos .category-tab { min-width: clamp(6rem, 35vw, 8rem) !important; min-height: 2.75rem !important; }
   #acompanamientos .service-grid { padding-block: .65rem; scroll-padding-block: .65rem; }
@@ -360,12 +361,9 @@ body.editorial-preview .site-header .nav-modal-trigger { font-size: clamp(.75rem
   body.editorial-preview #inicio .home-actions #hero-floral-link { font-size: clamp(.82rem, .95vw, 1rem); font-weight: 500; letter-spacing: .035em; }
   body.editorial-preview #inicio .home-note { left: clamp(1rem, 4vw, 5rem); bottom: clamp(1.5rem, 4vh, 3.5rem); font-size: clamp(1.2rem, 1.8vw, 1.6rem); }
   body.editorial-preview #acompanamientos .services-layout { padding-top: clamp(1rem, 2.5vh, 2rem); }
-  body.editorial-preview #acompanamientos .section-heading { margin-bottom: 0; }
-  body.editorial-preview #acompanamientos .section-heading > div { display: flex; align-items: baseline; gap: clamp(.45rem, 1.2vw, .9rem); }
-  body.editorial-preview #acompanamientos .bazar-eyebrow { display: inline-block; margin: 0; font-size: clamp(.7rem, .85vw, .82rem); letter-spacing: .12em; }
-  body.editorial-preview #acompanamientos .section-heading h2 { margin: 0; }
-  body.editorial-preview #acompanamientos .services-heading-primary { display: inline; }
-  body.editorial-preview #acompanamientos .section-heading h2 em { display: inline; margin: 0 0 0 .3em; text-align: left; }
+  body.editorial-preview #acompanamientos .section-heading { justify-content: center; margin-bottom: 0; }
+  body.editorial-preview #acompanamientos .section-heading > div { display: flex; justify-content: center; }
+  body.editorial-preview #acompanamientos .section-heading h2 { margin: 0; text-align: center; }
   body.editorial-preview #acompanamientos .category-tabs { margin-block: clamp(.2rem, .6vh, .5rem) !important; }
   body.editorial-preview #acompanamientos .service-grid { min-height: 0; }
   body.editorial-preview .service-card--full-bleed .service-card-cta { text-transform: none; font-size: clamp(.7rem, .85vw, .9rem); letter-spacing: .04em; }
