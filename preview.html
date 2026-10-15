@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Dispositivos & Editor · SoyAutoconocimiento</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/lora-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/marcellus-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="preview.css?v=20261015-editorial-autor-1">
+  <link rel="stylesheet" href="css/soy-cards-modal.css?v=20261015-unified-1">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --c-navy: #14283c;
+      --c-gold: #8d6c36;
+      --c-gold-light: #c6a25e;
+      --c-bg: #121922;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Lora', Georgia, serif;
+      --font-ui: 'Marcellus', Georgia, serif;
+    }
+
+    body {
+      background: var(--c-bg);
+      color: #fffdfa;
+      font-family: var(--font-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* BARRA SUPERIOR (HUD) */
+    .sim-dock {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(20, 40, 60, .96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(141, 108, 54, .35);
+      padding: .6rem 1.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .4);
+      transition: transform .3s ease;
+    }
+
+    body.hud-collapsed .sim-dock {
+      transform: translateY(-100%);
+    }
+
+    .sim-brand {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      font-family: var(--font-ui);
+      font-size: .85rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--c-gold-light);
+      font-weight: 700;
+    }
+
+    .sim-device-group {
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+      background: rgba(0, 0, 0, .3);
+      padding: .25rem .35rem;
+      border-radius: 2rem;
+      border: 1px solid rgba(255, 255, 255, .1);
+    }
+
+    .sim-dev-btn {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, .7);
+      padding: .4rem .9rem;
+      border-radius: 2rem;
+      font-family: var(--font-ui);
+      font-size: .78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      transition: all .2s ease;
+    }
+
+    .sim-dev-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, .08);
+    }
+
+    .sim-dev-btn.is-active {
+      background: var(--c-gold);
+      color: #fffdfa;
+      box-shadow: 0 2px 8px rgba(141, 108, 54, .4);
+    }
+
+    .sim-device-select {
+      background: rgba(14, 25, 38, .85);
+      border: 1px solid rgba(141, 108, 54, .5);
+      color: #fffdfa;
+      padding: .35rem .75rem;
+      border-radius: 2rem;
+      font-family: var(--font-ui);
+      font-size: .78rem;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      transition: all .2s ease;
+      margin-left: .25rem;
+    }
+
+    .sim-device-select:hover, .sim-device-select:focus {
+      border-color: var(--c-gold-light);
+      background: rgba(20, 40, 60, 1);
+    }
+
+    .sim-device-select optgroup {
+      background: #14283c;
+      color: var(--c-gold-light);
+      font-weight: 700;
+      font-family: var(--font-ui);
+    }
+
+    .sim-device-select option {
+      background: #121922;
+      color: #fffdfa;
+      font-weight: 400;
+      font-family: sans-serif;
+    }
+
+    .sim-tools {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    .sim-dim-pill {
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      letter-spacing: .06em;
+      color: rgba(255, 255, 255, .6);
+      background: rgba(255, 255, 255, .06);
+      padding: .35rem .75rem;
+      border-radius: 2rem;
+      border: 1px solid rgba(255, 255, 255, .1);
+    }
+
+    .sim-action-btn {
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .2);
+      color: #fff;
+      padding: .4rem .85rem;
+      border-radius: 2rem;
+      font-family: var(--font-ui);
+      font-size: .76rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all .2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+    }
+
+    .sim-action-btn:hover {
+      background: rgba(255, 255, 255, .18);
+    }
+
+    .sim-action-btn.btn-editor {
+      background: #2b4c6f;
+      border-color: #48729e;
+      color: #fff;
+    }
+
+    /* PESTAÑAS DE VISTA: SITIO COMPLETO VS BIBLIOTECA */
+    .sim-subnav {
+      background: rgba(20, 40, 60, .85);
+      border-bottom: 1px solid rgba(141, 108, 54, .25);
+      padding: .4rem 1.2rem;
+      display: flex;
+      gap: .8rem;
+    }
+
+    .sim-tab-link {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, .7);
+      font-family: var(--font-ui);
+      font-size: .76rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .3rem .8rem;
+      border-radius: .4rem;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+
+    .sim-tab-link.is-active {
+      color: var(--c-gold-light);
+      background: rgba(141, 108, 54, .2);
+      font-weight: 700;
+    }
+
+    /* ESCENARIO DEL SIMULADOR */
+    .sim-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 2rem 1rem 3.5rem;
+      min-height: calc(100vh - 4.5rem);
+      overflow-y: auto;
+    }
+
+    .sim-scaler {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-origin: top center;
+      transition: transform .3s cubic-bezier(.16, 1, .3, 1);
+      width: 100%;
+    }
+
+    .sim-frame-wrapper {
+      position: relative;
+      background: #000;
+      transition: width .35s cubic-bezier(.16, 1, .3, 1), height .35s cubic-bezier(.16, 1, .3, 1), border-radius .35s ease;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, .7);
+    }
+
+    /* Biseles de hardware */
+    .sim-frame-wrapper.mode-bezel {
+      border: 12px solid #28313a;
+      border-radius: 2.8rem;
+    }
+
+    .sim-bezel-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 24px;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .sim-notch {
+      width: 120px;
+      height: 18px;
+      background: #28313a;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .sim-notch-lens {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #111;
+      border: 1px solid #333;
+    }
+
+    .sim-notch-speaker {
+      width: 38px;
+      height: 4px;
+      border-radius: 2px;
+      background: #1a1a1a;
+    }
+
+    /* El Iframe que corre index.html con viewport 100% nativo */
+    .sim-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      background: #fffdfa;
+      border-radius: inherit;
+    }
+
+    /* DRAWER LATERAL DE EDICIÓN */
+    .sim-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(34rem, 95vw);
+      background: #fffdfa;
+      color: var(--c-navy);
+      border-left: 1px solid rgba(141, 108, 54, .35);
+      box-shadow: -8px 0 35px rgba(0, 0, 0, .35);
+      z-index: 2000;
+      transform: translateX(100%);
+      transition: transform .35s cubic-bezier(.16, 1, .3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sim-drawer.is-open {
+      transform: translateX(0);
+    }
+
+    .sim-drawer-header {
+      padding: 1.1rem 1.4rem;
+      background: var(--c-navy);
+      color: #fffdfa;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sim-drawer-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      margin: 0;
+    }
+
+    .sim-drawer-close {
+      background: none;
+      border: none;
+      color: #fffdfa;
+      font-size: 1.8rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .drawer-tabs {
+      display: flex;
+      border-bottom: 1px solid rgba(141, 108, 54, .25);
+      background: rgba(20, 40, 60, .03);
+    }
+
+    .drawer-tab-btn {
+      flex: 1;
+      padding: .75rem .4rem;
+      border: none;
+      background: transparent;
+      font-family: var(--font-ui);
+      font-size: .74rem;
+      font-weight: 700;
+      color: var(--c-navy);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all .2s ease;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      text-align: center;
+    }
+
+    .drawer-tab-btn:hover {
+      background: rgba(141, 108, 54, .08);
+    }
+
+    .drawer-tab-btn.is-active {
+      color: var(--c-gold);
+      border-bottom-color: var(--c-gold);
+      background: #fffdfa;
+    }
+
+    .drawer-tab-content {
+      display: none;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .drawer-tab-content.is-active {
+      display: flex;
+    }
+
+    .sim-drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sim-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+    }
+
+    .sim-field-group label {
+      font-family: var(--font-ui);
+      font-size: .8rem;
+      font-weight: 700;
+      color: var(--c-navy);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .sim-input, .sim-textarea, .sim-select {
+      border: 1px solid rgba(141, 108, 54, .35);
+      border-radius: .4rem;
+      padding: .65rem .85rem;
+      font-family: var(--font-body);
+      font-size: .95rem;
+      background: #fff;
+      color: #2b231a;
+      width: 100%;
+    }
+
+    .sim-input:focus, .sim-textarea:focus, .sim-select:focus {
+      border-color: var(--c-gold);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(141, 108, 54, .2);
+    }
+
+    .sim-drawer-footer {
+      padding: 1rem 1.4rem;
+      background: #f5efe6;
+      border-top: 1px solid rgba(141, 108, 54, .25);
+      display: flex;
+      justify-content: space-between;
+      gap: .8rem;
+    }
+
+    /* BOTÓN FLOTANTE PARA RESTABLECER HUD CUANDO SE OCULTA */
+    .hud-unhide-btn {
+      position: fixed;
+      bottom: 1.2rem;
+      right: 1.2rem;
+      z-index: 999;
+      background: rgba(20, 40, 60, .9);
+      color: var(--c-gold-light);
+      border: 1px solid rgba(141, 108, 54, .4);
+      padding: .5rem 1rem;
+      border-radius: 2rem;
+      font-family: var(--font-ui);
+      font-size: .75rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-weight: 700;
+      cursor: pointer;
+      display: none;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, .4);
+    }
+
+    body.hud-collapsed .hud-unhide-btn {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BARRA DE CONTROL DEL HARDWARE (HUD) -->
+  <aside class="sim-dock" id="sim-dock">
+    <div class="sim-brand">
+      <span>SoyAutoconocimiento · Simulador Nativo</span>
+    </div>
+
+    <div class="sim-device-group">
+      <button type="button" class="sim-dev-btn is-active" data-dev="mobile" title="iPhone 14 / 15">📱 Móvil</button>
+      <button type="button" class="sim-dev-btn" data-dev="tablet" title="iPad Mini Portrait">📱 Tablet</button>
+      <button type="button" class="sim-dev-btn" data-dev="tablet-landscape" title="iPad Landscape">🔄 1024</button>
+      <button type="button" class="sim-dev-btn" data-dev="desktop" title="MacBook / Desktop">🖥️ PC</button>
+      <button type="button" class="sim-dev-btn" data-dev="fluid" title="100% Fluido">🌊 Fluido</button>
+
+      <select id="sim-device-picker" class="sim-device-select" aria-label="Elegir dispositivo específico">
+        <optgroup label="📱 Teléfonos Móviles">
+          <option value="iphone-se">iPhone SE · 375 × 667</option>
+          <option value="mobile" selected>iPhone 14 / 15 · 390 × 844</option>
+          <option value="iphone-pro-max">iPhone 15 Pro Max · 430 × 932</option>
+          <option value="galaxy-s21">Samsung Galaxy · 360 × 800</option>
+          <option value="pixel-8">Google Pixel 7/8 · 412 × 915</option>
+        </optgroup>
+        <optgroup label="📟 Tablets & iPads">
+          <option value="tablet">iPad Mini · 768 × 1024</option>
+          <option value="ipad-air">iPad Air / 10ª Gen · 820 × 1180</option>
+          <option value="ipad-pro-11">iPad Pro 11" · 834 × 1194</option>
+          <option value="tablet-landscape">iPad Landscape · 1024 × 768</option>
+          <option value="ipad-pro-12-p">iPad Pro 12.9" Portrait · 1024 × 1366</option>
+        </optgroup>
+        <optgroup label="🖥️ Laptops & Escritorios">
+          <option value="laptop-1280">Laptop Compacta 13" · 1280 × 800</option>
+          <option value="desktop">MacBook Pro 14" · 1440 × 900</option>
+          <option value="fhd-1080">Monitor Full HD · 1920 × 1080</option>
+        </optgroup>
+        <optgroup label="🌊 Ventana Libre">
+          <option value="fluid">100% Fluido (Sin marco)</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="sim-tools">
+      <button type="button" class="sim-action-btn" id="btn-rotate" title="Rotar orientación 90°">🔄 Rotar</button>
+      <span class="sim-dim-pill" id="dim-pill">390 × 844 px · Móvil (iPhone 14)</span>
+      <button type="button" class="sim-action-btn btn-editor" id="btn-open-editor">✏️ Editor (Tecla E)</button>
+      <button type="button" class="sim-action-btn" id="btn-hide-hud" title="Ocultar barra de controles (Tecla H)">Ocultar HUD (H)</button>
+      <a href="index.html" class="sim-action-btn" target="_blank" title="Abrir sitio real en pestaña nueva">Sitio Vivo ↗</a>
+    </div>
+  </aside>
+
+  <!-- PESTAÑAS DE VISTA -->
+  <nav class="sim-subnav">
+    <button type="button" class="sim-tab-link is-active" id="tab-site" onclick="switchMainView('site')">🌐 Sitio Completo (index.html)</button>
+    <a href="tarjetas.html" class="sim-tab-link" style="text-decoration:none;">🎨 Galería y Biblioteca de Tarjetas (5 Estilos) ↗</a>
+  </nav>
+
+  <!-- ESCENARIO DEL SIMULADOR -->
+  <main class="sim-stage">
+    <div class="sim-scaler" id="sim-scaler">
+      <div class="sim-frame-wrapper mode-bezel" id="frame-wrapper" style="width: 390px; height: 844px;">
+        
+        <!-- Notching superior para móvil -->
+        <div class="sim-bezel-top" id="bezel-top">
+          <div class="sim-notch">
+            <span class="sim-notch-lens"></span>
+            <span class="sim-notch-speaker"></span>
+          </div>
+        </div>
+
+        <!-- El Iframe que carga index.html con viewport 100% real -->
+        <iframe class="sim-iframe" id="site-frame" src="index.html" title="Vista previa en vivo de SoyAutoconocimiento"></iframe>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- BOTÓN FLOTANTE SI EL HUD ESTÁ OCULTO -->
+  <button type="button" class="hud-unhide-btn" id="btn-unhide-hud">Mostrar Controles (Tecla H)</button>
+
+  <!-- DRAWER DE EDICIÓN EN VIVO -->
+  <aside class="sim-drawer" id="sim-drawer" aria-label="Editor de contenidos">
+    <div class="sim-drawer-header">
+      <h3 class="sim-drawer-title">Editor de Contenidos en Tiempo Real</h3>
+      <button type="button" class="sim-drawer-close" id="drawer-close">×</button>
+    </div>
+
+    <!-- Pestañas del Editor -->
+    <div class="drawer-tabs">
+      <button type="button" class="drawer-tab-btn is-active" data-drawer-tab="hero">1 · Portada (Hero)</button>
+      <button type="button" class="drawer-tab-btn" data-drawer-tab="cards">2 · Tarjetas (Bazar)</button>
+      <button type="button" class="drawer-tab-btn" data-drawer-tab="modal">3 · Modal & WhatsApp</button>
+    </div>
+
+    <div class="sim-drawer-body">
+      <!-- PESTAÑA 1: HERO -->
+      <div class="drawer-tab-content is-active" id="tab-content-hero">
+        <div class="sim-field-group">
+          <label for="ed-hero-select">Acompañamiento Protagonista en el Hero:</label>
+          <select id="ed-hero-select" class="sim-select"></select>
+          <small style="color:var(--c-gold); font-size:.8rem;">* La oferta del Hero se excluye automáticamente del Bazar.</small>
+        </div>
+
+        <div class="sim-field-group">
+          <label for="ed-hero-title">Título del Hero:</label>
+          <input type="text" id="ed-hero-title" class="sim-input">
+        </div>
+
+        <div class="sim-field-group">
+          <label for="ed-hero-lead">Bajada del Hero (Lead):</label>
+          <input type="text" id="ed-hero-lead" class="sim-input">
+        </div>
+
+        <div class="sim-field-group">
+          <label for="ed-hero-body">Cuerpo de Texto (Escritorio / Tablet):</label>
+          <textarea id="ed-hero-body" class="sim-textarea" rows="3"></textarea>
+        </div>
+
+        <div class="sim-field-group">
+          <label for="ed-hero-body-mobile">Cuerpo de Texto (Versión Móvil):</label>
+          <textarea id="ed-hero-body-mobile" class="sim-textarea" rows="2"></textarea>
+          <small style="color:var(--c-gold); font-size:.78rem;">* Texto sintetizado que permite a la portada calzar en 100dvh móvil.</small>
+        </div>
+
+        <div class="sim-field-group">
+          <label for="ed-hero-quote">Cita sobre la Imagen:</label>
+          <input type="text" id="ed-hero-quote" class="sim-input">
+        </div>
+      </div>
+
+      <!-- PESTAÑA 2: TARJETAS (BAZAR) -->
+      <div class="drawer-tab-content" id="tab-content-cards">
+        <div class="sim-field-group">
+          <label for="ed-style-select">Estilo Visual de Tarjetas en el Bazar:</label>
+          <select id="ed-style-select" class="sim-select">
+            <option value="atelier">1 · Lámina Atelier (Editorial & Botánica)</option>
+            <option value="portal">2 · Portal Arquetípico (Arco Sagrado)</option>
+            <option value="notebook">3 · Cuaderno de Sabiduría (Nota & Cita)</option>
+            <option value="alchemy">4 · Atmósfera Alquímica (Noche & Oro)</option>
+            <option value="baseline">0 · Baseline Actual en Sitio</option>
+          </select>
+        </div>
+
+        <div class="sim-field-group">
+          <label for="ed-card-offer-select">Oferta a editar en tarjeta:</label>
+          <select id="ed-card-offer-select" class="sim-select"></select>
+        </div>
+
+        <div class="sim-field-group">
+          <label for="ed-card-title">Título de la Tarjeta:</label>
+          <input type="text" id="ed-card-title" class="sim-input">
+        </div>
+
+        <div class="sim-field-group">
+          <label for="ed-card-kicker">Kicker / Categoría superior:</label>
+          <input type="text" id="ed-card-kicker" class="sim-input">
+        </div>
+
+        <div class="sim-field-group">
+          <label for="ed-card-desc">Descripción estándar (Escritorio / Tablet):</label>
+          <textarea id="ed-card-desc" class="sim-textarea" rows="3"></textarea>
+        </div>
+
+        <div class="sim-field-group">
+          <label for="ed-card-desc-mobile">Descripción concisa para Móvil:</label>
+          <textarea id="ed-card-desc-mobile" class="sim-textarea" rows="2"></textarea>
+          <small style="color:var(--c-gold); font-size:.78rem;">* Mantiene la tarjeta compacta y ágil en pantallas móviles.</small>
+        </div>
+
+        <div class="sim-field-group">
+          <label for="ed-card-duration">Duración / Formato:</label>
+          <input type="text" id="ed-card-duration" class="sim-input">
+        </div>
+      </div>
+
+      <!-- PESTAÑA 3: MODAL & WHATSAPP -->
+      <div class="drawer-tab-content" id="tab-content-modal">
+        <div class="sim-field-group">
+          <label for="ed-modal-offer-select">Oferta a editar en modal:</label>
+          <select id="ed-modal-offer-select" class="sim-select"></select>
+        </div>
+
+        <div class="sim-field-group">
+          <label for="ed-modal-quote">Cita reflexiva en modal:</label>
+          <textarea id="ed-modal-quote" class="sim-textarea" rows="2"></textarea>
+        </div>
+
+        <div class="sim-field-group">
+          <label for="ed-modal-desc">Descripción completa del proceso:</label>
+          <textarea id="ed-modal-desc" class="sim-textarea" rows="5"></textarea>
+        </div>
+
+        <div class="sim-field-group">
+          <label for="ed-modal-detailnote">Detalle de valor / fórmula:</label>
+          <input type="text" id="ed-modal-detailnote" class="sim-input">
+        </div>
+
+        <div class="sim-field-group">
+          <label for="ed-modal-agenda">URL de Agenda en Calendar:</label>
+          <input type="url" id="ed-modal-agenda" class="sim-input">
+        </div>
+
+        <div class="sim-field-group">
+          <label for="ed-modal-defaultmsg">Plantilla de mensaje WhatsApp:</label>
+          <textarea id="ed-modal-defaultmsg" class="sim-textarea" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="sim-drawer-footer">
+      <button type="button" class="sim-action-btn" id="btn-reset-content">Restablecer Valores</button>
+      <button type="button" class="sim-action-btn btn-editor" id="btn-drawer-done">Listo ✦</button>
+    </div>
+  </aside>
+
+  <script src="data/site-content.js?v=20261015-unified-1"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      const DEVICES = {
+        // Móviles
+        'iphone-se': { name: 'iPhone SE (3ª gen)', category: 'mobile', width: 375, height: 667, bezel: true, notch: false, radius: '2.2rem' },
+        'mobile': { name: 'iPhone 14 / 15', category: 'mobile', width: 390, height: 844, bezel: true, notch: true, radius: '2.8rem' },
+        'iphone-pro-max': { name: 'iPhone 15 Pro Max', category: 'mobile', width: 430, height: 932, bezel: true, notch: true, radius: '2.8rem' },
+        'galaxy-s21': { name: 'Samsung Galaxy S21 / S23', category: 'mobile', width: 360, height: 800, bezel: true, notch: false, radius: '2.2rem' },
+        'pixel-8': { name: 'Google Pixel 7 / 8', category: 'mobile', width: 412, height: 915, bezel: true, notch: false, radius: '2.4rem' },
+
+        // Tablets
+        'tablet': { name: 'iPad Mini (8.3")', category: 'tablet', width: 768, height: 1024, bezel: true, notch: false, radius: '1.8rem' },
+        'ipad-air': { name: 'iPad 10ª Gen / Air', category: 'tablet', width: 820, height: 1180, bezel: true, notch: false, radius: '1.8rem' },
+        'ipad-pro-11': { name: 'iPad Pro 11"', category: 'tablet', width: 834, height: 1194, bezel: true, notch: false, radius: '1.8rem' },
+        'tablet-landscape': { name: 'iPad 12.9" (Landscape)', category: 'tablet-landscape', width: 1024, height: 768, bezel: true, notch: false, radius: '1.8rem' },
+        'ipad-pro-12-p': { name: 'iPad Pro 12.9" (Portrait)', category: 'tablet', width: 1024, height: 1366, bezel: true, notch: false, radius: '1.8rem' },
+
+        // Escritorios & Laptops
+        'laptop-1280': { name: 'Laptop Compacta (13")', category: 'desktop', width: 1280, height: 800, bezel: true, notch: false, radius: '1.2rem' },
+        'desktop': { name: 'MacBook Pro 14" / Laptop (1440)', category: 'desktop', width: 1440, height: 900, bezel: true, notch: false, radius: '1.2rem' },
+        'fhd-1080': { name: 'Monitor Full HD (1080p)', category: 'desktop', width: 1920, height: 1080, bezel: true, notch: false, radius: '0.8rem' },
+
+        // Fluido
+        'fluid': { name: '100% Fluido (Ventana Libre)', category: 'fluid', width: null, height: null, bezel: false, notch: false, radius: '0' }
+      };
+
+      let currentDeviceKey = 'mobile';
+      let isRotated = false;
+      let isHudCollapsed = false;
+
+      const frameWrapper = document.getElementById('frame-wrapper');
+      const bezelTop = document.getElementById('bezel-top');
+      const dimPill = document.getElementById('dim-pill');
+      const scaler = document.getElementById('sim-scaler');
+      const siteFrame = document.getElementById('site-frame');
+
+      function setDevice(deviceKey) {
+        currentDeviceKey = deviceKey;
+        isRotated = false;
+        applyDeviceView();
+      }
+
+      function toggleRotate() {
+        if (currentDeviceKey === 'fluid') return;
+        isRotated = !isRotated;
+        applyDeviceView();
+      }
+
+      function applyDeviceView() {
+        const dev = DEVICES[currentDeviceKey] || DEVICES['mobile'];
+        const activeCat = dev.category || currentDeviceKey;
+
+        document.querySelectorAll('.sim-dev-btn').forEach(btn => {
+          btn.classList.toggle('is-active', btn.dataset.dev === currentDeviceKey || btn.dataset.dev === activeCat);
+        });
+
+        const picker = document.getElementById('sim-device-picker');
+        if (picker && picker.value !== currentDeviceKey) {
+          picker.value = currentDeviceKey;
+        }
+
+        if (!dev.width) {
+          // Modo Fluido 100%
+          frameWrapper.classList.remove('mode-bezel');
+          frameWrapper.style.width = '100%';
+          frameWrapper.style.maxWidth = '100%';
+          frameWrapper.style.height = 'calc(100vh - 8rem)';
+          frameWrapper.style.borderRadius = '0';
+          bezelTop.style.display = 'none';
+          dimPill.textContent = '100% Fluido · Ancho nativo';
+          scaler.style.transform = 'none';
+          scaler.style.marginBottom = '0';
+          return;
+        }
+
+        let w = dev.width;
+        let h = dev.height;
+
+        if (isRotated) {
+          const temp = w;
+          w = h;
+          h = temp;
+        }
+
+        frameWrapper.classList.toggle('mode-bezel', dev.bezel);
+        frameWrapper.style.width = w + 'px';
+        frameWrapper.style.maxWidth = w + 'px';
+        frameWrapper.style.height = h + 'px';
+        frameWrapper.style.borderRadius = dev.radius || (dev.bezel ? '2rem' : '0');
+
+        bezelTop.style.display = (dev.notch && !isRotated) ? 'flex' : 'none';
+
+        const rotLabel = isRotated ? ' (Rotado 🔄)' : '';
+        dimPill.textContent = `${w} × ${h} px · ${dev.name}${rotLabel}`;
+
+        // Escalar inteligentemente si no cabe en el viewport vertical/horizontal de la pantalla
+        const availableW = window.innerWidth - 40;
+        const availableH = window.innerHeight - 140;
+
+        let scale = 1;
+        if (w > availableW || h > availableH) {
+          const scaleW = availableW / w;
+          const scaleH = availableH / h;
+          scale = Math.min(scaleW, scaleH);
+        }
+
+        if (scale < 1) {
+          scaler.style.transform = `scale(${scale})`;
+          scaler.style.marginBottom = `${-(1 - scale) * h}px`;
+        } else {
+          scaler.style.transform = 'none';
+          scaler.style.marginBottom = '0';
+        }
+      }
+
+      function toggleHud() {
+        isHudCollapsed = !isHudCollapsed;
+        document.body.classList.toggle('hud-collapsed', isHudCollapsed);
+        setTimeout(applyDeviceView, 350);
+      }
+
+      // Eventos de dispositivo
+      document.querySelectorAll('.sim-dev-btn').forEach(btn => {
+        btn.onclick = () => setDevice(btn.dataset.dev);
+      });
+
+      const picker = document.getElementById('sim-device-picker');
+      if (picker) {
+        picker.onchange = (e) => setDevice(e.target.value);
+      }
+
+      document.getElementById('btn-rotate').onclick = toggleRotate;
+      document.getElementById('btn-hide-hud').onclick = toggleHud;
+      document.getElementById('btn-unhide-hud').onclick = toggleHud;
+
+      window.addEventListener('resize', applyDeviceView);
+
+      // Atajos de teclado
+      document.addEventListener('keydown', (e) => {
+        const isInput = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA';
+        if (isInput) return;
+
+        if (e.key === 'h' || e.key === 'H') {
+          e.preventDefault();
+          toggleHud();
+        }
+
+        if (e.key === 'e' || e.key === 'E') {
+          e.preventDefault();
+          toggleDrawer();
+        }
+
+        if (e.key === 'r' || e.key === 'R') {
+          e.preventDefault();
+          toggleRotate();
+        }
+      });
+
+      // DRAWER DE EDICIÓN
+      const drawer = document.getElementById('sim-drawer');
+      const btnOpenEditor = document.getElementById('btn-open-editor');
+      const drawerClose = document.getElementById('drawer-close');
+      const btnDrawerDone = document.getElementById('btn-drawer-done');
+
+      function toggleDrawer() {
+        drawer.classList.toggle('is-open');
+        if (drawer.classList.contains('is-open')) {
+          loadDrawerData();
+        }
+      }
+
+      btnOpenEditor.onclick = toggleDrawer;
+      drawerClose.onclick = toggleDrawer;
+      btnDrawerDone.onclick = toggleDrawer;
+
+      function loadDrawerData() {
+        if (!window.SoySiteContent) return;
+        const content = window.SoySiteContent.load();
+
+        // 1. Selector de Hero
+        const heroSelect = document.getElementById('ed-hero-select');
+        const cardSelect = document.getElementById('ed-card-offer-select');
+        const modalSelect = document.getElementById('ed-modal-offer-select');
+
+        heroSelect.innerHTML = '';
+        cardSelect.innerHTML = '';
+        modalSelect.innerHTML = '';
+
+        Object.values(content.offers).forEach(offer => {
+          const label = `${offer.title} (${offer.category === 'courses' ? 'Curso' : 'Servicio'})`;
+          
+          const optHero = document.createElement('option');
+          optHero.value = offer.id;
+          optHero.textContent = label;
+          optHero.selected = offer.id === content.settings.activeHeroId;
+          heroSelect.appendChild(optHero);
+
+          const optCard = document.createElement('option');
+          optCard.value = offer.id;
+          optCard.textContent = label;
+          cardSelect.appendChild(optCard);
+
+          const optModal = document.createElement('option');
+          optModal.value = offer.id;
+          optModal.textContent = label;
+          modalSelect.appendChild(optModal);
+        });
+
+        // 2. Estilo de tarjetas
+        const styleSelect = document.getElementById('ed-style-select');
+        styleSelect.value = content.settings.activeCardStyle || 'atelier';
+
+        // 3. Cargar datos del Hero activo
+        loadHeroFields(content.settings.activeHeroId);
+
+        // 4. Cargar datos de la primera tarjeta seleccionada
+        loadCardFields(cardSelect.value);
+
+        // 5. Cargar datos del primer modal seleccionado
+        loadModalFields(modalSelect.value);
+      }
+
+      function loadHeroFields(heroId) {
+        const content = window.SoySiteContent.load();
+        const activeHero = content.offers[heroId];
+        if (activeHero) {
+          document.getElementById('ed-hero-title').value = activeHero.title || '';
+          document.getElementById('ed-hero-lead').value = activeHero.heroLead || '';
+          document.getElementById('ed-hero-body').value = activeHero.heroBody || '';
+          document.getElementById('ed-hero-body-mobile').value = activeHero.heroBodyMobile || '';
+          document.getElementById('ed-hero-quote').value = activeHero.heroQuote || '';
+        }
+      }
+
+      function loadCardFields(cardId) {
+        const content = window.SoySiteContent.load();
+        const offer = content.offers[cardId];
+        if (offer) {
+          document.getElementById('ed-card-title').value = offer.title || '';
+          document.getElementById('ed-card-kicker').value = offer.kicker || offer.tag || '';
+          document.getElementById('ed-card-desc').value = offer.cardDesc || '';
+          document.getElementById('ed-card-desc-mobile').value = offer.cardDescMobile || '';
+          document.getElementById('ed-card-duration').value = offer.duration || '';
+        }
+      }
+
+      function loadModalFields(modalId) {
+        const content = window.SoySiteContent.load();
+        const offer = content.offers[modalId];
+        if (offer) {
+          document.getElementById('ed-modal-quote').value = offer.modalQuote || '';
+          document.getElementById('ed-modal-desc').value = offer.fullDesc || '';
+          document.getElementById('ed-modal-detailnote').value = offer.detailNote || '';
+          document.getElementById('ed-modal-agenda').value = offer.agendaUrl || '';
+          document.getElementById('ed-modal-defaultmsg').value = offer.defaultMsg || '';
+        }
+      }
+
+      function bindDrawerEvents() {
+        // Alternador de pestañas del drawer
+        drawer.querySelectorAll('.drawer-tab-btn').forEach(btn => {
+          btn.onclick = () => {
+            drawer.querySelectorAll('.drawer-tab-btn').forEach(b => b.classList.remove('is-active'));
+            drawer.querySelectorAll('.drawer-tab-content').forEach(c => c.classList.remove('is-active'));
+            btn.classList.add('is-active');
+            const targetContent = document.getElementById(`tab-content-${btn.dataset.drawerTab}`);
+            if (targetContent) targetContent.classList.add('is-active');
+          };
+        });
+
+        const heroSelect = document.getElementById('ed-hero-select');
+        const styleSelect = document.getElementById('ed-style-select');
+        const cardSelect = document.getElementById('ed-card-offer-select');
+        const modalSelect = document.getElementById('ed-modal-offer-select');
+
+        heroSelect.onchange = (e) => {
+          const content = window.SoySiteContent.load();
+          content.settings.activeHeroId = e.target.value;
+          window.SoySiteContent.save(content);
+          loadHeroFields(e.target.value);
+          refreshIframeContent();
+        };
+
+        styleSelect.onchange = (e) => {
+          const content = window.SoySiteContent.load();
+          content.settings.activeCardStyle = e.target.value;
+          window.SoySiteContent.save(content);
+          refreshIframeContent();
+        };
+
+        cardSelect.onchange = (e) => {
+          loadCardFields(e.target.value);
+        };
+
+        modalSelect.onchange = (e) => {
+          loadModalFields(e.target.value);
+        };
+
+        // Actualizadores de Hero
+        const updateHeroProp = (key, val) => {
+          const content = window.SoySiteContent.load();
+          const heroId = content.settings.activeHeroId;
+          if (content.offers[heroId]) {
+            content.offers[heroId][key] = val;
+            window.SoySiteContent.save(content);
+            refreshIframeContent();
+          }
+        };
+
+        document.getElementById('ed-hero-title').oninput = (e) => updateHeroProp('title', e.target.value);
+        document.getElementById('ed-hero-lead').oninput = (e) => updateHeroProp('heroLead', e.target.value);
+        document.getElementById('ed-hero-body').oninput = (e) => updateHeroProp('heroBody', e.target.value);
+        document.getElementById('ed-hero-body-mobile').oninput = (e) => updateHeroProp('heroBodyMobile', e.target.value);
+        document.getElementById('ed-hero-quote').oninput = (e) => updateHeroProp('heroQuote', e.target.value);
+
+        // Actualizadores de Tarjeta
+        const updateCardProp = (key, val) => {
+          const content = window.SoySiteContent.load();
+          const cardId = cardSelect.value;
+          if (content.offers[cardId]) {
+            content.offers[cardId][key] = val;
+            window.SoySiteContent.save(content);
+            refreshIframeContent();
+          }
+        };
+
+        document.getElementById('ed-card-title').oninput = (e) => updateCardProp('title', e.target.value);
+        document.getElementById('ed-card-kicker').oninput = (e) => updateCardProp('kicker', e.target.value);
+        document.getElementById('ed-card-desc').oninput = (e) => updateCardProp('cardDesc', e.target.value);
+        document.getElementById('ed-card-desc-mobile').oninput = (e) => updateCardProp('cardDescMobile', e.target.value);
+        document.getElementById('ed-card-duration').oninput = (e) => updateCardProp('duration', e.target.value);
+
+        // Actualizadores de Modal
+        const updateModalProp = (key, val) => {
+          const content = window.SoySiteContent.load();
+          const modalId = modalSelect.value;
+          if (content.offers[modalId]) {
+            content.offers[modalId][key] = val;
+            window.SoySiteContent.save(content);
+            refreshIframeContent();
+          }
+        };
+
+        document.getElementById('ed-modal-quote').oninput = (e) => updateModalProp('modalQuote', e.target.value);
+        document.getElementById('ed-modal-desc').oninput = (e) => updateModalProp('fullDesc', e.target.value);
+        document.getElementById('ed-modal-detailnote').oninput = (e) => updateModalProp('detailNote', e.target.value);
+        document.getElementById('ed-modal-agenda').oninput = (e) => updateModalProp('agendaUrl', e.target.value);
+        document.getElementById('ed-modal-defaultmsg').oninput = (e) => updateModalProp('defaultMsg', e.target.value);
+
+        document.getElementById('btn-reset-content').onclick = () => {
+          if (confirm('¿Restablecer los contenidos a los valores de fábrica?')) {
+            window.SoySiteContent.reset();
+            loadDrawerData();
+            refreshIframeContent();
+          }
+        };
+      }
+
+      function refreshIframeContent() {
+        try {
+          if (siteFrame.contentWindow && siteFrame.contentWindow.SoyUnifiedEngine) {
+            siteFrame.contentWindow.SoyUnifiedEngine.reloadContent();
+          } else {
+            siteFrame.contentWindow.location.reload();
+          }
+        } catch (e) {
+          siteFrame.src = 'index.html';
+        }
+      }
+
+      bindDrawerEvents();
+      setDevice('mobile'); // Iniciar por defecto en móvil para verificar de inmediato
+
+    })();
+  </script>
+</body>
+</html>

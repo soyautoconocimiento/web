@@ -1,0 +1,1738 @@
+/* ==========================================================================
+   PREVIEW BAZAR & EDITOR DE CONTENIDOS · SOYAUTOCONOCIMIENTO
+   ========================================================================== */
+
+/* Variables del Sistema */
+:root {
+  --bazar-navy: #14283c;
+  --bazar-gold: #8d6c36;
+  --bazar-gold-light: #c6a25e;
+  --bazar-sage: #566044;
+  --bazar-parchment: #fffdfa;
+  --bazar-ink: #2b231a;
+  --bazar-muted: #554a40;
+  --bazar-wa: #25d366;
+  --bazar-wa-dark: #128c7e;
+  --bazar-font-display: 'Cormorant Garamond', Georgia, serif;
+  --bazar-font-body: 'Lora', Georgia, serif;
+  --bazar-font-ui: 'Marcellus', Georgia, serif;
+}
+
+/* Grilla Matriz 3xM para el Bazar en el Sitio */
+.service-bazar-matrix {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)) !important;
+  gap: clamp(1.2rem, 2.2vw, 2.2rem) !important;
+  width: 100% !important;
+  max-width: 84rem !important;
+  margin: 1.5rem auto 3.5rem !important;
+  padding: 0 clamp(.5rem, 1.5vw, 1.2rem) !important;
+  overflow: visible !important;
+  transition: opacity .22s ease;
+}
+
+@media (min-width: 64rem) {
+  .service-bazar-matrix {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+.service-bazar-matrix.is-switching {
+  opacity: 0;
+}
+
+/* Ocultar elementos heredados innecesarios */
+.view-services .prototype-floral-card,
+.view-services .service-rail-position {
+  display: none !important;
+}
+
+/* Tarjetas Interactivas */
+.card-interactive {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.card-interactive:active {
+  transform: scale(.985) translateY(1px) !important;
+}
+
+/* --------------------------------------------------------------------------
+   ESTILO 0: ACTUAL EN EL SITIO (BASELINE)
+   -------------------------------------------------------------------------- */
+.card-baseline {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgba(255, 248, 235, .72);
+  border-radius: 1rem;
+  background: #32261d;
+  min-height: 26rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-shadow: 0 10px 24px rgba(20, 40, 60, .08);
+}
+
+.card-baseline .baseline-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.card-baseline .baseline-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .6s cubic-bezier(.16, 1, .3, 1);
+}
+
+.card-baseline:hover .baseline-photo img {
+  transform: scale(1.04);
+}
+
+.card-baseline .baseline-content {
+  position: relative;
+  z-index: 2;
+  padding: 1.8rem 1.6rem;
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0) 0%, rgba(20, 20, 20, .5) 25%, rgba(20, 20, 20, .9) 100%);
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+}
+
+.card-baseline .baseline-badge {
+  font-family: var(--bazar-font-ui);
+  font-size: .75rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #f7e7c4;
+}
+
+.card-baseline .baseline-title {
+  font-family: var(--bazar-font-display);
+  font-size: 1.85rem;
+  line-height: 1.15;
+  color: #fffdfa;
+  font-weight: 500;
+}
+
+.card-baseline .baseline-action {
+  font-family: var(--bazar-font-ui);
+  font-size: .78rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #e5c378;
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  margin-top: .4rem;
+}
+
+/* --------------------------------------------------------------------------
+   ESTILO 1: LÁMINA DE ATELIER
+   -------------------------------------------------------------------------- */
+.card-atelier {
+  background: rgba(255, 253, 249, .98);
+  border: 1px solid rgba(141, 108, 54, .32);
+  border-radius: .4rem;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 4px 18px rgba(20, 40, 60, .05);
+}
+
+.card-atelier::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(141, 108, 54, .14);
+  border-radius: .25rem;
+  pointer-events: none;
+}
+
+.card-atelier:hover {
+  transform: translateY(-4px);
+  border-color: var(--bazar-gold);
+  box-shadow: 0 12px 28px rgba(20, 40, 60, .1);
+}
+
+.card-atelier .atelier-photo {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: .2rem;
+  margin-bottom: 1.1rem;
+}
+
+.card-atelier .atelier-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .5s ease;
+}
+
+.card-atelier:hover .atelier-photo img {
+  transform: scale(1.03);
+}
+
+.card-atelier .atelier-meta {
+  font-family: var(--bazar-font-ui);
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--bazar-gold);
+  margin-bottom: .35rem;
+}
+
+.card-atelier .atelier-title {
+  font-family: var(--bazar-font-display);
+  font-size: 1.7rem;
+  line-height: 1.15;
+  color: var(--bazar-navy);
+  margin-bottom: .6rem;
+  font-weight: 600;
+}
+
+.card-atelier .atelier-desc {
+  font-family: var(--bazar-font-body);
+  font-size: .92rem;
+  line-height: 1.5;
+  color: var(--bazar-muted);
+  flex-grow: 1;
+  margin-bottom: 1.1rem;
+}
+
+.card-atelier .atelier-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(141, 108, 54, .2);
+  padding-top: .8rem;
+  margin-top: auto;
+}
+
+.card-atelier .atelier-duration {
+  font-family: var(--bazar-font-ui);
+  font-size: .74rem;
+  color: var(--bazar-muted);
+}
+
+.card-atelier .atelier-action {
+  font-family: var(--bazar-font-ui);
+  font-size: .74rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--bazar-navy);
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   ESTILO 2: PORTAL ARQUETÍPICO
+   -------------------------------------------------------------------------- */
+.card-portal {
+  background: #fffdfa;
+  border: 1px solid rgba(141, 108, 54, .35);
+  border-radius: 4.5rem 4.5rem .6rem .6rem;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 6px 20px rgba(20, 40, 60, .06);
+}
+
+.card-portal:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(141, 108, 54, .18);
+}
+
+.card-portal .portal-vault {
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  border-radius: 3.5rem 3.5rem .3rem .3rem;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 1.1rem;
+}
+
+.card-portal .portal-vault img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .5s ease;
+}
+
+.card-portal:hover .portal-vault img {
+  transform: scale(1.04);
+}
+
+.card-portal .portal-badge {
+  position: absolute;
+  bottom: .7rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 253, 249, .95);
+  padding: .2rem .75rem;
+  border-radius: 2rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .68rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--bazar-navy);
+  border: 1px solid rgba(141, 108, 54, .3);
+  white-space: nowrap;
+}
+
+.card-portal .portal-body {
+  text-align: center;
+  padding: .3rem .5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  flex-grow: 1;
+}
+
+.card-portal .portal-title {
+  font-family: var(--bazar-font-display);
+  font-size: 1.7rem;
+  color: var(--bazar-navy);
+  line-height: 1.15;
+}
+
+.card-portal .portal-symbol {
+  color: var(--bazar-gold);
+  font-size: .85rem;
+}
+
+.card-portal .portal-desc {
+  font-family: var(--bazar-font-body);
+  font-size: .9rem;
+  line-height: 1.48;
+  color: var(--bazar-muted);
+}
+
+.card-portal .portal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(141, 108, 54, .2);
+  padding-top: .75rem;
+  margin-top: auto;
+}
+
+.card-portal .portal-duration {
+  font-family: var(--bazar-font-ui);
+  font-size: .74rem;
+  color: var(--bazar-muted);
+}
+
+.card-portal .portal-btn {
+  font-family: var(--bazar-font-ui);
+  font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  background: var(--bazar-navy);
+  color: #fffdfa;
+  padding: .35rem .85rem;
+  border-radius: 2rem;
+  border: none;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   ESTILO 3: CUADERNO DE SABIDURÍA
+   -------------------------------------------------------------------------- */
+.card-notebook {
+  background: #fbf8f2;
+  border: 1px solid #dfd5c4;
+  border-radius: .5rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 14px rgba(0,0,0,.04);
+}
+
+.card-notebook:hover {
+  transform: translateY(-3px);
+  border-color: var(--bazar-sage);
+}
+
+.card-notebook .notebook-top {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.card-notebook .notebook-top img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-notebook .notebook-tag {
+  position: absolute;
+  top: .7rem;
+  right: .7rem;
+  background: rgba(86, 96, 68, .9);
+  color: #fff;
+  font-family: var(--bazar-font-ui);
+  font-size: .68rem;
+  padding: .2rem .6rem;
+  border-radius: .2rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.card-notebook .notebook-content {
+  padding: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  flex-grow: 1;
+}
+
+.card-notebook .notebook-meta {
+  font-family: var(--bazar-font-ui);
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--bazar-sage);
+}
+
+.card-notebook .notebook-title {
+  font-family: var(--bazar-font-display);
+  font-size: 1.65rem;
+  color: var(--bazar-ink);
+  line-height: 1.18;
+}
+
+.card-notebook .notebook-quote {
+  font-family: var(--bazar-font-body);
+  font-size: .88rem;
+  font-style: italic;
+  color: #635343;
+  line-height: 1.45;
+  border-left: 2px solid var(--bazar-gold-light);
+  padding-left: .65rem;
+  margin: .3rem 0;
+}
+
+.card-notebook .notebook-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px dashed rgba(86, 96, 68, .3);
+  padding-top: .75rem;
+  margin-top: auto;
+}
+
+.card-notebook .notebook-footer span {
+  font-family: var(--bazar-font-ui);
+  font-size: .72rem;
+  color: var(--bazar-muted);
+}
+
+.card-notebook .notebook-btn {
+  background: var(--bazar-sage);
+  color: #fff;
+  font-family: var(--bazar-font-ui);
+  font-size: .72rem;
+  padding: .35rem .75rem;
+  border-radius: .25rem;
+  border: none;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   ESTILO 4: ATMÓSFERA ALQUÍMICA
+   -------------------------------------------------------------------------- */
+.card-alchemy {
+  background: #101c26;
+  border: 1px solid rgba(198, 162, 94, .35);
+  border-radius: .5rem;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  color: #fffdfa;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+}
+
+.card-alchemy:hover {
+  transform: translateY(-4px);
+  border-color: var(--bazar-gold-light);
+  box-shadow: 0 12px 30px rgba(198, 162, 94, .2);
+}
+
+.card-alchemy .alchemy-photo {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: .3rem;
+  margin-bottom: 1rem;
+}
+
+.card-alchemy .alchemy-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-alchemy .alchemy-meta {
+  font-family: var(--bazar-font-ui);
+  font-size: .7rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--bazar-gold-light);
+  margin-bottom: .3rem;
+}
+
+.card-alchemy .alchemy-title {
+  font-family: var(--bazar-font-display);
+  font-size: 1.7rem;
+  color: #fffdfa;
+  line-height: 1.15;
+  margin-bottom: .5rem;
+}
+
+.card-alchemy .alchemy-desc {
+  font-family: var(--bazar-font-body);
+  font-size: .9rem;
+  line-height: 1.48;
+  color: rgba(255, 253, 249, .75);
+  flex-grow: 1;
+  margin-bottom: 1rem;
+}
+
+.card-alchemy .alchemy-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(198, 162, 94, .25);
+  padding-top: .75rem;
+  margin-top: auto;
+}
+
+.card-alchemy .alchemy-duration {
+  font-family: var(--bazar-font-ui);
+  font-size: .72rem;
+  color: rgba(255, 253, 249, .6);
+}
+
+.card-alchemy .alchemy-btn {
+  font-family: var(--bazar-font-ui);
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--bazar-gold-light);
+  border: 1px solid var(--bazar-gold-light);
+  padding: .3rem .75rem;
+  border-radius: .25rem;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   MODAL DE DETALLE + PERSONALIZACIÓN WHATSAPP (DECK 2 PANTALLAS)
+   ========================================================================== */
+.bazar-modal-dialog {
+  border: 1px solid rgba(141, 108, 54, .35);
+  border-radius: 1.25rem;
+  background: #fffdfa;
+  color: var(--bazar-navy);
+  box-shadow: 0 24px 60px rgba(20, 40, 60, .35);
+  padding: 0;
+  max-width: 58rem;
+  width: 92vw;
+  margin: auto;
+  overflow: hidden;
+  animation: modalPopIn .26s cubic-bezier(.16, 1, .3, 1) forwards;
+}
+
+.bazar-modal-dialog::backdrop {
+  background: rgba(18, 27, 36, .78);
+  backdrop-filter: blur(8px);
+}
+
+.bazar-modal-dialog.is-closing {
+  animation: modalPopOut .2s ease forwards;
+}
+
+@keyframes modalPopIn {
+  from { opacity: 0; transform: scale(.95) translateY(12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes modalPopOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(.96) translateY(8px); }
+}
+
+.modal-deck-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  position: relative;
+}
+
+@media (min-width: 50rem) {
+  .modal-deck-container {
+    grid-template-columns: 24rem 1fr;
+  }
+}
+
+.modal-media-col {
+  position: relative;
+  min-height: 18rem;
+  background: #2b231d;
+  overflow: hidden;
+}
+
+.modal-media-col img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20,40,60,.3) 0%, rgba(20,40,60,.85) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+
+.bazar-modal-dialog.state-whatsapp .modal-media-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-contact-badge {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  background: rgba(255, 255, 255, .12);
+  padding: .6rem .8rem;
+  border-radius: .75rem;
+  border: 1px solid rgba(255,255,255,.2);
+}
+
+.modal-contact-badge .badge-icon {
+  font-size: 1.5rem;
+}
+
+.modal-contact-badge .badge-title {
+  font-family: var(--bazar-font-ui);
+  font-size: .88rem;
+  font-weight: 700;
+  display: block;
+}
+
+.modal-contact-badge .badge-sub {
+  font-size: .75rem;
+  opacity: .8;
+}
+
+/* Deck de 2 Pantallas en CSS Grid Stacking */
+.modal-deck-screens {
+  display: grid;
+  grid-template-columns: 100%;
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.4rem, 2.8vw, 2.2rem);
+}
+
+.modal-screen {
+  grid-area: 1 / 1 / 2 / 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  transition: transform .34s cubic-bezier(.16, 1, .3, 1), opacity .34s ease;
+  will-change: transform, opacity;
+}
+
+/* Pantalla 1: Detalle */
+.modal-deck-screens.showing-detail #screen-detail {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.modal-deck-screens.showing-detail #screen-whatsapp {
+  opacity: 0;
+  transform: translateX(36px);
+  pointer-events: none;
+}
+
+/* Pantalla 2: WhatsApp */
+.modal-deck-screens.showing-whatsapp #screen-detail {
+  opacity: 0;
+  transform: translateX(-36px);
+  pointer-events: none;
+}
+
+.modal-deck-screens.showing-whatsapp #screen-whatsapp {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.dialog-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  background: rgba(20, 40, 60, .08);
+  border: none;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bazar-navy);
+  transition: all .2s ease;
+}
+
+.dialog-close-btn:hover {
+  background: var(--bazar-navy);
+  color: #fffdfa;
+}
+
+/* Contenido de Detalle */
+.detail-kicker {
+  font-family: var(--bazar-font-ui);
+  font-size: .78rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--bazar-gold);
+}
+
+.detail-title {
+  font-family: var(--bazar-font-display);
+  font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+  line-height: 1.1;
+  color: var(--bazar-navy);
+}
+
+.detail-quote {
+  font-family: var(--bazar-font-body);
+  font-size: .95rem;
+  font-style: italic;
+  color: #554a40;
+  border-left: 2px solid var(--bazar-gold-light);
+  padding-left: .85rem;
+  margin: .2rem 0;
+  line-height: 1.5;
+}
+
+.detail-desc {
+  font-family: var(--bazar-font-body);
+  font-size: .95rem;
+  line-height: 1.55;
+  color: var(--bazar-muted);
+}
+
+.detail-specs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: .4rem;
+}
+
+.detail-spec-chip {
+  background: rgba(141, 108, 54, .1);
+  border: 1px solid rgba(141, 108, 54, .25);
+  padding: .25rem .7rem;
+  border-radius: 2rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .75rem;
+  color: var(--bazar-navy);
+}
+
+.detail-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin-top: .8rem;
+}
+
+.btn-detail-agenda {
+  background: var(--bazar-gold);
+  color: #fff;
+  border: none;
+  padding: .75rem 1.4rem;
+  border-radius: 2rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .85rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all .2s ease;
+}
+
+.btn-detail-agenda:hover {
+  background: #735728;
+}
+
+.btn-detail-whatsapp {
+  background: var(--bazar-wa);
+  color: #053314;
+  border: 1px solid rgba(0, 0, 0, .08);
+  padding: .75rem 1.4rem;
+  border-radius: 2rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .85rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  transition: all .2s ease;
+}
+
+.btn-detail-whatsapp:hover {
+  background: #1eb857;
+  transform: translateY(-1px);
+}
+
+/* Pantalla de WhatsApp */
+.wa-back-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(141, 108, 54, .2);
+  padding-bottom: .6rem;
+}
+
+.btn-wa-back {
+  background: transparent;
+  border: none;
+  color: var(--bazar-navy);
+  font-family: var(--bazar-font-ui);
+  font-size: .82rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-weight: 600;
+  padding: .2rem .4rem;
+}
+
+.btn-wa-back:hover {
+  color: var(--bazar-gold);
+}
+
+.wa-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+}
+
+.wa-topic-chip {
+  background: rgba(37, 211, 102, .12);
+  border: 1px solid rgba(37, 211, 102, .35);
+  color: #0b3d1b;
+  font-family: var(--bazar-font-ui);
+  font-size: .74rem;
+  padding: .3rem .65rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.wa-topic-chip:hover {
+  background: rgba(37, 211, 102, .24);
+}
+
+.wa-topic-chip.is-added {
+  background: #25d366;
+  color: #fff;
+  border-color: #25d366;
+}
+
+.wa-textarea-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+}
+
+.wa-textarea {
+  width: 100%;
+  border: 1px solid rgba(141, 108, 54, .35);
+  border-radius: .6rem;
+  padding: .85rem;
+  font-family: var(--bazar-font-body);
+  font-size: .92rem;
+  line-height: 1.5;
+  color: var(--bazar-ink);
+  background: #fffdfa;
+  min-height: 8rem;
+  resize: vertical;
+  outline: none;
+  transition: border-color .2s ease;
+}
+
+.wa-textarea:focus {
+  border-color: var(--bazar-wa-dark);
+  box-shadow: 0 0 0 3px rgba(37, 211, 102, .18);
+}
+
+.wa-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .74rem;
+  color: var(--bazar-muted);
+}
+
+.wa-reset-btn {
+  background: transparent;
+  border: none;
+  color: var(--bazar-gold);
+  cursor: pointer;
+  text-decoration: underline;
+  font-family: var(--bazar-font-ui);
+}
+
+.btn-send-whatsapp {
+  background: var(--bazar-wa);
+  color: #053314;
+  border: none;
+  padding: .8rem 1.6rem;
+  border-radius: 2rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .88rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, .3);
+  transition: all .2s ease;
+}
+
+.btn-send-whatsapp:hover {
+  background: #1eb857;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(37, 211, 102, .4);
+}
+
+/* ==========================================================================
+   EDITOR DE CONTENIDOS EN TIEMPO REAL (DRAWER COLAPSABLE)
+   ========================================================================== */
+.floating-editor-trigger {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 999;
+  background: var(--bazar-navy);
+  color: #fffdfa;
+  border: 1px solid var(--bazar-gold-light);
+  border-radius: 2rem;
+  padding: .6rem 1.25rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .82rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  box-shadow: 0 8px 24px rgba(20, 40, 60, .35);
+  transition: all .25s ease;
+}
+
+.floating-editor-trigger:hover {
+  background: #1f3d5a;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(20, 40, 60, .45);
+}
+
+.preview-editor-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(34rem, 92vw);
+  background: #fffdfa;
+  border-left: 1px solid rgba(141, 108, 54, .3);
+  box-shadow: -10px 0 40px rgba(0,0,0,.25);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(105%);
+  transition: transform .32s cubic-bezier(.16, 1, .3, 1);
+  color: var(--bazar-ink);
+}
+
+.preview-editor-drawer.is-open {
+  transform: translateX(0);
+}
+
+.editor-drawer-header {
+  padding: 1.1rem 1.4rem;
+  border-bottom: 1px solid rgba(141, 108, 54, .25);
+  background: #f7f4ed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.editor-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-heading {
+  font-family: var(--bazar-font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--bazar-navy);
+}
+
+.editor-badge {
+  font-family: var(--bazar-font-ui);
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--bazar-gold);
+}
+
+.editor-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--bazar-muted);
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.editor-close-btn:hover {
+  background: rgba(0, 0, 0, .08);
+  color: var(--bazar-navy);
+}
+
+/* Pestañas del Editor */
+.editor-nav-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(141, 108, 54, .2);
+  background: #fbf9f5;
+}
+
+.editor-tab-btn {
+  flex: 1;
+  padding: .75rem .5rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .76rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  border: none;
+  background: transparent;
+  color: var(--bazar-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all .2s ease;
+  text-align: center;
+}
+
+.editor-tab-btn:hover {
+  color: var(--bazar-navy);
+}
+
+.editor-tab-btn.is-active {
+  color: var(--bazar-navy);
+  font-weight: 700;
+  border-bottom-color: var(--bazar-gold);
+  background: #fffdfa;
+}
+
+/* Cuerpo con Scroll del Editor */
+.editor-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+}
+
+.editor-tab-content {
+  display: none;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.editor-tab-content.is-active {
+  display: flex;
+}
+
+.editor-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+}
+
+.editor-label {
+  font-family: var(--bazar-font-ui);
+  font-size: .76rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--bazar-gold);
+  font-weight: 600;
+}
+
+.editor-input,
+.editor-select,
+.editor-textarea {
+  width: 100%;
+  border: 1px solid rgba(141, 108, 54, .3);
+  border-radius: .45rem;
+  padding: .65rem .8rem;
+  font-family: var(--bazar-font-body);
+  font-size: .9rem;
+  background: #fff;
+  color: var(--bazar-ink);
+  outline: none;
+  transition: border-color .2s;
+}
+
+.editor-input:focus,
+.editor-select:focus,
+.editor-textarea:focus {
+  border-color: var(--bazar-gold);
+  box-shadow: 0 0 0 2px rgba(141, 108, 54, .2);
+}
+
+.editor-textarea {
+  min-height: 5rem;
+  resize: vertical;
+}
+
+.editor-help-text {
+  font-size: .72rem;
+  color: var(--bazar-muted);
+  line-height: 1.35;
+}
+
+.editor-highlight-box {
+  background: rgba(141, 108, 54, .1);
+  border: 1px solid rgba(141, 108, 54, .25);
+  border-radius: .5rem;
+  padding: .85rem;
+  font-size: .82rem;
+  line-height: 1.45;
+}
+
+.editor-highlight-box strong {
+  font-family: var(--bazar-font-ui);
+  color: var(--bazar-navy);
+}
+
+/* Footer del Editor */
+.editor-drawer-footer {
+  padding: 1rem 1.4rem;
+  border-top: 1px solid rgba(141, 108, 54, .25);
+  background: #f7f4ed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .8rem;
+}
+
+.btn-editor-reset {
+  background: transparent;
+  border: 1px solid rgba(141, 108, 54, .35);
+  padding: .5rem .9rem;
+  border-radius: 2rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .74rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--bazar-muted);
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.btn-editor-reset:hover {
+  background: rgba(141, 108, 54, .1);
+  color: var(--bazar-navy);
+}
+
+.btn-editor-done {
+  background: var(--bazar-navy);
+  color: #fff;
+  border: none;
+  padding: .55rem 1.3rem;
+  border-radius: 2rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .76rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.btn-editor-done:hover {
+  background: #1f3d5a;
+}
+
+/* ==========================================================================
+   SISTEMA 3: HERO + BAZAR (SIN COLORES DEL ALMA)
+   ========================================================================== */
+.s3-experience-container {
+  width: 100%;
+  max-width: 84rem;
+  margin: 0 auto;
+  padding: clamp(1rem, 2.5vw, 2.5rem);
+  background: #fffdfa;
+  border-radius: .8rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,.08);
+  color: var(--bazar-navy);
+}
+
+.s3-site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .9rem 0;
+  border-bottom: 1px solid rgba(141, 108, 54, .25);
+  margin-bottom: 2rem;
+}
+
+.s3-brand {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .95rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--bazar-navy);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.s3-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.s3-nav-link {
+  font-family: var(--bazar-font-ui);
+  font-size: .82rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--bazar-muted);
+  text-decoration: none;
+  transition: color .2s ease;
+}
+
+.s3-nav-link:hover,
+.s3-nav-link.is-active {
+  color: var(--bazar-gold);
+  font-weight: 700;
+}
+
+/* Layout del Hero */
+.s3-hero-view {
+  margin-bottom: 4rem;
+  position: relative;
+}
+
+.s3-hero-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+@media (min-width: 54rem) {
+  .s3-hero-layout {
+    grid-template-columns: 1.15fr .85fr;
+  }
+}
+
+.s3-hero-copy {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+
+.s3-hero-eyebrow {
+  font-family: var(--bazar-font-ui);
+  font-size: .8rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--bazar-gold);
+}
+
+.s3-hero-title {
+  font-family: var(--bazar-font-display);
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-weight: 600;
+  line-height: 1.05;
+  color: var(--bazar-navy);
+  letter-spacing: -.02em;
+}
+
+.s3-hero-lead {
+  font-family: var(--bazar-font-display);
+  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+  font-style: italic;
+  color: var(--bazar-gold);
+  line-height: 1.15;
+  margin-top: -.35rem;
+}
+
+.s3-hero-body {
+  font-family: var(--bazar-font-body);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--bazar-muted);
+  max-width: 34rem;
+}
+
+.s3-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .85rem;
+  margin-top: 1rem;
+}
+
+.s3-btn-gold {
+  background: var(--bazar-gold);
+  color: #fffdfa;
+  border: none;
+  padding: .75rem 1.6rem;
+  border-radius: 2rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .85rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s ease;
+  box-shadow: 0 4px 12px rgba(141, 108, 54, .25);
+}
+
+.s3-btn-gold:hover {
+  background: #735728;
+  transform: translateY(-1px);
+}
+
+.s3-btn-outline {
+  background: transparent;
+  color: var(--bazar-navy);
+  border: 1px solid rgba(20, 40, 60, .3);
+  padding: .75rem 1.4rem;
+  border-radius: 2rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .85rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all .2s ease;
+}
+
+.s3-btn-outline:hover {
+  border-color: var(--bazar-navy);
+  background: rgba(20, 40, 60, .05);
+}
+
+.s3-hero-note {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .8rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--bazar-gold);
+  margin-top: .6rem;
+}
+
+.s3-hero-note span {
+  font-size: .95rem;
+  font-weight: 700;
+}
+
+.s3-hero-visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.s3-arch-frame {
+  width: 100%;
+  max-width: 26rem;
+  aspect-ratio: 4 / 5;
+  border-radius: 12rem 12rem 1rem 1rem;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(20, 40, 60, .15);
+  border: 1px solid rgba(141, 108, 54, .3);
+}
+
+.s3-arch-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.s3-visual-quote {
+  font-family: var(--bazar-font-body);
+  font-style: italic;
+  font-size: .95rem;
+  color: var(--bazar-muted);
+  text-align: center;
+  margin-top: .9rem;
+}
+
+.s3-visual-mark {
+  color: var(--bazar-gold);
+  font-size: 1rem;
+  margin-top: .3rem;
+}
+
+/* Sección Bazar en S3 */
+.s3-bazar-view {
+  padding-top: 2rem;
+  border-top: 1px solid rgba(141, 108, 54, .2);
+}
+
+.s3-bazar-heading-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: clamp(.55rem, 1.2vw, 1.15rem);
+  flex-wrap: wrap;
+  text-align: center;
+  margin-bottom: 1.2rem;
+}
+
+.s3-bazar-title {
+  font-family: var(--bazar-font-display);
+  font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+  font-weight: 600;
+  color: var(--bazar-navy);
+}
+
+.s3-bazar-star {
+  color: var(--bazar-gold);
+  font-size: 1.2rem;
+}
+
+.s3-bazar-eyebrow {
+  font-family: var(--bazar-font-ui);
+  font-size: clamp(.88rem, 1.1vw, 1.05rem);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--bazar-gold);
+}
+
+.s3-category-tabs {
+  display: flex;
+  justify-content: center;
+  gap: .65rem;
+  margin: 1.2rem auto 2.8rem;
+}
+
+.s3-category-tab {
+  font-family: var(--bazar-font-ui);
+  font-size: clamp(.85rem, .95vw, 1rem);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .65rem 1.8rem;
+  border-radius: 2rem;
+  border: 1px solid rgba(141, 108, 54, .35);
+  background: rgba(255, 253, 249, .92);
+  color: #4a4036;
+  cursor: pointer;
+  transition: all .25s ease;
+  min-width: 9.5rem;
+  text-align: center;
+}
+
+.s3-category-tab:hover {
+  background: var(--bazar-sage);
+  color: #fffdfa;
+  border-color: var(--bazar-sage);
+}
+
+.s3-category-tab.is-active {
+  background: var(--bazar-navy);
+  color: #fffdfa;
+  border-color: var(--bazar-navy);
+  box-shadow: 0 4px 14px rgba(20, 40, 60, .25);
+}
+
+/* ==========================================================================
+   ADAPTACIÓN DINÁMICA DE DATOS POR DISPOSITIVO (DESKTOP, TABLET, MÓVIL)
+   ========================================================================== */
+
+/* Barra de Selección de Dispositivo en el Editor */
+.editor-device-selector-dock {
+  background: #f1ebd9;
+  border: 1px solid rgba(141, 108, 54, .3);
+  border-radius: .6rem;
+  padding: .75rem .9rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  margin-bottom: 1rem;
+}
+
+.editor-device-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.editor-device-title {
+  font-family: var(--bazar-font-ui);
+  font-size: .74rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--bazar-navy);
+  font-weight: 700;
+}
+
+.editor-device-badge {
+  font-family: var(--bazar-font-ui);
+  font-size: .68rem;
+  background: var(--bazar-navy);
+  color: #fffdfa;
+  padding: .15rem .55rem;
+  border-radius: 1rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.editor-device-btns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .35rem;
+}
+
+.editor-dev-btn {
+  background: #fffdfa;
+  border: 1px solid rgba(141, 108, 54, .3);
+  border-radius: .4rem;
+  padding: .45rem .3rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .72rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--bazar-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  transition: all .2s ease;
+}
+
+.editor-dev-btn:hover {
+  background: var(--bazar-sage);
+  color: #fffdfa;
+  border-color: var(--bazar-sage);
+}
+
+.editor-dev-btn.is-active {
+  background: var(--bazar-gold);
+  color: #fffdfa;
+  font-weight: 700;
+  border-color: var(--bazar-gold);
+  box-shadow: 0 2px 6px rgba(141, 108, 54, .25);
+}
+
+/* Caja de Toggles de Campos por Dispositivo */
+.editor-device-card-box {
+  background: rgba(141, 108, 54, .08);
+  border: 1px solid rgba(141, 108, 54, .25);
+  border-radius: .55rem;
+  padding: .8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  margin-bottom: .8rem;
+}
+
+.device-box-heading {
+  font-family: var(--bazar-font-ui);
+  font-size: .74rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--bazar-navy);
+}
+
+.device-box-heading strong {
+  color: var(--bazar-gold);
+}
+
+.device-toggles-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .45rem;
+}
+
+.device-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  font-size: .84rem;
+  color: var(--bazar-ink);
+  cursor: pointer;
+  user-select: none;
+}
+
+.device-checkbox-item input[type="checkbox"] {
+  accent-color: var(--bazar-gold);
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   REGLAS DE VISIBILIDAD DE DATOS (HERO, TARJETAS, MODAL)
+   ========================================================================== */
+
+/* 1. MODO MÓVIL: Densidad esencial para pantallas táctiles (Estrictamente en Sistema 3) */
+.s3-experience-container.hide-hero-note .s3-hero-note,
+.mode-mobile .s3-experience-container .s3-hero-note {
+  display: none !important;
+}
+
+.s3-experience-container.hide-hero-quote .s3-visual-quote,
+.mode-mobile .s3-experience-container .s3-visual-quote {
+  display: none !important;
+}
+
+.s3-experience-container.hide-hero-secondary .s3-btn-outline,
+.mode-mobile .s3-experience-container .s3-hero-actions .s3-btn-outline {
+  display: none !important;
+}
+
+.mode-mobile .s3-experience-container .s3-btn-gold {
+  width: 100% !important;
+  text-align: center;
+}
+
+.s3-experience-container.hide-card-quote .notebook-quote,
+.mode-mobile .s3-experience-container .card-notebook .notebook-quote {
+  display: none !important;
+}
+
+.s3-experience-container.hide-card-portal-symbol .portal-symbol,
+.mode-mobile .s3-experience-container .card-portal .portal-symbol {
+  display: none !important;
+}
+
+/* Ocultar descripción de tarjeta si está desactivada en Sistema 3 */
+.s3-experience-container.hide-card-desc .card-atelier .atelier-desc,
+.s3-experience-container.hide-card-desc .card-portal .portal-desc,
+.s3-experience-container.hide-card-desc .card-notebook .notebook-content p,
+.s3-experience-container.hide-card-desc .card-alchemy .alchemy-desc,
+.mode-mobile .s3-experience-container.hide-card-desc .atelier-desc,
+.mode-mobile .s3-experience-container.hide-card-desc .portal-desc {
+  display: none !important;
+}
+
+/* Ocultar kicker en tarjeta si está desactivado en Sistema 3 */
+.s3-experience-container.hide-card-kicker .atelier-meta,
+.s3-experience-container.hide-card-kicker .portal-badge,
+.s3-experience-container.hide-card-kicker .notebook-meta,
+.s3-experience-container.hide-card-kicker .alchemy-meta,
+.s3-experience-container.hide-card-kicker .baseline-badge {
+  display: none !important;
+}
+
+/* Ocultar duración en tarjeta si está desactivada en Sistema 3 */
+.s3-experience-container.hide-card-duration .atelier-footer,
+.s3-experience-container.hide-card-duration .portal-footer,
+.s3-experience-container.hide-card-duration .notebook-footer,
+.s3-experience-container.hide-card-duration .alchemy-footer {
+  display: none !important;
+}
+
+/* Clamp inteligente en tablet o móvil cuando la descripción está activa */
+.s3-experience-container.clamp-card-desc .atelier-desc,
+.s3-experience-container.clamp-card-desc .portal-desc,
+.s3-experience-container.clamp-card-desc .notebook-content p,
+.s3-experience-container.clamp-card-desc .alchemy-desc {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+/* Reglas automáticas en pantallas reales pequeñas (@media) solo dentro de Sistema 3 */
+@media (max-width: 48rem) {
+  .s3-hero-layout {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    text-align: center;
+  }
+  
+  .s3-hero-copy {
+    align-items: center;
+  }
+
+  .s3-hero-note {
+    display: none !important;
+  }
+
+  .s3-visual-quote {
+    display: none !important;
+  }
+
+  .s3-hero-actions {
+    width: 100%;
+  }
+
+  .s3-btn-gold {
+    width: 100% !important;
+    text-align: center;
+  }
+
+  .s3-hero-actions .s3-btn-outline {
+    display: none !important;
+  }
+
+  .s3-experience-container .card-notebook .notebook-quote {
+    display: none !important;
+  }
+
+  .s3-experience-container .card-portal .portal-symbol {
+    display: none !important;
+  }
+}
+

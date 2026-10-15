@@ -1,0 +1,2046 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bazar de Servicios en Vivo · SoyAutoconocimiento</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/lora-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/marcellus-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="preview.css?v=20261015-editorial-autor-1">
+  <link rel="stylesheet" href="psicoandino-ajustes.css?v=20261015-editorial-autor-1">
+  <style>
+    /* ==========================================================================
+       EXPERIENCIA EN TIEMPO REAL EN VIVO · BAZAR DE SERVICIOS
+       ========================================================================== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Lora', Georgia, serif;
+      --font-ui: 'Marcellus', Georgia, serif;
+      --c-navy: #14283c;
+      --c-gold: #8d6c36;
+      --c-gold-light: #c6a25e;
+      --c-sage: #566044;
+      --c-parchment: #fffdfa;
+      --c-ink: #2b231a;
+      --c-muted: #554a40;
+    }
+
+    body {
+      background-color: #fffdfa;
+      background-image: 
+        radial-gradient(ellipse at 50% 0%, rgba(246, 235, 210, 0.45) 0%, rgba(250, 248, 244, 0) 70%),
+        linear-gradient(rgba(255,255,255,.6), rgba(255,255,255,.6)), 
+        url("marble-white.webp");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: var(--c-navy);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Barra Superior Sutil (Live Bar) */
+    .live-top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 253, 249, .92);
+      border-bottom: 1px solid rgba(141, 108, 54, .25);
+      backdrop-filter: blur(10px);
+      padding: .6rem clamp(1rem, 3vw, 2.5rem);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+      box-shadow: 0 4px 20px rgba(20, 40, 60, .04);
+    }
+
+    .live-brand-group {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    .live-brand {
+      font-family: var(--font-ui);
+      font-size: .88rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--c-navy);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .live-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      background: rgba(37, 211, 102, .12);
+      border: 1px solid rgba(37, 211, 102, .35);
+      color: #0b3d1b;
+      padding: .15rem .6rem;
+      border-radius: 2rem;
+      font-family: var(--font-ui);
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .live-indicator::before {
+      content: '';
+      width: .45rem;
+      height: .45rem;
+      border-radius: 50%;
+      background: #25d366;
+      box-shadow: 0 0 6px rgba(37, 211, 102, .8);
+    }
+
+    /* Selector de Estilo Flotante / Barra de Propuestas */
+    .live-style-switcher {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      background: rgba(20, 40, 60, .05);
+      padding: .25rem .35rem;
+      border-radius: 2rem;
+      border: 1px solid rgba(141, 108, 54, .25);
+    }
+
+    .style-label {
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+      padding-left: .5rem;
+      padding-right: .2rem;
+    }
+
+    .style-btn {
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: .3rem .75rem;
+      border-radius: 2rem;
+      border: none;
+      background: transparent;
+      color: #554a40;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+
+    .style-btn:hover {
+      color: var(--c-navy);
+      background: rgba(255, 255, 255, .7);
+    }
+
+    .style-btn.is-active {
+      background: var(--c-navy);
+      color: #fffdfa;
+      font-weight: 700;
+      box-shadow: 0 2px 6px rgba(20, 40, 60, .2);
+    }
+
+    .live-library-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-family: var(--font-ui);
+      font-size: .76rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+      text-decoration: none;
+      padding: .35rem .75rem;
+      border-radius: 2rem;
+      border: 1px solid rgba(141, 108, 54, .3);
+      transition: all .2s ease;
+    }
+
+    .live-library-link:hover {
+      background: var(--c-gold);
+      color: #fffdfa;
+    }
+
+    /* ==========================================================================
+       SECCIÓN PRINCIPAL DEL BAZAR (100% PRODUCCIÓN REAL)
+       ========================================================================== */
+    .bazar-live-wrapper {
+      max-width: 84rem;
+      margin: 0 auto;
+      padding: clamp(2rem, 4.5vw, 3.8rem) clamp(1rem, 3vw, 2.5rem);
+      width: 100%;
+      flex-grow: 1;
+    }
+
+    .section-heading-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: clamp(.55rem, 1.2vw, 1.15rem);
+      flex-wrap: wrap;
+      text-align: center;
+      margin-bottom: clamp(.8rem, 1.6vw, 1.4rem);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      font-weight: 600;
+      line-height: 1.02;
+      color: var(--c-navy);
+      letter-spacing: -.02em;
+    }
+
+    .section-star {
+      color: var(--c-gold);
+      font-size: 1.2rem;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-ui);
+      font-size: clamp(.88rem, 1.1vw, 1.05rem);
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+    }
+
+    /* Alternador Real de Categorías (Servicios vs Cursos) */
+    .category-tabs {
+      display: flex;
+      justify-content: center;
+      gap: .65rem;
+      margin: 1.2rem auto 2.8rem;
+    }
+
+    .category-tab {
+      font-family: var(--font-ui);
+      font-size: clamp(.85rem, .95vw, 1rem);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .65rem 1.8rem;
+      border-radius: 2rem;
+      border: 1px solid rgba(141, 108, 54, .35);
+      background: rgba(255, 253, 249, .92);
+      color: #4a4036;
+      cursor: pointer;
+      transition: all .25s ease;
+      min-width: 9.5rem;
+      text-align: center;
+      user-select: none;
+    }
+
+    .category-tab:hover {
+      background: var(--c-sage);
+      color: #fffdfa;
+      border-color: var(--c-sage);
+    }
+
+    .category-tab.is-active {
+      background: var(--c-navy);
+      color: #fffdfa;
+      border-color: var(--c-navy);
+      box-shadow: 0 4px 14px rgba(20, 40, 60, .25);
+    }
+
+    /* Cuadrícula Matriz 3xM */
+    .bazar-grid-container {
+      position: relative;
+      transition: opacity .22s ease;
+    }
+
+    .bazar-grid-container.is-switching {
+      opacity: 0;
+    }
+
+    .cards-matrix-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+      gap: clamp(1.2rem, 2.2vw, 2.2rem);
+      margin-bottom: 3.5rem;
+    }
+
+    @media (min-width: 64rem) {
+      .cards-matrix-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    /* Tarjetas Interactivas */
+    .card-interactive {
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      outline: none;
+    }
+
+    .card-interactive:active {
+      transform: scale(.985) translateY(1px) !important;
+    }
+
+    /* ==========================================================================
+       ESTILO 0: ACTUAL EN EL SITIO (BASELINE)
+       ========================================================================== */
+    .card-baseline {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      border: 1px solid rgba(255, 248, 235, .72);
+      border-radius: 1rem;
+      background: #32261d;
+      min-height: 24rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      box-shadow: 0 .65rem 1.4rem rgba(42, 32, 22, .18);
+      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+    }
+
+    .card-baseline:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 1.125rem 2.2rem rgba(35, 26, 16, .35);
+      border-color: rgba(255, 248, 235, .95);
+    }
+
+    .card-baseline .baseline-photo {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .card-baseline .baseline-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .45s ease;
+    }
+
+    .card-baseline:hover .baseline-photo img {
+      transform: scale(1.05);
+    }
+
+    .card-baseline::after {
+      position: absolute;
+      z-index: 1;
+      inset: 20% 0 0;
+      content: "";
+      pointer-events: none;
+      background: linear-gradient(180deg, transparent 0%, rgba(133, 92, 45, .28) 36%, rgba(32, 22, 14, .92) 100%);
+    }
+
+    .card-baseline .baseline-content {
+      position: relative;
+      z-index: 2;
+      padding: clamp(1rem, 2.2vw, 1.4rem);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: .75rem;
+      color: #fffdf8;
+      text-align: right;
+    }
+
+    .card-baseline .baseline-badge {
+      font-family: var(--font-ui);
+      font-size: .68rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #f4d9a4;
+      background: rgba(30, 20, 12, .65);
+      border: 1px solid rgba(244, 217, 164, .35);
+      padding: .2rem .6rem;
+      border-radius: 1rem;
+      backdrop-filter: blur(4px);
+    }
+
+    .card-baseline .baseline-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3vw, 2.5rem);
+      font-weight: 600;
+      line-height: .98;
+      letter-spacing: -.02em;
+      color: #fffdf8;
+      text-shadow: 0 .12em .48em rgba(18, 15, 13, .9);
+    }
+
+    .card-baseline .baseline-action {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      color: #f4d9a4;
+      font-family: var(--font-ui);
+      font-size: clamp(.65rem, .85vw, .76rem);
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-shadow: 0 .12em .4em rgba(18, 15, 13, .85);
+    }
+
+    /* ==========================================================================
+       ESTILO 1: LÁMINA DE ATELIER
+       ========================================================================== */
+    .card-atelier {
+      background: #fffdfa;
+      border: 1px solid rgba(141, 108, 54, .3);
+      position: relative;
+      padding: 1rem 1rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 24rem;
+      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+    }
+
+    .card-atelier::before {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border: 1px solid rgba(141, 108, 54, .14);
+      pointer-events: none;
+    }
+
+    .card-atelier:hover {
+      transform: translateY(-4px);
+      border-color: rgba(141, 108, 54, .7);
+      box-shadow: 0 10px 24px rgba(38, 31, 24, .09);
+    }
+
+    .card-atelier .atelier-photo {
+      position: relative;
+      width: 100%;
+      height: 14.5rem;
+      overflow: hidden;
+      border: 1px solid rgba(141, 108, 54, .2);
+      background: #f4efe5;
+      margin-bottom: .9rem;
+    }
+
+    .card-atelier .atelier-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .45s ease;
+    }
+
+    .card-atelier:hover .atelier-photo img {
+      transform: scale(1.04);
+    }
+
+    .card-atelier .atelier-meta {
+      font-family: var(--font-ui);
+      font-size: .74rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+      display: block;
+      margin-bottom: .25rem;
+    }
+
+    .card-atelier .atelier-title {
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--c-navy);
+      margin-bottom: .45rem;
+    }
+
+    .card-atelier .atelier-desc {
+      font-family: var(--font-body);
+      font-size: .95rem;
+      line-height: 1.45;
+      color: var(--c-muted);
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+
+    .card-atelier .atelier-footer {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding-top: .65rem;
+      border-top: 1px solid rgba(141, 108, 54, .2);
+      font-family: var(--font-ui);
+      font-size: .78rem;
+    }
+
+    .card-atelier .atelier-duration {
+      color: var(--c-gold);
+    }
+
+    .card-atelier .atelier-action {
+      color: var(--c-navy);
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+    }
+
+    /* ==========================================================================
+       ESTILO 2: PORTAL ARQUETÍPICO
+       ========================================================================== */
+    .card-portal {
+      background: #faf6f0;
+      border: 1px solid rgba(141, 108, 54, .32);
+      border-radius: 4.5rem 4.5rem .65rem .65rem;
+      padding: .85rem .85rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 24rem;
+      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+      position: relative;
+    }
+
+    .card-portal:hover {
+      transform: translateY(-4px);
+      border-color: var(--c-gold);
+      box-shadow: 0 12px 28px rgba(20, 40, 60, .12);
+    }
+
+    .card-portal .portal-vault {
+      position: relative;
+      width: 100%;
+      height: 15rem;
+      border-radius: 4rem 4rem .35rem .35rem;
+      overflow: hidden;
+      border: 1px solid rgba(141, 108, 54, .25);
+      background: #ebe4d5;
+      margin-bottom: .9rem;
+    }
+
+    .card-portal .portal-vault img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .45s ease;
+    }
+
+    .card-portal:hover .portal-vault img {
+      transform: scale(1.04);
+    }
+
+    .card-portal .portal-badge {
+      position: absolute;
+      bottom: .65rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 253, 249, .92);
+      border: 1px solid rgba(141, 108, 54, .3);
+      padding: .2rem .75rem;
+      border-radius: 2rem;
+      font-family: var(--font-ui);
+      font-size: .68rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+      white-space: nowrap;
+    }
+
+    .card-portal .portal-body {
+      text-align: center;
+      padding: 0 .4rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .card-portal .portal-title {
+      font-family: var(--font-display);
+      font-size: 1.95rem;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--c-navy);
+      margin-bottom: .3rem;
+    }
+
+    .card-portal .portal-symbol {
+      color: var(--c-gold);
+      font-size: .85rem;
+      margin-bottom: .4rem;
+    }
+
+    .card-portal .portal-desc {
+      font-family: var(--font-body);
+      font-size: .95rem;
+      line-height: 1.45;
+      color: var(--c-muted);
+      margin-bottom: 1rem;
+    }
+
+    .card-portal .portal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding-top: .75rem;
+      border-top: 1px solid rgba(141, 108, 54, .2);
+      font-family: var(--font-ui);
+      font-size: .78rem;
+    }
+
+    .card-portal .portal-btn {
+      background: var(--c-navy);
+      color: #fffdfa;
+      border: none;
+      padding: .35rem .95rem;
+      border-radius: 2rem;
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      transition: background .2s ease;
+    }
+
+    .card-portal:hover .portal-btn {
+      background: var(--c-sage);
+    }
+
+    /* ==========================================================================
+       ESTILO 3: CUADERNO DE SABIDURÍA
+       ========================================================================== */
+    .card-notebook {
+      background: #fffdf9;
+      border: 1px solid rgba(86, 96, 68, .28);
+      border-radius: .65rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 24rem;
+      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+    }
+
+    .card-notebook:hover {
+      transform: translateY(-4px);
+      border-color: var(--c-sage);
+      box-shadow: 0 10px 24px rgba(86, 96, 68, .14);
+    }
+
+    .card-notebook .notebook-top {
+      position: relative;
+      width: 100%;
+      height: 12rem;
+      background: #e8e4dc;
+    }
+
+    .card-notebook .notebook-top img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-notebook .notebook-tag {
+      position: absolute;
+      top: .65rem;
+      right: .65rem;
+      background: var(--c-sage);
+      color: #fffdf9;
+      font-family: var(--font-ui);
+      font-size: .65rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .25rem .65rem;
+      border-radius: .25rem;
+    }
+
+    .card-notebook .notebook-content {
+      padding: 1.15rem 1.25rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .card-notebook .notebook-meta {
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--c-sage);
+      margin-bottom: .25rem;
+    }
+
+    .card-notebook .notebook-title {
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--c-navy);
+      line-height: 1.15;
+      margin-bottom: .5rem;
+    }
+
+    .card-notebook .notebook-quote {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: .88rem;
+      color: #554a40;
+      line-height: 1.45;
+      padding-left: .75rem;
+      border-left: 2px solid var(--c-gold);
+      margin: .35rem 0 .75rem;
+    }
+
+    .card-notebook .notebook-desc {
+      font-family: var(--font-body);
+      font-size: .92rem;
+      line-height: 1.45;
+      color: var(--c-muted);
+      margin-bottom: 1.1rem;
+      flex-grow: 1;
+    }
+
+    .card-notebook .notebook-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: .65rem;
+      border-top: 1px solid rgba(86, 96, 68, .2);
+      font-family: var(--font-ui);
+      font-size: .78rem;
+    }
+
+    .card-notebook .notebook-btn {
+      background: var(--c-sage);
+      color: #fffdf9;
+      border: none;
+      padding: .4rem 1rem;
+      border-radius: .35rem;
+      font-family: var(--font-ui);
+      font-size: .74rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      transition: background .2s ease;
+    }
+
+    .card-notebook:hover .notebook-btn {
+      background: var(--c-navy);
+    }
+
+    /* ==========================================================================
+       ESTILO 4: ATMÓSFERA ALQUÍMICA
+       ========================================================================== */
+    .card-alchemy {
+      background: linear-gradient(165deg, #102133 0%, #16283b 100%);
+      border: 1px solid rgba(198, 162, 94, .38);
+      position: relative;
+      padding: 1rem 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 24rem;
+      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+      color: #fffdf9;
+    }
+
+    .card-alchemy::before {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border: 1px solid rgba(198, 162, 94, .18);
+      pointer-events: none;
+    }
+
+    .card-alchemy:hover {
+      transform: translateY(-4px);
+      border-color: rgba(198, 162, 94, .75);
+      box-shadow: 0 12px 30px rgba(10, 20, 32, .45);
+    }
+
+    .card-alchemy .alchemy-photo {
+      position: relative;
+      width: 100%;
+      height: 14.5rem;
+      overflow: hidden;
+      border: 1px solid rgba(198, 162, 94, .3);
+      margin-bottom: .9rem;
+    }
+
+    .card-alchemy .alchemy-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .45s ease;
+    }
+
+    .card-alchemy:hover .alchemy-photo img {
+      transform: scale(1.04);
+    }
+
+    .card-alchemy .alchemy-meta {
+      font-family: var(--font-ui);
+      font-size: .74rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #c6a25e;
+      display: block;
+      margin-bottom: .25rem;
+    }
+
+    .card-alchemy .alchemy-title {
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      font-weight: 700;
+      line-height: 1.1;
+      color: #fffdf9;
+      margin-bottom: .45rem;
+    }
+
+    .card-alchemy .alchemy-desc {
+      font-family: var(--font-body);
+      font-size: .95rem;
+      line-height: 1.45;
+      color: #ded6c9;
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+
+    .card-alchemy .alchemy-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: .65rem;
+      border-top: 1px solid rgba(198, 162, 94, .25);
+      font-family: var(--font-ui);
+      font-size: .78rem;
+    }
+
+    .card-alchemy .alchemy-duration {
+      color: #c6a25e;
+    }
+
+    .card-alchemy .alchemy-action {
+      border: 1px solid rgba(198, 162, 94, .5);
+      color: #fffdf9;
+      padding: .35rem .85rem;
+      border-radius: .25rem;
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      transition: all .2s ease;
+    }
+
+    .card-alchemy:hover .alchemy-action {
+      background: #c6a25e;
+      color: #14283c;
+    }
+
+    /* ==========================================================================
+       MODAL DE EXPERIENCIA EN VIVO (DETALLES + SUB-FLUJO DE WHATSAPP)
+       ========================================================================== */
+    .live-modal-dialog {
+      box-sizing: border-box;
+      width: min(65rem, calc(100vw - 2.5rem));
+      max-height: calc(100dvh - 2.5rem);
+      margin: auto;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid rgba(141, 108, 54, .45);
+      border-radius: 1.15rem;
+      background: #fffdfa;
+      box-shadow: 0 1.5rem 4rem rgba(20, 30, 42, .32);
+      color: var(--c-navy);
+      font-family: var(--font-body);
+      opacity: 0;
+      transform: translateY(1.2rem) scale(.985);
+      transition: opacity .26s cubic-bezier(.16, 1, .3, 1), transform .26s cubic-bezier(.16, 1, .3, 1);
+    }
+
+    .live-modal-dialog[open] {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+    }
+
+    .live-modal-dialog::backdrop {
+      background: rgba(14, 24, 36, .65);
+      backdrop-filter: blur(6px);
+      transition: all .25s ease;
+    }
+
+    .live-modal-dialog.is-closing {
+      opacity: 0 !important;
+      transform: translateY(.8rem) scale(.98) !important;
+      transition: opacity .2s ease, transform .2s ease !important;
+    }
+
+    .dialog-media-panel {
+      position: relative;
+      min-height: 22rem;
+      background: #f3eee6;
+      overflow: hidden;
+      border-right: 1px solid rgba(141, 108, 54, .25);
+    }
+
+    .dialog-media-panel img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .dialog-media-panel::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(20, 40, 60, .1) 0%, rgba(20, 40, 60, .45) 100%);
+      pointer-events: none;
+    }
+
+    /* Overlay Sereno de Contacto */
+    .media-wa-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(20, 40, 60, .88) 0%, rgba(14, 25, 38, .96) 100%);
+      backdrop-filter: blur(6px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s cubic-bezier(.16, 1, .3, 1);
+      z-index: 5;
+    }
+
+    .live-modal-dialog.state-whatsapp .media-wa-overlay {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .wa-contact-badge-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .6rem;
+      max-width: 20rem;
+    }
+
+    .wa-avatar-ring {
+      width: 4.8rem;
+      height: 4.8rem;
+      border-radius: 50%;
+      border: 2px solid #25d366;
+      background: #14283c;
+      display: grid;
+      place-items: center;
+      font-size: 2.2rem;
+      box-shadow: 0 0 20px rgba(37, 211, 102, .3);
+      position: relative;
+    }
+
+    .wa-avatar-ring::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: .9rem;
+      height: .9rem;
+      border-radius: 50%;
+      background: #25d366;
+      border: 2px solid #14283c;
+    }
+
+    .wa-contact-name {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #fffdfa;
+      line-height: 1.1;
+    }
+
+    .wa-contact-role {
+      font-family: var(--font-ui);
+      font-size: .8rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #c6a25e;
+    }
+
+    .wa-contact-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: rgba(37, 211, 102, .15);
+      border: 1px solid rgba(37, 211, 102, .4);
+      padding: .25rem .75rem;
+      border-radius: 2rem;
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      color: #69f09e;
+      margin-top: .4rem;
+    }
+
+    .wa-overlay-quote {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: .95rem;
+      color: #ded6c9;
+      line-height: 1.45;
+      margin-top: 1.4rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid rgba(198, 162, 94, .3);
+    }
+
+    /* Deck de Pantallas Deslizantes */
+    .dialog-content-panel {
+      padding: clamp(1.4rem, 3.2vw, 2.6rem);
+      max-height: calc(100dvh - 2.5rem);
+      overflow-y: auto;
+      position: relative;
+      background: #fffdfa;
+    }
+
+    .dialog-close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 2.3rem;
+      height: 2.3rem;
+      border-radius: 50%;
+      border: 1px solid rgba(141, 108, 54, .3);
+      background: rgba(255, 253, 249, .95);
+      color: var(--c-navy);
+      font-size: 1.35rem;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: all .2s ease;
+      z-index: 10;
+    }
+
+    .dialog-close-btn:hover {
+      background: var(--c-navy);
+      color: #fffdfa;
+      transform: rotate(90deg);
+    }
+
+    .dialog-screens-deck {
+      display: grid;
+      grid-template-columns: 100%;
+      grid-template-rows: 1fr;
+      position: relative;
+      width: 100%;
+    }
+
+    .dialog-screen {
+      grid-area: 1 / 1 / 2 / 2;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: 
+        transform .34s cubic-bezier(.16, 1, .3, 1),
+        opacity .32s cubic-bezier(.16, 1, .3, 1),
+        filter .28s ease,
+        visibility .34s ease;
+      will-change: transform, opacity;
+    }
+
+    /* Pantalla 1: Detalle */
+    .dialog-screens-deck.showing-detail .screen-detail {
+      opacity: 1;
+      transform: translateX(0);
+      filter: blur(0);
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .dialog-screens-deck.showing-detail .screen-whatsapp {
+      opacity: 0;
+      transform: translateX(36px);
+      filter: blur(3px);
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* Pantalla 2: WhatsApp */
+    .dialog-screens-deck.showing-whatsapp .screen-detail {
+      opacity: 0;
+      transform: translateX(-36px);
+      filter: blur(3px);
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .dialog-screens-deck.showing-whatsapp .screen-whatsapp {
+      opacity: 1;
+      transform: translateX(0);
+      filter: blur(0);
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    /* Componentes Tipográficos */
+    .dialog-kicker {
+      font-family: var(--font-ui);
+      font-size: .78rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+    }
+
+    .dialog-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 3.5vw, 3.3rem);
+      font-weight: 600;
+      line-height: 1.05;
+      color: var(--c-navy);
+      margin-top: -.25rem;
+    }
+
+    .dialog-quote {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 1.1rem;
+      line-height: 1.45;
+      color: var(--c-gold);
+      padding-left: 1rem;
+      border-left: 2px solid var(--c-gold);
+      margin: .2rem 0;
+    }
+
+    .dialog-desc {
+      font-family: var(--font-body);
+      font-size: 1.02rem;
+      line-height: 1.55;
+      color: #3d342c;
+    }
+
+    .dialog-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55rem;
+      padding: .55rem 0;
+      border-top: 1px solid rgba(141, 108, 54, .18);
+      border-bottom: 1px solid rgba(141, 108, 54, .18);
+    }
+
+    .dialog-meta-pill {
+      font-family: var(--font-ui);
+      font-size: .76rem;
+      padding: .32rem .8rem;
+      border-radius: 2rem;
+      border: 1px solid rgba(141, 108, 54, .3);
+      background: rgba(141, 108, 54, .08);
+      color: var(--c-gold);
+    }
+
+    .dialog-actions-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+      gap: .75rem;
+      margin-top: .4rem;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      padding: .75rem 1.2rem;
+      border-radius: .45rem;
+      font-family: var(--font-ui);
+      font-size: .84rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all .2s ease;
+    }
+
+    .btn-gold {
+      background: #8d6c36;
+      color: #fffdfa;
+      box-shadow: 0 4px 12px rgba(141, 108, 54, .25);
+    }
+
+    .btn-gold:hover {
+      background: #6e5226;
+      transform: translateY(-2px);
+    }
+
+    .btn-whatsapp {
+      background: #25d366;
+      color: #0b3d1b;
+      box-shadow: 0 4px 12px rgba(37, 211, 102, .25);
+      font-weight: 600;
+    }
+
+    .btn-whatsapp:hover {
+      background: #1ebc57;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(37, 211, 102, .35);
+    }
+
+    .dismiss-link {
+      font-family: var(--font-ui);
+      font-size: .78rem;
+      color: var(--c-muted);
+      background: none;
+      border: none;
+      text-decoration: underline;
+      cursor: pointer;
+      align-self: center;
+      margin-top: .2rem;
+      transition: color .2s ease;
+    }
+
+    .dismiss-link:hover {
+      color: var(--c-navy);
+    }
+
+    /* Sub-flujo de WhatsApp */
+    .wa-nav-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: .6rem;
+      border-bottom: 1px solid rgba(141, 108, 54, .18);
+    }
+
+    .wa-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: rgba(20, 40, 60, .06);
+      border: 1px solid rgba(20, 40, 60, .18);
+      color: var(--c-navy);
+      font-family: var(--font-ui);
+      font-size: .78rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: .35rem .85rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+
+    .wa-back-btn:hover {
+      background: var(--c-navy);
+      color: #fffdfa;
+      transform: translateX(-3px);
+    }
+
+    .wa-step-indicator {
+      font-family: var(--font-ui);
+      font-size: .74rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+    }
+
+    .wa-intro-group {
+      display: flex;
+      flex-direction: column;
+      gap: .25rem;
+    }
+
+    .wa-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 2.8vw, 2.4rem);
+      font-weight: 600;
+      line-height: 1.1;
+      color: var(--c-navy);
+    }
+
+    .wa-subtitle {
+      font-family: var(--font-body);
+      font-size: .94rem;
+      color: var(--c-muted);
+      line-height: 1.45;
+    }
+
+    .wa-chips-section {
+      display: flex;
+      flex-direction: column;
+      gap: .45rem;
+    }
+
+    .wa-chips-label {
+      font-family: var(--font-ui);
+      font-size: .74rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+    }
+
+    .wa-chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+    }
+
+    .wa-chip {
+      font-family: var(--font-ui);
+      font-size: .74rem;
+      letter-spacing: .04em;
+      background: #fbf7ee;
+      border: 1px solid rgba(141, 108, 54, .3);
+      color: #4a3e33;
+      padding: .35rem .75rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: all .18s ease;
+    }
+
+    .wa-chip:hover {
+      background: #566044;
+      color: #fffdfa;
+      border-color: #566044;
+      transform: translateY(-2px);
+    }
+
+    .wa-chip.is-added {
+      background: rgba(37, 211, 102, .18);
+      border-color: #25d366;
+      color: #0b3d1b;
+      font-weight: 600;
+    }
+
+    .wa-message-box-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+      background: #fbf9f4;
+      border: 1px solid rgba(141, 108, 54, .32);
+      border-radius: .65rem;
+      padding: .85rem;
+      box-shadow: 0 4px 12px rgba(20, 40, 60, .04) inset;
+    }
+
+    .wa-box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .wa-textarea-label {
+      font-family: var(--font-ui);
+      font-size: .75rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--c-navy);
+      font-weight: 600;
+    }
+
+    .wa-reset-btn {
+      background: none;
+      border: none;
+      color: var(--c-gold);
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      letter-spacing: .04em;
+      cursor: pointer;
+      text-decoration: underline;
+      transition: color .2s ease;
+    }
+
+    .wa-reset-btn:hover {
+      color: var(--c-navy);
+    }
+
+    .wa-textarea {
+      width: 100%;
+      min-height: 6.8rem;
+      resize: vertical;
+      border: 1px solid rgba(141, 108, 54, .25);
+      border-radius: .4rem;
+      padding: .65rem .85rem;
+      font-family: var(--font-body);
+      font-size: .98rem;
+      line-height: 1.5;
+      color: #2b231a;
+      background: #fffdfa;
+      outline: none;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .wa-textarea:focus {
+      border-color: #25d366;
+      box-shadow: 0 0 0 3px rgba(37, 211, 102, .2);
+    }
+
+    .wa-box-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      color: var(--c-muted);
+    }
+
+    .wa-actions-group {
+      display: flex;
+      flex-direction: column;
+      gap: .65rem;
+      margin-top: .4rem;
+    }
+
+    .wa-btn-send {
+      width: 100%;
+      min-height: 3.2rem;
+      font-size: .92rem;
+      font-weight: 700;
+      box-shadow: 0 6px 18px rgba(37, 211, 102, .32);
+    }
+
+    .wa-secondary-back-btn {
+      background: none;
+      border: none;
+      font-family: var(--font-ui);
+      font-size: .78rem;
+      color: var(--c-muted);
+      cursor: pointer;
+      text-decoration: underline;
+      align-self: center;
+      transition: color .2s ease;
+    }
+
+    .wa-secondary-back-btn:hover {
+      color: var(--c-navy);
+    }
+
+    /* Adaptación Móvil */
+    @media (max-width: 52rem) {
+      .live-modal-dialog[open] {
+        display: flex;
+        flex-direction: column;
+        width: min(94vw, 24rem);
+        max-height: calc(100dvh - 1.5rem);
+      }
+      .dialog-media-panel {
+        flex: 0 0 9.5rem;
+        min-height: 0;
+      }
+      .dialog-content-panel {
+        padding: 1.15rem;
+        gap: .75rem;
+      }
+    }
+
+    /* Footer Sutil */
+    .live-footer {
+      border-top: 1px solid rgba(141, 108, 54, .2);
+      padding: 1.5rem clamp(1rem, 3vw, 2.5rem);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      font-family: var(--font-ui);
+      font-size: .84rem;
+      color: var(--c-muted);
+      background: rgba(255, 253, 249, .7);
+    }
+
+    .live-footer a {
+      color: var(--c-gold);
+      text-decoration: none;
+      transition: color .2s ease;
+    }
+
+    .live-footer a:hover {
+      color: var(--c-navy);
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       BARRA SUPERIOR EN VIVO (CONTROLES SUTILES DE EXPERIENCIA REAL)
+       ======================================================================== -->
+  <header class="live-top-bar" aria-label="Controles de la experiencia en vivo">
+    <div class="live-brand-group">
+      <a href="index.html" class="live-brand">SoyAutoconocimiento</a>
+      <span class="live-indicator">Sistema 2 · Experiencia en Vivo</span>
+    </div>
+
+    <!-- Selector de Estilo Visual para probar las 5 propuestas en tiempo real -->
+    <div class="live-style-switcher">
+      <span class="style-label">Estilo:</span>
+      <button type="button" class="style-btn is-active" data-style-choice="baseline" onclick="switchLiveStyle('baseline')">0 · Actual</button>
+      <button type="button" class="style-btn" data-style-choice="atelier" onclick="switchLiveStyle('atelier')">1 · Atelier</button>
+      <button type="button" class="style-btn" data-style-choice="portal" onclick="switchLiveStyle('portal')">2 · Portal</button>
+      <button type="button" class="style-btn" data-style-choice="notebook" onclick="switchLiveStyle('notebook')">3 · Cuaderno</button>
+      <button type="button" class="style-btn" data-style-choice="alchemy" onclick="switchLiveStyle('alchemy')">4 · Alquimia</button>
+    </div>
+
+    <!-- Enlace a la Galería / Biblioteca de Tarjetas (Sistema 1) -->
+    <a href="tarjetas.html" class="live-library-link" title="Abrir Sistema 1: Galería & Biblioteca de Tarjetas con visualizador multi-dispositivo">
+      <span>📚 Sistema 1: Biblioteca</span>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+    </a>
+  </header>
+
+  <!-- ========================================================================
+       SECCIÓN EN VIVO: EL BAZAR DE SERVICIOS (#acompanamientos)
+       ======================================================================== -->
+  <main class="bazar-live-wrapper">
+    
+    <!-- Encabezado exacto de producción -->
+    <div class="section-heading-row">
+      <h1 class="section-title">Servicios y Cursos</h1>
+      <span class="section-star" aria-hidden="true">✦</span>
+      <span class="section-eyebrow">El Bazar</span>
+    </div>
+
+    <!-- Toggle Real de Categorías (Servicios vs Cursos) -->
+    <div class="category-tabs" role="tablist" aria-label="Tipo de acompañamiento">
+      <button type="button" class="category-tab is-active" id="live-tab-services" role="tab" aria-selected="true" onclick="switchLiveCategory('services')">
+        Servicios (4)
+      </button>
+      <button type="button" class="category-tab" id="live-tab-courses" role="tab" aria-selected="false" onclick="switchLiveCategory('courses')">
+        Cursos (2)
+      </button>
+    </div>
+
+    <!-- Grilla de Tarjetas en Matriz 3xM -->
+    <div class="bazar-grid-container" id="live-grid-container">
+      <div class="cards-matrix-3" id="live-cards-grid">
+        <!-- Renderizado dinámicamente con la categoría y estilo activo -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========================================================================
+       MODAL DE EXPERIENCIA EN VIVO: DETALLE + PERSONALIZACIÓN WHATSAPP
+       ======================================================================== -->
+  <dialog class="live-modal-dialog" id="live-dialog" aria-labelledby="dialog-title">
+    
+    <!-- Columna Izquierda: Imagen y Estado de Contacto -->
+    <div class="dialog-media-panel">
+      <img id="dialog-img" src="assets/hero-terapia-floral-warm.webp" alt="">
+      
+      <!-- Overlay Sereno que aparece en el paso de WhatsApp -->
+      <div class="media-wa-overlay" id="media-wa-overlay">
+        <div class="wa-contact-badge-box">
+          <div class="wa-avatar-ring">🌿</div>
+          <span class="wa-contact-name">Marcela</span>
+          <span class="wa-contact-role">SoyAutoconocimiento</span>
+          <span class="wa-contact-status-pill">● En línea para responderte</span>
+          <p class="wa-overlay-quote">«El mensaje que nace de tu verdad ya inicia el proceso terapéutico.»</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna Derecha: Deck Deslizante con Momentum -->
+    <div class="dialog-content-panel">
+      <button type="button" class="dialog-close-btn" id="dialog-close-btn" aria-label="Cerrar ventana (Esc)">×</button>
+
+      <div class="dialog-screens-deck showing-detail" id="dialog-deck">
+        
+        <!-- PANTALLA 1: DETALLES DE LA SESIÓN -->
+        <div class="dialog-screen screen-detail" id="screen-detail">
+          <span class="dialog-kicker" id="dialog-kicker">Acompañamiento Terapéutico</span>
+          <h2 class="dialog-title" id="dialog-title">Terapia Floral Evolutiva</h2>
+          
+          <blockquote class="dialog-quote" id="dialog-quote">«El bienestar nace de conocernos profundamente y vivir en coherencia con nuestra verdadera naturaleza.»</blockquote>
+          
+          <div class="dialog-desc" id="dialog-desc">
+            <p>Un acompañamiento terapéutico con Flores de Bach que une observación consciente y autoindagación en un viaje de autoconocimiento.</p>
+          </div>
+
+          <div class="dialog-meta-row">
+            <span class="dialog-meta-pill" id="dialog-format">Online · Zoom</span>
+            <span class="dialog-meta-pill" id="dialog-duration">1 hora</span>
+            <span class="dialog-meta-pill" id="dialog-detail">Atención personalizada</span>
+          </div>
+
+          <div class="dialog-actions-row">
+            <a href="https://calendar.app.google/bakqzB6p1NStA3Hy6" target="_blank" rel="noopener noreferrer" class="btn-action btn-gold" id="dialog-btn-agenda">
+              <span>Agendar en Calendar</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 2v4m10-4v4M4 9h16M5 4h14a1 1 0 0 1 1 1v14H4V5a1 1 0 0 1 1-1Z"/></svg>
+            </a>
+            
+            <button type="button" class="btn-action btn-whatsapp" id="dialog-btn-whatsapp" onclick="goToWhatsAppScreen()">
+              <span>Personalizar & WhatsApp</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.4L3 20l.9-4.7a8.5 8.5 0 1 1 16.6-3.6Z"/></svg>
+            </button>
+          </div>
+
+          <button type="button" class="dismiss-link" onclick="closeLiveModal()">← Volver al Bazar</button>
+        </div>
+
+        <!-- PANTALLA 2: PERSONALIZACIÓN DEL MENSAJE DE WHATSAPP -->
+        <div class="dialog-screen screen-whatsapp" id="screen-whatsapp">
+          <div class="wa-nav-header">
+            <button type="button" class="wa-back-btn" onclick="goToDetailScreen()" aria-label="Volver a los detalles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <span>Volver a detalles</span>
+            </button>
+            <span class="wa-step-indicator">Paso 2 · Personalizar Mensaje</span>
+          </div>
+
+          <div class="wa-intro-group">
+            <span class="dialog-kicker">Contacto Directo con Marcela</span>
+            <h3 class="wa-title">Adapta tu mensaje</h3>
+            <p class="wa-subtitle">Personaliza tus palabras o elige una consulta rápida antes de abrir WhatsApp. Marcela recibirá tu texto tal cual lo escribas.</p>
+          </div>
+
+          <!-- Chips de Consulta Rápida -->
+          <div class="wa-chips-section">
+            <span class="wa-chips-label">Añadir consulta rápida:</span>
+            <div class="wa-chips-row">
+              <button type="button" class="wa-chip" onclick="addChipText(this, '¿Qué días y horarios tienes disponibles próximamente para coordinar?')">📅 Horarios disponibles</button>
+              <button type="button" class="wa-chip" onclick="addChipText(this, '¿Cómo es la dinámica de la sesión online por Zoom?')">💻 Formato online</button>
+              <button type="button" class="wa-chip" onclick="addChipText(this, '¿Necesito alguna preparación previa para este acompañamiento?')">🌿 Preparación previa</button>
+              <button type="button" class="wa-chip" onclick="addChipText(this, '¿Cuáles son los valores y medios de pago disponibles?')">💳 Valores y pago</button>
+            </div>
+          </div>
+
+          <!-- Caja de Texto Editable -->
+          <div class="wa-message-box-wrapper">
+            <div class="wa-box-header">
+              <label for="wa-custom-textarea" class="wa-textarea-label">Tu mensaje para Marcela:</label>
+              <button type="button" class="wa-reset-btn" onclick="resetWhatsAppTemplate()">↺ Restaurar original</button>
+            </div>
+            <textarea id="wa-custom-textarea" class="wa-textarea" rows="4" placeholder="Escribe tu mensaje aquí..." oninput="updateCharCount()"></textarea>
+            <div class="wa-box-footer">
+              <span>Se abrirá WhatsApp Web / App listo para enviar</span>
+              <span id="wa-char-count">0 caracteres</span>
+            </div>
+          </div>
+
+          <div class="wa-actions-group">
+            <button type="button" class="btn-action btn-whatsapp wa-btn-send" onclick="sendCustomWhatsApp()">
+              <span>Abrir WhatsApp y Enviar Mensaje ↗</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.4L3 20l.9-4.7a8.5 8.5 0 1 1 16.6-3.6Z"/></svg>
+            </button>
+            <button type="button" class="wa-secondary-back-btn" onclick="goToDetailScreen()">
+              ← Regresar a los detalles de <span id="wa-back-offer-name">la sesión</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ========================================================================
+       FOOTER SUTIL
+       ======================================================================== -->
+  <footer class="live-footer">
+    <div>
+      <span>SoyAutoconocimiento · Experiencia en Tiempo Real</span>
+    </div>
+    <div style="display: flex; gap: 1.25rem;">
+      <a href="tarjetas.html">Ir a la Galería & Biblioteca de Tarjetas →</a>
+      <a href="index.html#acompanamientos">Ver sitio principal</a>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       SCRIPTS: GESTIÓN DE OFERTAS, ALTERNADOR Y SUB-FLUJO WHATSAPP
+       ======================================================================== -->
+  <script>
+    const MARCELA_OFFERS = {
+      'floral': {
+        id: 'floral',
+        category: 'services',
+        title: "Terapia Floral Evolutiva",
+        kicker: "Acompañamiento Terapéutico · Flores de Bach",
+        image: "assets/hero-terapia-floral-warm.webp",
+        quote: "«El bienestar nace de conocernos profundamente y vivir en coherencia con nuestra verdadera naturaleza.»",
+        desc: "Un acompañamiento terapéutico con Flores de Bach que une observación consciente y autoindagación en un viaje de autoconocimiento.\n\nEn cada sesión exploramos juntos lo que hoy te inquieta, facilitando la toma de conciencia sobre patrones emocionales para formular un preparado floral personalizado.",
+        format: "Online · Zoom",
+        duration: "1 hora",
+        detail: "Incluye fórmula personalizada",
+        agendaUrl: "https://calendar.app.google/bakqzB6p1NStA3Hy6",
+        defaultMsg: "Hola Marcela, me gustaría consultar por la sesión de Terapia Floral Evolutiva. ¿Tienes disponibilidad en los próximos días para coordinar? Gracias."
+      },
+      'tarot': {
+        id: 'tarot',
+        category: 'services',
+        title: "Lectura de Tarot Terapéutico",
+        kicker: "Arquetipos & Sabiduría del Inconsciente",
+        image: "assets/curso_tarot-marcela-20261009.webp",
+        quote: "«Un mapa simbólico que te invita a explorar tu mundo interior con autenticidad.»",
+        desc: "El Tarot es un espejo del alma que nos muestra el panorama arquetípico de lo que estamos viviendo. A través de una mirada evolutiva y respetuosa, desentrañamos encrucijadas y clarificamos tu rumbo vital.",
+        format: "Online · Zoom",
+        duration: "1 hora",
+        detail: "Sesión individual confidencial",
+        agendaUrl: "https://calendar.app.google/bakqzB6p1NStA3Hy6",
+        defaultMsg: "Hola Marcela, quisiera coordinar una sesión de Lectura de Tarot Terapéutico contigo. ¿Cómo podemos agendar? Muchas gracias."
+      },
+      'constelaciones': {
+        id: 'constelaciones',
+        category: 'services',
+        title: "Constelaciones Familiares",
+        kicker: "Sanación Sistémica Individual",
+        image: "assets/constelaciones.webp",
+        quote: "«Asentir con amor a la historia familiar para habitar plenamente tu propio destino.»",
+        desc: "En un espacio íntimo e individual, miramos con amor las dinámicas familiares inconscientes y lealtades invisibles que pueden estar frenando tu desarrollo o bienestar, abriendo paso a la reconciliación y la paz interior.",
+        format: "Online · Zoom",
+        duration: "1 hora",
+        detail: "Abordaje sistémico profundo",
+        agendaUrl: "https://calendar.app.google/bakqzB6p1NStA3Hy6",
+        defaultMsg: "Hola Marcela, me interesa realizar una sesión individual de Constelaciones Familiares. Me gustaría conocer fechas y cómo prepararme. Gracias."
+      },
+      'carta-astral': {
+        id: 'carta-astral',
+        category: 'services',
+        title: "Carta Astral & Flores",
+        kicker: "Cosmología Natal & Esencias Florales",
+        image: "assets/carta_astral.webp",
+        quote: "«Integrar el mapa del cielo con la sutileza sanadora de las flores.»",
+        desc: "Exploramos juntos tu mapa natal para reconocer potencialidades, desafíos y rutas evolutivas. Luego de la primera sesión, si lo decides, podemos profundizar y acompañarnos con Flores de Bach para fortalecer tu proceso.",
+        format: "Online · Zoom",
+        duration: "1 hora",
+        detail: "Mapa natal personalizado",
+        agendaUrl: "https://calendar.app.google/bakqzB6p1NStA3Hy6",
+        defaultMsg: "Hola Marcela, quisiera consultar sobre la lectura de Carta Astral y cómo se integra con Flores de Bach. ¿Qué datos necesitas para comenzar? Gracias."
+      },
+      'curso-astrologia': {
+        id: 'curso-astrologia',
+        category: 'courses',
+        title: "Formación en Astrología",
+        kicker: "Curso Anual · Lenguaje del Cosmos",
+        image: "assets/curso_astrologia.webp",
+        quote: "«Aprender a mirar el propio cielo con paciencia, rigor y verdad.»",
+        desc: "Descubre el lenguaje de los astros y explora tu mapa natal como una senda viva de autoconocimiento. Aprenderás a interpretar aspectos, casas, signos y tránsitos desde un enfoque psicológico y terapéutico.",
+        format: "Online · Zoom",
+        duration: "Ciclo lectivo 2026",
+        detail: "Entrevista previa a inscripción",
+        agendaUrl: "https://calendar.app.google/bakqzB6p1NStA3Hy6",
+        defaultMsg: "Hola Marcela, quisiera solicitar la entrevista previa para postular al Curso Anual de Astrología 2026. ¿Cuándo podríamos conversar brevemente? Saludos."
+      },
+      'curso-tarot-2026': {
+        id: 'curso-tarot-2026',
+        category: 'courses',
+        title: "Formación en Tarot 2026",
+        kicker: "Curso Anual · Arcanos Mayores & Menores",
+        image: "assets/curso_tarot.webp",
+        quote: "«Las cartas como un sendero de intuición y revelación de la psique.»",
+        desc: "Explora las cartas como un camino de aprendizaje e intuición que abre nuevas miradas sobre tus procesos vitales. Arcanos Mayores y Menores, tiradas terapéuticas y su estrecha relación con tu carta astral.",
+        format: "Online · Zoom",
+        duration: "Ciclo lectivo 2026",
+        detail: "Cupos limitados · Entrevista previa",
+        agendaUrl: "https://calendar.app.google/bakqzB6p1NStA3Hy6",
+        defaultMsg: "Hola Marcela, me interesa conocer más sobre la Formación en Tarot 2026 y consultar si aún quedan cupos para la entrevista previa. Gracias."
+      }
+    };
+
+    let activeLiveCategory = 'services';
+    let activeLiveStyle = 'baseline';
+    let currentActiveOffer = null;
+    let currentModalScreen = 'detail';
+    let lastTriggerElement = null;
+
+    // Cambiar Categoría (Servicios vs Cursos)
+    function switchLiveCategory(category) {
+      if (activeLiveCategory === category) return;
+      activeLiveCategory = category;
+
+      document.getElementById('live-tab-services').classList.toggle('is-active', category === 'services');
+      document.getElementById('live-tab-services').setAttribute('aria-selected', category === 'services');
+      document.getElementById('live-tab-courses').classList.toggle('is-active', category === 'courses');
+      document.getElementById('live-tab-courses').setAttribute('aria-selected', category === 'courses');
+
+      const container = document.getElementById('live-grid-container');
+      container.classList.add('is-switching');
+
+      setTimeout(() => {
+        renderLiveCards();
+        container.classList.remove('is-switching');
+      }, 160);
+    }
+
+    // Cambiar Estilo Visual en Vivo
+    function switchLiveStyle(styleKey) {
+      activeLiveStyle = styleKey;
+      document.querySelectorAll('.style-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.styleChoice === styleKey);
+      });
+      renderLiveCards();
+    }
+
+    // Renderizar Tarjetas
+    function renderLiveCards() {
+      const grid = document.getElementById('live-cards-grid');
+      grid.innerHTML = '';
+
+      const items = Object.values(MARCELA_OFFERS).filter(item => item.category === activeLiveCategory);
+
+      items.forEach(item => {
+        const card = createCardElement(item, activeLiveStyle);
+        grid.appendChild(card);
+      });
+    }
+
+    function createCardElement(item, style) {
+      const article = document.createElement('article');
+      article.className = 'card-interactive';
+      article.tabIndex = 0;
+      article.setAttribute('role', 'button');
+      article.setAttribute('aria-label', `Abrir detalles de ${item.title}`);
+
+      article.onclick = () => triggerLiveModal(item.id);
+
+      if (style === 'baseline') {
+        article.classList.add('card-baseline');
+        article.innerHTML = `
+          <div class="baseline-photo"><img src="${item.image}" alt="${item.title}"></div>
+          <div class="baseline-content">
+            <span class="baseline-badge">${item.category === 'courses' ? 'Formación' : 'Servicio'}</span>
+            <h2 class="baseline-title">${item.title}</h2>
+            <span class="baseline-action">+ CONOCER ✦</span>
+          </div>
+        `;
+      } else if (style === 'atelier') {
+        article.classList.add('card-atelier');
+        article.innerHTML = `
+          <div class="atelier-photo"><img src="${item.image}" alt="${item.title}"></div>
+          <span class="atelier-meta">${item.kicker}</span>
+          <h2 class="atelier-title">${item.title}</h2>
+          <p class="atelier-desc">${item.desc.split('\n\n')[0]}</p>
+          <div class="atelier-footer">
+            <span class="atelier-duration">${item.duration} · Zoom</span>
+            <span class="atelier-action">Conocer ✦</span>
+          </div>
+        `;
+      } else if (style === 'portal') {
+        article.classList.add('card-portal');
+        article.innerHTML = `
+          <div class="portal-vault"><img src="${item.image}" alt="${item.title}"><span class="portal-badge">${item.category === 'courses' ? 'Formación 2026' : 'Acompañamiento'}</span></div>
+          <div class="portal-body">
+            <h2 class="portal-title">${item.title}</h2>
+            <div class="portal-symbol">✦</div>
+            <p class="portal-desc">${item.desc.split('\n\n')[0]}</p>
+          </div>
+          <div class="portal-footer"><span class="portal-duration">${item.duration}</span><button type="button" class="portal-btn">Explorar ✦</button></div>
+        `;
+      } else if (style === 'notebook') {
+        article.classList.add('card-notebook');
+        article.innerHTML = `
+          <div class="notebook-top"><img src="${item.image}" alt="${item.title}"><span class="notebook-tag">${item.category === 'courses' ? 'Curso' : 'Sesión'}</span></div>
+          <div class="notebook-content">
+            <span class="notebook-meta">${item.category === 'courses' ? 'Formación Anual' : 'Acompañamiento'}</span>
+            <h2 class="notebook-title">${item.title}</h2>
+            <blockquote class="notebook-quote">${item.quote}</blockquote>
+            <p class="notebook-desc">${item.desc.split('\n\n')[0]}</p>
+            <div class="notebook-footer"><span class="notebook-req">${item.detail}</span><button type="button" class="notebook-btn">${item.category === 'courses' ? 'Ver temario' : 'Agendar'}</button></div>
+          </div>
+        `;
+      } else if (style === 'alchemy') {
+        article.classList.add('card-alchemy');
+        article.innerHTML = `
+          <div class="alchemy-photo"><img src="${item.image}" alt="${item.title}"></div>
+          <span class="alchemy-meta">${item.kicker}</span>
+          <h2 class="alchemy-title">${item.title}</h2>
+          <p class="alchemy-desc">${item.desc.split('\n\n')[0]}</p>
+          <div class="alchemy-footer"><span class="alchemy-duration">${item.duration} · Online</span><span class="alchemy-action">Agendar ✦</span></div>
+        `;
+      }
+
+      return article;
+    }
+
+    // ==========================================================================
+    // MODAL DE EXPERIENCIA & SUB-FLUJO WHATSAPP
+    // ==========================================================================
+    function triggerLiveModal(offerId) {
+      const data = MARCELA_OFFERS[offerId] || MARCELA_OFFERS['floral'];
+      currentActiveOffer = data;
+      const dialog = document.getElementById('live-dialog');
+      lastTriggerElement = document.activeElement;
+
+      setModalDeckState('detail');
+
+      document.getElementById('dialog-img').src = data.image;
+      document.getElementById('dialog-kicker').textContent = data.kicker;
+      document.getElementById('dialog-title').textContent = data.title;
+      document.getElementById('dialog-quote').textContent = data.quote;
+      
+      const descBox = document.getElementById('dialog-desc');
+      descBox.innerHTML = '';
+      data.desc.split('\n\n').forEach(paragraph => {
+        const p = document.createElement('p');
+        p.textContent = paragraph;
+        p.style.marginBottom = '.65rem';
+        descBox.appendChild(p);
+      });
+
+      document.getElementById('dialog-format').textContent = data.format;
+      document.getElementById('dialog-duration').textContent = data.duration;
+      document.getElementById('dialog-detail').textContent = data.detail;
+
+      const agendaBtn = document.getElementById('dialog-btn-agenda');
+      if (data.agendaUrl) {
+        agendaBtn.href = data.agendaUrl;
+        agendaBtn.hidden = false;
+      } else {
+        agendaBtn.hidden = true;
+      }
+
+      document.getElementById('wa-back-offer-name').textContent = data.title;
+      const textarea = document.getElementById('wa-custom-textarea');
+      textarea.value = data.defaultMsg;
+      updateCharCount();
+
+      document.querySelectorAll('.wa-chip').forEach(c => c.classList.remove('is-added'));
+
+      dialog.classList.remove('is-closing');
+      dialog.showModal();
+    }
+
+    function goToWhatsAppScreen() {
+      setModalDeckState('whatsapp');
+      const textarea = document.getElementById('wa-custom-textarea');
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+      }, 340);
+    }
+
+    function goToDetailScreen() {
+      setModalDeckState('detail');
+      const returnBtn = document.getElementById('dialog-btn-whatsapp');
+      setTimeout(() => {
+        returnBtn?.focus();
+      }, 340);
+    }
+
+    function setModalDeckState(screen) {
+      currentModalScreen = screen;
+      const deck = document.getElementById('dialog-deck');
+      const dialog = document.getElementById('live-dialog');
+
+      if (screen === 'whatsapp') {
+        deck.classList.remove('showing-detail');
+        deck.classList.add('showing-whatsapp');
+        dialog.classList.add('state-whatsapp');
+      } else {
+        deck.classList.remove('showing-whatsapp');
+        deck.classList.add('showing-detail');
+        dialog.classList.remove('state-whatsapp');
+      }
+    }
+
+    function updateCharCount() {
+      const textarea = document.getElementById('wa-custom-textarea');
+      const countEl = document.getElementById('wa-char-count');
+      countEl.textContent = textarea.value.length + ' caracteres';
+    }
+
+    function addChipText(buttonEl, textToAdd) {
+      const textarea = document.getElementById('wa-custom-textarea');
+      if (!textarea.value.includes(textToAdd)) {
+        textarea.value = textarea.value.trim() + '\n\n' + textToAdd;
+        buttonEl.classList.add('is-added');
+      }
+      updateCharCount();
+      textarea.focus();
+    }
+
+    function resetWhatsAppTemplate() {
+      if (!currentActiveOffer) return;
+      const textarea = document.getElementById('wa-custom-textarea');
+      textarea.value = currentActiveOffer.defaultMsg;
+      document.querySelectorAll('.wa-chip').forEach(c => c.classList.remove('is-added'));
+      updateCharCount();
+      textarea.focus();
+    }
+
+    function sendCustomWhatsApp() {
+      const textarea = document.getElementById('wa-custom-textarea');
+      const finalMsg = textarea.value.trim();
+      const encodedMsg = encodeURIComponent(finalMsg);
+      const url = `https://wa.me/56992388057?text=${encodedMsg}`;
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+
+    function closeLiveModal() {
+      const dialog = document.getElementById('live-dialog');
+      if (!dialog.open) return;
+
+      dialog.classList.add('is-closing');
+      setTimeout(() => {
+        dialog.close();
+        dialog.classList.remove('is-closing', 'state-whatsapp');
+        setModalDeckState('detail');
+        if (lastTriggerElement && typeof lastTriggerElement.focus === 'function') {
+          lastTriggerElement.focus();
+        }
+      }, 220);
+    }
+
+    document.getElementById('dialog-close-btn').addEventListener('click', closeLiveModal);
+
+    const dialogEl = document.getElementById('live-dialog');
+    dialogEl.addEventListener('click', event => {
+      if (event.target === dialogEl) {
+        closeLiveModal();
+      }
+    });
+
+    dialogEl.addEventListener('cancel', event => {
+      event.preventDefault();
+      if (currentModalScreen === 'whatsapp') {
+        goToDetailScreen();
+      } else {
+        closeLiveModal();
+      }
+    });
+
+    document.addEventListener('keydown', event => {
+      if ((event.key === 'Enter' || event.key === ' ') && event.target.classList.contains('card-interactive')) {
+        event.preventDefault();
+        event.target.click();
+      }
+    });
+
+    // Inicialización con parámetros de URL si existen
+    const urlParams = new URLSearchParams(location.search);
+    const paramStyle = urlParams.get('estilo');
+    const paramCat = urlParams.get('cat');
+    const paramModal = urlParams.get('modal');
+    const paramScreen = urlParams.get('screen');
+
+    if (paramCat && ['services', 'courses'].includes(paramCat)) {
+      activeLiveCategory = paramCat;
+      document.getElementById('live-tab-services')?.classList.toggle('is-active', paramCat === 'services');
+      document.getElementById('live-tab-courses')?.classList.toggle('is-active', paramCat === 'courses');
+    }
+
+    if (paramStyle && ['baseline', 'atelier', 'portal', 'notebook', 'alchemy'].includes(paramStyle)) {
+      activeLiveStyle = paramStyle;
+      document.querySelectorAll('.style-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.styleChoice === paramStyle);
+      });
+    }
+
+    renderLiveCards();
+
+    if (paramModal && MARCELA_OFFERS[paramModal]) {
+      setTimeout(() => {
+        triggerLiveModal(paramModal);
+        if (paramScreen === 'whatsapp') {
+          goToWhatsAppScreen();
+        }
+      }, 50);
+    }
+  </script>
+</body>
+</html>
