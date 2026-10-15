@@ -1,0 +1,3245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galería & Biblioteca de Tarjetas (Design System) · SoyAutoconocimiento</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/lora-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/marcellus-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="preview.css?v=20261015-editorial-autor-1">
+  <link rel="stylesheet" href="psicoandino-ajustes.css?v=20261015-editorial-autor-1">
+  <link rel="stylesheet" href="preview-bazar-editor.css?v=20261015-editor-1">
+  <style>
+    /* ==========================================================================
+       BAZAR REAL EMULADO & LABORATORIO DE TARJETAS (MATRIZ 3xM + HUD COLAPSABLE)
+       ========================================================================== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Lora', Georgia, serif;
+      --font-ui: 'Marcellus', Georgia, serif;
+      --c-navy: #14283c;
+      --c-gold: #8d6c36;
+      --c-gold-light: #c6a25e;
+      --c-sage: #566044;
+      --c-parchment: #fffdfa;
+      --c-ink: #2b231a;
+      --c-muted: #554a40;
+      --c-wa: #25d366;
+      --c-wa-dark: #128c7e;
+    }
+
+    body {
+      background-color: #17202a;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(141, 108, 54, .18) 0%, transparent 60%),
+        linear-gradient(rgba(18, 27, 36, .94), rgba(18, 27, 36, .94)), 
+        url("marble-white.webp");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #fffdf9;
+      font-family: var(--font-body);
+      min-height: 100vh;
+      padding: clamp(.6rem, 1.6vw, 1.4rem);
+      transition: padding .3s ease;
+    }
+
+    body.hud-is-collapsed {
+      padding-top: .4rem;
+    }
+
+    /* ==========================================================================
+       BARRA SUPERIOR (DEVELOPER / EDITOR HUD) COLAPSABLE
+       ========================================================================== */
+    .viewport-control-dock {
+      position: sticky;
+      top: .6rem;
+      z-index: 200;
+      max-width: 88rem;
+      margin: 0 auto 1.4rem;
+      background: rgba(14, 25, 38, .94);
+      border: 1px solid rgba(198, 162, 94, .45);
+      border-radius: .85rem;
+      padding: .65rem 1rem;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .45), 0 0 0 1px rgba(255, 255, 255, .08) inset;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+      transition: transform .35s cubic-bezier(.16, 1, .3, 1), opacity .25s ease, margin .35s ease;
+    }
+
+    body.hud-is-collapsed .viewport-control-dock {
+      transform: translateY(-130%);
+      opacity: 0;
+      pointer-events: none;
+      margin-bottom: 0;
+      position: absolute;
+    }
+
+    /* Botón flotante para reabrir el HUD cuando está colapsado */
+    .hud-floating-trigger {
+      position: fixed;
+      top: .8rem;
+      right: .8rem;
+      z-index: 300;
+      background: rgba(14, 25, 38, .92);
+      border: 1px solid rgba(198, 162, 94, .55);
+      color: #f4d9a4;
+      padding: .45rem .95rem;
+      border-radius: 2rem;
+      font-family: var(--font-ui);
+      font-size: .75rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, .35);
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      gap: .45rem;
+      backdrop-filter: blur(8px);
+      transition: all .2s ease;
+    }
+
+    body.hud-is-collapsed .hud-floating-trigger {
+      display: inline-flex;
+    }
+
+    .hud-floating-trigger:hover {
+      background: #c6a25e;
+      color: #14283c;
+      transform: translateY(-2px);
+    }
+
+    .dock-title-group {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    .dock-badge {
+      background: #c6a25e;
+      color: #14283c;
+      font-family: var(--font-ui);
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .22rem .6rem;
+      border-radius: 2rem;
+    }
+
+    .dock-label {
+      font-family: var(--font-ui);
+      font-size: .84rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #fffdfa;
+    }
+
+    .device-selectors {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .4rem;
+    }
+
+    .device-btn {
+      font-family: var(--font-ui);
+      font-size: .75rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: .42rem .82rem;
+      border-radius: .4rem;
+      border: 1px solid rgba(255, 255, 255, .18);
+      background: rgba(255, 255, 255, .06);
+      color: #ded6c9;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      transition: all .2s ease;
+      user-select: none;
+    }
+
+    .device-btn svg {
+      width: 1rem;
+      height: 1rem;
+      stroke-width: 1.8;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .device-btn:hover {
+      background: rgba(198, 162, 94, .25);
+      color: #fffdf9;
+      border-color: rgba(198, 162, 94, .55);
+    }
+
+    .device-btn.is-active {
+      background: #c6a25e;
+      color: #14283c;
+      font-weight: 700;
+      border-color: #c6a25e;
+      box-shadow: 0 2px 8px rgba(198, 162, 94, .35);
+    }
+
+    .dock-tools {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .dock-action-btn {
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: .4rem .75rem;
+      border-radius: .4rem;
+      border: 1px solid rgba(198, 162, 94, .35);
+      background: rgba(198, 162, 94, .12);
+      color: #f4d9a4;
+      cursor: pointer;
+      transition: all .2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+    }
+
+    .dock-action-btn:hover {
+      background: #c6a25e;
+      color: #14283c;
+    }
+
+    /* Botón especial para ocultar el HUD */
+    .btn-collapse-hud {
+      border-color: rgba(255, 255, 255, .25);
+      background: rgba(255, 255, 255, .08);
+      color: #fffdfa;
+    }
+
+    .btn-collapse-hud:hover {
+      background: #e25555;
+      color: #fff;
+      border-color: #e25555;
+    }
+
+    .dimension-pill {
+      font-family: var(--font-ui);
+      font-size: .75rem;
+      letter-spacing: .06em;
+      color: #c6a25e;
+      background: rgba(10, 18, 26, .75);
+      border: 1px solid rgba(198, 162, 94, .3);
+      padding: .35rem .75rem;
+      border-radius: 2rem;
+      white-space: nowrap;
+    }
+
+    /* ==========================================================================
+       ESCENARIO Y CONTENEDOR DEL DISPOSITIVO
+       ========================================================================== */
+    .lab-stage-outer {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      min-height: calc(100vh - 8rem);
+      overflow-x: auto;
+      padding-bottom: 3rem;
+    }
+
+    .lab-stage-scaler {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      transition: transform .32s cubic-bezier(.16, 1, .3, 1);
+      transform-origin: top center;
+    }
+
+    .lab-device-frame {
+      width: 100%;
+      max-width: 88rem;
+      background: #fffdfa;
+      color: var(--c-navy);
+      transition: max-width .38s cubic-bezier(.16, 1, .3, 1), width .38s cubic-bezier(.16, 1, .3, 1);
+      position: relative;
+    }
+
+    /* Simulación de Hardware / Bezel en modos específicos */
+    .has-device-bezel {
+      border: 12px solid #0d151e;
+      border-radius: 2.2rem;
+      box-shadow: 0 25px 65px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 255, 255, .1) inset;
+      overflow: hidden;
+      background: #fffdfa;
+    }
+
+    .has-device-bezel.mode-mobile {
+      border-width: 13px;
+      border-radius: 2.8rem;
+    }
+
+    /* Barra de estado del dispositivo */
+    .device-bezel-header {
+      background: #0d151e;
+      color: #ded6c9;
+      padding: .45rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, .1);
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    .device-camera-notch {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+
+    .camera-lens {
+      width: .55rem;
+      height: .55rem;
+      border-radius: 50%;
+      background: #1b2633;
+      border: 1px solid rgba(255, 255, 255, .2);
+    }
+
+    .speaker-slot {
+      width: 2.4rem;
+      height: .25rem;
+      border-radius: 1rem;
+      background: #1b2633;
+    }
+
+    /* ==========================================================================
+       CONTENIDO INTERIOR DEL SITIO DENTRO DEL DISPOSITIVO
+       ========================================================================== */
+    .lab-inner-content {
+      background-color: #fffdfa;
+      background-image: linear-gradient(rgba(255,255,255,.6), rgba(255,255,255,.6)), url("marble-white.webp");
+      background-size: cover;
+      background-position: center;
+      color: var(--c-navy);
+      padding: clamp(1.2rem, 2.5vw, 2.4rem);
+      min-height: 100%;
+    }
+
+    .lab-header {
+      text-align: center;
+      margin-bottom: clamp(1.4rem, 2.8vw, 2.2rem);
+      padding-bottom: 1.4rem;
+      border-bottom: 1px solid rgba(141, 108, 54, .25);
+    }
+
+    .lab-brand {
+      font-family: var(--font-ui);
+      font-size: clamp(.75rem, .9vw, .92rem);
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+      display: block;
+      margin-bottom: .35rem;
+    }
+
+    .lab-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.1rem, 3.8vw, 3.5rem);
+      font-weight: 600;
+      line-height: 1.05;
+      color: var(--c-navy);
+      margin-bottom: .5rem;
+    }
+
+    .lab-lead {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: clamp(1rem, 1.25vw, 1.2rem);
+      color: var(--c-muted);
+      max-width: 46rem;
+      margin: 0 auto 1.1rem;
+      line-height: 1.45;
+    }
+
+    /* Pestañas de Navegación */
+    .lab-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: .4rem;
+      margin-top: .9rem;
+    }
+
+    .lab-tab-btn {
+      font-family: var(--font-ui);
+      font-size: clamp(.72rem, .82vw, .85rem);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .44rem .95rem;
+      border-radius: 2rem;
+      border: 1px solid rgba(141, 108, 54, .32);
+      background: rgba(255, 253, 249, .9);
+      color: #554a40;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+
+    .lab-tab-btn:hover {
+      background: var(--c-sage);
+      color: #fffaf2;
+      border-color: var(--c-sage);
+    }
+
+    .lab-tab-btn.is-active {
+      background: var(--c-navy);
+      color: #fffaf2;
+      border-color: var(--c-navy);
+      box-shadow: 0 2px 8px rgba(20, 40, 60, .22);
+    }
+
+    /* ==========================================================================
+       SECCIÓN BAZAR REAL EMULADA (#view-real-bazar)
+       ========================================================================== */
+    .real-bazar-section {
+      padding: clamp(.5rem, 1.5vw, 1.5rem) 0 2.5rem;
+    }
+
+    /* Barra de herramientas para cambiar el estilo de las tarjetas en el Bazar Real */
+    .bazar-style-picker-bar {
+      background: rgba(255, 253, 249, .96);
+      border: 1px solid rgba(141, 108, 54, .35);
+      border-radius: .75rem;
+      padding: .75rem 1.1rem;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+      box-shadow: 0 4px 14px rgba(20, 40, 60, .05);
+    }
+
+    .picker-label-group {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-family: var(--font-ui);
+      font-size: .8rem;
+      letter-spacing: .06em;
+      color: var(--c-navy);
+    }
+
+    .picker-pill-badge {
+      background: var(--c-navy);
+      color: #fffdfa;
+      padding: .2rem .65rem;
+      border-radius: 2rem;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .bazar-style-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem;
+    }
+
+    .style-chip-btn {
+      font-family: var(--font-ui);
+      font-size: .74rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: .35rem .75rem;
+      border-radius: 2rem;
+      border: 1px solid rgba(141, 108, 54, .3);
+      background: #fffdfa;
+      color: #554a40;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+
+    .style-chip-btn:hover {
+      background: var(--c-sage);
+      color: #fffdfa;
+      border-color: var(--c-sage);
+    }
+
+    .style-chip-btn.is-active {
+      background: var(--c-gold);
+      color: #fffdfa;
+      font-weight: 700;
+      border-color: var(--c-gold);
+      box-shadow: 0 2px 6px rgba(141, 108, 54, .3);
+    }
+
+    /* Encabezado Real del Bazar (Exacto a index.html) */
+    .real-bazar-heading {
+      margin-bottom: clamp(.6rem, 1.4vw, 1.2rem);
+    }
+
+    .real-bazar-heading-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: clamp(.55rem, 1.2vw, 1.15rem);
+      flex-wrap: wrap;
+      text-align: center;
+    }
+
+    .real-bazar-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.3rem, 4.4vw, 3.8rem);
+      font-weight: 600;
+      line-height: 1.02;
+      color: var(--c-navy);
+    }
+
+    .real-bazar-star {
+      color: var(--c-gold);
+      font-size: 1.1rem;
+    }
+
+    .real-bazar-eyebrow {
+      font-family: var(--font-ui);
+      font-size: clamp(.82rem, 1vw, .95rem);
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+    }
+
+    /* Pestañas de Categoría Reales (Servicios vs Cursos) */
+    .real-category-tabs {
+      display: flex;
+      justify-content: center;
+      gap: .65rem;
+      margin: 1.1rem auto 2.2rem;
+    }
+
+    .real-category-tab {
+      font-family: var(--font-ui);
+      font-size: clamp(.82rem, .92vw, .95rem);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .6rem 1.6rem;
+      border-radius: 2rem;
+      border: 1px solid rgba(141, 108, 54, .35);
+      background: rgba(255, 253, 249, .9);
+      color: #4a4036;
+      cursor: pointer;
+      transition: all .25s ease;
+      min-width: 8.5rem;
+      text-align: center;
+      user-select: none;
+    }
+
+    .real-category-tab:hover {
+      background: var(--c-sage);
+      color: #fffdfa;
+      border-color: var(--c-sage);
+    }
+
+    .real-category-tab.is-active {
+      background: var(--c-navy);
+      color: #fffdfa;
+      border-color: var(--c-navy);
+      box-shadow: 0 4px 14px rgba(20, 40, 60, .25);
+    }
+
+    /* Contenedor del Grid Real con animación de cambio de categoría */
+    .real-bazar-grid-container {
+      position: relative;
+      transition: opacity .22s ease;
+    }
+
+    .real-bazar-grid-container.is-switching {
+      opacity: 0;
+    }
+
+    /* Cajas Introductorias */
+    .section-intro-box {
+      background: rgba(255, 253, 249, .94);
+      border: 1px solid rgba(141, 108, 54, .25);
+      border-radius: .6rem;
+      padding: 1.1rem 1.4rem;
+      margin-bottom: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+    }
+
+    .section-intro-box strong {
+      font-family: var(--font-ui);
+      font-size: .92rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+    }
+
+    .section-intro-box p {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--c-ink);
+      line-height: 1.45;
+    }
+
+    /* ==========================================================================
+       MATRIZ 3 x M (3 COLUMNAS x M FILAS)
+       ========================================================================== */
+    .cards-matrix-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(1rem, 2vw, 1.8rem);
+      margin-bottom: 2.8rem;
+    }
+
+    /* Reglas Adaptativas al simulador */
+    .mode-tablet-portrait .cards-matrix-3 {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 1.15rem !important;
+    }
+
+    .mode-mobile .cards-matrix-3 {
+      grid-template-columns: minmax(0, 1fr) !important;
+      gap: 1rem !important;
+    }
+
+    /* Reglas cuando el viewport de pantalla real se reduce */
+    @media (max-width: 62rem) {
+      .mode-fluid .cards-matrix-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 44rem) {
+      .mode-fluid .cards-matrix-3 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* Interactividad Global */
+    .card-interactive {
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      outline: none;
+    }
+
+    .card-interactive:active {
+      transform: scale(.985) translateY(1px) !important;
+    }
+
+    /* ==========================================================================
+       ESTILO 0: ACTUAL EN EL SITIO (BASELINE / OSCURO CON IMAGEN COMPLETA)
+       ========================================================================== */
+    .card-baseline {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      border: 1px solid rgba(255, 248, 235, .72);
+      border-radius: 1rem;
+      background: #32261d;
+      min-height: 23.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      box-shadow: 0 .65rem 1.4rem rgba(42, 32, 22, .18);
+      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+    }
+
+    .card-baseline:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 1.125rem 2.2rem rgba(35, 26, 16, .35);
+      border-color: rgba(255, 248, 235, .95);
+    }
+
+    .card-baseline .baseline-photo {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .card-baseline .baseline-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .45s ease;
+    }
+
+    .card-baseline:hover .baseline-photo img {
+      transform: scale(1.05);
+    }
+
+    .card-baseline::after {
+      position: absolute;
+      z-index: 1;
+      inset: 20% 0 0;
+      content: "";
+      pointer-events: none;
+      background: linear-gradient(180deg, transparent 0%, rgba(133, 92, 45, .28) 36%, rgba(32, 22, 14, .92) 100%);
+    }
+
+    .card-baseline .baseline-content {
+      position: relative;
+      z-index: 2;
+      padding: clamp(1rem, 2.2vw, 1.4rem);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: .75rem;
+      color: #fffdf8;
+      text-align: right;
+    }
+
+    .card-baseline .baseline-badge {
+      font-family: var(--font-ui);
+      font-size: .68rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #f4d9a4;
+      background: rgba(30, 20, 12, .65);
+      border: 1px solid rgba(244, 217, 164, .35);
+      padding: .2rem .6rem;
+      border-radius: 1rem;
+      backdrop-filter: blur(4px);
+    }
+
+    .card-baseline .baseline-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 2.8vw, 2.4rem);
+      font-weight: 600;
+      line-height: .98;
+      letter-spacing: -.02em;
+      color: #fffdf8;
+      text-shadow: 0 .12em .48em rgba(18, 15, 13, .9);
+    }
+
+    .card-baseline .baseline-action {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      color: #f4d9a4;
+      font-family: var(--font-ui);
+      font-size: clamp(.65rem, .85vw, .76rem);
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-shadow: 0 .12em .4em rgba(18, 15, 13, .85);
+    }
+
+    /* ==========================================================================
+       PROPUESTA 1: LÁMINA DE ATELIER (Editorial Botánico Puro)
+       ========================================================================== */
+    .card-atelier {
+      background: #fffdfa;
+      border: 1px solid rgba(141, 108, 54, .3);
+      position: relative;
+      padding: 1rem 1rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 23.5rem;
+      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+    }
+
+    .card-atelier::before {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border: 1px solid rgba(141, 108, 54, .14);
+      pointer-events: none;
+    }
+
+    .card-atelier:hover {
+      transform: translateY(-4px);
+      border-color: rgba(141, 108, 54, .7);
+      box-shadow: 0 10px 24px rgba(38, 31, 24, .09);
+    }
+
+    .card-atelier .atelier-photo {
+      position: relative;
+      width: 100%;
+      height: 14rem;
+      overflow: hidden;
+      border: 1px solid rgba(141, 108, 54, .2);
+      background: #f4efe5;
+      margin-bottom: .9rem;
+    }
+
+    .card-atelier .atelier-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .45s ease;
+    }
+
+    .card-atelier:hover .atelier-photo img {
+      transform: scale(1.04);
+    }
+
+    .card-atelier .atelier-meta {
+      font-family: var(--font-ui);
+      font-size: .74rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+      display: block;
+      margin-bottom: .25rem;
+    }
+
+    .card-atelier .atelier-title {
+      font-family: var(--font-display);
+      font-size: 1.82rem;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--c-navy);
+      margin-bottom: .45rem;
+    }
+
+    .card-atelier .atelier-desc {
+      font-family: var(--font-body);
+      font-size: .94rem;
+      line-height: 1.45;
+      color: var(--c-muted);
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+
+    .card-atelier .atelier-footer {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding-top: .65rem;
+      border-top: 1px solid rgba(141, 108, 54, .2);
+      font-family: var(--font-ui);
+      font-size: .78rem;
+    }
+
+    .card-atelier .atelier-duration {
+      color: var(--c-gold);
+    }
+
+    .card-atelier .atelier-action {
+      color: var(--c-navy);
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+    }
+
+    /* ==========================================================================
+       PROPUESTA 2: PORTAL ARQUETÍPICO (Arco Románico)
+       ========================================================================== */
+    .card-portal {
+      background: #faf6f0;
+      border: 1px solid rgba(141, 108, 54, .32);
+      border-radius: 4.5rem 4.5rem .65rem .65rem;
+      padding: .85rem .85rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 23.5rem;
+      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+      position: relative;
+    }
+
+    .card-portal:hover {
+      transform: translateY(-4px);
+      border-color: var(--c-gold);
+      box-shadow: 0 12px 28px rgba(20, 40, 60, .12);
+    }
+
+    .card-portal .portal-vault {
+      position: relative;
+      width: 100%;
+      height: 14.5rem;
+      border-radius: 4rem 4rem .35rem .35rem;
+      overflow: hidden;
+      border: 1px solid rgba(141, 108, 54, .25);
+      background: #ebe4d5;
+      margin-bottom: .9rem;
+    }
+
+    .card-portal .portal-vault img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .45s ease;
+    }
+
+    .card-portal:hover .portal-vault img {
+      transform: scale(1.04);
+    }
+
+    .card-portal .portal-badge {
+      position: absolute;
+      bottom: .65rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 253, 249, .92);
+      border: 1px solid rgba(141, 108, 54, .3);
+      padding: .2rem .75rem;
+      border-radius: 2rem;
+      font-family: var(--font-ui);
+      font-size: .68rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+      white-space: nowrap;
+    }
+
+    .card-portal .portal-body {
+      text-align: center;
+      padding: 0 .4rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .card-portal .portal-title {
+      font-family: var(--font-display);
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--c-navy);
+      margin-bottom: .3rem;
+    }
+
+    .card-portal .portal-symbol {
+      color: var(--c-gold);
+      font-size: .85rem;
+      margin-bottom: .4rem;
+    }
+
+    .card-portal .portal-desc {
+      font-family: var(--font-body);
+      font-size: .94rem;
+      line-height: 1.45;
+      color: var(--c-muted);
+      margin-bottom: 1rem;
+    }
+
+    .card-portal .portal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding-top: .75rem;
+      border-top: 1px solid rgba(141, 108, 54, .2);
+      font-family: var(--font-ui);
+      font-size: .78rem;
+    }
+
+    .card-portal .portal-btn {
+      background: var(--c-navy);
+      color: #fffdfa;
+      border: none;
+      padding: .35rem .95rem;
+      border-radius: 2rem;
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      transition: background .2s ease;
+    }
+
+    .card-portal:hover .portal-btn {
+      background: var(--c-sage);
+    }
+
+    /* ==========================================================================
+       PROPUESTA 3: CUADERNO DE SABIDURÍA (Cita de Marcela & Acentos Salvia)
+       ========================================================================== */
+    .card-notebook {
+      background: #fffdf9;
+      border: 1px solid rgba(86, 96, 68, .28);
+      border-radius: .65rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 23.5rem;
+      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+    }
+
+    .card-notebook:hover {
+      transform: translateY(-4px);
+      border-color: var(--c-sage);
+      box-shadow: 0 10px 24px rgba(86, 96, 68, .14);
+    }
+
+    .card-notebook .notebook-top {
+      position: relative;
+      width: 100%;
+      height: 11.5rem;
+      background: #e8e4dc;
+    }
+
+    .card-notebook .notebook-top img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-notebook .notebook-tag {
+      position: absolute;
+      top: .65rem;
+      right: .65rem;
+      background: var(--c-sage);
+      color: #fffdf9;
+      font-family: var(--font-ui);
+      font-size: .65rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .25rem .65rem;
+      border-radius: .25rem;
+    }
+
+    .card-notebook .notebook-content {
+      padding: 1.1rem 1.2rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .card-notebook .notebook-meta {
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--c-sage);
+      margin-bottom: .25rem;
+    }
+
+    .card-notebook .notebook-title {
+      font-family: var(--font-display);
+      font-size: 1.82rem;
+      font-weight: 700;
+      color: var(--c-navy);
+      line-height: 1.15;
+      margin-bottom: .5rem;
+    }
+
+    .card-notebook .notebook-quote {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: .88rem;
+      color: #554a40;
+      line-height: 1.45;
+      padding-left: .75rem;
+      border-left: 2px solid var(--c-gold);
+      margin: .35rem 0 .75rem;
+    }
+
+    .card-notebook .notebook-desc {
+      font-family: var(--font-body);
+      font-size: .92rem;
+      line-height: 1.45;
+      color: var(--c-muted);
+      margin-bottom: 1.1rem;
+      flex-grow: 1;
+    }
+
+    .card-notebook .notebook-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: .65rem;
+      border-top: 1px solid rgba(86, 96, 68, .2);
+      font-family: var(--font-ui);
+      font-size: .78rem;
+    }
+
+    .card-notebook .notebook-btn {
+      background: var(--c-sage);
+      color: #fffdf9;
+      border: none;
+      padding: .38rem .95rem;
+      border-radius: .35rem;
+      font-family: var(--font-ui);
+      font-size: .74rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      transition: background .2s ease;
+    }
+
+    .card-notebook:hover .notebook-btn {
+      background: var(--c-navy);
+    }
+
+    /* ==========================================================================
+       PROPUESTA 4: ATMÓSFERA ALQUÍMICA (Azul Noche Profundo & Filigrana Oro)
+       ========================================================================== */
+    .card-alchemy {
+      background: linear-gradient(165deg, #102133 0%, #16283b 100%);
+      border: 1px solid rgba(198, 162, 94, .38);
+      position: relative;
+      padding: 1rem 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 23.5rem;
+      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+      color: #fffdf9;
+    }
+
+    .card-alchemy::before {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border: 1px solid rgba(198, 162, 94, .18);
+      pointer-events: none;
+    }
+
+    .card-alchemy:hover {
+      transform: translateY(-4px);
+      border-color: rgba(198, 162, 94, .75);
+      box-shadow: 0 12px 30px rgba(10, 20, 32, .45);
+    }
+
+    .card-alchemy .alchemy-photo {
+      position: relative;
+      width: 100%;
+      height: 14rem;
+      overflow: hidden;
+      border: 1px solid rgba(198, 162, 94, .3);
+      margin-bottom: .9rem;
+    }
+
+    .card-alchemy .alchemy-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .45s ease;
+    }
+
+    .card-alchemy:hover .alchemy-photo img {
+      transform: scale(1.04);
+    }
+
+    .card-alchemy .alchemy-meta {
+      font-family: var(--font-ui);
+      font-size: .74rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #c6a25e;
+      display: block;
+      margin-bottom: .25rem;
+    }
+
+    .card-alchemy .alchemy-title {
+      font-family: var(--font-display);
+      font-size: 1.82rem;
+      font-weight: 700;
+      line-height: 1.1;
+      color: #fffdf9;
+      margin-bottom: .45rem;
+    }
+
+    .card-alchemy .alchemy-desc {
+      font-family: var(--font-body);
+      font-size: .94rem;
+      line-height: 1.45;
+      color: #ded6c9;
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+
+    .card-alchemy .alchemy-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: .65rem;
+      border-top: 1px solid rgba(198, 162, 94, .25);
+      font-family: var(--font-ui);
+      font-size: .78rem;
+    }
+
+    .card-alchemy .alchemy-duration {
+      color: #c6a25e;
+    }
+
+    .card-alchemy .alchemy-action {
+      border: 1px solid rgba(198, 162, 94, .5);
+      color: #fffdf9;
+      padding: .35rem .85rem;
+      border-radius: .25rem;
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      transition: all .2s ease;
+    }
+
+    .card-alchemy:hover .alchemy-action {
+      background: #c6a25e;
+      color: #14283c;
+    }
+
+    /* ==========================================================================
+       TARJETA 6 EN COMPARATIVA: PANEL DE EXPERIENCIA INTERACTIVA & METRICAS
+       ========================================================================== */
+    .card-feature-lab {
+      background: rgba(20, 40, 60, .04);
+      border: 2px dashed rgba(141, 108, 54, .45);
+      border-radius: .85rem;
+      padding: 1.5rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 23.5rem;
+      text-align: center;
+      transition: all .24s ease;
+    }
+
+    .card-feature-lab:hover {
+      border-color: var(--c-navy);
+      background: rgba(20, 40, 60, .07);
+    }
+
+    .feature-lab-badge {
+      font-family: var(--font-ui);
+      font-size: .75rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+      margin-bottom: .4rem;
+    }
+
+    .feature-lab-title {
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--c-navy);
+      line-height: 1.15;
+      margin-bottom: .6rem;
+    }
+
+    .feature-lab-desc {
+      font-family: var(--font-body);
+      font-size: .95rem;
+      color: var(--c-muted);
+      line-height: 1.45;
+      margin-bottom: 1.2rem;
+    }
+
+    .feature-lab-metrics {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+      background: #fffdfa;
+      border: 1px solid rgba(141, 108, 54, .25);
+      padding: .75rem;
+      border-radius: .5rem;
+      margin-bottom: 1.2rem;
+      font-family: var(--font-ui);
+      font-size: .76rem;
+      color: var(--c-navy);
+    }
+
+    .feature-lab-btn {
+      background: var(--c-navy);
+      color: #fffdfa;
+      border: none;
+      padding: .65rem 1.2rem;
+      border-radius: .4rem;
+      font-family: var(--font-ui);
+      font-size: .78rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .2s ease;
+    }
+
+    .feature-lab-btn:hover {
+      background: var(--c-sage);
+    }
+
+    /* ==========================================================================
+       PANTALLA DE DETALLE & EXPERIENCIA MODAL (TRANSICIÓN + DIALOG)
+       ========================================================================== */
+    .lab-modal-dialog {
+      box-sizing: border-box;
+      width: min(65rem, calc(100vw - 2.5rem));
+      max-height: calc(100dvh - 2.5rem);
+      margin: auto;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid rgba(141, 108, 54, .45);
+      border-radius: 1.15rem;
+      background: #fffdfa;
+      box-shadow: 0 1.5rem 4rem rgba(20, 30, 42, .32);
+      color: var(--c-navy);
+      font-family: var(--font-body);
+    }
+
+    .lab-modal-dialog::backdrop {
+      background: rgba(14, 24, 36, .65);
+      backdrop-filter: blur(6px);
+      transition: all .25s ease;
+    }
+
+    .lab-modal-dialog[open] {
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+    }
+
+    /* Transición Editorial Suave */
+    .lab-modal-dialog.transition-editorial {
+      opacity: 0;
+      transform: translateY(1.2rem) scale(.985);
+      transition: opacity .26s cubic-bezier(.16, 1, .3, 1), transform .26s cubic-bezier(.16, 1, .3, 1);
+    }
+
+    .lab-modal-dialog.transition-editorial[open] {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Animación de Cierre Suave */
+    .lab-modal-dialog.is-closing {
+      opacity: 0 !important;
+      transform: translateY(.8rem) scale(.98) !important;
+      transition: opacity .2s ease, transform .2s ease !important;
+    }
+
+    /* Lado Izquierdo del Modal: Media & Overlay de Contacto */
+    .lab-dialog-media {
+      position: relative;
+      min-height: 22rem;
+      background: #f3eee6;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid rgba(141, 108, 54, .25);
+    }
+
+    .lab-dialog-media img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .6s ease;
+    }
+
+    .lab-dialog-media::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(20, 40, 60, .1) 0%, rgba(20, 40, 60, .45) 100%);
+      pointer-events: none;
+    }
+
+    .lab-origin-badge {
+      position: relative;
+      z-index: 2;
+      align-self: flex-start;
+      margin: 1.1rem;
+      background: rgba(255, 253, 249, .92);
+      border: 1px solid rgba(141, 108, 54, .4);
+      padding: .35rem .85rem;
+      border-radius: 2rem;
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--c-navy);
+      backdrop-filter: blur(4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,.15);
+      transition: opacity .3s ease;
+    }
+
+    /* Overlay Sereno de WhatsApp en la Columna Izquierda */
+    .media-wa-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(20, 40, 60, .88) 0%, rgba(14, 25, 38, .96) 100%);
+      backdrop-filter: blur(6px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s cubic-bezier(.16, 1, .3, 1);
+      z-index: 5;
+    }
+
+    .lab-modal-dialog.state-whatsapp .media-wa-overlay {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lab-modal-dialog.state-whatsapp .lab-origin-badge {
+      opacity: 0;
+    }
+
+    .wa-contact-badge-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .6rem;
+      max-width: 20rem;
+    }
+
+    .wa-avatar-ring {
+      width: 4.8rem;
+      height: 4.8rem;
+      border-radius: 50%;
+      border: 2px solid #25d366;
+      background: #14283c;
+      display: grid;
+      place-items: center;
+      font-size: 2.2rem;
+      box-shadow: 0 0 20px rgba(37, 211, 102, .3);
+      position: relative;
+    }
+
+    .wa-avatar-ring::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: .9rem;
+      height: .9rem;
+      border-radius: 50%;
+      background: #25d366;
+      border: 2px solid #14283c;
+    }
+
+    .wa-contact-name {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #fffdfa;
+      line-height: 1.1;
+    }
+
+    .wa-contact-role {
+      font-family: var(--font-ui);
+      font-size: .8rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #c6a25e;
+    }
+
+    .wa-contact-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: rgba(37, 211, 102, .15);
+      border: 1px solid rgba(37, 211, 102, .4);
+      padding: .25rem .75rem;
+      border-radius: 2rem;
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      color: #69f09e;
+      margin-top: .4rem;
+    }
+
+    .wa-overlay-quote {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: .95rem;
+      color: #ded6c9;
+      line-height: 1.45;
+      margin-top: 1.4rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid rgba(198, 162, 94, .3);
+    }
+
+    /* ==========================================================================
+       SISTEMA DE PANTALLAS DESLIZANTES CON MOMENTUM (TRANSFORMING DECK)
+       ========================================================================== */
+    .lab-dialog-body {
+      padding: clamp(1.4rem, 3.2vw, 2.6rem);
+      max-height: calc(100dvh - 2.5rem);
+      overflow-y: auto;
+      position: relative;
+      background: #fffdfa;
+    }
+
+    .lab-dialog-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 2.3rem;
+      height: 2.3rem;
+      border-radius: 50%;
+      border: 1px solid rgba(141, 108, 54, .3);
+      background: rgba(255, 253, 249, .95);
+      color: var(--c-navy);
+      font-size: 1.35rem;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: all .2s ease;
+      z-index: 10;
+    }
+
+    .lab-dialog-close:hover {
+      background: var(--c-navy);
+      color: #fffdfa;
+      transform: rotate(90deg);
+    }
+
+    /* Deck en Grid Compartido (Cero parpadeo ni momentum break) */
+    .dialog-screens-slider {
+      display: grid;
+      grid-template-columns: 100%;
+      grid-template-rows: 1fr;
+      position: relative;
+      width: 100%;
+    }
+
+    .dialog-screen {
+      grid-area: 1 / 1 / 2 / 2;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: 
+        transform .34s cubic-bezier(.16, 1, .3, 1),
+        opacity .32s cubic-bezier(.16, 1, .3, 1),
+        filter .28s ease,
+        visibility .34s ease;
+      will-change: transform, opacity;
+    }
+
+    /* ESTADO 1: PANTALLA DE DETALLES ACTIVA */
+    .dialog-screens-slider.showing-detail .screen-detail {
+      opacity: 1;
+      transform: translateX(0);
+      filter: blur(0);
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .dialog-screens-slider.showing-detail .screen-whatsapp {
+      opacity: 0;
+      transform: translateX(36px);
+      filter: blur(3px);
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* ESTADO 2: PANTALLA DE WHATSAPP ACTIVA */
+    .dialog-screens-slider.showing-whatsapp .screen-detail {
+      opacity: 0;
+      transform: translateX(-36px);
+      filter: blur(3px);
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .dialog-screens-slider.showing-whatsapp .screen-whatsapp {
+      opacity: 1;
+      transform: translateX(0);
+      filter: blur(0);
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    /* Tipografía y Componentes de Pantalla 1 (Detalle) */
+    .lab-dialog-kicker {
+      font-family: var(--font-ui);
+      font-size: .78rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+    }
+
+    .lab-dialog-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.1rem, 3.4vw, 3.2rem);
+      font-weight: 600;
+      line-height: 1.05;
+      color: var(--c-navy);
+      margin-top: -.25rem;
+    }
+
+    .lab-dialog-quote {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 1.1rem;
+      line-height: 1.45;
+      color: var(--c-gold);
+      padding-left: 1rem;
+      border-left: 2px solid var(--c-gold);
+      margin: .2rem 0;
+    }
+
+    .lab-dialog-desc {
+      font-family: var(--font-body);
+      font-size: 1.02rem;
+      line-height: 1.55;
+      color: #3d342c;
+    }
+
+    .lab-dialog-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55rem;
+      padding: .55rem 0;
+      border-top: 1px solid rgba(141, 108, 54, .18);
+      border-bottom: 1px solid rgba(141, 108, 54, .18);
+    }
+
+    .lab-meta-pill {
+      font-family: var(--font-ui);
+      font-size: .76rem;
+      padding: .32rem .8rem;
+      border-radius: 2rem;
+      border: 1px solid rgba(141, 108, 54, .3);
+      background: rgba(141, 108, 54, .08);
+      color: var(--c-gold);
+    }
+
+    .lab-dialog-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+      gap: .75rem;
+      margin-top: .4rem;
+    }
+
+    .lab-btn-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      padding: .75rem 1.2rem;
+      border-radius: .45rem;
+      font-family: var(--font-ui);
+      font-size: .84rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all .2s ease;
+    }
+
+    .lab-btn-gold {
+      background: #8d6c36;
+      color: #fffdfa;
+      box-shadow: 0 4px 12px rgba(141, 108, 54, .25);
+    }
+
+    .lab-btn-gold:hover {
+      background: #6e5226;
+      transform: translateY(-2px);
+    }
+
+    .lab-btn-whatsapp {
+      background: #25d366;
+      color: #0b3d1b;
+      box-shadow: 0 4px 12px rgba(37, 211, 102, .25);
+      font-weight: 600;
+    }
+
+    .lab-btn-whatsapp:hover {
+      background: #1ebc57;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(37, 211, 102, .35);
+    }
+
+    .lab-dismiss-link {
+      font-family: var(--font-ui);
+      font-size: .78rem;
+      color: var(--c-muted);
+      background: none;
+      border: none;
+      text-decoration: underline;
+      cursor: pointer;
+      align-self: center;
+      margin-top: .2rem;
+      transition: color .2s ease;
+    }
+
+    .lab-dismiss-link:hover {
+      color: var(--c-navy);
+    }
+
+    /* ==========================================================================
+       PANTALLA 2: PERSONALIZACIÓN DEL MENSAJE DE WHATSAPP
+       ========================================================================== */
+    .wa-nav-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: .6rem;
+      border-bottom: 1px solid rgba(141, 108, 54, .18);
+    }
+
+    .wa-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: rgba(20, 40, 60, .06);
+      border: 1px solid rgba(20, 40, 60, .18);
+      color: var(--c-navy);
+      font-family: var(--font-ui);
+      font-size: .78rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: .35rem .85rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+
+    .wa-back-btn:hover {
+      background: var(--c-navy);
+      color: #fffdfa;
+      transform: translateX(-3px);
+    }
+
+    .wa-step-indicator {
+      font-family: var(--font-ui);
+      font-size: .74rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+    }
+
+    .wa-intro-group {
+      display: flex;
+      flex-direction: column;
+      gap: .25rem;
+    }
+
+    .wa-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 2.8vw, 2.4rem);
+      font-weight: 600;
+      line-height: 1.1;
+      color: var(--c-navy);
+    }
+
+    .wa-subtitle {
+      font-family: var(--font-body);
+      font-size: .94rem;
+      color: var(--c-muted);
+      line-height: 1.45;
+    }
+
+    /* Chips de consultas rápidas */
+    .wa-chips-section {
+      display: flex;
+      flex-direction: column;
+      gap: .45rem;
+    }
+
+    .wa-chips-label {
+      font-family: var(--font-ui);
+      font-size: .74rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--c-gold);
+    }
+
+    .wa-chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+    }
+
+    .wa-chip {
+      font-family: var(--font-ui);
+      font-size: .74rem;
+      letter-spacing: .04em;
+      background: #fbf7ee;
+      border: 1px solid rgba(141, 108, 54, .3);
+      color: #4a3e33;
+      padding: .35rem .75rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: all .18s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+    }
+
+    .wa-chip:hover {
+      background: #566044;
+      color: #fffdfa;
+      border-color: #566044;
+      transform: translateY(-2px);
+    }
+
+    .wa-chip.is-added {
+      background: rgba(37, 211, 102, .18);
+      border-color: #25d366;
+      color: #0b3d1b;
+      font-weight: 600;
+    }
+
+    /* Caja de texto del mensaje */
+    .wa-message-box-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+      background: #fbf9f4;
+      border: 1px solid rgba(141, 108, 54, .32);
+      border-radius: .65rem;
+      padding: .85rem;
+      box-shadow: 0 4px 12px rgba(20, 40, 60, .04) inset;
+    }
+
+    .wa-box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .wa-textarea-label {
+      font-family: var(--font-ui);
+      font-size: .75rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--c-navy);
+      font-weight: 600;
+    }
+
+    .wa-reset-btn {
+      background: none;
+      border: none;
+      color: var(--c-gold);
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      letter-spacing: .04em;
+      cursor: pointer;
+      text-decoration: underline;
+      transition: color .2s ease;
+    }
+
+    .wa-reset-btn:hover {
+      color: var(--c-navy);
+    }
+
+    .wa-textarea {
+      width: 100%;
+      min-height: 6.8rem;
+      resize: vertical;
+      border: 1px solid rgba(141, 108, 54, .25);
+      border-radius: .4rem;
+      padding: .65rem .85rem;
+      font-family: var(--font-body);
+      font-size: .98rem;
+      line-height: 1.5;
+      color: #2b231a;
+      background: #fffdfa;
+      outline: none;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .wa-textarea:focus {
+      border-color: #25d366;
+      box-shadow: 0 0 0 3px rgba(37, 211, 102, .2);
+    }
+
+    .wa-box-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      color: var(--c-muted);
+    }
+
+    .wa-actions-group {
+      display: flex;
+      flex-direction: column;
+      gap: .65rem;
+      margin-top: .4rem;
+    }
+
+    .wa-btn-send {
+      width: 100%;
+      min-height: 3.2rem;
+      font-size: .92rem;
+      font-weight: 700;
+      box-shadow: 0 6px 18px rgba(37, 211, 102, .32);
+    }
+
+    .wa-secondary-back-btn {
+      background: none;
+      border: none;
+      font-family: var(--font-ui);
+      font-size: .78rem;
+      color: var(--c-muted);
+      cursor: pointer;
+      text-decoration: underline;
+      align-self: center;
+      transition: color .2s ease;
+    }
+
+    .wa-secondary-back-btn:hover {
+      color: var(--c-navy);
+    }
+
+    /* Modal adaptado a móvil si se abre en modo móvil */
+    .mode-mobile-modal .lab-modal-dialog[open] {
+      display: flex;
+      flex-direction: column;
+      width: min(94vw, 24rem);
+      max-height: calc(100dvh - 1.5rem);
+    }
+
+    .mode-mobile-modal .lab-dialog-media {
+      flex: 0 0 9.5rem;
+      min-height: 0;
+    }
+
+    .mode-mobile-modal .lab-dialog-body {
+      padding: 1.15rem;
+      gap: .75rem;
+    }
+
+    /* Enlaces al sitio real */
+    .lab-back-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 3.2rem;
+      padding-top: 1.6rem;
+      border-top: 1px solid rgba(141, 108, 54, .25);
+      font-family: var(--font-ui);
+      font-size: .9rem;
+    }
+
+    .lab-back-links a {
+      color: var(--c-gold);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: all .2s ease;
+    }
+
+    .lab-back-links a:hover {
+      color: var(--c-navy);
+      border-bottom-color: var(--c-navy);
+    }
+  </style>
+</head>
+<body class="mode-fluid">
+
+  <!-- Botón Flotante para reabrir el HUD cuando está colapsado -->
+  <button type="button" class="hud-floating-trigger" id="hud-restore-btn" onclick="toggleHudVisibility(true)" aria-label="Mostrar Controles del Editor">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    <span>Controles Editor (HUD)</span>
+  </button>
+
+  <!-- ========================================================================
+       BARRA DE CONTROL DEL VISUALIZADOR MULTI-DISPOSITIVO (HUD COLAPSABLE)
+       ======================================================================== -->
+  <aside class="viewport-control-dock" id="viewport-dock" aria-label="Visualizador multi-dispositivo y matriz">
+    <div class="dock-title-group">
+      <span class="dock-badge">Sistema 1</span>
+      <span class="dock-label">Biblioteca & Matriz 3×M</span>
+    </div>
+
+    <!-- Botones de Dispositivo Genéricos -->
+    <div class="device-selectors">
+      <!-- 1. Escritorio Genérico (1440x900) -->
+      <button type="button" class="device-btn" data-device="desktop" onclick="setDeviceViewport('desktop')">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+        <span>Escritorio (1440)</span>
+      </button>
+
+      <!-- 2. Tablet Rotada / Landscape (1024x768) -->
+      <button type="button" class="device-btn" data-device="tablet-landscape" onclick="setDeviceViewport('tablet-landscape')">
+        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M12 18h.01"/></svg>
+        <span>Tablet Rotada (1024)</span>
+      </button>
+
+      <!-- 3. Tablet Vertical / Portrait (768x1024) -->
+      <button type="button" class="device-btn" data-device="tablet-portrait" onclick="setDeviceViewport('tablet-portrait')">
+        <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+        <span>Tablet (768)</span>
+      </button>
+
+      <!-- 4. Móvil Genérico (390x844) -->
+      <button type="button" class="device-btn" data-device="mobile" onclick="setDeviceViewport('mobile')">
+        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 18h.01"/></svg>
+        <span>Móvil (390)</span>
+      </button>
+
+      <!-- 5. Fluido 100% -->
+      <button type="button" class="device-btn is-active" data-device="fluid" onclick="setDeviceViewport('fluid')">
+        <svg viewBox="0 0 24 24"><path d="M15 3h6v6m0-6-7 7M9 21H3v-6m0 6 7-7"/></svg>
+        <span>100% Fluido</span>
+      </button>
+    </div>
+
+    <!-- Herramientas de Orientación, Escala y Colapso del HUD -->
+    <div class="dock-tools">
+      <button type="button" class="dock-action-btn" onclick="toggleDeviceRotation()" title="Rotar orientación 90 grados">
+        <span>🔄 Rotar</span>
+      </button>
+      <span class="dimension-pill" id="viewport-dim-tag">100% Fluido · Matriz 3×M Activa</span>
+      
+      <!-- Acceso directo a Sistema 2 (Bazar en Vivo) -->
+      <a href="bazar.html" class="dock-action-btn btn-go-live" title="Abrir Sistema 2: Experiencia Tiempo Real en Vivo (bazar.html)" style="background: rgba(37, 211, 102, .18); border: 1px solid rgba(37, 211, 102, .45); color: #8bf4a5; text-decoration: none; display: inline-flex; align-items: center; gap: .35rem; font-weight: 600;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        <span>Bazar en Vivo</span>
+      </a>
+
+      <!-- Botón para ocultar el HUD y ver el resultado final limpio -->
+      <button type="button" class="dock-action-btn btn-collapse-hud" onclick="toggleHudVisibility(false)" title="Ocultar barra de controles para ver el resultado limpio (Tecla H)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24M1 1l22 22"/></svg>
+        <span>Ocultar HUD</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ========================================================================
+       ESCENARIO DEL VISUALIZADOR
+       ======================================================================== -->
+  <main class="lab-stage-outer">
+    <div class="lab-stage-scaler" id="stage-scaler">
+      <div class="lab-device-frame" id="device-frame">
+        
+        <!-- Bisel Superior del Dispositivo (Opcional en modos simulador) -->
+        <div class="device-bezel-header" id="device-bezel-header" style="display: none;">
+          <span id="bezel-device-name">Tablet Rotada (1024×768)</span>
+          <div class="device-camera-notch">
+            <span class="camera-lens"></span>
+            <span class="speaker-slot"></span>
+          </div>
+          <span id="bezel-layout-cue">Matriz 3×M Activa</span>
+        </div>
+
+        <div class="lab-inner-content">
+          
+          <!-- Encabezado de la Biblioteca de Componentes -->
+          <header class="lab-header">
+            <div class="system-separation-bar" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.8rem; margin-bottom:1rem; padding-bottom:.9rem; border-bottom:1px solid rgba(141,108,54,.25);">
+              <div style="display:flex; align-items:center; gap:.55rem;">
+                <span class="lab-brand" style="margin-bottom:0;">SoyAutoconocimiento · Marcela</span>
+                <span style="font-family:var(--font-ui); font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; background:rgba(141,108,54,.2); color:var(--c-gold-light); border:1px solid rgba(141,108,54,.35); padding:.2rem .65rem; border-radius:2rem; font-weight:600;">Sistema 1 · Biblioteca & Galería</span>
+              </div>
+              <a href="bazar.html" style="font-family:var(--font-ui); font-size:.74rem; letter-spacing:.1em; text-transform:uppercase; background:rgba(37,211,102,.15); color:#8bf4a5; border:1px solid rgba(37,211,102,.45); padding:.35rem .9rem; border-radius:2rem; text-decoration:none; font-weight:600; display:inline-flex; align-items:center; gap:.4rem; transition:all .2s ease; box-shadow:0 2px 8px rgba(0,0,0,.2);">
+                <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#25d366; box-shadow:0 0 6px #25d366;"></span>
+                <span>Ir al Sistema 2 (Bazar en Vivo) ↗</span>
+              </a>
+            </div>
+
+            <h1 class="lab-title">Galería & Biblioteca de Tarjetas</h1>
+            <p class="lab-lead">Catálogo del sistema visual, especificaciones de diseño y matriz comparativa $3 \times M$ con visualizador multi-dispositivo (Escritorio 1440, Tablet rotada 1024, Tablet vertical 768, Móvil 390 y 100% Fluido). <em>Para experimentar la navegación real en vivo con su toggle de Servicios/Cursos y personalizador de WhatsApp sin marcos de simulación, visita el <a href="bazar.html" style="color:var(--c-gold-light); text-decoration:underline; font-weight:600;">Bazar en Tiempo Real</a>.</em></p>
+
+            <!-- Pestañas de Sistemas y Biblioteca -->
+            <nav class="lab-nav" aria-label="Cambiar sistema o vista de tarjetas">
+              <button type="button" class="lab-tab-btn is-active" onclick="switchLabView('sistema-3')">✨ Sistema 3: Hero + Bazar (con Editor)</button>
+              <button type="button" class="lab-tab-btn" onclick="switchLabView('comparativa')">✦ Sistema 1: Matriz Comparativa (5 Estilos)</button>
+              <button type="button" class="lab-tab-btn" onclick="switchLabView('baseline')">0. Baseline Actual (3×2)</button>
+              <button type="button" class="lab-tab-btn" onclick="switchLabView('p1')">1. Lámina Atelier (3×2)</button>
+              <button type="button" class="lab-tab-btn" onclick="switchLabView('p2')">2. Portal Arquetípico (3×2)</button>
+              <button type="button" class="lab-tab-btn" onclick="switchLabView('p3')">3. Cuaderno Sabiduría (3×2)</button>
+              <button type="button" class="lab-tab-btn" onclick="switchLabView('p4')">4. Atmósfera Alquímica (3×2)</button>
+              <a href="bazar.html" class="lab-tab-btn" style="background:rgba(37,211,102,.14); color:#8bf4a5; border-color:rgba(37,211,102,.4); text-decoration:none; font-weight:600;">🚀 Sistema 2: Bazar en Vivo ↗</a>
+            </nav>
+          </header>
+
+          <!-- ==================================================================
+               VISTA SISTEMA 3: HERO + BAZAR (SIN COLORES DEL ALMA) + EDITOR EN VIVO
+               ================================================================== -->
+          <section class="lab-view-section is-active" id="view-sistema-3">
+            <div class="s3-experience-container">
+              
+              <!-- Barra informativa de Sistema 3 -->
+              <div style="background:rgba(20,40,60,.55); border:1px solid rgba(141,108,54,.35); border-radius:.75rem; padding:.9rem 1.3rem; margin-bottom:1.8rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.8rem;">
+                <div>
+                  <strong style="color:var(--c-gold-light); font-family:var(--font-ui); font-size:.85rem; letter-spacing:.1em; text-transform:uppercase;">✨ Sistema 3: Hero + Bazar (con Editor de Contenidos)</strong>
+                  <p style="font-size:.85rem; color:rgba(255,253,249,.8); margin-top:.2rem;">El servicio o curso destacado en el Hero se excluye automáticamente de las tarjetas del Bazar. Sin sección Colores del Alma. Edita los contenidos en vivo con el botón flotante o presionando la <strong>tecla E</strong>.</p>
+                </div>
+                <button type="button" onclick="document.getElementById('editor-toggle-btn')?.click()" style="font-family:var(--font-ui); font-size:.76rem; letter-spacing:.08em; text-transform:uppercase; background:var(--c-gold); color:#fffdfa; border:none; padding:.5rem 1.1rem; border-radius:2rem; font-weight:700; cursor:pointer;">✏️ Abrir Editor (Tecla E)</button>
+              </div>
+
+              <!-- NAVEGACIÓN LIMPIA (SIN COLORES DEL ALMA) -->
+              <header class="s3-site-header">
+                <a class="s3-brand" href="#s3-inicio">
+                  <img src="assets/logo-display.png" alt="" style="width:1.6rem; height:1.6rem; object-fit:contain;">
+                  <span>SoyAutoconocimiento</span>
+                </a>
+                <nav class="s3-nav" aria-label="Navegación Sistema 3">
+                  <a href="#s3-inicio" class="s3-nav-link is-active">Inicio</a>
+                  <a href="#s3-bazar" class="s3-nav-link">El Bazar</a>
+                </nav>
+              </header>
+
+              <!-- HERO DINÁMICO (SINCRONIZADO CON EL EDITOR) -->
+              <section class="s3-hero-view" id="s3-inicio" aria-labelledby="home-title">
+                <div class="s3-hero-layout">
+                  <div class="s3-hero-copy">
+                    <span class="s3-hero-eyebrow">Acompañamiento Protagonista</span>
+                    <h2 class="s3-hero-title" id="home-title">Terapia Floral</h2>
+                    <p class="s3-hero-lead" id="home-lead"><em>Evolutiva</em></p>
+                    <p class="s3-hero-body" id="home-body">Transformamos el proceso terapéutico en tu viaje de autoconocimiento.</p>
+                    <div class="s3-hero-actions">
+                      <button type="button" class="s3-btn-gold" id="hero-floral-link">CONOCER ✦</button>
+                      <a href="#s3-bazar" class="s3-btn-outline">Ver todos los caminos ↓</a>
+                    </div>
+                  </div>
+                  <div class="s3-hero-note" id="home-note">
+                    <span>01</span>
+                    <div>Observación consciente</div>
+                  </div>
+                  <div class="s3-hero-visual">
+                    <div class="s3-arch-frame">
+                      <picture>
+                        <source id="home-hero-source" media="(max-width: 47.5rem)" srcset="assets/hero-terapia-floral-mobile.jpg">
+                        <img id="home-hero-img" src="assets/hero-terapia-floral-display.jpg" alt="Hero">
+                      </picture>
+                    </div>
+                    <div class="s3-visual-quote" id="home-visual-quote">Conocernos profundamente.</div>
+                    <span class="s3-visual-mark" aria-hidden="true">✦</span>
+                  </div>
+                </div>
+              </section>
+
+              <!-- SECCIÓN EL BAZAR (#s3-bazar) -->
+              <section class="s3-bazar-view" id="s3-bazar" aria-labelledby="services-title">
+                <div class="s3-bazar-heading-row">
+                  <h2 class="s3-bazar-title" id="services-title">Servicios y Cursos</h2>
+                  <span class="s3-bazar-star" aria-hidden="true">✦</span>
+                  <span class="s3-bazar-eyebrow">El Bazar</span>
+                </div>
+
+                <!-- Selector de Categorías -->
+                <div class="s3-category-tabs" role="tablist" aria-label="Tipo de acompañamiento">
+                  <button type="button" class="s3-category-tab is-active" id="services-tab" role="tab" aria-selected="true">
+                    Servicios (3)
+                  </button>
+                  <button type="button" class="s3-category-tab" id="courses-tab" role="tab" aria-selected="false">
+                    Cursos (2)
+                  </button>
+                </div>
+
+                <!-- Grilla Matriz 3xM de Tarjetas (Excluye la oferta en el Hero) -->
+                <div class="service-bazar-matrix" id="service-grid">
+                  <!-- Renderizado dinámicamente -->
+                </div>
+              </section>
+
+            </div>
+          </section>
+
+          <!-- ==================================================================
+               VISTA 1: COMPARATIVA EN MATRIZ 3x2 (6 TARJETAS EN TOTAL) - SISTEMA 1
+               ================================================================== -->
+          <section class="lab-view-section" id="view-comparativa">
+            <div class="section-intro-box">
+              <strong>Vista Comparativa · Matriz 3×2 de Direcciones Visuales</strong>
+              <p>Las 5 alternativas de diseño junto a una ficha de métricas interactivas dispuestas en una matriz equilibrada de 3 columnas × 2 filas. <em>Haz clic en cualquier tarjeta para probar la apertura de detalle y el sub-flujo de WhatsApp.</em></p>
+            </div>
+
+            <div class="cards-matrix-3">
+              <!-- Posición 1: 0. Baseline Actual -->
+              <article class="card-baseline card-interactive" onclick="triggerOfferModal('floral', 'baseline', '0 · Actual en Sitio (Baseline)')" tabindex="0" role="button" aria-label="Abrir detalle Terapia Floral en estilo actual">
+                <div class="baseline-photo"><img src="assets/hero-terapia-floral-warm.webp" alt="Terapia Floral"></div>
+                <div class="baseline-content">
+                  <span class="baseline-badge">0 · Actual en Sitio</span>
+                  <h2 class="baseline-title">Terapia Floral</h2>
+                  <span class="baseline-action">+ CONOCER ✦</span>
+                </div>
+              </article>
+
+              <!-- Posición 2: Propuesta 1 (Atelier) -->
+              <article class="card-atelier card-interactive" onclick="triggerOfferModal('floral', 'atelier', 'Propuesta 1 · Lámina de Atelier')" tabindex="0" role="button" aria-label="Abrir detalle Terapia Floral en Atelier">
+                <div class="atelier-photo"><img src="assets/hero-terapia-floral-warm.webp" alt="Terapia Floral"></div>
+                <span class="atelier-meta">Propuesta 1 · Atelier</span>
+                <h2 class="atelier-title">Terapia Floral</h2>
+                <p class="atelier-desc">Observación consciente y autoindagación con Flores de Bach en un viaje de regreso a ti.</p>
+                <div class="atelier-footer"><span class="atelier-duration">1 hora · Zoom</span><span class="atelier-action">Conocer ✦</span></div>
+              </article>
+
+              <!-- Posición 3: Propuesta 2 (Portal) -->
+              <article class="card-portal card-interactive" onclick="triggerOfferModal('tarot', 'portal', 'Propuesta 2 · Portal Arquetípico')" tabindex="0" role="button" aria-label="Abrir detalle Tarot en Portal">
+                <div class="portal-vault"><img src="assets/curso_tarot-marcela-20261009.webp" alt="Lectura de Tarot"><span class="portal-badge">Propuesta 2 · Portal</span></div>
+                <div class="portal-body">
+                  <h2 class="portal-title">Lectura de Tarot</h2>
+                  <div class="portal-symbol">✦</div>
+                  <p class="portal-desc">Mapa arquetípico de la psique para explorar tu mundo interior con autenticidad.</p>
+                </div>
+                <div class="portal-footer"><span class="portal-duration">1 hora · Zoom</span><button type="button" class="portal-btn">Explorar ✦</button></div>
+              </article>
+
+              <!-- Posición 4: Propuesta 3 (Cuaderno) -->
+              <article class="card-notebook card-interactive" onclick="triggerOfferModal('curso-astrologia', 'notebook', 'Propuesta 3 · Cuaderno de Sabiduría')" tabindex="0" role="button" aria-label="Abrir detalle Astrología en Cuaderno">
+                <div class="notebook-top"><img src="assets/curso_astrologia.webp" alt="Astrología"><span class="notebook-tag">Propuesta 3 · Cuaderno</span></div>
+                <div class="notebook-content">
+                  <span class="notebook-meta">Formación Anual</span>
+                  <h2 class="notebook-title">Astrología Evolutiva</h2>
+                  <blockquote class="notebook-quote">«El mapa natal como una brújula del alma, no como una sentencia.»</blockquote>
+                  <p class="notebook-desc">Aprende a interpretar tu cielo como un camino vivo de autoconocimiento.</p>
+                  <div class="notebook-footer"><span class="notebook-req">Entrevista previa</span><button type="button" class="notebook-btn">Ver curso</button></div>
+                </div>
+              </article>
+
+              <!-- Posición 5: Propuesta 4 (Alquimia) -->
+              <article class="card-alchemy card-interactive" onclick="triggerOfferModal('constelaciones', 'alchemy', 'Propuesta 4 · Atmósfera Alquímica')" tabindex="0" role="button" aria-label="Abrir detalle Constelaciones en Alquimia">
+                <div class="alchemy-photo"><img src="assets/constelaciones.webp" alt="Constelaciones Familiares"></div>
+                <span class="alchemy-meta">Propuesta 4 · Alquimia</span>
+                <h2 class="alchemy-title">Constelaciones</h2>
+                <p class="alchemy-desc">Espacio confidencial para iluminar lealtades familiares y sanar tu sistema.</p>
+                <div class="alchemy-footer"><span class="alchemy-duration">1 hora · Zoom</span><span class="alchemy-action">Agendar ✦</span></div>
+              </article>
+
+              <!-- Posición 6: Ficha de Métricas & Control de la Matriz -->
+              <aside class="card-feature-lab">
+                <div>
+                  <span class="feature-lab-badge">✦ Flujo Humanizado</span>
+                  <h2 class="feature-lab-title">Experiencia Continua</h2>
+                  <p class="feature-lab-desc">Pulsa en cualquier tarjeta y selecciona "Personalizar Mensaje" para vivir la transición de ida y vuelta sin ruptura de momentum.</p>
+                </div>
+                <div class="feature-lab-metrics">
+                  <span><strong>Matriz Activa:</strong> 3 columnas × M filas</span>
+                  <span><strong>Sub-flujo:</strong> Personalización WhatsApp</span>
+                  <span><strong>Retorno:</strong> Fácil vía botón, Esc o clic exterior</span>
+                </div>
+                <button type="button" class="feature-lab-btn" onclick="triggerOfferModal('floral', 'atelier', 'Demostración de Transición')">Probar Flujo Completo ✦</button>
+              </aside>
+            </div>
+          </section>
+
+          <!-- ==================================================================
+               VISTA 0: ACTUAL EN EL SITIO (BASELINE COMPLETO EN MATRIZ 3x2)
+               ================================================================== -->
+          <section class="lab-view-section" id="view-baseline">
+            <div class="section-intro-box">
+              <strong>0. Actual en el Sitio (Baseline en Producción · Matriz 3×2)</strong>
+              <p>Recreación del sistema vigente en <code>#acompanamientos</code>: fondo fotográfico sangrado, gradiente cálido oscuro (#855c2d a #2f2014) y textos blancos con sombra en Cormorant Garamond. Pulsa cualquiera para abrir el modal.</p>
+            </div>
+
+            <div class="cards-matrix-3">
+              <article class="card-baseline card-interactive" onclick="triggerOfferModal('floral', 'baseline', 'Actual en el Sitio (Baseline)')" tabindex="0" role="button">
+                <div class="baseline-photo"><img src="assets/hero-terapia-floral-warm.webp" alt="Terapia Floral"></div>
+                <div class="baseline-content">
+                  <span class="baseline-badge">Servicio</span>
+                  <h2 class="baseline-title">Terapia Floral</h2>
+                  <span class="baseline-action">+ CONOCER ✦</span>
+                </div>
+              </article>
+
+              <article class="card-baseline card-interactive" onclick="triggerOfferModal('tarot', 'baseline', 'Actual en el Sitio (Baseline)')" tabindex="0" role="button">
+                <div class="baseline-photo"><img src="assets/curso_tarot-marcela-20261009.webp" alt="Tarot"></div>
+                <div class="baseline-content">
+                  <span class="baseline-badge">Servicio</span>
+                  <h2 class="baseline-title">Lectura Tarot</h2>
+                  <span class="baseline-action">+ CONOCER ✦</span>
+                </div>
+              </article>
+
+              <article class="card-baseline card-interactive" onclick="triggerOfferModal('constelaciones', 'baseline', 'Actual en el Sitio (Baseline)')" tabindex="0" role="button">
+                <div class="baseline-photo"><img src="assets/constelaciones.webp" alt="Constelaciones"></div>
+                <div class="baseline-content">
+                  <span class="baseline-badge">Servicio</span>
+                  <h2 class="baseline-title">Constelaciones</h2>
+                  <span class="baseline-action">+ CONOCER ✦</span>
+                </div>
+              </article>
+
+              <article class="card-baseline card-interactive" onclick="triggerOfferModal('carta-astral', 'baseline', 'Actual en el Sitio (Baseline)')" tabindex="0" role="button">
+                <div class="baseline-photo"><img src="assets/carta_astral.webp" alt="Carta Astral"></div>
+                <div class="baseline-content">
+                  <span class="baseline-badge">Servicio</span>
+                  <h2 class="baseline-title">Carta Astral</h2>
+                  <span class="baseline-action">+ CONOCER ✦</span>
+                </div>
+              </article>
+
+              <article class="card-baseline card-interactive" onclick="triggerOfferModal('curso-astrologia', 'baseline', 'Actual en el Sitio (Baseline)')" tabindex="0" role="button">
+                <div class="baseline-photo"><img src="assets/curso_astrologia.webp" alt="Curso Astrología"></div>
+                <div class="baseline-content">
+                  <span class="baseline-badge">Formación</span>
+                  <h2 class="baseline-title">Astrología</h2>
+                  <span class="baseline-action">+ CONOCER ✦</span>
+                </div>
+              </article>
+
+              <article class="card-baseline card-interactive" onclick="triggerOfferModal('curso-tarot-2026', 'baseline', 'Actual en el Sitio (Baseline)')" tabindex="0" role="button">
+                <div class="baseline-photo"><img src="assets/curso_tarot.webp" alt="Curso Tarot 2026"></div>
+                <div class="baseline-content">
+                  <span class="baseline-badge">Formación</span>
+                  <h2 class="baseline-title">Tarot 2026</h2>
+                  <span class="baseline-action">+ CONOCER ✦</span>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- ==================================================================
+               VISTA 2: PROPUESTA 1 (ATELIER EN MATRIZ 3x2)
+               ================================================================== -->
+          <section class="lab-view-section" id="view-p1">
+            <div class="section-intro-box">
+              <strong>Propuesta 1: Lámina de Atelier (Ficha Botánica · Matriz 3×2)</strong>
+              <p>Pergamino cálido, doble marco dorado tenue y foto tratada como grabado de arte enmarcado. Todos los servicios y cursos de Marcela organizados en 3 columnas × 2 filas.</p>
+            </div>
+
+            <div class="cards-matrix-3">
+              <article class="card-atelier card-interactive" onclick="triggerOfferModal('floral', 'atelier', 'Propuesta 1 · Lámina de Atelier')" tabindex="0" role="button">
+                <div class="atelier-photo"><img src="assets/hero-terapia-floral-warm.webp" alt="Terapia Floral"></div>
+                <span class="atelier-meta">Acompañamiento Floral</span>
+                <h2 class="atelier-title">Terapia Floral</h2>
+                <p class="atelier-desc">Observación consciente y autoindagación con Flores de Bach en un viaje de regreso a ti.</p>
+                <div class="atelier-footer"><span class="atelier-duration">1 hora · Zoom</span><span class="atelier-action">Conocer ✦</span></div>
+              </article>
+
+              <article class="card-atelier card-interactive" onclick="triggerOfferModal('tarot', 'atelier', 'Propuesta 1 · Lámina de Atelier')" tabindex="0" role="button">
+                <div class="atelier-photo"><img src="assets/curso_tarot-marcela-20261009.webp" alt="Lectura de Tarot"></div>
+                <span class="atelier-meta">Símbolos del Inconsciente</span>
+                <h2 class="atelier-title">Lectura de Tarot</h2>
+                <p class="atelier-desc">Un mapa arquetípico para explorar tu mundo interior y vivir con coherencia.</p>
+                <div class="atelier-footer"><span class="atelier-duration">1 hora · Zoom</span><span class="atelier-action">Conocer ✦</span></div>
+              </article>
+
+              <article class="card-atelier card-interactive" onclick="triggerOfferModal('constelaciones', 'atelier', 'Propuesta 1 · Lámina de Atelier')" tabindex="0" role="button">
+                <div class="atelier-photo"><img src="assets/constelaciones.webp" alt="Constelaciones"></div>
+                <span class="atelier-meta">Sanación Sistémica</span>
+                <h2 class="atelier-title">Constelaciones</h2>
+                <p class="atelier-desc">Espacio individual para iluminar lealtades invisibles y liberar tu desarrollo.</p>
+                <div class="atelier-footer"><span class="atelier-duration">1 hora · Zoom</span><span class="atelier-action">Conocer ✦</span></div>
+              </article>
+
+              <article class="card-atelier card-interactive" onclick="triggerOfferModal('carta-astral', 'atelier', 'Propuesta 1 · Lámina de Atelier')" tabindex="0" role="button">
+                <div class="atelier-photo"><img src="assets/carta_astral.webp" alt="Carta Astral"></div>
+                <span class="atelier-meta">Cosmología Personal</span>
+                <h2 class="atelier-title">Carta Astral</h2>
+                <p class="atelier-desc">Exploramos juntos tu cielo natal acompañado por la sutileza de Flores de Bach.</p>
+                <div class="atelier-footer"><span class="atelier-duration">1 hora · Zoom</span><span class="atelier-action">Conocer ✦</span></div>
+              </article>
+
+              <article class="card-atelier card-interactive" onclick="triggerOfferModal('curso-astrologia', 'atelier', 'Propuesta 1 · Lámina de Atelier')" tabindex="0" role="button">
+                <div class="atelier-photo"><img src="assets/curso_astrologia.webp" alt="Curso Astrología"></div>
+                <span class="atelier-meta">Formación · Cursos</span>
+                <h2 class="atelier-title">Astrología Evolutiva</h2>
+                <p class="atelier-desc">Descubre el lenguaje de los astros y explora tu carta como un sendero vivo.</p>
+                <div class="atelier-footer"><span class="atelier-duration">Entrevista previa</span><span class="atelier-action">Ver temario ✦</span></div>
+              </article>
+
+              <article class="card-atelier card-interactive" onclick="triggerOfferModal('curso-tarot-2026', 'atelier', 'Propuesta 1 · Lámina de Atelier')" tabindex="0" role="button">
+                <div class="atelier-photo"><img src="assets/curso_tarot.webp" alt="Curso Tarot 2026"></div>
+                <span class="atelier-meta">Formación · Cursos</span>
+                <h2 class="atelier-title">Tarot 2026</h2>
+                <p class="atelier-desc">Explora los arcanos como llaves de autoconocimiento y apertura interior.</p>
+                <div class="atelier-footer"><span class="atelier-duration">Entrevista previa</span><span class="atelier-action">Ver temario ✦</span></div>
+              </article>
+            </div>
+          </section>
+
+          <!-- ==================================================================
+               VISTA 3: PROPUESTA 2 (PORTAL EN MATRIZ 3x2)
+               ================================================================== -->
+          <section class="lab-view-section" id="view-p2">
+            <div class="section-intro-box">
+              <strong>Propuesta 2: Portal Arquetípico (Arco Románico · Matriz 3×2)</strong>
+              <p>Arco superior que rima con el Hero de portada y con TuconTu. Acentúa la noción de umbral sagrado. Estructura balanceada de 3 columnas × 2 filas.</p>
+            </div>
+
+            <div class="cards-matrix-3">
+              <article class="card-portal card-interactive" onclick="triggerOfferModal('floral', 'portal', 'Propuesta 2 · Portal Arquetípico')" tabindex="0" role="button">
+                <div class="portal-vault"><img src="assets/hero-terapia-floral-warm.webp" alt="Terapia Floral"><span class="portal-badge">Flores de Bach</span></div>
+                <div class="portal-body">
+                  <h2 class="portal-title">Terapia Floral</h2>
+                  <div class="portal-symbol">✦</div>
+                  <p class="portal-desc">Observación consciente para vivir en coherencia con tu verdadera naturaleza.</p>
+                </div>
+                <div class="portal-footer"><span class="portal-duration">1 hora · Zoom</span><button type="button" class="portal-btn">Explorar ✦</button></div>
+              </article>
+
+              <article class="card-portal card-interactive" onclick="triggerOfferModal('tarot', 'portal', 'Propuesta 2 · Portal Arquetípico')" tabindex="0" role="button">
+                <div class="portal-vault"><img src="assets/curso_tarot-marcela-20261009.webp" alt="Tarot"><span class="portal-badge">Psique & Símbolos</span></div>
+                <div class="portal-body">
+                  <h2 class="portal-title">Lectura Tarot</h2>
+                  <div class="portal-symbol">✦</div>
+                  <p class="portal-desc">Imágenes arquetípicas para explorar tu mundo interior con mirada evolutiva.</p>
+                </div>
+                <div class="portal-footer"><span class="portal-duration">1 hora · Zoom</span><button type="button" class="portal-btn">Explorar ✦</button></div>
+              </article>
+
+              <article class="card-portal card-interactive" onclick="triggerOfferModal('constelaciones', 'portal', 'Propuesta 2 · Portal Arquetípico')" tabindex="0" role="button">
+                <div class="portal-vault"><img src="assets/constelaciones.webp" alt="Constelaciones"><span class="portal-badge">Sistémica</span></div>
+                <div class="portal-body">
+                  <h2 class="portal-title">Constelaciones</h2>
+                  <div class="portal-symbol">✦</div>
+                  <p class="portal-desc">Mirar con amor el sistema familiar para liberar lealtades y vivir en paz.</p>
+                </div>
+                <div class="portal-footer"><span class="portal-duration">1 hora · Zoom</span><button type="button" class="portal-btn">Explorar ✦</button></div>
+              </article>
+
+              <article class="card-portal card-interactive" onclick="triggerOfferModal('carta-astral', 'portal', 'Propuesta 2 · Portal Arquetípico')" tabindex="0" role="button">
+                <div class="portal-vault"><img src="assets/carta_astral.webp" alt="Carta Astral"><span class="portal-badge">Astros & Flores</span></div>
+                <div class="portal-body">
+                  <h2 class="portal-title">Carta Astral</h2>
+                  <div class="portal-symbol">✦</div>
+                  <p class="portal-desc">Tu mapa celeste como guía de crecimiento, apoyado con fórmulas florales.</p>
+                </div>
+                <div class="portal-footer"><span class="portal-duration">1 hora · Zoom</span><button type="button" class="portal-btn">Explorar ✦</button></div>
+              </article>
+
+              <article class="card-portal card-interactive" onclick="triggerOfferModal('curso-astrologia', 'portal', 'Propuesta 2 · Portal Arquetípico')" tabindex="0" role="button">
+                <div class="portal-vault"><img src="assets/curso_astrologia.webp" alt="Curso Astrología"><span class="portal-badge">Formación 2026</span></div>
+                <div class="portal-body">
+                  <h2 class="portal-title">Curso Astrología</h2>
+                  <div class="portal-symbol">✦</div>
+                  <p class="portal-desc">Aprende a interpretar el lenguaje de los astros desde la psicología arquetípica.</p>
+                </div>
+                <div class="portal-footer"><span class="portal-duration">Entrevista previa</span><button type="button" class="portal-btn">Explorar ✦</button></div>
+              </article>
+
+              <article class="card-portal card-interactive" onclick="triggerOfferModal('curso-tarot-2026', 'portal', 'Propuesta 2 · Portal Arquetípico')" tabindex="0" role="button">
+                <div class="portal-vault"><img src="assets/curso_tarot.webp" alt="Curso Tarot"><span class="portal-badge">Formación 2026</span></div>
+                <div class="portal-body">
+                  <h2 class="portal-title">Tarot 2026</h2>
+                  <div class="portal-symbol">✦</div>
+                  <p class="portal-desc">Arcanos Mayores y Menores, tiradas terapéuticas y lectura consciente.</p>
+                </div>
+                <div class="portal-footer"><span class="portal-duration">Entrevista previa</span><button type="button" class="portal-btn">Explorar ✦</button></div>
+              </article>
+            </div>
+          </section>
+
+          <!-- ==================================================================
+               VISTA 4: PROPUESTA 3 (CUADERNO EN MATRIZ 3x2)
+               ================================================================== -->
+          <section class="lab-view-section" id="view-p3">
+            <div class="section-intro-box">
+              <strong>Propuesta 3: Cuaderno de Sabiduría (Cita de Autor & Salvia · Matriz 3×2)</strong>
+              <p>Estructura de dos cuerpos con foto superior, cita reflexiva de Marcela y acentos en verde salvia. Es la opción con mayor peso reflexivo y pedagógico.</p>
+            </div>
+
+            <div class="cards-matrix-3">
+              <article class="card-notebook card-interactive" onclick="triggerOfferModal('floral', 'notebook', 'Propuesta 3 · Cuaderno de Sabiduría')" tabindex="0" role="button">
+                <div class="notebook-top"><img src="assets/hero-terapia-floral-warm.webp" alt="Terapia Floral"><span class="notebook-tag">Sesión</span></div>
+                <div class="notebook-content">
+                  <span class="notebook-meta">Flores de Bach</span>
+                  <h2 class="notebook-title">Terapia Floral</h2>
+                  <blockquote class="notebook-quote">«El bienestar nace de conocernos profundamente.»</blockquote>
+                  <p class="notebook-desc">Autoindagación y acompañamiento para reencontrarte con tu calma esencial.</p>
+                  <div class="notebook-footer"><span class="notebook-req">1 hora · Zoom</span><button type="button" class="notebook-btn">Agendar</button></div>
+                </div>
+              </article>
+
+              <article class="card-notebook card-interactive" onclick="triggerOfferModal('tarot', 'notebook', 'Propuesta 3 · Cuaderno de Sabiduría')" tabindex="0" role="button">
+                <div class="notebook-top"><img src="assets/curso_tarot-marcela-20261009.webp" alt="Tarot"><span class="notebook-tag">Sesión</span></div>
+                <div class="notebook-content">
+                  <span class="notebook-meta">Arquetipos</span>
+                  <h2 class="notebook-title">Tarot Terapéutico</h2>
+                  <blockquote class="notebook-quote">«Cada carta es un espejo que aguarda ser comprendido.»</blockquote>
+                  <p class="notebook-desc">Imágenes arquetípicas para explorar tu presente y tomar decisiones con lucidez.</p>
+                  <div class="notebook-footer"><span class="notebook-req">1 hora · Zoom</span><button type="button" class="notebook-btn">Agendar</button></div>
+                </div>
+              </article>
+
+              <article class="card-notebook card-interactive" onclick="triggerOfferModal('constelaciones', 'notebook', 'Propuesta 3 · Cuaderno de Sabiduría')" tabindex="0" role="button">
+                <div class="notebook-top"><img src="assets/constelaciones.webp" alt="Constelaciones"><span class="notebook-tag">Sesión</span></div>
+                <div class="notebook-content">
+                  <span class="notebook-meta">Sistémica</span>
+                  <h2 class="notebook-title">Constelaciones</h2>
+                  <blockquote class="notebook-quote">«Asentir a lo que fue para que lo nuevo florezca.»</blockquote>
+                  <p class="notebook-desc">Espacio confidencial para sanar lealtades y restituir el orden en tu árbol.</p>
+                  <div class="notebook-footer"><span class="notebook-req">1 hora · Zoom</span><button type="button" class="notebook-btn">Agendar</button></div>
+                </div>
+              </article>
+
+              <article class="card-notebook card-interactive" onclick="triggerOfferModal('curso-astrologia', 'notebook', 'Propuesta 3 · Cuaderno de Sabiduría')" tabindex="0" role="button">
+                <div class="notebook-top"><img src="assets/curso_astrologia.webp" alt="Curso Astrología"><span class="notebook-tag">Curso 2026</span></div>
+                <div class="notebook-content">
+                  <span class="notebook-meta">Formación Anual</span>
+                  <h2 class="notebook-title">Astrología Evolutiva</h2>
+                  <blockquote class="notebook-quote">«El mapa natal como una brújula del alma.»</blockquote>
+                  <p class="notebook-desc">Aprende a interpretar tu cielo natal desde una perspectiva psicológica.</p>
+                  <div class="notebook-footer"><span class="notebook-req">Entrevista previa</span><button type="button" class="notebook-btn">Ver temario</button></div>
+                </div>
+              </article>
+
+              <article class="card-notebook card-interactive" onclick="triggerOfferModal('curso-tarot-2026', 'notebook', 'Propuesta 3 · Cuaderno de Sabiduría')" tabindex="0" role="button">
+                <div class="notebook-top"><img src="assets/curso_tarot.webp" alt="Curso Tarot"><span class="notebook-tag">Formación</span></div>
+                <div class="notebook-content">
+                  <span class="notebook-meta">Arcanos Mayores & Menores</span>
+                  <h2 class="notebook-title">Tarot 2026</h2>
+                  <blockquote class="notebook-quote">«Un sendero de intuición y revelación de la psique.»</blockquote>
+                  <p class="notebook-desc">Formación profunda en arquetipos, tiradas y lectura terapéutica.</p>
+                  <div class="notebook-footer"><span class="notebook-req">Cupos limitados</span><button type="button" class="notebook-btn">Ver temario</button></div>
+                </div>
+              </article>
+
+              <article class="card-notebook card-interactive" onclick="triggerOfferModal('carta-astral', 'notebook', 'Propuesta 3 · Cuaderno de Sabiduría')" tabindex="0" role="button">
+                <div class="notebook-top"><img src="assets/carta_astral.webp" alt="Carta Astral"><span class="notebook-tag">Sesión</span></div>
+                <div class="notebook-content">
+                  <span class="notebook-meta">Sesión Individual</span>
+                  <h2 class="notebook-title">Carta Astral & Flores</h2>
+                  <blockquote class="notebook-quote">«Integrar el cielo con la sutileza de las flores.»</blockquote>
+                  <p class="notebook-desc">Lectura natal acompañada de una fórmula personalizada de Flores de Bach.</p>
+                  <div class="notebook-footer"><span class="notebook-req">1 sesión · Zoom</span><button type="button" class="notebook-btn">Agendar</button></div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- ==================================================================
+               VISTA 5: PROPUESTA 4 (ALQUIMIA EN MATRIZ 3x2)
+               ================================================================== -->
+          <section class="lab-view-section" id="view-p4">
+            <div class="section-intro-box">
+              <strong>Propuesta 4: Atmósfera Alquímica (Noche Azul & Filigrana Oro · Matriz 3×2)</strong>
+              <p>Azul noche mineral (#14283c) con filigrana de oro fino. Evoca el recogimiento nocturno, el misterio y el buceo en las profundidades del alma.</p>
+            </div>
+
+            <div class="cards-matrix-3">
+              <article class="card-alchemy card-interactive" onclick="triggerOfferModal('floral', 'alchemy', 'Propuesta 4 · Atmósfera Alquímica')" tabindex="0" role="button">
+                <div class="alchemy-photo"><img src="assets/hero-terapia-floral-warm.webp" alt="Terapia Floral"></div>
+                <span class="alchemy-meta">Botánica Sagrada</span>
+                <h2 class="alchemy-title">Terapia Floral</h2>
+                <p class="alchemy-desc">Viaje de autoconocimiento y sintonía con tu verdad mediante la vibración floral.</p>
+                <div class="alchemy-footer"><span class="alchemy-duration">1 hora · Online</span><span class="alchemy-action">Agendar ✦</span></div>
+              </article>
+
+              <article class="card-alchemy card-interactive" onclick="triggerOfferModal('tarot', 'alchemy', 'Propuesta 4 · Atmósfera Alquímica')" tabindex="0" role="button">
+                <div class="alchemy-photo"><img src="assets/curso_tarot-marcela-20261009.webp" alt="Tarot"></div>
+                <span class="alchemy-meta">Espejo Arquetípico</span>
+                <h2 class="alchemy-title">Tarot Terapéutico</h2>
+                <p class="alchemy-desc">Diálogo consciente con las imágenes arquetípicas para desentrañar encrucijadas.</p>
+                <div class="alchemy-footer"><span class="alchemy-duration">1 hora · Online</span><span class="alchemy-action">Agendar ✦</span></div>
+              </article>
+
+              <article class="card-alchemy card-interactive" onclick="triggerOfferModal('constelaciones', 'alchemy', 'Propuesta 4 · Atmósfera Alquímica')" tabindex="0" role="button">
+                <div class="alchemy-photo"><img src="assets/constelaciones.webp" alt="Constelaciones"></div>
+                <span class="alchemy-meta">Sanación Profunda</span>
+                <h2 class="alchemy-title">Constelaciones</h2>
+                <p class="alchemy-desc">Espacio para iluminar lealtades invisibles y ordenar tu sistema familiar.</p>
+                <div class="alchemy-footer"><span class="alchemy-duration">1 hora · Online</span><span class="alchemy-action">Agendar ✦</span></div>
+              </article>
+
+              <article class="card-alchemy card-interactive" onclick="triggerOfferModal('carta-astral', 'alchemy', 'Propuesta 4 · Atmósfera Alquímica')" tabindex="0" role="button">
+                <div class="alchemy-photo"><img src="assets/carta_astral.webp" alt="Carta Astral"></div>
+                <span class="alchemy-meta">Cosmología del Alma</span>
+                <h2 class="alchemy-title">Carta Astral Natal</h2>
+                <p class="alchemy-desc">Exploración de tu cielo de nacimiento como un mapa vivo de potenciales.</p>
+                <div class="alchemy-footer"><span class="alchemy-duration">1 hora · Online</span><span class="alchemy-action">Agendar ✦</span></div>
+              </article>
+
+              <article class="card-alchemy card-interactive" onclick="triggerOfferModal('curso-astrologia', 'alchemy', 'Propuesta 4 · Atmósfera Alquímica')" tabindex="0" role="button">
+                <div class="alchemy-photo"><img src="assets/curso_astrologia.webp" alt="Curso Astrología"></div>
+                <span class="alchemy-meta">Misterio de las Estrellas</span>
+                <h2 class="alchemy-title">Curso Astrología</h2>
+                <p class="alchemy-desc">Un viaje de estudio para descifrar el cosmos y acompañar a otros desde el alma.</p>
+                <div class="alchemy-footer"><span class="alchemy-duration">Entrevista previa</span><span class="alchemy-action">Explorar ✦</span></div>
+              </article>
+
+              <article class="card-alchemy card-interactive" onclick="triggerOfferModal('curso-tarot-2026', 'alchemy', 'Propuesta 4 · Atmósfera Alquímica')" tabindex="0" role="button">
+                <div class="alchemy-photo"><img src="assets/curso_tarot.webp" alt="Curso Tarot"></div>
+                <span class="alchemy-meta">Símbolos del Infinito</span>
+                <h2 class="alchemy-title">Tarot 2026</h2>
+                <p class="alchemy-desc">Aprende a decodificar los 78 arcanos como llaves de transformación consciente.</p>
+                <div class="alchemy-footer"><span class="alchemy-duration">Cupos limitados</span><span class="alchemy-action">Explorar ✦</span></div>
+              </article>
+            </div>
+          </section>
+
+          <!-- Enlaces de Retorno -->
+          <footer class="lab-back-links">
+            <a href="index.html#acompanamientos">← Ir a Servicios y Cursos en la Web</a>
+            <a href="index.html#tucontu">Ir a TuconTu en la Web →</a>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       MODAL DE EXPERIENCIA COMPLETA: DETALLES + SUB-FLUJO DE WHATSAPP
+       ======================================================================== -->
+  <dialog class="lab-modal-dialog transition-editorial" id="lab-dialog" aria-labelledby="dialog-title">
+    
+    <!-- Lado Izquierdo: Media y Contacto de Marcela -->
+    <div class="lab-dialog-media">
+      <img id="dialog-img" src="assets/hero-terapia-floral-warm.webp" alt="">
+      <span class="lab-origin-badge" id="dialog-origin-badge">✦ Vista desde: Propuesta</span>
+      
+      <!-- Overlay Sereno que aparece al entrar en modo WhatsApp -->
+      <div class="media-wa-overlay" id="media-wa-overlay">
+        <div class="wa-contact-badge-box">
+          <div class="wa-avatar-ring">🌿</div>
+          <span class="wa-contact-name">Marcela</span>
+          <span class="wa-contact-role">SoyAutoconocimiento</span>
+          <span class="wa-contact-status-pill">● En línea para responderte</span>
+          <p class="wa-overlay-quote">«El mensaje que nace de tu verdad ya inicia el proceso terapéutico.»</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lado Derecho: Contenedor Deslizante de Pantallas (Deck con Momentum) -->
+    <div class="lab-dialog-body">
+      <button type="button" class="lab-dialog-close" id="dialog-close-btn" aria-label="Cerrar ventana (Esc)">×</button>
+
+      <div class="dialog-screens-slider showing-detail" id="dialog-slider">
+        
+        <!-- PANTALLA 1: DETALLES DE LA SESIÓN -->
+        <div class="dialog-screen screen-detail" id="screen-detail">
+          <span class="lab-dialog-kicker" id="dialog-kicker">Acompañamiento Terapéutico</span>
+          <h2 class="lab-dialog-title" id="dialog-title">Terapia Floral Evolutiva</h2>
+          
+          <blockquote class="lab-dialog-quote" id="dialog-quote">«El bienestar nace de conocernos profundamente y vivir en coherencia con nuestra verdadera naturaleza.»</blockquote>
+          
+          <div class="lab-dialog-desc" id="dialog-desc">
+            <p>Un acompañamiento terapéutico con Flores de Bach que une observación consciente y autoindagación en un viaje de autoconocimiento.</p>
+          </div>
+
+          <div class="lab-dialog-meta">
+            <span class="lab-meta-pill" id="dialog-format">Online · Zoom</span>
+            <span class="lab-meta-pill" id="dialog-duration">1 hora</span>
+            <span class="lab-meta-pill" id="dialog-detail">Atención personalizada</span>
+          </div>
+
+          <div class="lab-dialog-actions">
+            <a href="https://calendar.app.google/bakqzB6p1NStA3Hy6" target="_blank" rel="noopener noreferrer" class="lab-btn-action lab-btn-gold" id="dialog-btn-agenda">
+              <span>Agendar en Calendar</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 2v4m10-4v4M4 9h16M5 4h14a1 1 0 0 1 1 1v14H4V5a1 1 0 0 1 1-1Z"/></svg>
+            </a>
+            
+            <!-- Botón WhatsApp: Dispara la transición a la pantalla de personalización -->
+            <button type="button" class="lab-btn-action lab-btn-whatsapp" id="dialog-btn-whatsapp" onclick="goToWhatsAppScreen()">
+              <span>Personalizar & WhatsApp</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.4L3 20l.9-4.7a8.5 8.5 0 1 1 16.6-3.6Z"/></svg>
+            </button>
+          </div>
+
+          <button type="button" class="lab-dismiss-link" onclick="closeLabModal()">← Volver a la matriz de tarjetas</button>
+        </div>
+
+        <!-- PANTALLA 2: PERSONALIZACIÓN DEL MENSAJE DE WHATSAPP -->
+        <div class="dialog-screen screen-whatsapp" id="screen-whatsapp">
+          <!-- Navegación de retroceso fácil -->
+          <div class="wa-nav-header">
+            <button type="button" class="wa-back-btn" onclick="goToDetailScreen()" aria-label="Volver a los detalles de la sesión">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <span>Volver a detalles</span>
+            </button>
+            <span class="wa-step-indicator">Paso 2 · Personalizar Mensaje</span>
+          </div>
+
+          <div class="wa-intro-group">
+            <span class="lab-dialog-kicker">Contacto Directo con Marcela</span>
+            <h3 class="wa-title">Adapta tu mensaje</h3>
+            <p class="wa-subtitle">Personaliza tus palabras o elige una consulta rápida antes de abrir WhatsApp. Marcela recibirá tu texto tal cual lo escribas.</p>
+          </div>
+
+          <!-- Chips de sugerencias rápidas -->
+          <div class="wa-chips-section">
+            <span class="wa-chips-label">Añadir consulta rápida:</span>
+            <div class="wa-chips-row">
+              <button type="button" class="wa-chip" onclick="addChipText(this, '¿Qué días y horarios tienes disponibles próximamente para coordinar?')">📅 Horarios disponibles</button>
+              <button type="button" class="wa-chip" onclick="addChipText(this, '¿Cómo es la dinámica de la sesión online por Zoom?')">💻 Formato online</button>
+              <button type="button" class="wa-chip" onclick="addChipText(this, '¿Necesito alguna preparación previa para este acompañamiento?')">🌿 Preparación previa</button>
+              <button type="button" class="wa-chip" onclick="addChipText(this, '¿Cuáles son los valores y medios de pago disponibles?')">💳 Valores y pago</button>
+            </div>
+          </div>
+
+          <!-- Caja de texto editable -->
+          <div class="wa-message-box-wrapper">
+            <div class="wa-box-header">
+              <label for="wa-custom-textarea" class="wa-textarea-label">Tu mensaje para Marcela:</label>
+              <button type="button" class="wa-reset-btn" onclick="resetWhatsAppTemplate()">↺ Restaurar original</button>
+            </div>
+            <textarea id="wa-custom-textarea" class="wa-textarea" rows="4" placeholder="Escribe tu mensaje aquí..." oninput="updateCharCount()"></textarea>
+            <div class="wa-box-footer">
+              <span>Se abrirá WhatsApp Web / App listo para enviar</span>
+              <span id="wa-char-count">0 caracteres</span>
+            </div>
+          </div>
+
+          <!-- Acciones de envío y retroceso -->
+          <div class="wa-actions-group">
+            <button type="button" class="lab-btn-action lab-btn-whatsapp wa-btn-send" onclick="sendCustomWhatsApp()">
+              <span>Abrir WhatsApp y Enviar Mensaje ↗</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.4L3 20l.9-4.7a8.5 8.5 0 1 1 16.6-3.6Z"/></svg>
+            </button>
+            <button type="button" class="wa-secondary-back-btn" onclick="goToDetailScreen()">
+              ← Regresar a los detalles de <span id="wa-back-offer-name">la sesión</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ========================================================================
+       SCRIPTS: SIMULADOR DE VIEWPORTS, MATRIZ Y TRANSICIÓN DE PANTALLAS
+       ======================================================================== -->
+  <script>
+    // Catálogo de Servicios y Cursos de Marcela
+    const MARCELA_OFFERS = {
+      'floral': {
+        id: 'floral',
+        category: 'services',
+        title: "Terapia Floral Evolutiva",
+        kicker: "Acompañamiento Terapéutico · Flores de Bach",
+        image: "assets/hero-terapia-floral-warm.webp",
+        quote: "«El bienestar nace de conocernos profundamente y vivir en coherencia con nuestra verdadera naturaleza.»",
+        desc: "Un acompañamiento terapéutico con Flores de Bach que une observación consciente y autoindagación en un viaje de autoconocimiento.\n\nEn cada sesión exploramos juntos lo que hoy te inquieta, facilitando la toma de conciencia sobre patrones emocionales para formular un preparado floral personalizado.",
+        format: "Online · Zoom",
+        duration: "1 hora",
+        detail: "Incluye fórmula personalizada",
+        agendaUrl: "https://calendar.app.google/bakqzB6p1NStA3Hy6",
+        defaultMsg: "Hola Marcela, me gustaría consultar por la sesión de Terapia Floral Evolutiva. ¿Tienes disponibilidad en los próximos días para coordinar? Gracias."
+      },
+      'tarot': {
+        id: 'tarot',
+        category: 'services',
+        title: "Lectura de Tarot Terapéutico",
+        kicker: "Arquetipos & Sabiduría del Inconsciente",
+        image: "assets/curso_tarot-marcela-20261009.webp",
+        quote: "«Un mapa simbólico que te invita a explorar tu mundo interior con autenticidad.»",
+        desc: "El Tarot es un espejo del alma que nos muestra el panorama arquetípico de lo que estamos viviendo. A través de una mirada evolutiva y respetuosa, desentrañamos encrucijadas y clarificamos tu rumbo vital.",
+        format: "Online · Zoom",
+        duration: "1 hora",
+        detail: "Sesión individual confidencial",
+        agendaUrl: "https://calendar.app.google/bakqzB6p1NStA3Hy6",
+        defaultMsg: "Hola Marcela, quisiera coordinar una sesión de Lectura de Tarot Terapéutico contigo. ¿Cómo podemos agendar? Muchas gracias."
+      },
+      'constelaciones': {
+        id: 'constelaciones',
+        category: 'services',
+        title: "Constelaciones Familiares",
+        kicker: "Sanación Sistémica Individual",
+        image: "assets/constelaciones.webp",
+        quote: "«Asentir con amor a la historia familiar para habitar plenamente tu propio destino.»",
+        desc: "En un espacio íntimo e individual, miramos con amor las dinámicas familiares inconscientes y lealtades invisibles que pueden estar frenando tu desarrollo o bienestar, abriendo paso a la reconciliación y la paz interior.",
+        format: "Online · Zoom",
+        duration: "1 hora",
+        detail: "Abordaje sistémico profundo",
+        agendaUrl: "https://calendar.app.google/bakqzB6p1NStA3Hy6",
+        defaultMsg: "Hola Marcela, me interesa realizar una sesión individual de Constelaciones Familiares. Me gustaría conocer fechas y cómo prepararme. Gracias."
+      },
+      'carta-astral': {
+        id: 'carta-astral',
+        category: 'services',
+        title: "Carta Astral & Flores",
+        kicker: "Cosmología Natal & Esencias Florales",
+        image: "assets/carta_astral.webp",
+        quote: "«Integrar el mapa del cielo con la sutileza sanadora de las flores.»",
+        desc: "Exploramos juntos tu mapa natal para reconocer potencialidades, desafíos y rutas evolutivas. Luego de la primera sesión, si lo decides, podemos profundizar y acompañarnos con Flores de Bach para fortalecer tu proceso.",
+        format: "Online · Zoom",
+        duration: "1 hora",
+        detail: "Mapa natal personalizado",
+        agendaUrl: "https://calendar.app.google/bakqzB6p1NStA3Hy6",
+        defaultMsg: "Hola Marcela, quisiera consultar sobre la lectura de Carta Astral y cómo se integra con Flores de Bach. ¿Qué datos necesitas para comenzar? Gracias."
+      },
+      'curso-astrologia': {
+        id: 'curso-astrologia',
+        category: 'courses',
+        title: "Formación en Astrología",
+        kicker: "Curso Anual · Lenguaje del Cosmos",
+        image: "assets/curso_astrologia.webp",
+        quote: "«Aprender a mirar el propio cielo con paciencia, rigor y verdad.»",
+        desc: "Descubre el lenguaje de los astros y explora tu mapa natal como una senda viva de autoconocimiento. Aprenderás a interpretar aspectos, casas, signos y tránsitos desde un enfoque psicológico y terapéutico.",
+        format: "Online · Zoom",
+        duration: "Ciclo lectivo 2026",
+        detail: "Entrevista previa a inscripción",
+        agendaUrl: "https://calendar.app.google/bakqzB6p1NStA3Hy6",
+        defaultMsg: "Hola Marcela, quisiera solicitar la entrevista previa para postular al Curso Anual de Astrología 2026. ¿Cuándo podríamos conversar brevemente? Saludos."
+      },
+      'curso-tarot-2026': {
+        id: 'curso-tarot-2026',
+        category: 'courses',
+        title: "Formación en Tarot 2026",
+        kicker: "Curso Anual · Arcanos Mayores & Menores",
+        image: "assets/curso_tarot.webp",
+        quote: "«Las cartas como un sendero de intuición y revelación de la psique.»",
+        desc: "Explora las cartas como un camino de aprendizaje e intuición que abre nuevas miradas sobre tus procesos vitales. Arcanos Mayores y Menores, tiradas terapéuticas y su estrecha relación con tu carta astral.",
+        format: "Online · Zoom",
+        duration: "Ciclo lectivo 2026",
+        detail: "Cupos limitados · Entrevista previa",
+        agendaUrl: "https://calendar.app.google/bakqzB6p1NStA3Hy6",
+        defaultMsg: "Hola Marcela, me interesa conocer más sobre la Formación en Tarot 2026 y consultar si aún quedan cupos para la entrevista previa. Gracias."
+      }
+    };
+
+    // Estado del Visualizador de Dispositivos & HUD
+    let currentDevice = 'fluid';
+    let isRotated = false;
+    let isHudCollapsed = false;
+    let lastTriggerElement = null;
+    let currentActiveOffer = null;
+    let currentModalScreen = 'detail';
+
+    // Estado del Bazar Real Emulado
+    let realBazarCategory = 'services'; // 'services' o 'courses'
+    let realBazarCardStyle = 'baseline'; // 'baseline', 'atelier', 'portal', 'notebook', 'alchemy'
+
+    const DEVICE_CONFIGS = {
+      'desktop': {
+        name: 'Escritorio Genérico',
+        width: 1440,
+        height: 900,
+        bezel: true,
+        className: 'mode-desktop',
+        cue: 'Matriz 3×M Activa (3 columnas)'
+      },
+      'tablet-landscape': {
+        name: 'Tablet Rotada (Landscape)',
+        width: 1024,
+        height: 768,
+        bezel: true,
+        className: 'mode-tablet-landscape',
+        cue: 'Matriz 3×M Activa (3 columnas)'
+      },
+      'tablet-portrait': {
+        name: 'Tablet Vertical (Portrait)',
+        width: 768,
+        height: 1024,
+        bezel: true,
+        className: 'mode-tablet-portrait',
+        cue: 'Matriz 2×M Adaptada (2 columnas)'
+      },
+      'mobile': {
+        name: 'Móvil Genérico',
+        width: 390,
+        height: 844,
+        bezel: true,
+        className: 'mode-mobile',
+        cue: 'Columna 1×M Apilada'
+      },
+      'fluid': {
+        name: '100% Fluido',
+        width: null,
+        height: null,
+        bezel: false,
+        className: 'mode-fluid',
+        cue: 'Matriz 3×M Activa (Elástica)'
+      }
+    };
+
+    // Colapsar y Expandir el HUD
+    function toggleHudVisibility(show) {
+      isHudCollapsed = (typeof show === 'boolean') ? !show : !isHudCollapsed;
+      document.body.classList.toggle('hud-is-collapsed', isHudCollapsed);
+    }
+
+    // Atajo de teclado: Tecla 'H' para alternar el HUD
+    document.addEventListener('keydown', event => {
+      const isInput = event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA';
+      if ((event.key === 'h' || event.key === 'H') && !isInput && !document.getElementById('lab-dialog').open) {
+        event.preventDefault();
+        toggleHudVisibility();
+      }
+    });
+
+    // Control de Viewports
+    function setDeviceViewport(deviceKey) {
+      currentDevice = deviceKey;
+      isRotated = false;
+      applyDeviceViewport();
+      if (typeof window.onDeviceViewportChanged === 'function') {
+        window.onDeviceViewportChanged(deviceKey);
+      }
+    }
+
+    function applyDeviceViewport() {
+      const config = DEVICE_CONFIGS[currentDevice];
+      const frame = document.getElementById('device-frame');
+      const bezelHeader = document.getElementById('device-bezel-header');
+      const dimTag = document.getElementById('viewport-dim-tag');
+      const bezelTitle = document.getElementById('bezel-device-name');
+      const bezelCue = document.getElementById('bezel-layout-cue');
+      const scaler = document.getElementById('stage-scaler');
+
+      document.querySelectorAll('.device-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.device === currentDevice);
+      });
+
+      document.body.classList.remove('mode-desktop', 'mode-tablet-landscape', 'mode-tablet-portrait', 'mode-mobile', 'mode-fluid');
+      frame.classList.remove('has-device-bezel', 'mode-desktop', 'mode-tablet-landscape', 'mode-tablet-portrait', 'mode-mobile', 'mode-fluid');
+
+      document.body.classList.add(config.className);
+      frame.classList.add(config.className);
+
+      if (config.bezel) {
+        frame.classList.add('has-device-bezel');
+        bezelHeader.style.display = 'flex';
+
+        let targetWidth = config.width;
+        let targetHeight = config.height;
+
+        if (isRotated && targetWidth && targetHeight) {
+          const temp = targetWidth;
+          targetWidth = targetHeight;
+          targetHeight = temp;
+        }
+
+        frame.style.width = targetWidth + 'px';
+        frame.style.maxWidth = targetWidth + 'px';
+
+        const orientationLabel = isRotated ? ' (Rotado 🔄)' : '';
+        const dimText = `${targetWidth} × ${targetHeight} px · ${config.name}${orientationLabel} · ${config.cue}`;
+        dimTag.textContent = dimText;
+        bezelTitle.textContent = `${config.name}${orientationLabel} (${targetWidth}×${targetHeight})`;
+        bezelCue.textContent = config.cue;
+
+        const availableWidth = window.innerWidth - 32;
+        if (targetWidth > availableWidth && availableWidth > 320) {
+          const scaleRatio = availableWidth / targetWidth;
+          scaler.style.transform = `scale(${scaleRatio})`;
+          scaler.style.marginBottom = `${-(1 - scaleRatio) * 600}px`;
+        } else {
+          scaler.style.transform = 'none';
+          scaler.style.marginBottom = '0';
+        }
+
+      } else {
+        bezelHeader.style.display = 'none';
+        frame.style.width = '100%';
+        frame.style.maxWidth = '88rem';
+        scaler.style.transform = 'none';
+        scaler.style.marginBottom = '0';
+        dimTag.textContent = '100% Fluido · Matriz 3×M Activa';
+      }
+    }
+
+    function toggleDeviceRotation() {
+      if (currentDevice === 'fluid') {
+        setDeviceViewport('tablet-landscape');
+        return;
+      }
+      if (currentDevice === 'tablet-landscape') {
+        setDeviceViewport('tablet-portrait');
+        return;
+      }
+      if (currentDevice === 'tablet-portrait') {
+        setDeviceViewport('tablet-landscape');
+        return;
+      }
+      isRotated = !isRotated;
+      applyDeviceViewport();
+    }
+
+    window.addEventListener('resize', () => {
+      if (currentDevice !== 'fluid') {
+        applyDeviceViewport();
+      }
+    });
+
+    // Pestañas Principales del Laboratorio
+    function switchLabView(viewId) {
+      document.querySelectorAll('.lab-view-section').forEach(sec => sec.classList.remove('is-active'));
+      document.querySelectorAll('.lab-tab-btn').forEach(btn => btn.classList.remove('is-active'));
+
+      const targetSection = document.getElementById('view-' + viewId);
+      if (targetSection) targetSection.classList.add('is-active');
+
+      const clickedBtn = Array.from(document.querySelectorAll('.lab-tab-btn')).find(b => b.getAttribute('onclick')?.includes("'" + viewId + "'"));
+      if (clickedBtn) clickedBtn.classList.add('is-active');
+
+      if (viewId === 'real-bazar') {
+        renderRealBazarCards();
+      } else if (viewId === 'sistema-3') {
+        if (typeof window.updateHeroDOM === 'function') window.updateHeroDOM();
+        if (typeof window.updateBazarGrid === 'function') window.updateBazarGrid();
+      }
+    }
+
+    // ==========================================================================
+    // EMULACIÓN EXACTA DEL BAZAR REAL (SECCIÓN #acompanamientos)
+    // ==========================================================================
+    function switchRealBazarCategory(category) {
+      if (realBazarCategory === category) return;
+      realBazarCategory = category;
+
+      document.getElementById('bazar-tab-services').classList.toggle('is-active', category === 'services');
+      document.getElementById('bazar-tab-services').setAttribute('aria-selected', category === 'services');
+      document.getElementById('bazar-tab-courses').classList.toggle('is-active', category === 'courses');
+      document.getElementById('bazar-tab-courses').setAttribute('aria-selected', category === 'courses');
+
+      const container = document.getElementById('real-bazar-grid-container');
+      container.classList.add('is-switching');
+
+      setTimeout(() => {
+        renderRealBazarCards();
+        container.classList.remove('is-switching');
+      }, 160);
+    }
+
+    function setRealBazarCardStyle(styleKey) {
+      realBazarCardStyle = styleKey;
+      document.querySelectorAll('.style-chip-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.styleChoice === styleKey);
+      });
+      renderRealBazarCards();
+    }
+
+    function renderRealBazarCards() {
+      const grid = document.getElementById('real-bazar-cards-grid');
+      grid.innerHTML = '';
+
+      const items = Object.values(MARCELA_OFFERS).filter(item => item.category === realBazarCategory);
+
+      items.forEach(item => {
+        const card = createCardElement(item, realBazarCardStyle);
+        grid.appendChild(card);
+      });
+    }
+
+    // Generador de Tarjetas según el estilo activo
+    function createCardElement(item, style) {
+      const article = document.createElement('article');
+      article.className = 'card-interactive';
+      article.tabIndex = 0;
+      article.setAttribute('role', 'button');
+      article.setAttribute('aria-label', `Abrir detalles de ${item.title}`);
+
+      const styleLabels = {
+        'baseline': '0 · Actual en Sitio',
+        'atelier': 'Propuesta 1 · Atelier',
+        'portal': 'Propuesta 2 · Portal',
+        'notebook': 'Propuesta 3 · Cuaderno',
+        'alchemy': 'Propuesta 4 · Alquimia'
+      };
+
+      article.onclick = () => triggerOfferModal(item.id, style, styleLabels[style]);
+
+      if (style === 'baseline') {
+        article.classList.add('card-baseline');
+        article.innerHTML = `
+          <div class="baseline-photo"><img src="${item.image}" alt="${item.title}"></div>
+          <div class="baseline-content">
+            <span class="baseline-badge">${item.category === 'courses' ? 'Formación' : 'Servicio'}</span>
+            <h2 class="baseline-title">${item.title}</h2>
+            <span class="baseline-action">+ CONOCER ✦</span>
+          </div>
+        `;
+      } else if (style === 'atelier') {
+        article.classList.add('card-atelier');
+        article.innerHTML = `
+          <div class="atelier-photo"><img src="${item.image}" alt="${item.title}"></div>
+          <span class="atelier-meta">${item.kicker}</span>
+          <h2 class="atelier-title">${item.title}</h2>
+          <p class="atelier-desc">${item.desc.split('\n\n')[0]}</p>
+          <div class="atelier-footer">
+            <span class="atelier-duration">${item.duration} · Zoom</span>
+            <span class="atelier-action">Conocer ✦</span>
+          </div>
+        `;
+      } else if (style === 'portal') {
+        article.classList.add('card-portal');
+        article.innerHTML = `
+          <div class="portal-vault"><img src="${item.image}" alt="${item.title}"><span class="portal-badge">${item.category === 'courses' ? 'Formación 2026' : 'Acompañamiento'}</span></div>
+          <div class="portal-body">
+            <h2 class="portal-title">${item.title}</h2>
+            <div class="portal-symbol">✦</div>
+            <p class="portal-desc">${item.desc.split('\n\n')[0]}</p>
+          </div>
+          <div class="portal-footer"><span class="portal-duration">${item.duration}</span><button type="button" class="portal-btn">Explorar ✦</button></div>
+        `;
+      } else if (style === 'notebook') {
+        article.classList.add('card-notebook');
+        article.innerHTML = `
+          <div class="notebook-top"><img src="${item.image}" alt="${item.title}"><span class="notebook-tag">${item.category === 'courses' ? 'Curso' : 'Sesión'}</span></div>
+          <div class="notebook-content">
+            <span class="notebook-meta">${item.category === 'courses' ? 'Formación Anual' : 'Acompañamiento'}</span>
+            <h2 class="notebook-title">${item.title}</h2>
+            <blockquote class="notebook-quote">${item.quote}</blockquote>
+            <p class="notebook-desc">${item.desc.split('\n\n')[0]}</p>
+            <div class="notebook-footer"><span class="notebook-req">${item.detail}</span><button type="button" class="notebook-btn">${item.category === 'courses' ? 'Ver temario' : 'Agendar'}</button></div>
+          </div>
+        `;
+      } else if (style === 'alchemy') {
+        article.classList.add('card-alchemy');
+        article.innerHTML = `
+          <div class="alchemy-photo"><img src="${item.image}" alt="${item.title}"></div>
+          <span class="alchemy-meta">${item.kicker}</span>
+          <h2 class="alchemy-title">${item.title}</h2>
+          <p class="alchemy-desc">${item.desc.split('\n\n')[0]}</p>
+          <div class="alchemy-footer"><span class="alchemy-duration">${item.duration} · Online</span><span class="alchemy-action">Agendar ✦</span></div>
+        `;
+      }
+
+      return article;
+    }
+
+    // ==========================================================================
+    // CONTROL DEL MODAL Y TRANSICIONES FLUIDAS ENTRE PANTALLAS
+    // ==========================================================================
+    function triggerOfferModal(offerId, styleName, styleLabel) {
+      const data = MARCELA_OFFERS[offerId] || MARCELA_OFFERS['floral'];
+      currentActiveOffer = data;
+      const dialog = document.getElementById('lab-dialog');
+      lastTriggerElement = document.activeElement;
+
+      setModalScreenState('detail');
+
+      document.getElementById('dialog-img').src = data.image;
+      document.getElementById('dialog-origin-badge').textContent = '✦ ' + styleLabel;
+      document.getElementById('dialog-kicker').textContent = data.kicker;
+      document.getElementById('dialog-title').textContent = data.title;
+      document.getElementById('dialog-quote').textContent = data.quote;
+      
+      const descBox = document.getElementById('dialog-desc');
+      descBox.innerHTML = '';
+      data.desc.split('\n\n').forEach(paragraph => {
+        const p = document.createElement('p');
+        p.textContent = paragraph;
+        p.style.marginBottom = '.65rem';
+        descBox.appendChild(p);
+      });
+
+      document.getElementById('dialog-format').textContent = data.format;
+      document.getElementById('dialog-duration').textContent = data.duration;
+      document.getElementById('dialog-detail').textContent = data.detail;
+
+      const agendaBtn = document.getElementById('dialog-btn-agenda');
+      if (data.agendaUrl) {
+        agendaBtn.href = data.agendaUrl;
+        agendaBtn.hidden = false;
+      } else {
+        agendaBtn.hidden = true;
+      }
+
+      document.getElementById('wa-back-offer-name').textContent = data.title;
+      const textarea = document.getElementById('wa-custom-textarea');
+      textarea.value = data.defaultMsg;
+      updateCharCount();
+
+      document.querySelectorAll('.wa-chip').forEach(c => c.classList.remove('is-added'));
+
+      document.body.classList.toggle('mode-mobile-modal', currentDevice === 'mobile');
+
+      dialog.classList.remove('is-closing');
+      dialog.showModal();
+    }
+
+    function goToWhatsAppScreen() {
+      setModalScreenState('whatsapp');
+      const textarea = document.getElementById('wa-custom-textarea');
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+      }, 340);
+    }
+
+    function goToDetailScreen() {
+      setModalScreenState('detail');
+      const returnBtn = document.getElementById('dialog-btn-whatsapp');
+      setTimeout(() => {
+        returnBtn?.focus();
+      }, 340);
+    }
+
+    function setModalScreenState(screen) {
+      currentModalScreen = screen;
+      const slider = document.getElementById('dialog-slider');
+      const dialog = document.getElementById('lab-dialog');
+
+      if (screen === 'whatsapp') {
+        slider.classList.remove('showing-detail');
+        slider.classList.add('showing-whatsapp');
+        dialog.classList.add('state-whatsapp');
+      } else {
+        slider.classList.remove('showing-whatsapp');
+        slider.classList.add('showing-detail');
+        dialog.classList.remove('state-whatsapp');
+      }
+    }
+
+    function updateCharCount() {
+      const textarea = document.getElementById('wa-custom-textarea');
+      const countEl = document.getElementById('wa-char-count');
+      countEl.textContent = textarea.value.length + ' caracteres';
+    }
+
+    function addChipText(buttonEl, textToAdd) {
+      const textarea = document.getElementById('wa-custom-textarea');
+      if (!textarea.value.includes(textToAdd)) {
+        textarea.value = textarea.value.trim() + '\n\n' + textToAdd;
+        buttonEl.classList.add('is-added');
+      }
+      updateCharCount();
+      textarea.focus();
+    }
+
+    function resetWhatsAppTemplate() {
+      if (!currentActiveOffer) return;
+      const textarea = document.getElementById('wa-custom-textarea');
+      textarea.value = currentActiveOffer.defaultMsg;
+      document.querySelectorAll('.wa-chip').forEach(c => c.classList.remove('is-added'));
+      updateCharCount();
+      textarea.focus();
+    }
+
+    function sendCustomWhatsApp() {
+      const textarea = document.getElementById('wa-custom-textarea');
+      const finalMsg = textarea.value.trim();
+      const encodedMsg = encodeURIComponent(finalMsg);
+      const url = `https://wa.me/56992388057?text=${encodedMsg}`;
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+
+    function closeLabModal() {
+      const dialog = document.getElementById('lab-dialog');
+      if (!dialog.open) return;
+
+      dialog.classList.add('is-closing');
+      setTimeout(() => {
+        dialog.close();
+        dialog.classList.remove('is-closing', 'state-whatsapp');
+        document.body.classList.remove('mode-mobile-modal');
+        setModalScreenState('detail');
+        if (lastTriggerElement && typeof lastTriggerElement.focus === 'function') {
+          lastTriggerElement.focus();
+        }
+      }, 220);
+    }
+
+    document.getElementById('dialog-close-btn').addEventListener('click', closeLabModal);
+
+    const dialogEl = document.getElementById('lab-dialog');
+    dialogEl.addEventListener('click', event => {
+      if (event.target === dialogEl) {
+        closeLabModal();
+      }
+    });
+
+    dialogEl.addEventListener('cancel', event => {
+      event.preventDefault();
+      if (currentModalScreen === 'whatsapp') {
+        goToDetailScreen();
+      } else {
+        closeLabModal();
+      }
+    });
+
+    document.addEventListener('keydown', event => {
+      if ((event.key === 'Enter' || event.key === ' ') && event.target.classList.contains('card-interactive')) {
+        event.preventDefault();
+        event.target.click();
+      }
+    });
+
+    // Iniciar el Bazar Real al cargar la página
+    renderRealBazarCards();
+  </script>
+  <script src="preview-bazar-editor.js?v=20261015-editor-1" defer></script>
+</body>
+</html>

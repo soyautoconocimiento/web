@@ -1,0 +1,1090 @@
+/* ==========================================================================
+   SOYAUTOCONOCIMIENTO · ESTILOS DE TARJETAS Y MODAL UNIFICADO
+   Integra las 5 propuestas estéticas y el modal de 2 pantallas con WhatsApp.
+   ========================================================================== */
+
+:root {
+  --bazar-navy: #14283c;
+  --bazar-gold: #8d6c36;
+  --bazar-gold-light: #c6a25e;
+  --bazar-sage: #566044;
+  --bazar-parchment: #fffdfa;
+  --bazar-ink: #2b231a;
+  --bazar-muted: #554a40;
+  --bazar-wa: #25d366;
+  --bazar-wa-dark: #128c7e;
+  --bazar-font-display: 'Cormorant Garamond', Georgia, serif;
+  --bazar-font-body: 'Lora', Georgia, serif;
+  --bazar-font-ui: 'Marcellus', Georgia, serif;
+}
+
+/* Modificador de Matriz 3xM en el Bazar (solo en tablet horizontal y escritorio) */
+@media (min-width: 47.5625rem) {
+  .service-grid.as-bazar-matrix {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)) !important;
+    gap: clamp(1.2rem, 2.2vw, 2.2rem) !important;
+    width: 100% !important;
+    max-width: 84rem !important;
+    margin: 1.5rem auto 3.5rem !important;
+    padding: 0 clamp(.5rem, 1.5vw, 1.2rem) !important;
+    overflow: visible !important;
+  }
+}
+
+@media (min-width: 64rem) {
+  .service-grid.as-bazar-matrix {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+/* En Móvil (<= 47.5rem / 760px), el Bazar ES UN RAIL HORIZONTAL que cabe en 100dvh */
+@media (max-width: 47.5rem) {
+  #acompanamientos .service-grid,
+  .service-grid.as-bazar-matrix {
+    display: flex !important;
+    flex-direction: row !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    align-items: stretch !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-padding-inline: 0.25rem !important;
+    padding: 0 0.25rem 0.5rem !important;
+    gap: 0.875rem !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Tarjetas dentro del rail horizontal móvil */
+  #acompanamientos .service-grid .card-interactive,
+  #acompanamientos .service-grid .service-card {
+    flex: 0 0 min(77vw, 19.6875rem) !important;
+    width: min(77vw, 19.6875rem) !important;
+    max-width: 19.6875rem !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    scroll-snap-align: start !important;
+    scroll-snap-stop: always !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+  }
+
+  /* Baseline en móvil */
+  .card-baseline {
+    min-height: 0 !important;
+    height: 100% !important;
+  }
+  .card-baseline .baseline-content {
+    padding: 1.2rem 1rem !important;
+    gap: 0.35rem !important;
+  }
+  .card-baseline .baseline-title {
+    font-size: clamp(1.4rem, 5.5vw, 1.85rem) !important;
+    line-height: 1.05 !important;
+  }
+  .card-baseline .baseline-desc {
+    font-size: 0.85rem !important;
+    line-height: 1.35 !important;
+  }
+
+  /* Atelier en móvil */
+  .card-atelier {
+    padding: 0.85rem !important;
+    height: 100% !important;
+    min-height: 0 !important;
+  }
+  .card-atelier .atelier-photo {
+    flex: 1 1 auto !important;
+    height: auto !important;
+    min-height: clamp(6.5rem, 18svh, 11rem) !important;
+    max-height: clamp(9rem, 24svh, 14rem) !important;
+    margin-bottom: 0.5rem !important;
+    aspect-ratio: auto !important;
+  }
+  .card-atelier .atelier-meta {
+    font-size: 0.68rem !important;
+    margin-bottom: 0.2rem !important;
+  }
+  .card-atelier .atelier-title {
+    font-size: clamp(1.35rem, 5.2vw, 1.7rem) !important;
+    line-height: 1.05 !important;
+    margin-bottom: 0.3rem !important;
+  }
+  .card-atelier .atelier-desc {
+    font-size: 0.84rem !important;
+    line-height: 1.35 !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .card-atelier .atelier-footer {
+    margin-top: auto !important;
+    padding-top: 0.4rem !important;
+  }
+
+  /* Portal en móvil */
+  .card-portal {
+    padding: 0.9rem !important;
+    height: 100% !important;
+    min-height: 0 !important;
+  }
+  .card-portal .portal-arch {
+    flex: 1 1 auto !important;
+    height: auto !important;
+    min-height: clamp(6.5rem, 18svh, 11rem) !important;
+    max-height: clamp(9rem, 24svh, 14rem) !important;
+    margin-bottom: 0.4rem !important;
+  }
+  .card-portal .portal-title {
+    font-size: clamp(1.35rem, 5.2vw, 1.7rem) !important;
+    line-height: 1.05 !important;
+    margin-bottom: 0.25rem !important;
+  }
+  .card-portal .portal-desc {
+    font-size: 0.84rem !important;
+    line-height: 1.35 !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  /* Notebook en móvil */
+  .card-notebook {
+    padding: 0.9rem !important;
+    height: 100% !important;
+    min-height: 0 !important;
+  }
+  .card-notebook .notebook-title {
+    font-size: clamp(1.35rem, 5.2vw, 1.7rem) !important;
+    line-height: 1.05 !important;
+    margin-bottom: 0.3rem !important;
+  }
+  .card-notebook .notebook-desc {
+    font-size: 0.84rem !important;
+    line-height: 1.35 !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  /* Alchemy en móvil */
+  .card-alchemy {
+    padding: 0.85rem !important;
+    height: 100% !important;
+    min-height: 0 !important;
+  }
+  .card-alchemy .alchemy-photo {
+    flex: 1 1 auto !important;
+    height: auto !important;
+    min-height: clamp(6.5rem, 18svh, 11rem) !important;
+    max-height: clamp(9rem, 24svh, 14rem) !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .card-alchemy .alchemy-title {
+    font-size: clamp(1.35rem, 5.2vw, 1.7rem) !important;
+    line-height: 1.05 !important;
+    margin-bottom: 0.3rem !important;
+  }
+  .card-alchemy .alchemy-desc {
+    font-size: 0.84rem !important;
+    line-height: 1.35 !important;
+    margin-bottom: 0.5rem !important;
+  }
+}
+
+/* Tarjetas Interactivas */
+.card-interactive {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  transition: transform .25s cubic-bezier(.16, 1, .3, 1), box-shadow .25s ease;
+}
+
+.card-interactive:active {
+  transform: scale(.985) translateY(1px) !important;
+}
+
+/* --------------------------------------------------------------------------
+   ESTILO 0: ACTUAL EN SITIO (BASELINE)
+   -------------------------------------------------------------------------- */
+.card-baseline {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgba(255, 248, 235, .72);
+  border-radius: 1rem;
+  background: #32261d;
+  min-height: 26rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-shadow: 0 10px 24px rgba(20, 40, 60, .08);
+}
+
+.card-baseline .baseline-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.card-baseline .baseline-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .6s cubic-bezier(.16, 1, .3, 1);
+}
+
+.card-baseline:hover .baseline-photo img {
+  transform: scale(1.04);
+}
+
+.card-baseline .baseline-content {
+  position: relative;
+  z-index: 2;
+  padding: 1.8rem 1.6rem;
+  background: linear-gradient(180deg, rgba(20, 40, 60, 0) 0%, rgba(20, 40, 60, .85) 45%, rgba(20, 40, 60, .98) 100%);
+  color: #fffdfa;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.card-baseline .baseline-badge {
+  align-self: flex-start;
+  font-family: var(--bazar-font-ui);
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--bazar-gold-light);
+}
+
+.card-baseline .baseline-title {
+  font-family: var(--bazar-font-display);
+  font-size: 1.85rem;
+  line-height: 1.1;
+  color: #fffdfa;
+}
+
+.card-baseline .baseline-desc {
+  font-family: var(--bazar-font-body);
+  font-size: .92rem;
+  line-height: 1.45;
+  color: rgba(255, 253, 249, .8);
+}
+
+.card-baseline .baseline-action {
+  margin-top: .6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .8rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--bazar-gold-light);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   ESTILO 1: LÁMINA ATELIER (EDITORIAL Y BOTÁNICA)
+   -------------------------------------------------------------------------- */
+.card-atelier {
+  background: var(--bazar-parchment);
+  border: 1px solid rgba(141, 108, 54, .32);
+  border-radius: .75rem;
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 18px rgba(20, 40, 60, .06);
+  position: relative;
+}
+
+.card-atelier:hover {
+  transform: translateY(-4px);
+  border-color: var(--bazar-gold);
+  box-shadow: 0 12px 28px rgba(141, 108, 54, .16);
+}
+
+.card-atelier .atelier-photo {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: .45rem;
+  margin-bottom: 1.1rem;
+  background: #eae2d5;
+}
+
+.card-atelier .atelier-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .5s cubic-bezier(.16, 1, .3, 1);
+}
+
+.card-atelier:hover .atelier-photo img {
+  transform: scale(1.05);
+}
+
+.card-atelier .atelier-meta {
+  font-family: var(--bazar-font-ui);
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--bazar-gold);
+  margin-bottom: .35rem;
+}
+
+.card-atelier .atelier-title {
+  font-family: var(--bazar-font-display);
+  font-size: 1.8rem;
+  color: var(--bazar-navy);
+  line-height: 1.15;
+  margin-bottom: .6rem;
+}
+
+.card-atelier .atelier-desc {
+  font-family: var(--bazar-font-body);
+  font-size: .95rem;
+  line-height: 1.5;
+  color: var(--bazar-muted);
+  margin-bottom: 1.2rem;
+  flex-grow: 1;
+}
+
+.card-atelier .atelier-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(141, 108, 54, .2);
+  padding-top: .85rem;
+  margin-top: auto;
+}
+
+.card-atelier .atelier-duration {
+  font-family: var(--bazar-font-ui);
+  font-size: .78rem;
+  color: var(--bazar-sage);
+}
+
+.card-atelier .atelier-action {
+  font-family: var(--bazar-font-ui);
+  font-size: .8rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--bazar-navy);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+}
+
+/* --------------------------------------------------------------------------
+   ESTILO 2: PORTAL ARQUETÍPICO (ARCO SAGRADO)
+   -------------------------------------------------------------------------- */
+.card-portal {
+  background: #fdfbf7;
+  border: 1px solid rgba(141, 108, 54, .3);
+  border-radius: 10rem 10rem .75rem .75rem;
+  padding: 1.2rem 1.3rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(20, 40, 60, .05);
+  position: relative;
+}
+
+.card-portal:hover {
+  transform: translateY(-4px);
+  border-color: var(--bazar-gold);
+  box-shadow: 0 12px 30px rgba(20, 40, 60, .12);
+}
+
+.card-portal .portal-arch {
+  width: 100%;
+  aspect-ratio: 1 / 1.15;
+  border-radius: 9rem 9rem .5rem .5rem;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  background: #2b231d;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, .15);
+}
+
+.card-portal .portal-arch img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .6s cubic-bezier(.16, 1, .3, 1);
+}
+
+.card-portal:hover .portal-arch img {
+  transform: scale(1.06);
+}
+
+.card-portal .portal-symbol {
+  font-size: 1.1rem;
+  color: var(--bazar-gold);
+  margin-bottom: .25rem;
+}
+
+.card-portal .portal-title {
+  font-family: var(--bazar-font-display);
+  font-size: 1.85rem;
+  color: var(--bazar-navy);
+  line-height: 1.15;
+  margin-bottom: .45rem;
+}
+
+.card-portal .portal-desc {
+  font-family: var(--bazar-font-body);
+  font-size: .92rem;
+  line-height: 1.48;
+  color: var(--bazar-muted);
+  margin-bottom: 1.1rem;
+  flex-grow: 1;
+}
+
+.card-portal .portal-btn {
+  background: transparent;
+  border: 1px solid var(--bazar-gold);
+  color: var(--bazar-navy);
+  font-family: var(--bazar-font-ui);
+  font-size: .78rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .45rem 1.4rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  transition: all .2s ease;
+}
+
+.card-portal:hover .portal-btn {
+  background: var(--bazar-gold);
+  color: #fffdfa;
+}
+
+/* --------------------------------------------------------------------------
+   ESTILO 3: CUADERNO DE SABIDURÍA (LOMO Y NOTA AUTORAL)
+   -------------------------------------------------------------------------- */
+.card-notebook {
+  background: #fffdfa;
+  border: 1px solid rgba(141, 108, 54, .3);
+  border-left: 5px solid var(--bazar-gold);
+  border-radius: .4rem .75rem .75rem .4rem;
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 16px rgba(43, 35, 26, .07);
+  position: relative;
+}
+
+.card-notebook:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 26px rgba(43, 35, 26, .14);
+}
+
+.card-notebook .notebook-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: .75rem;
+}
+
+.card-notebook .notebook-tag {
+  font-family: var(--bazar-font-ui);
+  font-size: .68rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  background: rgba(141, 108, 54, .12);
+  color: var(--bazar-gold);
+  padding: .2rem .6rem;
+  border-radius: 1rem;
+}
+
+.card-notebook .notebook-title {
+  font-family: var(--bazar-font-display);
+  font-size: 1.8rem;
+  color: var(--bazar-navy);
+  line-height: 1.15;
+  margin-bottom: .6rem;
+}
+
+.card-notebook .notebook-quote {
+  font-family: var(--bazar-font-display);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--bazar-gold);
+  margin-bottom: .75rem;
+  line-height: 1.35;
+  padding-left: .75rem;
+  border-left: 2px solid rgba(141, 108, 54, .3);
+}
+
+.card-notebook .notebook-desc {
+  font-family: var(--bazar-font-body);
+  font-size: .92rem;
+  line-height: 1.5;
+  color: var(--bazar-muted);
+  margin-bottom: 1.2rem;
+  flex-grow: 1;
+}
+
+.card-notebook .notebook-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px dashed rgba(141, 108, 54, .25);
+  padding-top: .8rem;
+}
+
+.card-notebook .notebook-duration {
+  font-family: var(--bazar-font-ui);
+  font-size: .78rem;
+  color: var(--bazar-sage);
+}
+
+.card-notebook .notebook-action {
+  font-family: var(--bazar-font-ui);
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--bazar-navy);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+/* --------------------------------------------------------------------------
+   ESTILO 4: ATMÓSFERA ALQUÍMICA (NOCHE AZUL Y FILIGRANA ORO)
+   -------------------------------------------------------------------------- */
+.card-alchemy {
+  background: #101c26;
+  border: 1px solid rgba(198, 162, 94, .35);
+  border-radius: .5rem;
+  padding: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  color: #fffdfa;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+  position: relative;
+}
+
+.card-alchemy:hover {
+  transform: translateY(-4px);
+  border-color: var(--bazar-gold-light);
+  box-shadow: 0 12px 30px rgba(198, 162, 94, .2);
+}
+
+.card-alchemy .alchemy-photo {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: .3rem;
+  margin-bottom: 1rem;
+}
+
+.card-alchemy .alchemy-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .5s cubic-bezier(.16, 1, .3, 1);
+}
+
+.card-alchemy:hover .alchemy-photo img {
+  transform: scale(1.05);
+}
+
+.card-alchemy .alchemy-meta {
+  font-family: var(--bazar-font-ui);
+  font-size: .7rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--bazar-gold-light);
+  margin-bottom: .3rem;
+}
+
+.card-alchemy .alchemy-title {
+  font-family: var(--bazar-font-display);
+  font-size: 1.8rem;
+  color: #fffdfa;
+  line-height: 1.15;
+  margin-bottom: .5rem;
+}
+
+.card-alchemy .alchemy-desc {
+  font-family: var(--bazar-font-body);
+  font-size: .9rem;
+  line-height: 1.48;
+  color: rgba(255, 253, 249, .75);
+  flex-grow: 1;
+  margin-bottom: 1rem;
+}
+
+.card-alchemy .alchemy-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(198, 162, 94, .25);
+  padding-top: .8rem;
+}
+
+.card-alchemy .alchemy-duration {
+  font-family: var(--bazar-font-ui);
+  font-size: .78rem;
+  color: rgba(255, 253, 249, .65);
+}
+
+.card-alchemy .alchemy-action {
+  font-family: var(--bazar-font-ui);
+  font-size: .8rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--bazar-gold-light);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   MODAL DE 2 PANTALLAS (DETALLE + PERSONALIZADOR WHATSAPP)
+   ========================================================================== */
+.bazar-modal-dialog {
+  border: 1px solid rgba(141, 108, 54, .35);
+  border-radius: 1.25rem;
+  background: #fffdfa;
+  color: var(--bazar-navy);
+  box-shadow: 0 24px 60px rgba(20, 40, 60, .35);
+  padding: 0;
+  max-width: 58rem;
+  width: 92vw;
+  margin: auto;
+  overflow: hidden;
+  animation: modalPopIn .26s cubic-bezier(.16, 1, .3, 1) forwards;
+}
+
+.bazar-modal-dialog::backdrop {
+  background: rgba(18, 27, 36, .78);
+  backdrop-filter: blur(8px);
+}
+
+.bazar-modal-dialog.is-closing {
+  animation: modalPopOut .2s ease forwards;
+}
+
+@keyframes modalPopIn {
+  from { opacity: 0; transform: scale(.95) translateY(12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes modalPopOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(.96) translateY(8px); }
+}
+
+.modal-deck-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  position: relative;
+}
+
+@media (min-width: 50rem) {
+  .modal-deck-container {
+    grid-template-columns: 24rem 1fr;
+  }
+}
+
+.modal-media-col {
+  position: relative;
+  min-height: 18rem;
+  background: #2b231d;
+  overflow: hidden;
+}
+
+.modal-media-col img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 40, 60, .1) 0%, rgba(20, 40, 60, .75) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.6rem;
+  color: #fffdfa;
+}
+
+.modal-quote-text {
+  font-family: var(--bazar-font-display);
+  font-size: 1.25rem;
+  font-style: italic;
+  line-height: 1.35;
+  color: #fffdfa;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, .4);
+}
+
+.modal-screens-viewport {
+  position: relative;
+  overflow: hidden;
+  background: #fffdfa;
+  min-height: 30rem;
+}
+
+.modal-screen {
+  padding: 2.2rem 2rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  transition: transform .32s cubic-bezier(.16, 1, .3, 1), opacity .25s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal-screen.screen-detail {
+  position: relative;
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.modal-screen.screen-whatsapp {
+  position: absolute;
+  inset: 0;
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+  background: #fffdfa;
+  overflow-y: auto;
+}
+
+/* Transición a pantalla de WhatsApp */
+.bazar-modal-dialog.state-whatsapp .modal-screen.screen-detail {
+  transform: translateX(-35%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bazar-modal-dialog.state-whatsapp .modal-screen.screen-whatsapp {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Elementos pantalla Detalle */
+.modal-header-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.modal-kicker {
+  font-family: var(--bazar-font-ui);
+  font-size: .78rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--bazar-gold);
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: var(--bazar-muted);
+  cursor: pointer;
+  padding: .2rem .5rem;
+  transition: color .2s ease;
+}
+
+.modal-close-btn:hover {
+  color: var(--bazar-navy);
+}
+
+.modal-offer-title {
+  font-family: var(--bazar-font-display);
+  font-size: clamp(2rem, 3.5vw, 2.6rem);
+  line-height: 1.1;
+  color: var(--bazar-navy);
+}
+
+.modal-body-desc {
+  font-family: var(--bazar-font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--bazar-muted);
+  white-space: pre-line;
+}
+
+.modal-specs-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem;
+  padding: .85rem 1.1rem;
+  background: rgba(141, 108, 54, .08);
+  border-radius: .6rem;
+  border: 1px solid rgba(141, 108, 54, .2);
+}
+
+.modal-spec-chip {
+  font-family: var(--bazar-font-ui);
+  font-size: .8rem;
+  color: var(--bazar-navy);
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+}
+
+.modal-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(141, 108, 54, .2);
+}
+
+.btn-modal-primary {
+  background: var(--bazar-gold);
+  color: #fffdfa;
+  border: none;
+  padding: .8rem 1.6rem;
+  border-radius: 2rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .85rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  transition: all .2s ease;
+}
+
+.btn-modal-primary:hover {
+  background: #735728;
+  transform: translateY(-1px);
+}
+
+.btn-modal-whatsapp {
+  background: rgba(37, 211, 102, .12);
+  color: var(--bazar-wa-dark);
+  border: 1px solid rgba(37, 211, 102, .38);
+  padding: .8rem 1.6rem;
+  border-radius: 2rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .85rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  transition: all .2s ease;
+}
+
+.btn-modal-whatsapp:hover {
+  background: var(--bazar-wa);
+  color: #fffdfa;
+  border-color: var(--bazar-wa);
+  transform: translateY(-1px);
+}
+
+/* Elementos pantalla WhatsApp */
+.wa-screen-header {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  border-bottom: 1px solid rgba(141, 108, 54, .2);
+  padding-bottom: .8rem;
+}
+
+.btn-wa-back {
+  background: none;
+  border: none;
+  font-family: var(--bazar-font-ui);
+  font-size: .85rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--bazar-navy);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  font-weight: 600;
+  padding: .3rem .6rem;
+  border-radius: .4rem;
+  transition: background .2s ease;
+}
+
+.btn-wa-back:hover {
+  background: rgba(20, 40, 60, .06);
+}
+
+.wa-screen-title {
+  font-family: var(--bazar-font-display);
+  font-size: 1.6rem;
+  color: var(--bazar-navy);
+  margin-left: auto;
+}
+
+.wa-intro-text {
+  font-family: var(--bazar-font-body);
+  font-size: .95rem;
+  color: var(--bazar-muted);
+  line-height: 1.45;
+}
+
+.wa-chips-section {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.wa-chips-label {
+  font-family: var(--bazar-font-ui);
+  font-size: .74rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--bazar-gold);
+}
+
+.wa-chips-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.wa-topic-chip {
+  background: rgba(20, 40, 60, .04);
+  border: 1px solid rgba(141, 108, 54, .25);
+  border-radius: 2rem;
+  padding: .35rem .85rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .78rem;
+  color: var(--bazar-navy);
+  cursor: pointer;
+  transition: all .18s ease;
+}
+
+.wa-topic-chip:hover {
+  background: rgba(141, 108, 54, .12);
+  border-color: var(--bazar-gold);
+}
+
+.wa-topic-chip.is-added {
+  background: rgba(37, 211, 102, .15);
+  border-color: var(--bazar-wa);
+  color: var(--bazar-wa-dark);
+}
+
+.wa-textarea-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+
+.wa-textarea {
+  width: 100%;
+  border: 1px solid rgba(141, 108, 54, .35);
+  border-radius: .75rem;
+  padding: .9rem 1.1rem;
+  font-family: var(--bazar-font-body);
+  font-size: .95rem;
+  line-height: 1.5;
+  color: var(--bazar-navy);
+  background: #fff;
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.wa-textarea:focus {
+  border-color: var(--bazar-wa-dark);
+  box-shadow: 0 0 0 3px rgba(37, 211, 102, .2);
+}
+
+.wa-meta-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--bazar-font-ui);
+  font-size: .75rem;
+  color: var(--bazar-muted);
+}
+
+.wa-reset-btn {
+  background: none;
+  border: none;
+  color: var(--bazar-gold);
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.btn-send-whatsapp {
+  background: var(--bazar-wa);
+  color: #fffdfa;
+  border: none;
+  padding: .9rem 1.8rem;
+  border-radius: 2rem;
+  font-family: var(--bazar-font-ui);
+  font-size: .88rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, .35);
+  transition: all .2s ease;
+  margin-top: .5rem;
+}
+
+.btn-send-whatsapp:hover {
+  background: #20ba59;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, .45);
+}
+
+/* ==========================================================================
+   REGLAS DE VISIBILIDAD POR DISPOSITIVO (DENSIDAD DE DATOS)
+   ========================================================================== */
+.hide-hero-note .home-note { display: none !important; }
+.hide-hero-quote .visual-quote { display: none !important; }
+.hide-hero-secondary .home-actions .button-outline { display: none !important; }
+
+.hide-card-desc .atelier-desc,
+.hide-card-desc .portal-desc,
+.hide-card-desc .notebook-desc,
+.hide-card-desc .alchemy-desc {
+  display: none !important;
+}
+
+.clamp-card-desc .atelier-desc,
+.clamp-card-desc .portal-desc,
+.clamp-card-desc .notebook-desc,
+.clamp-card-desc .alchemy-desc {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+.hide-card-kicker .atelier-meta,
+.hide-card-kicker .portal-symbol,
+.hide-card-kicker .notebook-meta,
+.hide-card-kicker .alchemy-meta {
+  display: none !important;
+}
+
+.hide-card-duration .atelier-duration,
+.hide-card-duration .portal-btn,
+.hide-card-duration .notebook-duration,
+.hide-card-duration .alchemy-duration {
+  display: none !important;
+}
+
+.hide-card-quote .notebook-quote {
+  display: none !important;
+}
