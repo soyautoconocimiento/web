@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratorio Tipográfico · SoyAutoconocimiento</title>
+  
+  <!-- Carga de las familias candidatas para evaluación interactiva -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Marcellus&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy: #14283c;
+      --navy-light: #233d55;
+      --ink: #2b231d;
+      --muted: #5e5246;
+      --gold: #8d6c36;
+      --gold-light: #c5a165;
+      --gold-soft: rgba(141, 108, 54, 0.25);
+      --gold-bg: rgba(141, 108, 54, 0.08);
+      --olive: #566044;
+      --surface-card: rgba(255, 253, 249, 0.94);
+      --surface-border: rgba(141, 108, 54, 0.28);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: #fffdfa;
+      background-image: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url("marble-white.webp");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: var(--ink);
+      padding-bottom: 5rem;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Barra superior de control del laboratorio */
+    .lab-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(20, 40, 60, 0.96);
+      backdrop-filter: blur(10px);
+      color: #fffaf2;
+      border-bottom: 1px solid rgba(197, 161, 101, 0.35);
+      padding: 0.85rem 1.5rem;
+      box-shadow: 0 4px 20px rgba(10, 20, 30, 0.25);
+    }
+
+    .lab-header-inner {
+      max-width: 78rem;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .lab-title h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.45rem;
+      font-weight: 600;
+      color: #f6dfa9;
+      letter-spacing: 0.02em;
+    }
+
+    .lab-title p {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.72rem;
+      color: #cfc5b4;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Selector de combinaciones */
+    .lab-selector {
+      display: flex;
+      gap: 0.4rem;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 0.25rem;
+      border-radius: 0.65rem;
+      border: 1px solid rgba(197, 161, 101, 0.25);
+    }
+
+    .lab-btn {
+      background: transparent;
+      border: none;
+      color: #cfc5b4;
+      padding: 0.45rem 0.9rem;
+      border-radius: 0.45rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .lab-btn:hover {
+      color: #fffaf2;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .lab-btn.active {
+      background: #8d6c36;
+      color: #fffaf2;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    /* Panel informativo de la combinación activa */
+    .active-spec-banner {
+      background: rgba(255, 253, 249, 0.96);
+      border-bottom: 1px solid var(--surface-border);
+      padding: 1rem 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 10px rgba(38, 31, 24, 0.04);
+    }
+
+    .active-spec-inner {
+      max-width: 78rem;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .spec-desc h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.2rem;
+    }
+
+    .spec-desc p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 48rem;
+      line-height: 1.45;
+    }
+
+    .spec-badges {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .spec-badge {
+      display: inline-flex;
+      flex-direction: column;
+      padding: 0.35rem 0.75rem;
+      background: #faf6ed;
+      border: 1px solid var(--surface-border);
+      border-radius: 0.45rem;
+      font-size: 0.72rem;
+    }
+
+    .spec-badge strong {
+      color: var(--gold);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .spec-badge span {
+      color: var(--navy);
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    /* Lienzo de previsualización que simula la interfaz real */
+    .preview-canvas {
+      max-width: 78rem;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(20rem, 1fr);
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    /* Columna de Contenido */
+    .preview-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* Encabezado */
+    .heading-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .heading-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    .demo-eyebrow {
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .demo-title {
+      color: var(--navy);
+      line-height: 1;
+    }
+
+    .demo-intro {
+      color: var(--ink);
+      line-height: 1.45;
+    }
+
+    /* Pestañas de Navegación */
+    .tabs-row {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    .demo-tabs {
+      display: flex;
+      background: rgba(255, 252, 246, 0.8);
+      border: 1px solid var(--surface-border);
+      padding: 0.25rem;
+      border-radius: 0.55rem;
+      box-shadow: 0 2px 8px rgba(38, 31, 24, 0.05);
+    }
+
+    .demo-tab {
+      padding: 0.45rem 1.15rem;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      border-radius: 0.45rem;
+      transition: all 0.2s ease;
+    }
+
+    .demo-tab.active {
+      background: var(--olive);
+      color: #fffaf2;
+      box-shadow: 0 2px 6px rgba(86, 96, 68, 0.3);
+    }
+
+    .demo-pdf-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.45rem 1.15rem;
+      background: var(--surface-card);
+      border: 1px solid var(--surface-border);
+      border-radius: 0.55rem;
+      color: var(--navy);
+      box-shadow: 0 2px 8px rgba(38, 31, 24, 0.05);
+      cursor: pointer;
+    }
+
+    /* Lector con Riel y Lámina */
+    .reader-grid {
+      display: grid;
+      grid-template-columns: clamp(9.5rem, 12vw, 11.5rem) minmax(0, 1fr);
+      gap: 1.75rem;
+      align-items: stretch;
+      background: var(--surface-card);
+      border: 1px solid var(--surface-border);
+      border-radius: 0.85rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 16px rgba(38, 31, 24, 0.06);
+    }
+
+    /* Riel vertical */
+    .stepper-rail {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--surface-border);
+      padding-right: 1rem;
+    }
+
+    .stepper-circle-btn {
+      width: 1.95rem;
+      height: 1.95rem;
+      border-radius: 50%;
+      border: 1px solid var(--surface-border);
+      background: #fffdfa;
+      color: var(--olive);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.85rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .stepper-nodes {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin: 0.75rem 0;
+    }
+
+    .stepper-item {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      cursor: pointer;
+      padding: 0.2rem 0;
+    }
+
+    .stepper-dot {
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      background: #fff;
+    }
+
+    .stepper-item.active .stepper-dot {
+      background: var(--olive);
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(86, 96, 68, 0.25);
+    }
+
+    .stepper-label {
+      color: var(--muted);
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .stepper-item.active .stepper-label {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* Lámina activa */
+    .slide-area {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .slide-step {
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .slide-heading {
+      color: var(--navy);
+      line-height: 1.15;
+    }
+
+    .slide-lead {
+      color: #3b322a;
+      line-height: 1.45;
+    }
+
+    /* Tarjetas de Arquetipos (Lámina 2) */
+    .archetypes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+      margin-top: 0.5rem;
+    }
+
+    .archetype-card {
+      background: #fffdfa;
+      border: 1px solid var(--surface-border);
+      border-radius: 0.65rem;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      box-shadow: 0 2px 6px rgba(38, 31, 24, 0.04);
+    }
+
+    .archetype-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+    }
+
+    .archetype-name {
+      color: var(--navy);
+    }
+
+    .archetype-badge {
+      color: var(--gold);
+      background: var(--gold-bg);
+      padding: 0.15rem 0.45rem;
+      border-radius: 0.3rem;
+      line-height: 1;
+    }
+
+    .archetype-role {
+      color: var(--gold);
+      line-height: 1.3;
+    }
+
+    .archetype-desc {
+      color: var(--ink);
+      line-height: 1.45;
+    }
+
+    /* Ficha Técnica (Lámina 1) */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .spec-item {
+      background: #fffdfa;
+      border: 1px solid var(--surface-border);
+      border-radius: 0.55rem;
+      padding: 0.85rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .spec-label {
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .spec-val {
+      color: var(--navy);
+      line-height: 1.25;
+    }
+
+    /* Cita destacada */
+    .quote-box {
+      margin-top: 0.5rem;
+      padding: 1.25rem 1.65rem;
+      border-radius: 0.65rem;
+      border: 1px solid var(--surface-border);
+      background: rgba(255, 252, 246, 0.95);
+      border-left: 3px solid var(--gold);
+    }
+
+    .quote-text {
+      color: var(--navy);
+      line-height: 1.35;
+      margin-bottom: 0.35rem;
+    }
+
+    .quote-author {
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    /* Columna Visual Derecha */
+    .preview-visual {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      position: sticky;
+      top: 5rem;
+    }
+
+    .arch-frame {
+      width: min(100%, 25rem);
+      height: 33rem;
+      padding: 0.65rem;
+      border: 1px solid rgba(141, 108, 54, 0.4);
+      outline: 1px solid rgba(141, 108, 54, 0.2);
+      outline-offset: 4px;
+      border-radius: 46% 46% 0.45rem 0.45rem / 16% 16% 0.45rem 0.45rem;
+      background: linear-gradient(145deg, #fdfbf7, #ebe3d5);
+      box-shadow: 0 1rem 2.8rem rgba(38, 31, 24, 0.16);
+      overflow: hidden;
+    }
+
+    .arch-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 46% 46% 0.25rem 0.25rem / 16% 16% 0.25rem 0.25rem;
+    }
+
+    .demo-video-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.55rem 1.35rem;
+      border-radius: 999px;
+      background: rgba(255, 252, 246, 0.95);
+      border: 1px solid rgba(141, 108, 54, 0.35);
+      color: var(--olive);
+      box-shadow: 0 2px 8px rgba(20, 40, 60, 0.08);
+      cursor: pointer;
+    }
+
+    .demo-video-btn .play-icon {
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 50%;
+      background: var(--olive);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      padding-left: 2px;
+    }
+
+    /* =====================================================================
+       ESTILOS DINÁMICOS SEGÚN LA COMBINACIÓN SELECCIONADA
+       ===================================================================== */
+
+    /* OPCIÓN 1: Editorial de Autor (Cormorant Garamond + Lora + Marcellus) */
+    body[data-combo="opcion-1"] .demo-title,
+    body[data-combo="opcion-1"] .slide-heading {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    body[data-combo="opcion-1"] .demo-eyebrow,
+    body[data-combo="opcion-1"] .demo-tab,
+    body[data-combo="opcion-1"] .demo-pdf-btn,
+    body[data-combo="opcion-1"] .demo-video-btn,
+    body[data-combo="opcion-1"] .stepper-label,
+    body[data-combo="opcion-1"] .slide-step,
+    body[data-combo="opcion-1"] .spec-label,
+    body[data-combo="opcion-1"] .archetype-badge {
+      font-family: 'Marcellus', serif;
+      letter-spacing: 0.04em;
+    }
+    body[data-combo="opcion-1"] .demo-intro,
+    body[data-combo="opcion-1"] .slide-lead,
+    body[data-combo="opcion-1"] .archetype-desc,
+    body[data-combo="opcion-1"] .quote-text {
+      font-family: 'Lora', Georgia, serif;
+    }
+    body[data-combo="opcion-1"] .archetype-name,
+    body[data-combo="opcion-1"] .spec-val {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+    }
+    body[data-combo="opcion-1"] .archetype-role,
+    body[data-combo="opcion-1"] .quote-author {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+    }
+
+    /* OPCIÓN 2: Atelier Contemporáneo (Cormorant Garamond + Plus Jakarta Sans) */
+    body[data-combo="opcion-2"] .demo-title,
+    body[data-combo="opcion-2"] .slide-heading,
+    body[data-combo="opcion-2"] .archetype-name,
+    body[data-combo="opcion-2"] .quote-text {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 600;
+    }
+    body[data-combo="opcion-2"] .archetype-role,
+    body[data-combo="opcion-2"] .slide-lead {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+    }
+    body[data-combo="opcion-2"] .demo-eyebrow,
+    body[data-combo="opcion-2"] .demo-tab,
+    body[data-combo="opcion-2"] .demo-pdf-btn,
+    body[data-combo="opcion-2"] .demo-video-btn,
+    body[data-combo="opcion-2"] .stepper-label,
+    body[data-combo="opcion-2"] .slide-step,
+    body[data-combo="opcion-2"] .spec-label,
+    body[data-combo="opcion-2"] .archetype-badge {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+    body[data-combo="opcion-2"] .demo-intro,
+    body[data-combo="opcion-2"] .archetype-desc,
+    body[data-combo="opcion-2"] .spec-val {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+    }
+
+    /* OPCIÓN 3: Garamond Integral (Superfamilia Pura) */
+    body[data-combo="opcion-3"] * {
+      font-family: 'Cormorant Garamond', Georgia, serif !important;
+    }
+    body[data-combo="opcion-3"] .demo-eyebrow,
+    body[data-combo="opcion-3"] .slide-step,
+    body[data-combo="opcion-3"] .spec-label,
+    body[data-combo="opcion-3"] .archetype-badge {
+      font-variant: all-small-caps;
+      letter-spacing: 0.12em;
+      font-weight: 600;
+    }
+    body[data-combo="opcion-3"] .demo-intro,
+    body[data-combo="opcion-3"] .archetype-desc {
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    /* OPCIÓN 4: Sabiduría & Serenidad (Cormorant Garamond + DM Sans) */
+    body[data-combo="opcion-4"] .demo-title,
+    body[data-combo="opcion-4"] .slide-heading,
+    body[data-combo="opcion-4"] .quote-text {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+    }
+    body[data-combo="opcion-4"] .archetype-role,
+    body[data-combo="opcion-4"] .slide-lead {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+    }
+    body[data-combo="opcion-4"] .demo-eyebrow,
+    body[data-combo="opcion-4"] .demo-tab,
+    body[data-combo="opcion-4"] .demo-pdf-btn,
+    body[data-combo="opcion-4"] .demo-video-btn,
+    body[data-combo="opcion-4"] .stepper-label,
+    body[data-combo="opcion-4"] .slide-step,
+    body[data-combo="opcion-4"] .spec-label,
+    body[data-combo="opcion-4"] .archetype-badge,
+    body[data-combo="opcion-4"] .demo-intro,
+    body[data-combo="opcion-4"] .archetype-desc,
+    body[data-combo="opcion-4"] .archetype-name,
+    body[data-combo="opcion-4"] .spec-val {
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* Escalas de tamaño */
+    .demo-eyebrow { font-size: 1.35rem; }
+    .demo-title { font-size: 2.85rem; }
+    .demo-intro { font-size: 1.25rem; }
+    .demo-tab { font-size: 1.05rem; }
+    .demo-pdf-btn { font-size: 1rem; }
+    .demo-video-btn { font-size: 1rem; }
+    .stepper-label { font-size: 1.15rem; }
+    .slide-step { font-size: 0.85rem; }
+    .slide-heading { font-size: 2.2rem; }
+    .slide-lead { font-size: 1.25rem; }
+    .archetype-name { font-size: 1.35rem; }
+    .archetype-badge { font-size: 0.72rem; }
+    .archetype-role { font-size: 1.18rem; }
+    .archetype-desc { font-size: 1.08rem; }
+    .spec-label { font-size: 0.76rem; }
+    .spec-val { font-size: 1.35rem; }
+    .quote-text { font-size: 1.55rem; }
+    .quote-author { font-size: 1.05rem; }
+
+    @media (max-width: 64rem) {
+      .preview-canvas {
+        grid-template-columns: 1fr;
+      }
+      .preview-visual {
+        order: -1;
+        position: static;
+      }
+      .arch-frame {
+        height: 20rem;
+      }
+      .archetypes-grid {
+        grid-template-columns: 1fr;
+      }
+      .specs-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body data-combo="opcion-1">
+
+  <!-- BARRA DE CONTROL DEL LABORATORIO -->
+  <header class="lab-header">
+    <div class="lab-header-inner">
+      <div class="lab-title">
+        <h1>Laboratorio de Combinaciones Tipográficas</h1>
+        <p>SoyAutoconocimiento · Selección de Voz e Identidad</p>
+      </div>
+
+      <nav class="lab-selector" aria-label="Seleccionar combinación tipográfica">
+        <button class="lab-btn active" data-target="opcion-1">1. Editorial de Autor ⭐</button>
+        <button class="lab-btn" data-target="opcion-2">2. Atelier Kinfolk</button>
+        <button class="lab-btn" data-target="opcion-3">3. Garamond Integral</button>
+        <button class="lab-btn" data-target="opcion-4">4. Serenidad DM</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- BANNER EXPLICATIVO DE LA OPCIÓN ACTIVA -->
+  <section class="active-spec-banner" id="banner">
+    <div class="active-spec-inner">
+      <div class="spec-desc">
+        <h2 id="combo-title">Opción 1: Editorial de Autor (Cormorant Garamond + Lora + Marcellus)</h2>
+        <p id="combo-desc">
+          <strong>La combinación recomendada para Marcela.</strong> Fusiona la gracia poética de Cormorant Garamond en grandes titulares, la calidez terrosa de Lora (serif de lectura con trazos firmes y excelente legibilidad en pantallas) para párrafos y arquetipos, y la nobleza de Marcellus (romana clásica) para botones, subtítulos y fichas técnicas. <em>Elimina 100% cualquier sensación de software frío o sistema operativo.</em>
+        </p>
+      </div>
+      <div class="spec-badges">
+        <div class="spec-badge">
+          <strong>Titular Principal</strong>
+          <span id="badge-display">Cormorant Garamond 700</span>
+        </div>
+        <div class="spec-badge">
+          <strong>Lectura & Diálogos</strong>
+          <span id="badge-body">Lora 400 / 500</span>
+        </div>
+        <div class="spec-badge">
+          <strong>Controles & Metadatos</strong>
+          <span id="badge-ui">Marcellus (Romana Clásica)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREVIEW CON COMPONENTES REALES DEL SITIO -->
+  <main class="preview-canvas">
+
+    <!-- COLUMNA IZQUIERDA: CONTENIDO REAL -->
+    <div class="preview-content">
+      
+      <!-- Encabezado de Sección -->
+      <div class="heading-block">
+        <div class="heading-row">
+          <span class="demo-eyebrow">Colores del Alma</span>
+          <h2 class="demo-title">TuconTu</h2>
+        </div>
+        <p class="demo-intro"><strong>Accesorio artesanal</strong> tejido a mano para llevar en el pelo.</p>
+      </div>
+
+      <!-- Barra de Pestañas + Descargar PDF -->
+      <div class="tabs-row">
+        <div class="demo-tabs">
+          <button class="demo-tab active">Concepto</button>
+          <button class="demo-tab">Historia</button>
+          <button class="demo-tab">Galería</button>
+        </div>
+        <button class="demo-pdf-btn">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Descargar PDF
+        </button>
+      </div>
+
+      <!-- Lector de Concepto (Riel + Lámina Activa) -->
+      <div class="reader-grid">
+        
+        <!-- Riel vertical Stepper -->
+        <div class="stepper-rail">
+          <button class="stepper-circle-btn" aria-label="Anterior">▲</button>
+          <div class="stepper-nodes">
+            <div class="stepper-item"><span class="stepper-dot"></span><span class="stepper-label">01 Ficha</span></div>
+            <div class="stepper-item active"><span class="stepper-dot"></span><span class="stepper-label">02 Líneas</span></div>
+            <div class="stepper-item"><span class="stepper-dot"></span><span class="stepper-label">03 Sentido</span></div>
+            <div class="stepper-item"><span class="stepper-dot"></span><span class="stepper-label">04 Símbolos</span></div>
+            <div class="stepper-item"><span class="stepper-dot"></span><span class="stepper-label">05 Diosas</span></div>
+            <div class="stepper-item"><span class="stepper-dot"></span><span class="stepper-label">06 Camino</span></div>
+          </div>
+          <button class="stepper-circle-btn" aria-label="Siguiente">▼</button>
+        </div>
+
+        <!-- Lámina Activa: Muestra Arquetipos, Ficha y Cita -->
+        <div class="slide-area">
+          <span class="slide-step">02 · Líneas TuconTu</span>
+          <h3 class="slide-heading">Tres arquetipos, una misma esencia</h3>
+          <p class="slide-lead">En diálogo con <strong>Jean Shinoda Bolen</strong>: dentro de nosotras viven distintas fuerzas y dimensiones que se expresan en diferentes momentos de la vida.</p>
+
+          <!-- Tarjetas de Arquetipos -->
+          <div class="archetypes-grid">
+            <article class="archetype-card">
+              <div class="archetype-header">
+                <strong class="archetype-name">PERSÉFONE · 30 cm</strong>
+                <span class="archetype-badge">Infantil</span>
+              </div>
+              <div class="archetype-role">Despertar de la identidad · La doncella</div>
+              <p class="archetype-desc">Sensibilidad, curiosidad y despertar de la identidad. Conservar la inocencia mientras se entra en la propia profundidad.</p>
+            </article>
+
+            <article class="archetype-card">
+              <div class="archetype-header">
+                <strong class="archetype-name">AFRODITA · 60 cm</strong>
+                <span class="archetype-badge">Adulta</span>
+              </div>
+              <div class="archetype-role">Presencia y creatividad · La creadora</div>
+              <p class="archetype-desc">Entrar en contacto con la capacidad de crear, vincularse y expresar aquello que vive dentro.</p>
+            </article>
+
+            <article class="archetype-card">
+              <div class="archetype-header">
+                <strong class="archetype-name">HÉSTIA · 90 cm</strong>
+                <span class="archetype-badge">Artesanal</span>
+              </div>
+              <div class="archetype-role">Interioridad y centro · La mujer interior</div>
+              <p class="archetype-desc">El regreso al centro, el fuego propio y la capacidad de habitar el propio espacio.</p>
+            </article>
+          </div>
+
+          <!-- Muestra de Ficha Técnica -->
+          <div class="specs-grid">
+            <div class="spec-item">
+              <span class="spec-label">Estructura base</span>
+              <strong class="spec-val">Algodón</strong>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Sujeción</span>
+              <strong class="spec-val">Colet elástico</strong>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Carácter</span>
+              <strong class="spec-val">Pieza única</strong>
+            </div>
+          </div>
+
+          <!-- Muestra de Cita -->
+          <blockquote class="quote-box">
+            <p class="quote-text">«No perder la inocencia al convertirnos en mujeres, sino transformarla en conciencia.»</p>
+            <cite class="quote-author">— Jean Shinoda Bolen</cite>
+          </blockquote>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- COLUMNA DERECHA: MARCO FOTOGRÁFICO Y VIDEO -->
+    <div class="preview-visual">
+      <figure class="arch-frame">
+        <img src="assets/tucontu/product/img-3343.webp" alt="TuconTu cordones artesanales">
+      </figure>
+      <button class="demo-video-btn" type="button">
+        <span class="play-icon">▶</span>
+        <span>Conoce TuconTu · Ver video</span>
+      </button>
+    </div>
+
+  </main>
+
+  <script>
+    const combos = {
+      'opcion-1': {
+        title: 'Opción 1: Editorial de Autor (Cormorant Garamond + Lora + Marcellus)',
+        desc: 'La combinación recomendada para Marcela. Fusiona la gracia poética de Cormorant Garamond en grandes titulares, la calidez terrosa de Lora (serif de lectura con trazos firmes y excelente legibilidad en pantallas) para párrafos y arquetipos, y la nobleza de Marcellus (romana clásica) para botones, subtítulos y fichas técnicas. Elimina 100% cualquier sensación de software frío o sistema operativo.',
+        display: 'Cormorant Garamond 700',
+        body: 'Lora 400 / 500',
+        ui: 'Marcellus (Romana Clásica)'
+      },
+      'opcion-2': {
+        title: 'Opción 2: Atelier Kinfolk (Cormorant Garamond + Plus Jakarta Sans)',
+        desc: 'Estilo editorial de alta gama contemporáneo (como Aesop o Kinfolk). Los titulares respiran poética clásica, mientras que el cuerpo y la interfaz usan Plus Jakarta Sans: una tipografía geométrica humanista con formas circulares amables, cálidas y muy limpias. Elimina completamente el aspecto rígido de Apple o Inter.',
+        display: 'Cormorant Garamond 600',
+        body: 'Plus Jakarta Sans 400',
+        ui: 'Plus Jakarta Sans 600'
+      },
+      'opcion-3': {
+        title: 'Opción 3: Garamond Integral (Superfamilia Serif Pura)',
+        desc: 'Armonía monástica y pureza total. Todo el sitio utiliza Cormorant Garamond, pero modulada rigurosamente: titulares en negrita con tracking ajustado, lectura en peso medio (500) para evitar que las líneas se desvanezcan, y botones y metadatos en versalitas (small-caps) con espaciado amplio.',
+        display: 'Cormorant Garamond 700',
+        body: 'Cormorant Garamond 500 (Medium)',
+        ui: 'Cormorant Small-Caps'
+      },
+      'opcion-4': {
+        title: 'Opción 4: Serenidad & Claridad (Cormorant Garamond + DM Sans)',
+        desc: 'Equilibrio zen. Títulos con el toque espiritual y de autor de Cormorant Garamond, y todo el soporte de lectura y datos con DM Sans (de Colophon Foundry), una fuente geométrica suave, serena, sumamente legible y sin pretensiones técnicas.',
+        display: 'Cormorant Garamond 700',
+        body: 'DM Sans 400',
+        ui: 'DM Sans 600'
+      }
+    };
+
+    const buttons = document.querySelectorAll('.lab-btn');
+    const titleEl = document.getElementById('combo-title');
+    const descEl = document.getElementById('combo-desc');
+    const badgeDisplay = document.getElementById('badge-display');
+    const badgeBody = document.getElementById('badge-body');
+    const badgeUi = document.getElementById('badge-ui');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const target = btn.dataset.target;
+        document.body.dataset.combo = target;
+
+        const info = combos[target];
+        titleEl.textContent = info.title;
+        descEl.innerHTML = info.desc;
+        badgeDisplay.textContent = info.display;
+        badgeBody.textContent = info.body;
+        badgeUi.textContent = info.ui;
+      });
+    });
+  </script>
+</body>
+</html>

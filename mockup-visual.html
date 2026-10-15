@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Mockups Tipográficos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Marcellus&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    background: #f4eee3;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(141, 108, 54, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(86, 96, 68, 0.05) 0%, transparent 40%);
+    color: #2b231d;
+    padding: 40px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .board-header {
+    text-align: center;
+    margin-bottom: 35px;
+  }
+
+  .board-eyebrow {
+    font-family: 'Marcellus', serif;
+    font-size: 15px;
+    letter-spacing: 0.18em;
+    color: #8d6c36;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .board-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: #14283c;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+
+  .board-subtitle {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 17px;
+    color: #5e5246;
+    font-style: italic;
+  }
+
+  .grid-2x2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+
+  /* Tarjeta de Mockup */
+  .mockup-card {
+    background: #fffdfa;
+    border: 1px solid rgba(141, 108, 54, 0.28);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 12px 35px rgba(20, 40, 60, 0.07);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(141, 108, 54, 0.2);
+  }
+
+  .card-badge-title {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .card-tag {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #8d6c36;
+  }
+
+  .card-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: #14283c;
+  }
+
+  .card-formula {
+    background: #faf5ea;
+    border: 1px solid rgba(141, 108, 54, 0.22);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: #566044;
+    font-weight: 600;
+  }
+
+  /* Sección TuconTu Header */
+  .ui-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .ui-eyebrow {
+    color: #8d6c36;
+    font-size: 14px;
+  }
+
+  .ui-title {
+    color: #14283c;
+    font-size: 34px;
+    line-height: 1.1;
+  }
+
+  .ui-intro {
+    font-size: 16px;
+    color: #2b231d;
+    line-height: 1.4;
+  }
+
+  /* Tabs de Navegación */
+  .ui-tabs-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .ui-tabs {
+    display: inline-flex;
+    background: rgba(245, 240, 230, 0.7);
+    border: 1px solid rgba(141, 108, 54, 0.25);
+    border-radius: 8px;
+    padding: 4px;
+    gap: 4px;
+  }
+
+  .ui-tab {
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    border: none;
+    background: transparent;
+    color: #5e5246;
+  }
+
+  .ui-tab.active {
+    background: #566044;
+    color: #fffdfa;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(86, 96, 68, 0.25);
+  }
+
+  .ui-btn-pdf {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    border: 1px solid rgba(141, 108, 54, 0.3);
+    border-radius: 8px;
+    background: #fffdfa;
+    color: #14283c;
+    font-size: 13px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+  }
+
+  /* Contenedor de Lámina */
+  .ui-slide-card {
+    background: #faf6ee;
+    border: 1px solid rgba(141, 108, 54, 0.2);
+    border-radius: 12px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ui-slide-meta {
+    font-size: 12px;
+    color: #8d6c36;
+  }
+
+  .ui-slide-heading {
+    font-size: 24px;
+    color: #14283c;
+    line-height: 1.15;
+  }
+
+  .ui-slide-lead {
+    font-size: 15px;
+    color: #3b322a;
+    line-height: 1.45;
+  }
+
+  /* Tarjeta de Arquetipo */
+  .ui-archetypes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .ui-arch-card {
+    background: #fffdfa;
+    border: 1px solid rgba(141, 108, 54, 0.25);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .ui-arch-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .ui-arch-name {
+    font-size: 15px;
+    color: #14283c;
+  }
+
+  .ui-arch-badge {
+    font-size: 11px;
+    background: rgba(141, 108, 54, 0.1);
+    color: #8d6c36;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  .ui-arch-role {
+    font-size: 13px;
+    color: #8d6c36;
+  }
+
+  .ui-arch-desc {
+    font-size: 13px;
+    color: #3b322a;
+    line-height: 1.4;
+  }
+
+  /* Cita de Bolen */
+  .ui-quote {
+    border-left: 3px solid #8d6c36;
+    padding: 8px 16px;
+    background: rgba(255, 253, 249, 0.7);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .ui-quote-text {
+    font-size: 14.5px;
+    color: #2b231d;
+    line-height: 1.4;
+  }
+
+  .ui-quote-author {
+    font-size: 13px;
+    color: #8d6c36;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* Píldoras de Ficha Técnica */
+  .ui-specs-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .ui-spec-pill {
+    flex: 1;
+    background: #fffdfa;
+    border: 1px solid rgba(141, 108, 54, 0.22);
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .ui-spec-lbl {
+    font-size: 10.5px;
+    color: #8d6c36;
+  }
+
+  .ui-spec-val {
+    font-size: 14px;
+    color: #14283c;
+  }
+
+
+  /* =========================================================================
+     ESTILOS ESPECÍFICOS POR OPCIÓN
+     ========================================================================= */
+
+  /* -------------------------------------------------------------
+     OPCIÓN 1: EDITORIAL DE AUTOR (Cormorant Garamond + Lora + Marcellus)
+     ------------------------------------------------------------- */
+  .opt-1 .card-name { font-family: 'Cormorant Garamond', serif; font-size: 26px; }
+  .opt-1 .card-tag, .opt-1 .card-formula { font-family: 'Marcellus', serif; }
+  .opt-1 .ui-eyebrow, .opt-1 .ui-tab, .opt-1 .ui-btn-pdf, .opt-1 .ui-slide-meta, .opt-1 .ui-spec-lbl, .opt-1 .ui-arch-badge {
+    font-family: 'Marcellus', serif;
+    letter-spacing: 0.05em;
+  }
+  .opt-1 .ui-title, .opt-1 .ui-slide-heading, .opt-1 .ui-arch-name, .opt-1 .ui-spec-val {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 700;
+  }
+  .opt-1 .ui-intro, .opt-1 .ui-slide-lead, .opt-1 .ui-arch-desc, .opt-1 .ui-quote-text {
+    font-family: 'Lora', Georgia, serif;
+  }
+  .opt-1 .ui-arch-role, .opt-1 .ui-quote-author {
+    font-family: 'Lora', Georgia, serif;
+    font-style: italic;
+  }
+
+  /* -------------------------------------------------------------
+     OPCIÓN 2: ATELIER KINFOLK (Cormorant Garamond + Plus Jakarta Sans)
+     ------------------------------------------------------------- */
+  .opt-2 .card-name { font-family: 'Cormorant Garamond', serif; font-size: 26px; }
+  .opt-2 .card-tag, .opt-2 .card-formula { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; }
+  .opt-2 .ui-title, .opt-2 .ui-slide-heading, .opt-2 .ui-arch-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600;
+  }
+  .opt-2 .ui-slide-lead {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 16.5px;
+  }
+  .opt-2 .ui-eyebrow, .opt-2 .ui-tab, .opt-2 .ui-btn-pdf, .opt-2 .ui-slide-meta, .opt-2 .ui-spec-lbl, .opt-2 .ui-arch-badge {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .opt-2 .ui-intro, .opt-2 .ui-arch-desc, .opt-2 .ui-spec-val {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 400;
+  }
+  .opt-2 .ui-arch-role, .opt-2 .ui-quote-author {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 500;
+  }
+  .opt-2 .ui-quote-text {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    font-style: italic;
+  }
+
+  /* -------------------------------------------------------------
+     OPCIÓN 3: GARAMOND INTEGRAL (Cormorant Garamond 100%)
+     ------------------------------------------------------------- */
+  .opt-3 * { font-family: 'Cormorant Garamond', Georgia, serif !important; }
+  .opt-3 .card-name { font-size: 26px; font-weight: 700; }
+  .opt-3 .card-tag, .opt-3 .card-formula, .opt-3 .ui-eyebrow, .opt-3 .ui-tab, .opt-3 .ui-btn-pdf, .opt-3 .ui-slide-meta, .opt-3 .ui-spec-lbl, .opt-3 .ui-arch-badge {
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    font-size: 13.5px;
+  }
+  .opt-3 .ui-title, .opt-3 .ui-slide-heading, .opt-3 .ui-arch-name, .opt-3 .ui-spec-val {
+    font-weight: 700;
+  }
+  .opt-3 .ui-intro, .opt-3 .ui-slide-lead, .opt-3 .ui-arch-desc {
+    font-weight: 500; /* Peso medio para que no se desvanezca */
+    font-size: 17px;
+  }
+  .opt-3 .ui-arch-role, .opt-3 .ui-quote-text, .opt-3 .ui-quote-author {
+    font-style: italic;
+    font-size: 16px;
+  }
+
+  /* -------------------------------------------------------------
+     OPCIÓN 4: SERENIDAD & CLARIDAD (Cormorant Garamond + DM Sans)
+     ------------------------------------------------------------- */
+  .opt-4 .card-name { font-family: 'Cormorant Garamond', serif; font-size: 26px; }
+  .opt-4 .card-tag, .opt-4 .card-formula { font-family: 'DM Sans', sans-serif; font-weight: 600; }
+  .opt-4 .ui-title, .opt-4 .ui-slide-heading, .opt-4 .ui-arch-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 700;
+  }
+  .opt-4 .ui-eyebrow, .opt-4 .ui-tab, .opt-4 .ui-btn-pdf, .opt-4 .ui-slide-meta, .opt-4 .ui-spec-lbl, .opt-4 .ui-arch-badge {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  .opt-4 .ui-intro, .opt-4 .ui-slide-lead, .opt-4 .ui-arch-desc, .opt-4 .ui-spec-val {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+  }
+  .opt-4 .ui-arch-role, .opt-4 .ui-quote-author {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+  }
+  .opt-4 .ui-quote-text {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 16px;
+  }
+
+</style>
+</head>
+<body>
+
+  <header class="board-header">
+    <span class="board-eyebrow">SoyAutoconocimiento · Estudio Tipográfico</span>
+    <h1 class="board-title">Mockup Visual: 4 Direcciones Tipográficas para Marcela</h1>
+    <p class="board-subtitle">Compara el mismo contenido real bajo cada propuesta y elige cuál transmite mejor la esencia del sitio.</p>
+  </header>
+
+  <main class="grid-2x2">
+
+    <!-- ==================== OPCIÓN 1 ==================== -->
+    <article class="mockup-card opt-1">
+      <div class="card-banner">
+        <div class="card-badge-title">
+          <span class="card-tag">⭐ Opción 1 · Recomendada</span>
+          <h2 class="card-name">Editorial de Autor</h2>
+        </div>
+        <div class="card-formula">Cormorant Garamond + Lora + Marcellus</div>
+      </div>
+
+      <div class="ui-heading">
+        <span class="ui-eyebrow">Colores del Alma</span>
+        <h3 class="ui-title">TuconTu</h3>
+        <p class="ui-intro"><strong>Accesorio artesanal</strong> tejido a mano para llevar en el pelo.</p>
+      </div>
+
+      <div class="ui-tabs-row">
+        <div class="ui-tabs">
+          <span class="ui-tab active">Concepto</span>
+          <span class="ui-tab">Historia</span>
+          <span class="ui-tab">Galería</span>
+        </div>
+        <span class="ui-btn-pdf">📄 Descargar PDF</span>
+      </div>
+
+      <div class="ui-slide-card">
+        <span class="ui-slide-meta">02 · LÍNEAS TUCONTU</span>
+        <h4 class="ui-slide-heading">Tres arquetipos, una misma esencia</h4>
+        <p class="ui-slide-lead">En diálogo con <strong>Jean Shinoda Bolen</strong>: dentro de nosotras viven distintas fuerzas y dimensiones que se expresan en diferentes momentos de la vida.</p>
+
+        <div class="ui-archetypes">
+          <div class="ui-arch-card">
+            <div class="ui-arch-header">
+              <strong class="ui-arch-name">PERSÉFONE · 30 cm</strong>
+              <span class="ui-arch-badge">Infantil</span>
+            </div>
+            <span class="ui-arch-role">Despertar de la identidad · La doncella</span>
+            <p class="ui-arch-desc">Sensibilidad, curiosidad y despertar de la identidad. Conservar la inocencia mientras se entra en la profundidad.</p>
+          </div>
+
+          <div class="ui-arch-card">
+            <div class="ui-arch-header">
+              <strong class="ui-arch-name">AFRODITA · 60 cm</strong>
+              <span class="ui-arch-badge">Adulta</span>
+            </div>
+            <span class="ui-arch-role">Presencia y creatividad · La creadora</span>
+            <p class="ui-arch-desc">Entrar en contacto con la capacidad de crear, vincularse y expresar aquello que vive dentro.</p>
+          </div>
+        </div>
+
+        <blockquote class="ui-quote">
+          <p class="ui-quote-text">«No perder la inocencia al convertirnos en mujeres, sino transformarla en conciencia.»</p>
+          <cite class="ui-quote-author">— Jean Shinoda Bolen</cite>
+        </blockquote>
+
+        <div class="ui-specs-row">
+          <div class="ui-spec-pill"><span class="ui-spec-lbl">Estructura</span><strong class="ui-spec-val">Algodón</strong></div>
+          <div class="ui-spec-pill"><span class="ui-spec-lbl">Sujeción</span><strong class="ui-spec-val">Colet elástico</strong></div>
+          <div class="ui-spec-pill"><span class="ui-spec-lbl">Carácter</span><strong class="ui-spec-val">Pieza única</strong></div>
+        </div>
+      </div>
+    </article>
+
+
+    <!-- ==================== OPCIÓN 2 ==================== -->
+    <article class="mockup-card opt-2">
+      <div class="card-banner">
+        <div class="card-badge-title">
+          <span class="card-tag">Opción 2 · Lujo Orgánico</span>
+          <h2 class="card-name">Atelier Kinfolk / Aesop</h2>
+        </div>
+        <div class="card-formula">Cormorant Garamond + Plus Jakarta Sans</div>
+      </div>
+
+      <div class="ui-heading">
+        <span class="ui-eyebrow">Colores del Alma</span>
+        <h3 class="ui-title">TuconTu</h3>
+        <p class="ui-intro"><strong>Accesorio artesanal</strong> tejido a mano para llevar en el pelo.</p>
+      </div>
+
+      <div class="ui-tabs-row">
+        <div class="ui-tabs">
+          <span class="ui-tab active">Concepto</span>
+          <span class="ui-tab">Historia</span>
+          <span class="ui-tab">Galería</span>
+        </div>
+        <span class="ui-btn-pdf">📄 Descargar PDF</span>
+      </div>
+
+      <div class="ui-slide-card">
+        <span class="ui-slide-meta">02 · LÍNEAS TUCONTU</span>
+        <h4 class="ui-slide-heading">Tres arquetipos, una misma esencia</h4>
+        <p class="ui-slide-lead">En diálogo con <strong>Jean Shinoda Bolen</strong>: dentro de nosotras viven distintas fuerzas y dimensiones que se expresan en diferentes momentos de la vida.</p>
+
+        <div class="ui-archetypes">
+          <div class="ui-arch-card">
+            <div class="ui-arch-header">
+              <strong class="ui-arch-name">PERSÉFONE · 30 cm</strong>
+              <span class="ui-arch-badge">Infantil</span>
+            </div>
+            <span class="ui-arch-role">Despertar de la identidad · La doncella</span>
+            <p class="ui-arch-desc">Sensibilidad, curiosidad y despertar de la identidad. Conservar la inocencia mientras se entra en la profundidad.</p>
+          </div>
+
+          <div class="ui-arch-card">
+            <div class="ui-arch-header">
+              <strong class="ui-arch-name">AFRODITA · 60 cm</strong>
+              <span class="ui-arch-badge">Adulta</span>
+            </div>
+            <span class="ui-arch-role">Presencia y creatividad · La creadora</span>
+            <p class="ui-arch-desc">Entrar en contacto con la capacidad de crear, vincularse y expresar aquello que vive dentro.</p>
+          </div>
+        </div>
+
+        <blockquote class="ui-quote">
+          <p class="ui-quote-text">«No perder la inocencia al convertirnos en mujeres, sino transformarla en conciencia.»</p>
+          <cite class="ui-quote-author">— Jean Shinoda Bolen</cite>
+        </blockquote>
+
+        <div class="ui-specs-row">
+          <div class="ui-spec-pill"><span class="ui-spec-lbl">Estructura</span><strong class="ui-spec-val">Algodón</strong></div>
+          <div class="ui-spec-pill"><span class="ui-spec-lbl">Sujeción</span><strong class="ui-spec-val">Colet elástico</strong></div>
+          <div class="ui-spec-pill"><span class="ui-spec-lbl">Carácter</span><strong class="ui-spec-val">Pieza única</strong></div>
+        </div>
+      </div>
+    </article>
+
+
+    <!-- ==================== OPCIÓN 3 ==================== -->
+    <article class="mockup-card opt-3">
+      <div class="card-banner">
+        <div class="card-badge-title">
+          <span class="card-tag">Opción 3 · Superfamilia Pura</span>
+          <h2 class="card-name">Garamond Integral</h2>
+        </div>
+        <div class="card-formula">Cormorant Garamond (700 / 500 / Small-Caps)</div>
+      </div>
+
+      <div class="ui-heading">
+        <span class="ui-eyebrow">Colores del Alma</span>
+        <h3 class="ui-title">TuconTu</h3>
+        <p class="ui-intro"><strong>Accesorio artesanal</strong> tejido a mano para llevar en el pelo.</p>
+      </div>
+
+      <div class="ui-tabs-row">
+        <div class="ui-tabs">
+          <span class="ui-tab active">Concepto</span>
+          <span class="ui-tab">Historia</span>
+          <span class="ui-tab">Galería</span>
+        </div>
+        <span class="ui-btn-pdf">📄 Descargar PDF</span>
+      </div>
+
+      <div class="ui-slide-card">
+        <span class="ui-slide-meta">02 · Líneas TuconTu</span>
+        <h4 class="ui-slide-heading">Tres arquetipos, una misma esencia</h4>
+        <p class="ui-slide-lead">En diálogo con <strong>Jean Shinoda Bolen</strong>: dentro de nosotras viven distintas fuerzas y dimensiones que se expresan en diferentes momentos de la vida.</p>
+
+        <div class="ui-archetypes">
+          <div class="ui-arch-card">
+            <div class="ui-arch-header">
+              <strong class="ui-arch-name">PERSÉFONE · 30 cm</strong>
+              <span class="ui-arch-badge">Infantil</span>
+            </div>
+            <span class="ui-arch-role">Despertar de la identidad · La doncella</span>
+            <p class="ui-arch-desc">Sensibilidad, curiosidad y despertar de la identidad. Conservar la inocencia mientras se entra en la profundidad.</p>
+          </div>
+
+          <div class="ui-arch-card">
+            <div class="ui-arch-header">
+              <strong class="ui-arch-name">AFRODITA · 60 cm</strong>
+              <span class="ui-arch-badge">Adulta</span>
+            </div>
+            <span class="ui-arch-role">Presencia y creatividad · La creadora</span>
+            <p class="ui-arch-desc">Entrar en contacto con la capacidad de crear, vincularse y expresar aquello que vive dentro.</p>
+          </div>
+        </div>
+
+        <blockquote class="ui-quote">
+          <p class="ui-quote-text">«No perder la inocencia al convertirnos en mujeres, sino transformarla en conciencia.»</p>
+          <cite class="ui-quote-author">— Jean Shinoda Bolen</cite>
+        </blockquote>
+
+        <div class="ui-specs-row">
+          <div class="ui-spec-pill"><span class="ui-spec-lbl">Estructura</span><strong class="ui-spec-val">Algodón</strong></div>
+          <div class="ui-spec-pill"><span class="ui-spec-lbl">Sujeción</span><strong class="ui-spec-val">Colet elástico</strong></div>
+          <div class="ui-spec-pill"><span class="ui-spec-lbl">Carácter</span><strong class="ui-spec-val">Pieza única</strong></div>
+        </div>
+      </div>
+    </article>
+
+
+    <!-- ==================== OPCIÓN 4 ==================== -->
+    <article class="mockup-card opt-4">
+      <div class="card-banner">
+        <div class="card-badge-title">
+          <span class="card-tag">Opción 4 · Equilibrio Zen</span>
+          <h2 class="card-name">Serenidad & Claridad</h2>
+        </div>
+        <div class="card-formula">Cormorant Garamond + DM Sans</div>
+      </div>
+
+      <div class="ui-heading">
+        <span class="ui-eyebrow">Colores del Alma</span>
+        <h3 class="ui-title">TuconTu</h3>
+        <p class="ui-intro"><strong>Accesorio artesanal</strong> tejido a mano para llevar en el pelo.</p>
+      </div>
+
+      <div class="ui-tabs-row">
+        <div class="ui-tabs">
+          <span class="ui-tab active">Concepto</span>
+          <span class="ui-tab">Historia</span>
+          <span class="ui-tab">Galería</span>
+        </div>
+        <span class="ui-btn-pdf">📄 Descargar PDF</span>
+      </div>
+
+      <div class="ui-slide-card">
+        <span class="ui-slide-meta">02 · LÍNEAS TUCONTU</span>
+        <h4 class="ui-slide-heading">Tres arquetipos, una misma esencia</h4>
+        <p class="ui-slide-lead">En diálogo con <strong>Jean Shinoda Bolen</strong>: dentro de nosotras viven distintas fuerzas y dimensiones que se expresan en diferentes momentos de la vida.</p>
+
+        <div class="ui-archetypes">
+          <div class="ui-arch-card">
+            <div class="ui-arch-header">
+              <strong class="ui-arch-name">PERSÉFONE · 30 cm</strong>
+              <span class="ui-arch-badge">Infantil</span>
+            </div>
+            <span class="ui-arch-role">Despertar de la identidad · La doncella</span>
+            <p class="ui-arch-desc">Sensibilidad, curiosidad y despertar de la identidad. Conservar la inocencia mientras se entra en la profundidad.</p>
+          </div>
+
+          <div class="ui-arch-card">
+            <div class="ui-arch-header">
+              <strong class="ui-arch-name">AFRODITA · 60 cm</strong>
+              <span class="ui-arch-badge">Adulta</span>
+            </div>
+            <span class="ui-arch-role">Presencia y creatividad · La creadora</span>
+            <p class="ui-arch-desc">Entrar en contacto con la capacidad de crear, vincularse y expresar aquello que vive dentro.</p>
+          </div>
+        </div>
+
+        <blockquote class="ui-quote">
+          <p class="ui-quote-text">«No perder la inocencia al convertirnos en mujeres, sino transformarla en conciencia.»</p>
+          <cite class="ui-quote-author">— Jean Shinoda Bolen</cite>
+        </blockquote>
+
+        <div class="ui-specs-row">
+          <div class="ui-spec-pill"><span class="ui-spec-lbl">Estructura</span><strong class="ui-spec-val">Algodón</strong></div>
+          <div class="ui-spec-pill"><span class="ui-spec-lbl">Sujeción</span><strong class="ui-spec-val">Colet elástico</strong></div>
+          <div class="ui-spec-pill"><span class="ui-spec-lbl">Carácter</span><strong class="ui-spec-val">Pieza única</strong></div>
+        </div>
+      </div>
+    </article>
+
+  </main>
+
+</body>
+</html>

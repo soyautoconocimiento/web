@@ -1043,7 +1043,7 @@ body.viewport-experience-prototype #tucontu[data-experience-role="focus"] .tucon
     gap: .625rem;
     margin: .25rem 0;
     color: var(--gold-text);
-    font: 600 .75rem/1 Inter, Arial, sans-serif;
+    font: 400 .75rem/1 'Marcellus', Georgia, serif;
     font-variant-numeric: tabular-nums;
     letter-spacing: .08em;
   }
@@ -1211,7 +1211,7 @@ body.viewport-experience-prototype .prototype-return:not([hidden]) {
   border-radius: 999px;
   background: rgba(250,248,242,.94);
   color: var(--navy);
-  font: 600 .8rem/1 Inter, Arial, sans-serif;
+  font: 400 .8rem/1 'Marcellus', Georgia, serif;
   box-shadow: 0 .25rem 1rem rgba(20,40,60,.08);
   cursor: pointer;
 }

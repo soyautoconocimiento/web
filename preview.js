@@ -701,7 +701,7 @@
   const galleryClose = document.getElementById('tucontu-gallery-close');
   const homePhoto = document.getElementById('tucontu-home-photo');
   const homePhotoCaption = document.getElementById('tucontu-home-caption');
-  const galleryInlineViewport = matchMedia('(min-width: 80rem)');
+  const galleryInlineViewport = matchMedia('(min-width: 0rem)');
   const gallerySelectionCount = document.getElementById('gallery-selection-count');
   const galleryModes = [...document.querySelectorAll('[data-gallery-mode]')];
   const galleryPanels = [...document.querySelectorAll('[data-gallery-panel]')];
@@ -734,6 +734,14 @@
     { src: 'assets/tucontu/product/img-3341.webp', thumb: 'assets/tucontu/product/thumbs/img-3341-thumb.webp', alt: 'TuconTu azul y gris sujeto en un recogido.' },
     { src: 'assets/tucontu/product/img-3332.webp', thumb: 'assets/tucontu/product/thumbs/img-3332-thumb.webp', alt: 'TuconTu con colet negro y cordones de diferentes texturas sobre el cabello.' }
   ];
+  galleryPhotos.forEach(p => {
+    const preThumb = new Image();
+    preThumb.src = p.thumb;
+    const preImg = new Image();
+    preImg.src = p.src;
+    const preJpg = new Image();
+    preJpg.src = p.src.replace(/\.webp$/i, '-display-940.jpg');
+  });
   function selectGallery(index, updateHomePhoto = true) {
     const photo = galleryPhotos[index];
     if (!photo) return;
@@ -763,21 +771,27 @@
     const image = document.createElement('img');
     image.src = photo.thumb;
     image.alt = '';
-    image.loading = 'lazy';
+    image.loading = 'eager';
     image.decoding = 'async';
     button.append(image);
     button.addEventListener('click', () => selectGallery(index));
     gallery.append(button);
   });
   function selectGalleryMode(mode, animateHistory = true) {
-    if (galleryTitle) galleryTitle.textContent = ({ historia: 'Historia', fotos: 'Fotografías', video: 'Video', manual: 'Manual técnico' })[mode] || 'TuconTu';
+    const titles = { concepto: 'Concepto', manual: 'Concepto', historia: 'Historia', galeria: 'Galería', fotos: 'Galería', video: 'Video' };
+    if (galleryTitle) galleryTitle.textContent = titles[mode] || 'TuconTu';
+    const tabsContainer = document.querySelector('.tucontu-gallery-tabs');
+    if (tabsContainer) tabsContainer.dataset.activeMode = mode;
     galleryModes.forEach(tab => {
-      const active = tab.dataset.galleryMode === mode;
+      const active = tab.dataset.galleryMode === mode || (mode === 'galeria' && tab.dataset.galleryMode === 'fotos') || (mode === 'fotos' && tab.dataset.galleryMode === 'galeria') || (mode === 'concepto' && tab.dataset.galleryMode === 'manual') || (mode === 'manual' && tab.dataset.galleryMode === 'concepto');
       tab.classList.toggle('is-active', active);
       tab.setAttribute('aria-selected', String(active));
       tab.tabIndex = active ? 0 : -1;
     });
-    galleryPanels.forEach(panel => { panel.hidden = panel.dataset.galleryPanel !== mode; });
+    galleryPanels.forEach(panel => {
+      const active = panel.dataset.galleryPanel === mode || (mode === 'galeria' && panel.dataset.galleryPanel === 'fotos') || (mode === 'fotos' && panel.dataset.galleryPanel === 'galeria') || (mode === 'concepto' && panel.dataset.galleryPanel === 'manual') || (mode === 'manual' && panel.dataset.galleryPanel === 'concepto');
+      panel.hidden = !active;
+    });
     if (mode !== 'video') video.pause();
     else { video.poster = 'assets/tucontu/video-cover-marcela.webp'; video.preload = 'metadata'; video.load(); }
     if (mode === 'historia' && animateHistory) writeHistoryOnce();
@@ -787,12 +801,15 @@
     galleryDialog.dataset.presentation = inline ? 'inline' : 'dialog';
     galleryDialog.setAttribute('role', inline ? 'region' : 'dialog');
     galleryModes.forEach(tab => { tab.hidden = false; });
+    const urlMode = new URLSearchParams(window.location.search).get('tucontuMode');
+    const initialMode = urlMode || 'concepto';
     galleryPanels.forEach(panel => {
-      panel.hidden = panel.dataset.galleryPanel !== 'historia';
+      const active = panel.dataset.galleryPanel === initialMode || (initialMode === 'galeria' && panel.dataset.galleryPanel === 'fotos') || (initialMode === 'concepto' && panel.dataset.galleryPanel === 'manual');
+      panel.hidden = !active;
       panel.setAttribute('role', 'tabpanel');
-      const tabId = panel.dataset.galleryPanel === 'historia' ? 'history'
-        : panel.dataset.galleryPanel === 'fotos' ? 'photos'
-        : panel.dataset.galleryPanel === 'manual' ? 'manual' : 'video';
+      const tabId = panel.dataset.galleryPanel === 'concepto' || panel.dataset.galleryPanel === 'manual' ? 'concept'
+        : panel.dataset.galleryPanel === 'historia' ? 'history'
+        : 'photos';
       panel.setAttribute('aria-labelledby', `tucontu-${tabId}-tab`);
     });
     if (inline) {
@@ -802,19 +819,15 @@
       }
       if (!galleryDialog.open) galleryDialog.setAttribute('open', '');
       selectGallery(galleryPhotos.length - 1);
-      selectGalleryMode('historia', false);
+      selectGalleryMode(initialMode, false);
       galleryOpen.removeAttribute('aria-haspopup');
       galleryOpen.setAttribute('aria-controls', 'tucontu-gallery-dialog');
-      manualOpen.removeAttribute('aria-haspopup');
-      manualOpen.setAttribute('aria-controls', 'tucontu-gallery-dialog');
     } else {
       if (galleryDialog.open && !galleryDialogIsModal) galleryDialog.close();
       selectGallery(0, false);
-      selectGalleryMode('historia', false);
+      selectGalleryMode(initialMode, false);
       galleryOpen.setAttribute('aria-haspopup', 'dialog');
       galleryOpen.setAttribute('aria-controls', 'tucontu-gallery-dialog');
-      manualOpen.setAttribute('aria-haspopup', 'dialog');
-      manualOpen.setAttribute('aria-controls', 'tucontu-gallery-dialog');
     }
   }
   let gallerySwipeStart=null;
@@ -854,24 +867,113 @@
       galleryDialog.scrollIntoView({ behavior: 'smooth', block: 'start' });
       return;
     }
-    selectGalleryMode('historia');
+    selectGalleryMode('concepto');
     galleryDialog.showModal();
     galleryDialogIsModal = true;
-    document.getElementById('tucontu-history-tab').focus({ preventScroll: true });
-  });
-  manualOpen.addEventListener('click', () => {
-    selectGalleryMode('manual');
-    if (galleryInlineViewport.matches) {
-      document.getElementById('tucontu-manual-tab').focus({ preventScroll: true });
-      return;
-    }
-    galleryDialog.showModal();
-    galleryDialogIsModal = true;
-    document.getElementById('tucontu-manual-tab').focus({ preventScroll: true });
+    document.getElementById('tucontu-concept-tab')?.focus({ preventScroll: true });
   });
   galleryClose.addEventListener('click', () => galleryDialog.close());
   galleryDialog.addEventListener('click', event => { if (event.target === galleryDialog) galleryDialog.close(); });
-  galleryDialog.addEventListener('close', () => { galleryDialogIsModal = false; video.pause(); galleryOpen.focus({ preventScroll: true }); });
+  galleryDialog.addEventListener('close', () => { galleryDialogIsModal = false; galleryOpen.focus({ preventScroll: true }); });
+
+  // Lector paginado de Concepto
+  let currentConceptIndex = 0;
+  const conceptSlides = Array.from(document.querySelectorAll('.concept-slide'));
+  const conceptTotal = conceptSlides.length;
+  const conceptPageNumber = document.getElementById('concept-page-number');
+  const conceptProgressMarker = document.getElementById('concept-reading-marker');
+  const conceptStepperProgress = document.getElementById('concept-stepper-progress');
+  const conceptStepperNodes = Array.from(document.querySelectorAll('.concept-stepper-node'));
+  const conceptPrevBtn = document.getElementById('concept-prev-btn');
+  const conceptNextBtn = document.getElementById('concept-next-btn');
+
+  function showConceptSlide(index) {
+    if (index < 0 || index >= conceptTotal) return;
+    currentConceptIndex = index;
+    conceptSlides.forEach((slide, i) => {
+      slide.hidden = i !== index;
+      slide.classList.toggle('is-active', i === index);
+    });
+    conceptStepperNodes.forEach((node, i) => {
+      const active = i === index;
+      node.classList.toggle('is-active', active);
+      node.setAttribute('aria-selected', active ? 'true' : 'false');
+      node.setAttribute('tabindex', active ? '0' : '-1');
+    });
+    if (conceptStepperProgress) {
+      const pct = conceptTotal > 1 ? (index / (conceptTotal - 1)) * 100 : 0;
+      conceptStepperProgress.style.setProperty('--concept-step-pct', `${pct}%`);
+      conceptStepperProgress.style.width = `${pct}%`;
+      conceptStepperProgress.style.height = `${pct}%`;
+    }
+    if (conceptPageNumber) {
+      conceptPageNumber.textContent = `${String(index + 1).padStart(2, '0')} / ${String(conceptTotal).padStart(2, '0')}`;
+    }
+    if (conceptProgressMarker) {
+      conceptProgressMarker.style.width = `${((index + 1) / conceptTotal) * 100}%`;
+    }
+    if (conceptPrevBtn) conceptPrevBtn.disabled = index === 0;
+    if (conceptNextBtn) conceptNextBtn.disabled = index === conceptTotal - 1;
+  }
+
+  conceptStepperNodes.forEach(node => {
+    node.addEventListener('click', () => {
+      const step = parseInt(node.dataset.conceptStep, 10);
+      if (!isNaN(step)) showConceptSlide(step);
+    });
+  });
+
+  conceptPrevBtn?.addEventListener('click', () => showConceptSlide(currentConceptIndex - 1));
+  conceptNextBtn?.addEventListener('click', () => showConceptSlide(currentConceptIndex + 1));
+
+  const conceptReader = document.getElementById('concept-reader');
+  conceptReader?.addEventListener('keydown', event => {
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      showConceptSlide(currentConceptIndex + 1);
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      showConceptSlide(currentConceptIndex - 1);
+    }
+  });
+
+  const urlSlideParam = new URLSearchParams(window.location.search).get('conceptSlide');
+  const initialSlide = urlSlideParam ? Math.max(0, Math.min(conceptTotal - 1, parseInt(urlSlideParam, 10) - 1)) : 0;
+  if (conceptTotal > 0) {
+    showConceptSlide(initialSlide);
+  }
+
+  const tucontuVideoDialog = document.getElementById('tucontu-video-dialog');
+  const tucontuVideoTrigger = document.getElementById('tucontu-video-trigger');
+  const tucontuVideoClose = document.getElementById('tucontu-video-close');
+  if (tucontuVideoDialog && tucontuVideoTrigger) {
+    tucontuVideoTrigger.addEventListener('click', () => {
+      tucontuVideoDialog.showModal();
+      if (video) {
+        video.currentTime = 0;
+        video.play().catch(() => {});
+      }
+      tucontuVideoClose?.focus({ preventScroll: true });
+    });
+  }
+  if (tucontuVideoDialog && tucontuVideoClose) {
+    tucontuVideoClose.addEventListener('click', () => {
+      if (video) video.pause();
+      tucontuVideoDialog.close();
+    });
+  }
+  if (tucontuVideoDialog) {
+    tucontuVideoDialog.addEventListener('click', event => {
+      if (event.target === tucontuVideoDialog) {
+        if (video) video.pause();
+        tucontuVideoDialog.close();
+      }
+    });
+    tucontuVideoDialog.addEventListener('close', () => {
+      if (video) video.pause();
+      tucontuVideoTrigger?.focus({ preventScroll: true });
+    });
+  }
   function installLayoutCollisionChecker() {
     const badge = document.getElementById('layout-collision-status');
     const audit = document.getElementById('layout-audit');
