@@ -492,6 +492,7 @@
     const fraction = cards.length < 2 ? 0 : index / (cards.length - 1);
     serviceRailProgress.style.transform = `translate(${travel * fraction}px, -50%)`;
   }
+  window.updateServiceRailPosition = updateServiceRailPosition;
   let serviceRailFrame = 0;
   serviceGrid.addEventListener('scroll', () => {
     if (serviceRailFrame) return;
@@ -584,6 +585,10 @@
   });
   let offerRenderVersion = 0;
   async function renderOffers(category) {
+    if (window.SoyUnifiedEngine && typeof window.SoyUnifiedEngine.renderBazarGrid === 'function') {
+      window.SoyUnifiedEngine.renderBazarGrid(category);
+      return;
+    }
     const renderVersion = ++offerRenderVersion;
     const offers = (category === 'courses' ? SITE_DATA.courses : SITE_DATA.services)
       .filter(offer => !SITE_DATA.hero || offer.id !== SITE_DATA.hero);
