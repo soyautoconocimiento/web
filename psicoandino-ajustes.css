@@ -492,7 +492,7 @@ body.editorial-preview .goddess-header strong {
     padding: clamp(.2rem, 1vw, .35rem);
     transform: none;
   }
-  body.editorial-preview #inicio .arch-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  body.editorial-preview #inicio .arch-frame img { width: 100%; height: 100%; object-fit: cover; object-position: 82% center; }
   body.editorial-preview #inicio #hero-floral-link {
     width: max-content;
     min-width: 0;
@@ -2443,8 +2443,9 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   }
 }
 
-
-
-
-
-
+/* Hero Terapia Floral — En-cadre armónico centrado en esencias, botica y flores silvestres */
+body.editorial-preview #inicio .arch-frame img,
+#inicio .arch-frame img {
+  object-fit: cover !important;
+  object-position: 82% center !important;
+}
