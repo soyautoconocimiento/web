@@ -104,6 +104,8 @@
 }
 
 :root {
+  --viewport-security-top: clamp(1.25rem, 2.5dvh, 2.25rem);
+  --viewport-security-bottom: clamp(1.25rem, 2.5dvh, 2.25rem);
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Lora', Georgia, serif;
@@ -1337,7 +1339,9 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo {
 body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   border-radius: 46% 46% .25rem .25rem / 16% 16% .25rem .25rem !important;
   border: 1px solid rgba(141, 108, 54, .2) !important;
-  transition: opacity 120ms ease !important;
+  object-fit: cover !important;
+  object-position: center 20% !important;
+  transition: opacity 140ms ease !important;
 }
 
 /* Botón de video elegante bajo el marco */
@@ -1467,7 +1471,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     grid-template-columns: minmax(0, 1.45fr) minmax(22rem, 1fr) !important;
     grid-template-rows: auto auto minmax(0, 1fr) !important;
     gap: clamp(.35rem, .8dvh, .75rem) clamp(1.2rem, 2.4vw, 2.5rem) !important;
-    padding: clamp(.5rem, 1.2dvh, 1rem) clamp(1.5rem, 3.2vw, 3.2rem) !important;
+    padding: var(--viewport-security-top, clamp(1.25rem, 2.5dvh, 2.25rem)) clamp(1.5rem, 3.2vw, 3.2rem) var(--viewport-security-bottom, clamp(1.25rem, 2.5dvh, 2.25rem)) !important;
     height: calc(100dvh - var(--header-height, 4.1875rem)) !important;
     max-height: calc(100dvh - var(--header-height, 4.1875rem)) !important;
     overflow: hidden !important;
@@ -1571,169 +1575,112 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     flex-direction: column !important;
   }
 
-  /* Grid 2 columnas: Riel vertical a la izquierda + Lámina activa a la derecha */
+  /* Grid 2 columnas: Índice editorial de capítulos a la izquierda + Lámina activa a la derecha */
   #tucontu .concept-reader {
     display: grid !important;
-    grid-template-columns: clamp(10.5rem, 12vw, 12.5rem) minmax(0, 1fr) !important;
-    column-gap: clamp(1rem, 2vw, 2.2rem) !important;
+    grid-template-columns: clamp(11.5rem, 13vw, 14.5rem) minmax(0, 1fr) !important;
+    column-gap: clamp(1.8rem, 3.2vw, 3.6rem) !important;
     align-items: stretch !important;
     height: 100% !important;
     min-height: 0 !important;
     flex: 1 1 auto !important;
   }
 
-  /* Riel vertical de navegación: ocupa TODO el alto disponible desde arriba hasta el borde inferior */
+  /* Riel vertical: Índice editorial literario, sin barras AI, sin puntos de formulario */
   #tucontu .concept-stepper {
     display: flex !important;
     flex-direction: column !important;
-    justify-content: space-between !important;
+    justify-content: flex-start !important;
     align-items: flex-start !important;
     height: 100% !important;
     min-height: 0 !important;
-    padding: .15rem clamp(.5rem, .8vw, .85rem) .15rem 0 !important;
+    padding: clamp(.35rem, .8dvh, .75rem) clamp(1.2rem, 2vw, 2.2rem) clamp(1.2rem, 2.5dvh, 2rem) 0 !important;
     border-bottom: none !important;
-    border-right: 1px solid rgba(141, 108, 54, .2) !important;
+    border-right: 1px solid rgba(141, 108, 54, .22) !important;
     margin: 0 !important;
     flex-shrink: 0 !important;
     box-sizing: border-box !important;
   }
 
-  /* Botones circulares sutiles con flechas arriba / abajo */
   #tucontu .concept-stepper-btn {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 1.95rem !important;
-    height: 1.95rem !important;
-    min-width: 1.95rem !important;
-    min-height: 1.95rem !important;
-    border-radius: 50% !important;
-    padding: 0 !important;
-    background: rgba(255, 252, 246, .9) !important;
-    border: 1px solid rgba(141, 108, 54, .35) !important;
-    color: #566044 !important;
-    cursor: pointer !important;
-    box-shadow: 0 1px 4px rgba(38, 31, 24, .08) !important;
-    transition: all .2s ease !important;
-    margin-left: .15rem !important;
-    flex-shrink: 0 !important;
-  }
-
-  #tucontu .concept-stepper-btn:hover:not(:disabled) {
-    background: #566044 !important;
-    color: #fffaf2 !important;
-    border-color: #566044 !important;
-    transform: scale(1.1) !important;
-    box-shadow: 0 3px 10px rgba(86, 96, 68, .25) !important;
-  }
-
-  #tucontu .concept-stepper-btn:disabled {
-    opacity: .28 !important;
-    cursor: not-allowed !important;
-    border-color: rgba(141, 108, 54, .18) !important;
-    color: var(--muted) !important;
-    transform: none !important;
-    box-shadow: none !important;
-  }
-
-  #tucontu .concept-stepper-btn .stepper-btn-label {
     display: none !important;
   }
 
-  /* Track vertical que ocupa todo el alto entre los dos botones */
+  /* Lista de capítulos continua y limpia con ritmo vertical equilibrado (armonizado con columna visual) */
   #tucontu .concept-stepper-track {
     display: flex !important;
     flex-direction: column !important;
-    justify-content: space-between !important;
-    flex: 1 1 auto !important;
+    justify-content: flex-start !important;
+    gap: clamp(1.8rem, 3.6dvh, 2.8rem) !important;
+    height: auto !important;
     position: relative !important;
     width: 100% !important;
-    margin: clamp(.35rem, .8dvh, .75rem) 0 !important;
-    padding: 0 !important;
+    margin: 0 !important;
+    padding: clamp(.3rem, .6dvh, .6rem) 0 !important;
+    box-sizing: border-box !important;
   }
 
-  /* Línea vertical centrada tras los dots */
-  #tucontu .concept-stepper-line {
-    position: absolute !important;
-    top: .65rem !important;
-    bottom: .65rem !important;
-    left: calc(1.12rem - 1px) !important;
-    right: auto !important;
-    width: 2px !important;
-    height: auto !important;
-    transform: none !important;
-    background: rgba(141, 108, 54, .2) !important;
-    z-index: 0 !important;
+  /* Ocultar línea vertical y círculos de formulario */
+  #tucontu .concept-stepper-line,
+  #tucontu .concept-stepper-progress,
+  #tucontu .stepper-node-dot {
+    display: none !important;
   }
 
-  #tucontu .concept-stepper-progress {
-    width: 100% !important;
-    height: var(--concept-step-pct, 0%) !important;
-    background: #566044 !important;
-    transition: height .35s cubic-bezier(.22, 1, .36, 1) !important;
-  }
-
-  /* Fila de nodo: dot + etiqueta clara a la derecha */
+  /* Entrada de capítulo: tipografía pura Marcellus con espacio reservado para indicador (cero saltos) */
   #tucontu .concept-stepper-node {
     position: relative !important;
     z-index: 1 !important;
     display: flex !important;
-    flex-direction: row !important;
     align-items: center !important;
-    gap: .75rem !important;
     width: 100% !important;
-    padding: .2rem .2rem .2rem .68rem !important;
+    padding: clamp(.25rem, .5dvh, .45rem) 0 clamp(.25rem, .5dvh, .45rem) 1.6rem !important;
     text-align: left !important;
     background: transparent !important;
     border: none !important;
     cursor: pointer !important;
-    border-radius: .4rem !important;
-    transition: background-color .18s ease !important;
-  }
-
-  #tucontu .concept-stepper-node:hover {
-    background: rgba(141, 108, 54, .06) !important;
-  }
-
-  #tucontu .stepper-node-dot {
-    width: .85rem !important;
-    height: .85rem !important;
-    flex-shrink: 0 !important;
-    border-radius: 50% !important;
-    background: #fffdfa !important;
-    border: 2px solid rgba(141, 108, 54, .55) !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .08) !important;
-    transition: all .25s ease !important;
-  }
-
-  #tucontu .concept-stepper-node:hover .stepper-node-dot {
-    transform: scale(1.22) !important;
-    border-color: #8d6c36 !important;
-  }
-
-  #tucontu .concept-stepper-node.is-active .stepper-node-dot,
-  #tucontu .concept-stepper-node[aria-selected=true] .stepper-node-dot {
-    background: #566044 !important;
-    border-color: #8d6c36 !important;
-    transform: scale(1.3) !important;
-    box-shadow: 0 0 0 3px rgba(86, 96, 68, .28) !important;
+    transition: all .2s ease !important;
   }
 
   #tucontu .stepper-node-label {
     font-family: var(--font-ui) !important;
-    font-size: clamp(1.05rem, 1.2vw, 1.25rem) !important;
+    font-size: clamp(1.15rem, 1.3vw, 1.38rem) !important;
     font-weight: 400 !important;
-    letter-spacing: .04em !important;
-    color: #554a40 !important;
+    letter-spacing: .06em !important;
+    color: rgba(85, 74, 64, .55) !important;
     white-space: nowrap !important;
-    line-height: 1 !important;
+    line-height: 1.25 !important;
     transition: all .2s ease !important;
+  }
+
+  #tucontu .concept-stepper-node:hover .stepper-node-label {
+    color: var(--navy, #14283c) !important;
+    transform: translateX(3px) !important;
   }
 
   #tucontu .concept-stepper-node.is-active .stepper-node-label,
   #tucontu .concept-stepper-node[aria-selected=true] .stepper-node-label {
     color: var(--navy, #14283c) !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
+    transform: translateX(3px) !important;
+  }
+
+  /* Estrella dorada editorial que marca el capítulo activo con reserva fija */
+  #tucontu .concept-stepper-node::before {
+    content: '✦' !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    font-size: .85em !important;
+    color: #8d6c36 !important;
+    opacity: 0 !important;
+    transition: opacity .2s ease !important;
+  }
+
+  #tucontu .concept-stepper-node.is-active::before,
+  #tucontu .concept-stepper-node[aria-selected=true]::before {
+    opacity: 1 !important;
   }
 
   /* Columna derecha: Diapositiva fluida y adaptable al viewport */
@@ -1743,209 +1690,239 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
-    overflow: visible !important;
+    position: relative !important;
   }
 
   #tucontu .concept-slide[hidden] {
     display: none !important;
   }
 
+  @keyframes concept-slide-fade {
+    0% {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   #tucontu .concept-slide:not([hidden]) {
-    height: 100% !important;
-    min-height: 0 !important;
     display: flex !important;
     flex-direction: column !important;
+    height: auto !important;
+    min-height: 0 !important;
     justify-content: flex-start !important;
-    gap: clamp(.35rem, .8dvh, .65rem) !important;
+    animation: concept-slide-fade 0.32s cubic-bezier(0.22, 1, 0.36, 1) both !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #tucontu .concept-slide:not([hidden]) {
+      animation: none !important;
+    }
   }
 
   #tucontu .concept-slide-header {
-    margin: 0 !important;
+    margin-bottom: clamp(.25rem, .5dvh, .45rem) !important;
   }
 
   #tucontu .concept-slide-step {
     font-family: var(--font-ui) !important;
-    font-size: clamp(.78rem, .88vw, .88rem) !important;
+    font-size: clamp(.75rem, .82vw, .88rem) !important;
     font-weight: 400 !important;
-    letter-spacing: .08em !important;
+    letter-spacing: .14em !important;
     text-transform: uppercase !important;
     color: #8d6c36 !important;
     display: block !important;
-    margin-bottom: .2rem !important;
+    margin-bottom: .15rem !important;
   }
 
   #tucontu .concept-slide-header h3 {
-    margin: 0 !important;
+    margin: 0 0 clamp(.15rem, .35dvh, .3rem) 0 !important;
     font-family: var(--font-display) !important;
-    font-size: clamp(1.85rem, 2.5vw, 2.65rem) !important;
-    line-height: 1.15 !important;
+    font-size: clamp(1.75rem, 2.25vw, 2.45rem) !important;
+    line-height: 1.08 !important;
     color: var(--navy, #14283c) !important;
   }
 
   #tucontu .concept-slide-lead {
-    margin: 0 !important;
+    margin: 0 0 clamp(.35rem, .7dvh, .6rem) 0 !important;
     font-family: var(--font-body) !important;
-    font-size: clamp(1.15rem, 1.35vw, 1.38rem) !important;
+    font-size: clamp(1.05rem, 1.18vw, 1.22rem) !important;
     line-height: 1.4 !important;
     color: #3b322a !important;
+    max-width: 58ch !important;
   }
 
   #tucontu .concept-slide p {
     font-family: var(--font-body) !important;
-    font-size: clamp(1.1rem, 1.28vw, 1.3rem) !important;
-    line-height: 1.45 !important;
+    font-size: clamp(1.02rem, 1.15vw, 1.2rem) !important;
+    line-height: 1.42 !important;
     color: #4a4036 !important;
   }
 
-  /* Slide 1: 3 columnas x 2 filas compactas con tarjetas orgánicas cálidas */
+  /* Slide 1: Ficha técnica de Atelier (Líneas doradas de autor, tipografía calibrada al viewport, cero recortes) */
   #tucontu .concept-slide .tucontu-specs-grid {
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: clamp(.45rem, .9dvh, .75rem) clamp(.6rem, 1vw, .95rem) !important;
-    margin-top: .2rem !important;
+    gap: clamp(.4rem, .8dvh, .7rem) clamp(1.2rem, 2vw, 2.4rem) !important;
+    margin-top: clamp(.15rem, .3dvh, .3rem) !important;
     width: 100% !important;
   }
 
   #tucontu .concept-slide .tucontu-spec-item {
     display: flex !important;
     flex-direction: column !important;
-    gap: .25rem !important;
-    padding: clamp(.65rem, 1.25dvh, .95rem) clamp(.85rem, 1.2vw, 1.15rem) !important;
-    border-radius: .65rem !important;
-    background: rgba(255, 253, 249, .95) !important;
-    border: 1px solid rgba(141, 108, 54, .3) !important;
-    box-shadow: 0 1px 4px rgba(38, 31, 24, .04) !important;
+    gap: .15rem !important;
+    padding: clamp(.3rem, .55dvh, .5rem) 0 !important;
+    background: transparent !important;
+    border: none !important;
+    border-top: 1px solid rgba(141, 108, 54, .28) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
     cursor: default !important;
-    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease !important;
+    transition: border-color .2s ease !important;
   }
 
   #tucontu .concept-slide .tucontu-spec-item:hover {
-    transform: translateY(-2px) !important;
-    border-color: rgba(141, 108, 54, .5) !important;
-    box-shadow: 0 4px 12px rgba(86, 96, 68, .12) !important;
+    border-top-color: #8d6c36 !important;
+    background: transparent !important;
+    transform: none !important;
+    box-shadow: none !important;
   }
 
   #tucontu .concept-slide .tucontu-spec-item strong {
     font-family: var(--font-ui) !important;
-    font-size: clamp(.72rem, .8vw, .82rem) !important;
-    letter-spacing: .08em !important;
+    font-size: clamp(.7rem, .78vw, .82rem) !important;
+    letter-spacing: .12em !important;
     text-transform: uppercase !important;
     color: #8d6c36 !important;
     font-weight: 400 !important;
+    line-height: 1 !important;
   }
 
   #tucontu .concept-slide .tucontu-spec-item span {
     font-family: var(--font-display) !important;
-    font-size: clamp(1.25rem, 1.55vw, 1.6rem) !important;
-    font-weight: 700 !important;
+    font-size: clamp(1.12rem, 1.3vw, 1.4rem) !important;
+    font-weight: 600 !important;
     color: var(--navy, #14283c) !important;
-    line-height: 1.25 !important;
+    line-height: 1.2 !important;
   }
 
-  /* Slide 2: 3 columnas de arquetipos - Diseño editorial cálido (sin bordes AI slop) */
+  /* Slide 2: 3 columnas de arquetipos - Diseño editorial de autor calibrado al viewport */
   #tucontu .concept-slide .tucontu-goddess-grid {
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: clamp(.45rem, .9dvh, .75rem) clamp(.6rem, 1vw, .95rem) !important;
-    margin-top: .2rem !important;
+    gap: clamp(.4rem, .8dvh, .7rem) clamp(1.2rem, 2vw, 2.4rem) !important;
+    margin-top: clamp(.15rem, .3dvh, .3rem) !important;
     width: 100% !important;
   }
 
   #tucontu .concept-slide .tucontu-goddess-item {
     display: flex !important;
     flex-direction: column !important;
-    gap: .3rem !important;
-    padding: clamp(.7rem, 1.25dvh, 1.05rem) clamp(.85rem, 1.2vw, 1.15rem) !important;
-    border-radius: .65rem !important;
-    border: 1px solid rgba(141, 108, 54, .3) !important;
-    background: rgba(255, 253, 249, .95) !important;
-    box-shadow: 0 1px 4px rgba(38, 31, 24, .04) !important;
+    gap: .2rem !important;
+    padding: clamp(.3rem, .55dvh, .5rem) 0 !important;
+    background: transparent !important;
+    border: none !important;
+    border-top: 1px solid rgba(141, 108, 54, .28) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
     cursor: default !important;
-    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease !important;
+    transition: border-color .2s ease !important;
   }
 
   #tucontu .concept-slide .tucontu-goddess-item:hover {
-    transform: translateY(-2px) !important;
-    border-color: rgba(141, 108, 54, .5) !important;
-    box-shadow: 0 4px 14px rgba(86, 96, 68, .12) !important;
+    border-top-color: #8d6c36 !important;
+    background: transparent !important;
+    transform: none !important;
+    box-shadow: none !important;
   }
 
   #tucontu .concept-slide .goddess-header {
     display: flex !important;
-    align-items: center !important;
+    align-items: baseline !important;
     justify-content: space-between !important;
     gap: .5rem !important;
   }
 
   #tucontu .concept-slide .goddess-header strong {
     font-family: var(--font-display) !important;
-    font-size: clamp(1.28rem, 1.55vw, 1.58rem) !important;
-    font-weight: 700 !important;
+    font-size: clamp(1.2rem, 1.45vw, 1.55rem) !important;
+    font-weight: 600 !important;
     color: var(--navy, #14283c) !important;
     letter-spacing: .01em !important;
   }
 
   #tucontu .concept-slide .goddess-header span {
     font-family: var(--font-ui) !important;
-    font-size: clamp(.72rem, .8vw, .82rem) !important;
+    font-size: clamp(.68rem, .75vw, .78rem) !important;
     font-weight: 400 !important;
-    letter-spacing: .06em !important;
+    letter-spacing: .08em !important;
     text-transform: uppercase !important;
     color: #8d6c36 !important;
-    padding: .15rem .45rem !important;
-    background: rgba(141, 108, 54, .1) !important;
-    border-radius: .3rem !important;
+    padding: .12rem .35rem !important;
+    background: rgba(141, 108, 54, .08) !important;
+    border-radius: .25rem !important;
   }
 
   #tucontu .concept-slide .goddess-role {
     font-family: var(--font-body) !important;
     font-style: italic !important;
-    font-size: clamp(1.12rem, 1.32vw, 1.35rem) !important;
+    font-size: clamp(1.02rem, 1.18vw, 1.22rem) !important;
     color: #8d6c36 !important;
     font-weight: 400 !important;
-    margin-bottom: .2rem !important;
+    margin-bottom: .15rem !important;
     line-height: 1.25 !important;
   }
 
   #tucontu .concept-slide .tucontu-goddess-item p {
     font-family: var(--font-body) !important;
-    font-size: clamp(1.05rem, 1.22vw, 1.25rem) !important;
-    line-height: 1.42 !important;
+    font-size: clamp(.98rem, 1.1vw, 1.14rem) !important;
+    line-height: 1.38 !important;
     color: #3e342b !important;
     margin: 0 !important;
   }
 
-  /* Slide 3: Quote block cálido y orgánico */
+  /* Slide 3: Declaración de autor íntima y poética (sin cajas blancas) */
   #tucontu .concept-slide .tucontu-doc-quote-block {
-    margin-top: clamp(.45rem, 1dvh, .85rem) !important;
-    padding: clamp(1.1rem, 2dvh, 1.65rem) clamp(1.4rem, 1.8vw, 2rem) !important;
-    border-radius: .75rem !important;
-    border: 1px solid rgba(141, 108, 54, .3) !important;
-    background: rgba(255, 253, 249, .95) !important;
-    box-shadow: 0 2px 10px rgba(38, 31, 24, .05) !important;
+    margin-top: clamp(.5rem, 1.1dvh, .95rem) !important;
+    padding: clamp(.65rem, 1.3dvh, 1.1rem) 0 0 0 !important;
+    background: transparent !important;
+    border: none !important;
+    border-top: 1px solid rgba(141, 108, 54, .28) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: .25rem !important;
+    max-width: 56ch !important;
   }
 
   #tucontu .concept-slide .tucontu-doc-quote-block strong {
     font-family: var(--font-display) !important;
-    font-size: clamp(1.65rem, 2.35vw, 2.4rem) !important;
+    font-size: clamp(1.5rem, 2.1vw, 2.15rem) !important;
+    font-weight: 600 !important;
     color: var(--navy, #14283c) !important;
-    line-height: 1.2 !important;
+    line-height: 1.15 !important;
+    letter-spacing: .01em !important;
   }
 
   #tucontu .concept-slide .tucontu-doc-quote-block span {
     font-family: var(--font-body) !important;
     font-style: italic !important;
-    font-size: clamp(1.25rem, 1.55vw, 1.58rem) !important;
+    font-size: clamp(1.08rem, 1.25vw, 1.32rem) !important;
     color: #4a4036 !important;
-    line-height: 1.45 !important;
+    line-height: 1.48 !important;
   }
 
-  /* Slide 4: 2 columnas x 2 filas - Tarjetas sutiles sin border-left */
+  /* Slide 4: Lenguaje simbólico en 2 columnas con líneas doradas de autor (sin cajas blancas) */
   #tucontu .concept-slide .tucontu-symbolic-details {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: clamp(.45rem, .9dvh, .75rem) clamp(.75rem, 1.2vw, 1.15rem) !important;
-    margin-top: .2rem !important;
+    gap: clamp(.45rem, .9dvh, .8rem) clamp(1.4rem, 2.4vw, 2.8rem) !important;
+    margin-top: clamp(.2rem, .5dvh, .45rem) !important;
     list-style: none !important;
     padding: 0 !important;
     width: 100% !important;
@@ -1954,33 +1931,37 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   #tucontu .concept-slide .tucontu-symbolic-details li {
     display: flex !important;
     flex-direction: column !important;
-    gap: .3rem !important;
-    padding: clamp(.7rem, 1.25dvh, 1.05rem) clamp(.95rem, 1.3vw, 1.25rem) !important;
-    border-radius: .65rem !important;
-    border: 1px solid rgba(141, 108, 54, .3) !important;
-    background: rgba(255, 253, 249, .95) !important;
-    box-shadow: 0 1px 4px rgba(38, 31, 24, .04) !important;
+    gap: .15rem !important;
+    padding: clamp(.35rem, .65dvh, .55rem) 0 !important;
+    background: transparent !important;
+    border: none !important;
+    border-top: 1px solid rgba(141, 108, 54, .28) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
     cursor: default !important;
-    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease !important;
+    transition: border-color .2s ease !important;
   }
 
   #tucontu .concept-slide .tucontu-symbolic-details li:hover {
-    transform: translateY(-2px) !important;
-    border-color: rgba(141, 108, 54, .5) !important;
-    box-shadow: 0 4px 12px rgba(141, 108, 54, .12) !important;
+    border-top-color: #8d6c36 !important;
+    background: transparent !important;
+    transform: none !important;
+    box-shadow: none !important;
   }
 
   #tucontu .concept-slide .tucontu-symbolic-details strong {
     font-family: var(--font-display) !important;
-    font-size: clamp(1.35rem, 1.65vw, 1.7rem) !important;
-    font-weight: 700 !important;
+    font-size: clamp(1.18rem, 1.38vw, 1.48rem) !important;
+    font-weight: 600 !important;
     color: var(--navy, #14283c) !important;
+    letter-spacing: .01em !important;
+    line-height: 1.2 !important;
   }
 
   #tucontu .concept-slide .tucontu-symbolic-details span {
     font-family: var(--font-body) !important;
-    font-size: clamp(1.12rem, 1.3vw, 1.35rem) !important;
-    line-height: 1.45 !important;
+    font-size: clamp(.95rem, 1.08vw, 1.12rem) !important;
+    line-height: 1.38 !important;
     color: #4a4036 !important;
   }
 
@@ -1988,17 +1969,27 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     font-family: var(--font-body) !important;
     font-style: italic !important;
     color: #8d6c36 !important;
-    font-size: clamp(1.15rem, 1.35vw, 1.38rem) !important;
+    font-size: clamp(.92rem, 1.02vw, 1.05rem) !important;
     display: block !important;
-    margin-top: .2rem !important;
+    margin-top: .15rem !important;
+    line-height: 1.35 !important;
   }
 
-  /* Slide 5: Trinidad en 3 columnas limpias */
+  /* Slide 5: Trinidad arquetípica en 3 columnas limpias de autor (sin cajas blancas) */
+  #tucontu .concept-slide .tucontu-doc-quote {
+    font-family: var(--font-body) !important;
+    font-style: italic !important;
+    font-size: clamp(1.05rem, 1.2vw, 1.25rem) !important;
+    color: #8d6c36 !important;
+    line-height: 1.4 !important;
+    margin: 0 0 clamp(.4rem, .8dvh, .7rem) 0 !important;
+  }
+
   #tucontu .concept-slide .tucontu-trinity-summary {
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: clamp(.45rem, .9dvh, .75rem) clamp(.65rem, 1vw, .95rem) !important;
-    margin-top: .3rem !important;
+    gap: clamp(.45rem, .9dvh, .8rem) clamp(1.2rem, 2vw, 2.4rem) !important;
+    margin-top: clamp(.15rem, .3dvh, .3rem) !important;
     padding: 0 !important;
     background: transparent !important;
     border: none !important;
@@ -2008,56 +1999,72 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   #tucontu .concept-slide .tucontu-trinity-summary .trinity-card {
     display: flex !important;
     flex-direction: column !important;
-    gap: .3rem !important;
-    padding: clamp(.7rem, 1.25dvh, 1.05rem) clamp(.85rem, 1.1vw, 1.15rem) !important;
-    border-radius: .65rem !important;
-    border: 1px solid rgba(141, 108, 54, .3) !important;
-    background: rgba(255, 253, 249, .95) !important;
-    box-shadow: 0 1px 4px rgba(38, 31, 24, .04) !important;
-    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease !important;
+    gap: .15rem !important;
+    padding: clamp(.35rem, .65dvh, .55rem) 0 !important;
+    background: transparent !important;
+    border: none !important;
+    border-top: 1px solid rgba(141, 108, 54, .28) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    cursor: default !important;
+    transition: border-color .2s ease !important;
   }
 
   #tucontu .concept-slide .tucontu-trinity-summary .trinity-card:hover {
-    transform: translateY(-2px) !important;
-    border-color: rgba(141, 108, 54, .5) !important;
-    box-shadow: 0 4px 12px rgba(86, 96, 68, .12) !important;
+    border-top-color: #566044 !important;
+    background: transparent !important;
+    transform: none !important;
+    box-shadow: none !important;
   }
 
   #tucontu .concept-slide .tucontu-trinity-summary strong {
     font-family: var(--font-display) !important;
-    font-size: clamp(1.3rem, 1.55vw, 1.58rem) !important;
+    font-size: clamp(1.15rem, 1.35vw, 1.45rem) !important;
     color: #566044 !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
+    letter-spacing: .02em !important;
+    line-height: 1.2 !important;
   }
 
   #tucontu .concept-slide .tucontu-trinity-summary span {
     font-family: var(--font-body) !important;
     font-style: italic !important;
-    font-size: clamp(1.12rem, 1.3vw, 1.32rem) !important;
+    font-size: clamp(.95rem, 1.08vw, 1.15rem) !important;
     color: #4a4036 !important;
+    line-height: 1.35 !important;
   }
 
-  /* Slide 6: Cierre */
+  /* Slide 6: Cierre poético y sosegado (sin cajas blancas) */
   #tucontu .concept-closing-card {
-    margin-top: clamp(.45rem, 1dvh, .95rem) !important;
-    padding: clamp(1.2rem, 2.2dvh, 1.85rem) clamp(1.5rem, 2vw, 2.2rem) !important;
-    border-radius: .75rem !important;
-    border: 1px solid rgba(141, 108, 54, .32) !important;
-    background: rgba(255, 253, 249, .95) !important;
-    box-shadow: 0 2px 10px rgba(38, 31, 24, .06) !important;
+    margin-top: clamp(.5rem, 1.2dvh, 1rem) !important;
+    padding: clamp(.65rem, 1.3dvh, 1.1rem) 0 0 0 !important;
+    background: transparent !important;
+    border: none !important;
+    border-top: 1px solid rgba(141, 108, 54, .32) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: .3rem !important;
+    max-width: 56ch !important;
   }
 
   #tucontu .concept-closing-card strong {
     font-family: var(--font-display) !important;
-    font-size: clamp(1.75rem, 2.5vw, 2.55rem) !important;
+    font-size: clamp(1.55rem, 2.1vw, 2.2rem) !important;
     color: var(--navy, #14283c) !important;
+    font-weight: 600 !important;
+    line-height: 1.15 !important;
+    letter-spacing: .01em !important;
   }
 
   #tucontu .concept-closing-card p {
     font-family: var(--font-body) !important;
     font-style: italic !important;
-    font-size: clamp(1.3rem, 1.6vw, 1.65rem) !important;
+    font-size: clamp(1.15rem, 1.35vw, 1.4rem) !important;
     color: #8d6c36 !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
   }
 
   /* Marco fotográfico derecho adaptado al viewport vertical con ~2/5 de presencia */
@@ -2077,9 +2084,9 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo {
     width: min(55dvh, 35rem) !important;
-    height: min(74dvh, 48rem) !important;
+    height: min(69dvh, 44rem) !important;
     max-width: 100% !important;
-    max-height: calc(100% - 3.2rem) !important;
+    max-height: calc(100% - 3.4rem) !important;
     border-radius: 46% 46% .45rem .45rem / 16% 16% .45rem .45rem !important;
     border: 1px solid rgba(141, 108, 54, .38) !important;
     background: linear-gradient(145deg, #f4efe5, #e8dece) !important;
@@ -2423,6 +2430,62 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     aspect-ratio: 1 / 1 !important;
     margin: 0 auto !important;
     gap: .45rem !important;
+  }
+}
+
+/* ==========================================================================
+   ATELIER VIVO: Luz de taller sutil y filigrana botánica de bajo costo
+   ========================================================================== */
+
+#tucontu.view::before {
+  content: "";
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  width: min(65vw, 42rem);
+  height: min(65vh, 42rem);
+  background: radial-gradient(circle at center, rgba(235, 218, 185, 0.22) 0%, rgba(212, 195, 162, 0.08) 45%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+  animation: atelier-sunlight-breathe 14s ease-in-out infinite alternate;
+  will-change: opacity, transform;
+}
+
+#tucontu.view::after {
+  content: "";
+  position: absolute;
+  bottom: 2%;
+  left: 2.5%;
+  width: clamp(10rem, 16vw, 15rem);
+  height: clamp(10rem, 16vw, 15rem);
+  background-image: url("assets/floral-vines-a.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.045;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes atelier-sunlight-breathe {
+  0% {
+    opacity: 0.45;
+    transform: translate3d(0, 0, 0) scale(0.96);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate3d(-15px, 10px, 0) scale(1.04);
+  }
+  100% {
+    opacity: 0.55;
+    transform: translate3d(10px, -5px, 0) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #tucontu.view::before {
+    animation: none !important;
+    opacity: 0.5 !important;
   }
 }
 
