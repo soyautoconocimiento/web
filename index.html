@@ -138,10 +138,10 @@
                 <button id="tucontu-history-tab" type="button" role="tab" aria-selected="false" aria-controls="tucontu-history-panel" tabindex="-1" class="category-tab" data-gallery-mode="historia">Historia</button>
                 <button id="tucontu-photos-tab" type="button" role="tab" aria-selected="false" aria-controls="tucontu-photos-panel" tabindex="-1" class="category-tab" data-gallery-mode="galeria">Galería</button>
               </div>
-              <a class="tucontu-pdf-action-btn" href="assets/tucontu/manual-tecnico-tucontu.pdf" download="Manual-TuconTu-Marcela.pdf" target="_blank" rel="noopener" aria-label="Descargar PDF">
-                <svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-                <span>Descargar PDF</span>
-              </a>
+              <button class="tucontu-pdf-action-btn" id="tucontu-dossier-open-btn" type="button" aria-haspopup="dialog" aria-controls="tucontu-dossier-dialog" aria-label="Ver Dossier y Ficha Técnica de TuconTu">
+                <svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                <span>Ver Dossier / PDF</span>
+              </button>
             </div>
 
             <!-- Panel 1: Concepto con paginación integrada (sin scroll) -->
@@ -399,6 +399,28 @@
           <source src="assets/tucontu/video_presentacion.mp4" type="video/mp4">
           Tu navegador no puede reproducir este video.
         </video>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Modal Dossier & Ficha Técnica TuconTu (Opción A) -->
+  <dialog class="tucontu-dossier-dialog" id="tucontu-dossier-dialog" aria-labelledby="tucontu-dossier-title">
+    <div class="tucontu-dossier-shell">
+      <header class="tucontu-dossier-header">
+        <div class="tucontu-dossier-titles">
+          <span class="eyebrow">Documento técnico & artesanal</span>
+          <h2 id="tucontu-dossier-title">Dossier TuconTu</h2>
+        </div>
+        <div class="tucontu-dossier-actions">
+          <a class="tucontu-dossier-download" href="assets/tucontu/manual-tecnico-tucontu.pdf" download="Dossier-TuconTu-Marcela.pdf" target="_blank" rel="noopener" aria-label="Descargar copia del PDF">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            <span>Descargar copia PDF</span>
+          </a>
+          <button class="dialog-close tucontu-dossier-close" id="tucontu-dossier-close" type="button" aria-label="Cerrar visor de dossier">×</button>
+        </div>
+      </header>
+      <div class="tucontu-dossier-body">
+        <iframe id="tucontu-dossier-iframe" class="tucontu-dossier-frame" data-src="assets/tucontu/manual-tecnico-tucontu.pdf#toolbar=1&navpanes=0" title="Visor de Dossier TuconTu" loading="lazy"></iframe>
       </div>
     </div>
   </dialog>

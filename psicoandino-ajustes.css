@@ -1211,17 +1211,17 @@ body.editorial-preview #acompanamientos .services-more-mobile svg {
 /* Grilla que aprovecha al máximo el espacio disponible en desktop sin desbordar */
 #tucontu .gallery-grid {
   display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  grid-template-rows: repeat(3, minmax(0, 1fr)) !important;
-  gap: clamp(.5rem, 1.1dvh, .85rem) !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: clamp(.4rem, .9dvh, .7rem) !important;
   width: clamp(21rem, 52dvh, 33rem) !important;
-  height: clamp(21rem, 52dvh, 33rem) !important;
+  height: auto !important;
   max-width: 100% !important;
   max-height: clamp(21rem, 52dvh, 33rem) !important;
   aspect-ratio: 1 / 1 !important;
   margin: 0 !important;
   padding: .2rem !important;
-  overflow: visible !important;
+  overflow-y: auto !important;
+  scrollbar-width: thin !important;
 }
 
 #tucontu .gallery-grid button {
@@ -1330,7 +1330,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo {
   width: auto !important;
   max-width: min(38vw, 24rem) !important;
   height: min(70dvh, 45rem) !important;
-  aspect-ratio: var(--cover-aspect, 831 / 1800) !important;
+  aspect-ratio: var(--cover-aspect, 830 / 1744) !important;
   padding: clamp(.38rem, .8vh, .55rem) !important;
   border: 1.5px solid rgba(141, 108, 54, .5) !important;
   outline: 1px solid rgba(141, 108, 54, .25) !important;
@@ -1339,6 +1339,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo {
   background: linear-gradient(145deg, #fdfbf7, #ebe3d5) !important;
   box-shadow: 0 1rem 2.8rem rgba(38, 31, 24, .18), inset 0 0 0 1px rgba(255, 255, 255, .75) !important;
   margin: 0 auto !important;
+  transition: width .45s cubic-bezier(.22, 1, .36, 1), height .45s cubic-bezier(.22, 1, .36, 1), aspect-ratio .45s cubic-bezier(.22, 1, .36, 1), max-width .45s cubic-bezier(.22, 1, .36, 1) !important;
 }
 
 body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
@@ -1350,7 +1351,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   object-position: center center !important;
   clip-path: none !important;
   transform: none !important;
-  transition: opacity 140ms ease !important;
+  transition: opacity .25s cubic-bezier(.22, 1, .36, 1) !important;
 }
 
 /* Botón de video elegante bajo el marco */
@@ -1467,6 +1468,111 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   box-shadow: 0 .8rem 2rem rgba(20, 40, 60, .18) !important;
   background: #171b1d !important;
 }
+
+/* Modal Dossier & Ficha Técnica TuconTu (Opción A - Visor integrado) */
+.tucontu-dossier-dialog {
+  box-sizing: border-box !important;
+  width: min(68rem, calc(100vw - 2rem)) !important;
+  height: min(92dvh, 58rem) !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: auto !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid var(--gold-line, rgba(141, 108, 54, .4)) !important;
+  border-radius: 1.15rem !important;
+  background: #fdfbf7 !important;
+  color: var(--ink, #1f1b18) !important;
+  box-shadow: 0 2rem 5rem rgba(10, 25, 40, .45) !important;
+}
+
+.tucontu-dossier-dialog::backdrop {
+  background: rgba(20, 40, 60, .68) !important;
+  backdrop-filter: blur(.35rem) !important;
+}
+
+.tucontu-dossier-shell {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.tucontu-dossier-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 1rem !important;
+  padding: .75rem 1.25rem !important;
+  background: linear-gradient(180deg, #fdfbf7, #f6f0e4) !important;
+  border-bottom: 1px solid rgba(141, 108, 54, .25) !important;
+}
+
+.tucontu-dossier-titles h2 {
+  font-family: var(--font-display) !important;
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem) !important;
+  margin: .1rem 0 0 !important;
+  color: var(--navy, #14283c) !important;
+  line-height: 1.1 !important;
+}
+
+.tucontu-dossier-titles .eyebrow {
+  margin: 0 !important;
+  font-size: .7rem !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+  color: var(--gold, #866333) !important;
+}
+
+.tucontu-dossier-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: .75rem !important;
+}
+
+.tucontu-dossier-download {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: .45rem !important;
+  padding: .4rem .9rem !important;
+  border-radius: .45rem !important;
+  border: 1px solid rgba(86, 96, 68, .35) !important;
+  background: #f4eee2 !important;
+  color: #3b4231 !important;
+  font-family: var(--font-ui) !important;
+  font-size: .84rem !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  transition: all .2s ease !important;
+}
+
+.tucontu-dossier-download:hover {
+  background: #566044 !important;
+  color: #fffaf2 !important;
+  border-color: #566044 !important;
+}
+
+.tucontu-dossier-close {
+  position: static !important;
+  font-size: 1.8rem !important;
+  line-height: 1 !important;
+  padding: .2rem .5rem !important;
+}
+
+.tucontu-dossier-body {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  position: relative !important;
+  background: #f0ebe1 !important;
+}
+
+.tucontu-dossier-frame {
+  width: 100% !important;
+  height: 100% !important;
+  border: 0 !important;
+  display: block !important;
+}
+
 
 /* ==========================================================================
    5. CONCEPTO ESCRITORIO: Riel vertical a la izquierda + lámina activa a la derecha
@@ -2154,34 +2260,21 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   /* Anular la caja oscura #071426 de candidate-refinement */
   body.editorial-preview #tucontu.view > .view-inner.tucontu-layout {
-    position: static !important;
+    position: relative !important;
     display: flex !important;
     flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
     width: 100% !important;
     height: auto !important;
-    min-height: 0 !important;
+    min-height: auto !important;
     background: transparent !important;
     color: var(--navy, #14283c) !important;
-    padding: clamp(.5rem, 1.5dvh, .85rem) clamp(.85rem, 3.5vw, 1.5rem) 0 clamp(.85rem, 3.5vw, 1.5rem) !important;
+    padding: clamp(.75rem, 2dvh, 1.25rem) clamp(.85rem, 3.5vw, 1.5rem) .4rem clamp(.85rem, 3.5vw, 1.5rem) !important;
     gap: .4rem !important;
     overflow: visible !important;
     isolation: auto !important;
     box-sizing: border-box !important;
-  }
-
-  /* Anular el absolute inset: 0 de candidate-refinement */
-  body.editorial-preview #tucontu .tucontu-visual {
-    position: static !important;
-    z-index: 1 !important;
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    gap: .75rem !important;
-    width: 100% !important;
-    height: auto !important;
-    margin: .2rem 0 .35rem 0 !important;
-    padding: 0 !important;
   }
 
   /* Eliminar el velo degradado oscuro #071426 de candidate-refinement */
@@ -2196,21 +2289,22 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   /* Encabezado compacto integrado */
   body.editorial-preview #tucontu .tucontu-content {
-    position: static !important;
+    position: relative !important;
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
     text-align: left !important;
     padding: 0 !important;
-    margin: 0 !important;
-    z-index: 1 !important;
+    margin: 0 0 .5rem 0 !important;
+    z-index: 2 !important;
+    order: 1 !important;
   }
 
   body.editorial-preview #tucontu .tucontu-heading-row {
     display: flex !important;
     align-items: baseline !important;
     gap: .5rem !important;
-    margin: 0 0 .15rem 0 !important;
+    margin: 0 0 .2rem 0 !important;
   }
 
   body.editorial-preview #tucontu .tucontu-heading-row .eyebrow {
@@ -2224,10 +2318,32 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   }
 
   body.editorial-preview #tucontu .tucontu-intro {
-    font-size: .88rem !important;
-    line-height: 1.32 !important;
-    margin: 0 0 .25rem 0 !important;
+    position: relative !important;
+    font-size: .92rem !important;
+    line-height: 1.36 !important;
+    margin: 0 !important;
     text-align: left !important;
+    display: block !important;
+    width: 100% !important;
+    color: var(--muted, #665a4e) !important;
+  }
+
+  /* Fila visual con altura fija garantizada para evitar solapamientos */
+  body.editorial-preview #tucontu .tucontu-visual {
+    position: relative !important;
+    z-index: 2 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: .75rem !important;
+    width: 100% !important;
+    min-height: 5.2rem !important;
+    height: auto !important;
+    margin: .25rem 0 .45rem 0 !important;
+    padding: 0 !important;
+    order: 2 !important;
+    clear: both !important;
   }
 
   /* Marco visual compacto en fila junto al botón de video */
@@ -2321,36 +2437,103 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     font-size: .78rem !important;
   }
 
-  /* Stepper en móvil: dots limpios con línea centrada */
+  /* Stepper en móvil: navegación horizontal fluida con botones y dots */
+  #tucontu .concept-reader {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: .65rem !important;
+  }
+
   #tucontu .concept-stepper {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
     padding: .25rem 0 .4rem 0 !important;
     margin-bottom: .45rem !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(141, 108, 54, .18) !important;
     gap: .35rem !important;
+    height: auto !important;
   }
 
   #tucontu .concept-stepper-btn {
-    padding: .3rem .5rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: .3rem !important;
+    padding: .3rem .6rem !important;
+    border-radius: .4rem !important;
+    border: 1px solid rgba(141, 108, 54, .3) !important;
+    background: #fdfbf7 !important;
+    color: var(--navy, #14283c) !important;
     font-size: .75rem !important;
+    cursor: pointer !important;
+  }
+
+  #tucontu .concept-stepper-btn:disabled {
+    opacity: .4 !important;
+    cursor: default !important;
+  }
+
+  #tucontu .concept-stepper-track {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 1 1 auto !important;
+    position: relative !important;
+    gap: .45rem !important;
+    padding: 0 !important;
+    height: auto !important;
   }
 
   #tucontu .concept-stepper-line {
+    display: block !important;
+    position: absolute !important;
     top: 50% !important;
     left: .8rem !important;
     right: .8rem !important;
+    height: 1px !important;
+    background: rgba(141, 108, 54, .25) !important;
+    transform: translateY(-50%) !important;
   }
 
   #tucontu .concept-stepper-node {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     padding: .2rem !important;
     gap: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 2 !important;
   }
 
   #tucontu .stepper-node-dot {
-    width: .7rem !important;
-    height: .7rem !important;
+    display: block !important;
+    width: .65rem !important;
+    height: .65rem !important;
+    border-radius: 50% !important;
+    background: #d8cbbb !important;
+    border: 1.5px solid #fffdfa !important;
+    box-shadow: 0 0 0 1px rgba(141, 108, 54, .35) !important;
+    transition: all .2s ease !important;
+  }
+
+  #tucontu .concept-stepper-node.is-active .stepper-node-dot,
+  #tucontu .concept-stepper-node[aria-selected="true"] .stepper-node-dot {
+    background: var(--gold, #8d6c36) !important;
+    box-shadow: 0 0 0 2px rgba(141, 108, 54, .5) !important;
+    transform: scale(1.15) !important;
   }
 
   #tucontu .stepper-node-label {
-    display: none !important; /* En móvil se muestran los dots limpios para no saturar el ancho */
+    display: none !important;
   }
 
   /* Panel de Concepto en móvil */
