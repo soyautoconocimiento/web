@@ -2219,6 +2219,12 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   #tucontu .label-full {
     display: inline !important;
   }
+  #tucontu .tab-glyph {
+    display: none !important;
+  }
+  #tucontu .tab-text {
+    display: inline !important;
+  }
   #tucontu-piece-tab,
   #tucontu-piece-panel {
     display: none !important;
@@ -2390,17 +2396,19 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
                 border-radius .55s cubic-bezier(.22, 1, .36, 1) !important;
   }
 
-  /* Botón de Video: Insignia translúcida elegante superpuesta en el marco (cero estorbo vertical) */
+  /* Botón de Video: Insignia translúcida elegante superpuesta en el marco */
   body.editorial-preview #tucontu .tucontu-video-trigger {
     position: absolute !important;
-    bottom: .45rem !important;
-    right: calc(50% - min(26vw, 6.5rem)) !important;
+    bottom: .6rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    right: auto !important;
     z-index: 5 !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: .25rem !important;
-    padding: .28rem .65rem !important;
+    gap: .3rem !important;
+    padding: .28rem .75rem !important;
     border-radius: 2rem !important;
     font-family: var(--font-ui) !important;
     font-size: .74rem !important;
@@ -2415,12 +2423,15 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     margin: 0 !important;
     flex-shrink: 0 !important;
     cursor: pointer !important;
-    transition: transform .2s ease, opacity .25s ease !important;
+    white-space: nowrap !important;
+    transition: opacity .35s ease, transform .2s ease !important;
   }
 
   body.editorial-preview #tucontu .tucontu-video-trigger .video-trigger-icon {
     font-size: .68rem !important;
     color: #e2b96f !important;
+    display: inline-flex !important;
+    align-items: center !important;
   }
 
   /* ==========================================================================
@@ -2437,6 +2448,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   }
 
   body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-piece-photo.is-cover-photo {
+    display: block !important;
     width: clamp(17.5rem, 88vw, 24rem) !important;
     height: clamp(18rem, calc(100dvh - 330px), 32rem) !important;
     max-width: min(90vw, 24rem) !important;
@@ -2454,15 +2466,6 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-video-trigger {
     display: inline-flex !important;
-    position: absolute !important;
-    bottom: .6rem !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    right: auto !important;
-    z-index: 5 !important;
-    padding: .28rem .75rem !important;
-    font-size: .74rem !important;
-    white-space: nowrap !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-gallery-panel {
@@ -2474,24 +2477,13 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     padding: .4rem 1.2rem !important;
   }
 
-  /* 1. MODO CONCEPTO: El contenido se ajusta hacia arriba, ganamos espacio conservando la silueta de arco */
+  /* 1. MODO CONCEPTO: Ocultamos la ventana de foto para dar el 100% del espacio al contenido */
   body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-intro {
     display: none !important;
   }
 
-  body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-piece-photo.is-cover-photo {
-    height: clamp(5.2rem, 11dvh, 6.8rem) !important;
-    max-width: 10rem !important;
-    aspect-ratio: auto !important;
-    border-radius: 50% 50% .45rem .45rem / 26% 26% .45rem .45rem !important;
-    box-shadow: 0 .4rem 1.2rem rgba(38, 31, 24, .12) !important;
-    margin: 0 auto .2rem !important;
-  }
-
-  body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-piece-photo.is-cover-photo img {
-    border-radius: 50% 50% .35rem .35rem / 28% 28% .35rem .35rem !important;
-  }
-
+  body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-visual,
+  body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-piece-photo.is-cover-photo,
   body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-video-trigger {
     display: none !important;
   }
@@ -2501,9 +2493,14 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     display: none !important;
   }
 
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-visual {
+    display: flex !important;
+  }
+
   body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-piece-photo.is-cover-photo {
-    height: clamp(15rem, 36dvh, 20rem) !important;
-    max-width: min(80vw, 20rem) !important;
+    display: block !important;
+    height: clamp(16rem, 40dvh, 22rem) !important;
+    max-width: min(85vw, 22rem) !important;
     aspect-ratio: var(--cover-aspect, 830 / 1744) !important;
     border-radius: 50% 50% .45rem .45rem / 20% 20% .45rem .45rem !important;
   }
@@ -2530,29 +2527,15 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     gap: .25rem !important;
   }
 
-  /* 3. MODO HISTORIA: El marco acompaña conservando la silueta de arco */
+  /* 3. MODO HISTORIA: Ocultamos la ventana de foto para lectura sosegada y limpia */
   body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-intro {
     display: none !important;
   }
 
-  body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-piece-photo.is-cover-photo {
-    height: clamp(5.8rem, 12dvh, 7.5rem) !important;
-    max-width: 10.5rem !important;
-    aspect-ratio: auto !important;
-    border-radius: 50% 50% .45rem .45rem / 24% 24% .45rem .45rem !important;
-    margin: .1rem auto .2rem !important;
-    box-shadow: 0 .4rem 1.2rem rgba(38, 31, 24, .12) !important;
-  }
-
-  body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-piece-photo.is-cover-photo img {
-    border-radius: 50% 50% .35rem .35rem / 26% 26% .35rem .35rem !important;
-  }
-
+  body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-visual,
+  body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-piece-photo.is-cover-photo,
   body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-video-trigger {
-    right: calc(50% - 4.8rem) !important;
-    bottom: .2rem !important;
-    padding: .2rem .5rem !important;
-    font-size: .68rem !important;
+    display: none !important;
   }
 
   /* ==========================================================================
@@ -2659,8 +2642,9 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   #tucontu .tucontu-gallery-tabs .category-tab {
     flex: 1 1 0 !important;
-    min-height: 2.1rem !important;
-    padding: .25rem .2rem !important;
+    min-height: 2.35rem !important;
+    height: 2.35rem !important;
+    padding: .25rem !important;
     font-family: var(--font-serif) !important;
     font-size: .8rem !important;
     font-weight: 600 !important;
@@ -2669,28 +2653,48 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     border: none !important;
     background: transparent !important;
     color: var(--navy, #14283c) !important;
-    text-align: center !important;
-    transition: all .2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: .25rem !important;
+    transition: all .25s ease !important;
     cursor: pointer !important;
+  }
+
+  #tucontu .tucontu-gallery-tabs .category-tab .tab-glyph {
+    display: block !important;
+    width: 18px !important;
+    height: 18px !important;
+    stroke: currentColor !important;
+    transition: transform .2s ease !important;
+  }
+
+  #tucontu .tucontu-gallery-tabs .category-tab .tab-text {
+    display: none !important;
   }
 
   #tucontu .tucontu-gallery-tabs .category-tab.is-active,
   #tucontu .tucontu-gallery-tabs .category-tab[aria-selected="true"] {
     background: #566044 !important;
     color: #fffdfa !important;
-    box-shadow: 0 2px 6px rgba(86, 96, 68, .25) !important;
+    box-shadow: 0 2px 8px rgba(86, 96, 68, .3) !important;
+  }
+
+  #tucontu .tucontu-gallery-tabs .category-tab.is-active .tab-glyph {
+    transform: scale(1.12) !important;
   }
 
   #tucontu .tucontu-pdf-action-btn {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: .3rem !important;
-    min-height: 2.1rem !important;
-    padding: .25rem .65rem !important;
+    gap: .25rem !important;
+    min-height: 2.35rem !important;
+    height: 2.35rem !important;
+    padding: .25rem .75rem !important;
     border-radius: 2rem !important;
     font-family: var(--font-serif) !important;
-    font-size: .8rem !important;
+    font-size: .78rem !important;
     font-weight: 600 !important;
     letter-spacing: .02em !important;
     border: 1px solid rgba(141, 108, 54, .35) !important;
@@ -2699,6 +2703,13 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     flex-shrink: 0 !important;
     transition: all .2s ease !important;
     cursor: pointer !important;
+  }
+
+  #tucontu .tucontu-pdf-action-btn .tab-glyph {
+    display: block !important;
+    width: 16px !important;
+    height: 16px !important;
+    stroke: currentColor !important;
   }
 
   #tucontu .tucontu-pdf-action-btn:hover {
