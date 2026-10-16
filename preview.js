@@ -793,6 +793,8 @@
   function selectGalleryMode(mode, animateHistory = true) {
     const titles = { concepto: 'Concepto', manual: 'Concepto', historia: 'Historia', galeria: 'Galería', fotos: 'Galería', video: 'Video' };
     if (galleryTitle) galleryTitle.textContent = titles[mode] || 'TuconTu';
+    const tucontuSection = document.getElementById('tucontu');
+    if (tucontuSection) tucontuSection.dataset.activeMode = mode;
     const tabsContainer = document.querySelector('.tucontu-gallery-tabs');
     if (tabsContainer) tabsContainer.dataset.activeMode = mode;
     galleryModes.forEach(tab => {

@@ -1281,21 +1281,6 @@ body.editorial-preview #acompanamientos .services-more-mobile svg {
   #tucontu .gallery-featured {
     display: none !important;
   }
-  body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo {
-    width: min(38dvh, 20rem) !important;
-    height: min(46dvh, 25rem) !important;
-  }
-}
-
-@media (max-width: 47.5rem) {
-  body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo {
-    width: min(58vw, 15rem) !important;
-    height: clamp(9.5rem, 28dvh, 14.5rem) !important;
-  }
-  .tucontu-video-trigger {
-    padding: .45rem 1rem !important;
-    font-size: .8rem !important;
-  }
 }
 
 /* ==========================================================================
@@ -2226,7 +2211,24 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
    6. PROPUESTA VISUAL MÓVIL INTEGRADA PARA COLORES DEL ALMA / TUCONTU
    ========================================================================== */
 
+/* Etiquetas responsivas de botones (versión corta en móvil, completa en desktop) */
+@media (min-width: 64rem) {
+  #tucontu .label-short {
+    display: none !important;
+  }
+  #tucontu .label-full {
+    display: inline !important;
+  }
+}
+
 @media (max-width: 63.99rem) {
+  #tucontu .label-full {
+    display: none !important;
+  }
+  #tucontu .label-short {
+    display: inline !important;
+  }
+
   /* Fondo claro de mármol garantizado para móvil y tablet */
   body.editorial-preview #tucontu.view {
     background-color: #fffdfa !important;
@@ -2236,8 +2238,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     color: var(--navy, #14283c) !important;
     height: 100% !important;
     max-height: calc(100dvh - var(--header-height, 3.75rem)) !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
+    overflow: hidden !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
@@ -2250,17 +2251,19 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
-    align-items: stretch !important;
+    align-items: center !important;
     width: 100% !important;
     height: auto !important;
     min-height: auto !important;
+    flex-shrink: 0 !important;
     background: transparent !important;
     color: var(--navy, #14283c) !important;
-    padding: clamp(.75rem, 2dvh, 1.25rem) clamp(.85rem, 3.5vw, 1.5rem) .4rem clamp(.85rem, 3.5vw, 1.5rem) !important;
-    gap: .4rem !important;
+    padding: clamp(.35rem, .9dvh, .65rem) clamp(.85rem, 3.5vw, 1.5rem) 0 !important;
+    gap: 0 !important;
     overflow: visible !important;
     isolation: auto !important;
     box-sizing: border-box !important;
+    transition: all .35s cubic-bezier(.22, 1, .36, 1) !important;
   }
 
   /* Eliminar el velo degradado oscuro #071426 de candidate-refinement */
@@ -2282,7 +2285,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     text-align: center !important;
     align-items: center !important;
     padding: 0 !important;
-    margin: 0 0 .35rem 0 !important;
+    margin: 0 0 .15rem 0 !important;
     z-index: 2 !important;
     order: 1 !important;
   }
@@ -2291,32 +2294,34 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     display: flex !important;
     align-items: baseline !important;
     justify-content: center !important;
-    gap: .5rem !important;
-    margin: 0 0 .15rem 0 !important;
+    gap: .45rem !important;
+    margin: 0 !important;
   }
 
   body.editorial-preview #tucontu .tucontu-heading-row .eyebrow {
-    font-size: .68rem !important;
+    font-size: .65rem !important;
     letter-spacing: .08em !important;
   }
 
   body.editorial-preview #tucontu .tucontu-heading-row h2 {
-    font-size: clamp(2rem, 7vw, 2.45rem) !important;
-    line-height: 1 !important;
+    font-size: clamp(1.65rem, 5.2vw, 2.1rem) !important;
+    line-height: 1.05 !important;
+    margin: 0 !important;
   }
 
   body.editorial-preview #tucontu .tucontu-intro {
     position: relative !important;
-    font-size: .92rem !important;
-    line-height: 1.36 !important;
-    margin: 0 !important;
+    font-size: .84rem !important;
+    line-height: 1.3 !important;
+    margin: .1rem 0 0 0 !important;
     text-align: center !important;
     display: block !important;
     width: 100% !important;
     color: var(--muted, #665a4e) !important;
+    transition: opacity .3s ease !important;
   }
 
-  /* Fila visual: Arco noble centrado con presencia auténtica del producto */
+  /* Fila visual: Contenedor con posicionamiento para el badge de video */
   body.editorial-preview #tucontu .tucontu-visual {
     position: relative !important;
     z-index: 2 !important;
@@ -2324,37 +2329,37 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: .65rem !important;
     width: 100% !important;
     min-height: 0 !important;
     height: auto !important;
-    margin: .35rem auto .55rem !important;
+    margin: .2rem auto 0 !important;
     padding: 0 !important;
     order: 2 !important;
     clear: both !important;
   }
 
-  /* Marco arquitectónico centrado que respeta la textura y presencia de la pieza */
+  /* Marco arquitectónico adaptativo con morfismo fluido */
   body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo {
     position: relative !important;
     inset: auto !important;
     width: auto !important;
-    max-width: min(68vw, 17rem) !important;
-    height: clamp(13rem, 28dvh, 18rem) !important;
+    max-width: min(78vw, 19rem) !important;
+    height: clamp(13.5rem, 32dvh, 18rem) !important;
     flex-shrink: 0 !important;
     aspect-ratio: var(--cover-aspect, 830 / 1744) !important;
-    padding: .35rem !important;
+    padding: .3rem !important;
     border: 1.5px solid rgba(141, 108, 54, .5) !important;
     outline: 1px solid rgba(141, 108, 54, .25) !important;
     outline-offset: -3px !important;
     border-radius: 46% 46% .45rem .45rem / 18% 18% .45rem .45rem !important;
     background: linear-gradient(145deg, #fdfbf7, #ebe3d5) !important;
-    box-shadow: 0 .9rem 2.2rem rgba(38, 31, 24, .14), inset 0 0 0 1px rgba(255, 255, 255, .7) !important;
+    box-shadow: 0 .7rem 1.8rem rgba(38, 31, 24, .12), inset 0 0 0 1px rgba(255, 255, 255, .7) !important;
     margin: 0 auto !important;
     transition: width .45s cubic-bezier(.22, 1, .36, 1),
                 height .45s cubic-bezier(.22, 1, .36, 1),
                 aspect-ratio .45s cubic-bezier(.22, 1, .36, 1),
-                max-width .45s cubic-bezier(.22, 1, .36, 1) !important;
+                max-width .45s cubic-bezier(.22, 1, .36, 1),
+                border-radius .45s cubic-bezier(.22, 1, .36, 1) !important;
   }
 
   body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
@@ -2363,43 +2368,152 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     height: 100% !important;
     object-fit: cover !important;
     object-position: center !important;
-    transition: opacity .25s cubic-bezier(.22, 1, .36, 1) !important;
+    transition: opacity .25s cubic-bezier(.22, 1, .36, 1),
+                border-radius .45s cubic-bezier(.22, 1, .36, 1) !important;
   }
 
+  /* Botón de Video: Insignia translúcida elegante superpuesta en el marco (cero estorbo vertical) */
   body.editorial-preview #tucontu .tucontu-video-trigger {
-    position: static !important;
+    position: absolute !important;
+    bottom: .45rem !important;
+    right: calc(50% - min(26vw, 6.5rem)) !important;
+    z-index: 5 !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: .45rem !important;
-    padding: .45rem 1.25rem !important;
+    gap: .25rem !important;
+    padding: .28rem .65rem !important;
     border-radius: 2rem !important;
-    font-family: var(--font-serif) !important;
-    font-size: .82rem !important;
-    font-weight: 600 !important;
-    letter-spacing: .03em !important;
-    border: 1px solid rgba(141, 108, 54, .38) !important;
-    background: #faf7f0 !important;
-    color: var(--navy, #14283c) !important;
-    box-shadow: 0 3px 10px rgba(38, 31, 24, .06) !important;
-    margin: 0 auto !important;
+    font-family: var(--font-ui) !important;
+    font-size: .74rem !important;
+    font-weight: 500 !important;
+    letter-spacing: .04em !important;
+    border: 1px solid rgba(255, 255, 255, .35) !important;
+    background: rgba(20, 40, 60, .85) !important;
+    color: #fffdfa !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    box-shadow: 0 4px 12px rgba(20, 40, 60, .22) !important;
+    margin: 0 !important;
     flex-shrink: 0 !important;
+    cursor: pointer !important;
+    transition: transform .2s ease, opacity .25s ease !important;
   }
 
-  /* Diálogo inline natural de Concepto, Historia y Galería */
+  body.editorial-preview #tucontu .tucontu-video-trigger .video-trigger-icon {
+    font-size: .68rem !important;
+    color: #e2b96f !important;
+  }
+
+  /* ==========================================================================
+     DINAMISMO CONTEXTUAL SEGÚN SECCIÓN (data-active-mode)
+     ========================================================================== */
+
+  /* 1. MODO CONCEPTO: El contenido se ajusta hacia arriba, ganamos espacio */
+  body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-intro {
+    display: none !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-piece-photo.is-cover-photo {
+    height: clamp(4.2rem, 8.5dvh, 5.2rem) !important;
+    max-width: 9.5rem !important;
+    aspect-ratio: 16 / 9 !important;
+    border-radius: .55rem !important;
+    box-shadow: 0 .3rem 1rem rgba(38, 31, 24, .1) !important;
+    margin: 0 auto .15rem !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-piece-photo.is-cover-photo img {
+    border-radius: .45rem !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-video-trigger {
+    position: absolute !important;
+    top: .45rem !important;
+    right: .85rem !important;
+    bottom: auto !important;
+    left: auto !important;
+    padding: .2rem .55rem !important;
+    font-size: .68rem !important;
+  }
+
+  /* 2. MODO GALERÍA: ¡Vuelve el marco con toda su presencia y esplendor! */
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-intro {
+    display: none !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-piece-photo.is-cover-photo {
+    height: clamp(15rem, 36dvh, 20rem) !important;
+    max-width: min(80vw, 20rem) !important;
+    aspect-ratio: var(--cover-aspect, 830 / 1744) !important;
+    border-radius: 46% 46% .45rem .45rem / 18% 18% .45rem .45rem !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-piece-photo.is-cover-photo img {
+    border-radius: 46% 46% .25rem .25rem / 18% 18% .25rem .25rem !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-video-trigger {
+    display: none !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-gallery-panel {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    padding-top: .35rem !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .gallery-collection {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    gap: .25rem !important;
+  }
+
+  /* 3. MODO HISTORIA: El marco acompaña con sutileza, el relato brilla */
+  body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-intro {
+    display: none !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-piece-photo.is-cover-photo {
+    height: clamp(6rem, 12dvh, 7.8rem) !important;
+    max-width: 11rem !important;
+    aspect-ratio: 16 / 10 !important;
+    border-radius: .65rem !important;
+    margin: .1rem auto .2rem !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-piece-photo.is-cover-photo img {
+    border-radius: .45rem !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-video-trigger {
+    right: calc(50% - 4.8rem) !important;
+    bottom: .2rem !important;
+    padding: .2rem .5rem !important;
+    font-size: .68rem !important;
+  }
+
+  /* ==========================================================================
+     DIÁLOGO INLINE Y ESTRUCTURA DE PANELES
+     ========================================================================== */
+
   body.editorial-preview #tucontu .tucontu-gallery-dialog[data-presentation="inline"] {
-    position: static !important;
+    position: relative !important;
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
-    height: auto !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
     max-height: none !important;
     margin: 0 !important;
-    padding: 0 clamp(.85rem, 3.5vw, 1.5rem) clamp(.85rem, 2dvh, 1.5rem) clamp(.85rem, 3.5vw, 1.5rem) !important;
+    padding: 0 !important;
     border: none !important;
     background: transparent !important;
     box-shadow: none !important;
-    overflow: visible !important;
+    overflow: hidden !important;
     z-index: 2 !important;
     box-sizing: border-box !important;
   }
@@ -2408,8 +2522,10 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
-    height: auto !important;
+    height: 100% !important;
+    min-height: 0 !important;
     padding: 0 !important;
+    box-sizing: border-box !important;
   }
 
   body.editorial-preview #tucontu .tucontu-gallery-header,
@@ -2417,53 +2533,191 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     display: none !important;
   }
 
-  /* Barra de pestañas + PDF en móvil */
+  body.editorial-preview #tucontu .tucontu-gallery-panel[hidden] {
+    display: none !important;
+  }
+
+  body.editorial-preview #tucontu .tucontu-gallery-panel:not([hidden]) {
+    display: flex !important;
+    flex-direction: column !important;
+    order: 1 !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: clamp(.25rem, .8dvh, .45rem) clamp(.85rem, 3.5vw, 1.5rem) !important;
+    box-sizing: border-box !important;
+  }
+
+  /* ==========================================================================
+     BARRA DE NAVEGACIÓN INFERIOR (ZONA DEL PULGAR)
+     ========================================================================== */
+
   #tucontu .tucontu-nav-bar {
+    order: 2 !important;
+    margin-top: auto !important;
+    flex-shrink: 0 !important;
     width: 100% !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: .45rem !important;
-    margin: .15rem 0 .4rem 0 !important;
+    gap: .35rem !important;
+    padding: .35rem .6rem calc(.35rem + env(safe-area-inset-bottom, 0px)) !important;
+    background: rgba(255, 253, 249, .95) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border-top: 1px solid rgba(141, 108, 54, .25) !important;
+    box-shadow: 0 -4px 18px rgba(38, 31, 24, .06) !important;
+    box-sizing: border-box !important;
+    z-index: 10 !important;
   }
 
   #tucontu .tucontu-gallery-tabs {
+    display: flex !important;
     flex: 1 1 auto !important;
-    max-width: none !important;
-    width: auto !important;
-    padding: .18rem !important;
+    gap: .25rem !important;
+    background: rgba(141, 108, 54, .08) !important;
+    border-radius: 2rem !important;
+    padding: .15rem !important;
   }
 
   #tucontu .tucontu-gallery-tabs .category-tab {
-    min-height: 2.15rem !important;
-    padding: .35rem .25rem !important;
-    font-size: .82rem !important;
+    flex: 1 1 0 !important;
+    min-height: 2.1rem !important;
+    padding: .25rem .2rem !important;
+    font-family: var(--font-serif) !important;
+    font-size: .8rem !important;
+    font-weight: 600 !important;
+    letter-spacing: .02em !important;
+    border-radius: 1.8rem !important;
+    border: none !important;
+    background: transparent !important;
+    color: var(--navy, #14283c) !important;
+    text-align: center !important;
+    transition: all .2s ease !important;
+    cursor: pointer !important;
+  }
+
+  #tucontu .tucontu-gallery-tabs .category-tab.is-active,
+  #tucontu .tucontu-gallery-tabs .category-tab[aria-selected="true"] {
+    background: #566044 !important;
+    color: #fffdfa !important;
+    box-shadow: 0 2px 6px rgba(86, 96, 68, .25) !important;
   }
 
   #tucontu .tucontu-pdf-action-btn {
-    min-height: 2.15rem !important;
-    padding: .35rem .65rem !important;
-    font-size: .78rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: .3rem !important;
+    min-height: 2.1rem !important;
+    padding: .25rem .65rem !important;
+    border-radius: 2rem !important;
+    font-family: var(--font-serif) !important;
+    font-size: .8rem !important;
+    font-weight: 600 !important;
+    letter-spacing: .02em !important;
+    border: 1px solid rgba(141, 108, 54, .35) !important;
+    background: #fdfbf7 !important;
+    color: #8d6c36 !important;
+    flex-shrink: 0 !important;
+    transition: all .2s ease !important;
+    cursor: pointer !important;
   }
 
-  /* Stepper en móvil: navegación horizontal fluida con botones y dots */
+  #tucontu .tucontu-pdf-action-btn:hover {
+    background: #8d6c36 !important;
+    color: #fffdfa !important;
+  }
+
+  /* ==========================================================================
+     DETALLES DE PANELES EN MÓVIL
+     ========================================================================== */
+
+  /* Concepto: El contenido se lee con aire; el stepper queda en la base */
   #tucontu .concept-reader {
     display: flex !important;
     flex-direction: column !important;
-    width: 100% !important;
-    gap: .65rem !important;
+    height: 100% !important;
+    justify-content: space-between !important;
+    gap: .25rem !important;
   }
 
+  #tucontu .concept-slides {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+  }
+
+  #tucontu .concept-slide:not([hidden]) {
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    gap: .25rem !important;
+  }
+
+  #tucontu .concept-slide-header h3 {
+    font-size: 1.35rem !important;
+    line-height: 1.18 !important;
+    margin: 0 0 .15rem 0 !important;
+  }
+
+  #tucontu .concept-slide-step {
+    font-size: .7rem !important;
+    margin-bottom: .1rem !important;
+  }
+
+  #tucontu .concept-slide-lead {
+    font-size: .88rem !important;
+    line-height: 1.32 !important;
+    margin: 0 0 .25rem 0 !important;
+  }
+
+  #tucontu .concept-slide .tucontu-specs-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: .3rem .45rem !important;
+    margin-top: .15rem !important;
+  }
+
+  #tucontu .concept-slide .tucontu-spec-item {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: .15rem !important;
+    padding: .35rem .5rem !important;
+    border-radius: .35rem !important;
+    background: rgba(141, 108, 54, .06) !important;
+    border: 1px solid rgba(141, 108, 54, .18) !important;
+  }
+
+  #tucontu .concept-slide .tucontu-spec-item strong {
+    font-family: var(--font-ui) !important;
+    font-size: .62rem !important;
+    letter-spacing: .08em !important;
+    text-transform: uppercase !important;
+    color: #8d6c36 !important;
+  }
+
+  #tucontu .concept-slide .tucontu-spec-item span {
+    font-family: var(--font-serif) !important;
+    font-size: .84rem !important;
+    line-height: 1.22 !important;
+    color: var(--navy, #14283c) !important;
+  }
+
+  /* Stepper en la base del panel, justo encima de la barra de navegación */
   #tucontu .concept-stepper {
+    order: 2 !important;
+    margin-top: auto !important;
+    flex-shrink: 0 !important;
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
     justify-content: space-between !important;
     width: 100% !important;
-    padding: .25rem 0 .4rem 0 !important;
-    margin-bottom: .45rem !important;
+    padding: .25rem 0 .15rem 0 !important;
     border-right: none !important;
-    border-bottom: 1px solid rgba(141, 108, 54, .18) !important;
+    border-top: 1px solid rgba(141, 108, 54, .18) !important;
+    border-bottom: none !important;
     gap: .35rem !important;
     height: auto !important;
   }
@@ -2471,19 +2725,14 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   #tucontu .concept-stepper-btn {
     display: inline-flex !important;
     align-items: center !important;
-    gap: .3rem !important;
-    padding: .3rem .6rem !important;
-    border-radius: .4rem !important;
-    border: 1px solid rgba(141, 108, 54, .3) !important;
+    gap: .25rem !important;
+    padding: .25rem .55rem !important;
+    border-radius: .35rem !important;
+    border: 1px solid rgba(141, 108, 54, .25) !important;
     background: #fdfbf7 !important;
     color: var(--navy, #14283c) !important;
-    font-size: .75rem !important;
+    font-size: .72rem !important;
     cursor: pointer !important;
-  }
-
-  #tucontu .concept-stepper-btn:disabled {
-    opacity: .4 !important;
-    cursor: default !important;
   }
 
   #tucontu .concept-stepper-track {
@@ -2514,7 +2763,6 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     align-items: center !important;
     justify-content: center !important;
     padding: .2rem !important;
-    gap: 0 !important;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
@@ -2545,93 +2793,113 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     display: none !important;
   }
 
-  /* Panel de Concepto en móvil */
-  #tucontu .tucontu-concept-panel:not([hidden]) {
-    max-height: none !important;
-    height: auto !important;
-  }
-
-  #tucontu .concept-slide[hidden] {
-    display: none !important;
-  }
-
-  #tucontu .concept-slide:not([hidden]) {
+  /* Galería: Grilla compacta al alcance del pulgar sin vacíos */
+  #tucontu .gallery-collection {
+    width: 100% !important;
     display: flex !important;
     flex-direction: column !important;
-    height: auto !important;
-    gap: .4rem !important;
+    justify-content: flex-start !important;
+    flex: 1 1 auto !important;
+    gap: .25rem !important;
+    padding-top: .15rem !important;
   }
 
-  #tucontu .concept-slide-header h3 {
-    font-size: 1.45rem !important;
+  #tucontu .gallery-collection-meta {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: .15rem !important;
   }
 
-  #tucontu .concept-slide-lead {
-    font-size: .95rem !important;
-    line-height: 1.35 !important;
+  #tucontu .gallery-collection-meta h3 {
+    font-size: .82rem !important;
+    margin: 0 !important;
+    color: var(--navy, #14283c) !important;
   }
 
-  #tucontu .concept-slide .tucontu-specs-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  #tucontu .gallery-collection-meta output {
+    font-size: .72rem !important;
+    color: #8d6c36 !important;
+  }
+
+  #tucontu .gallery-grid {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
     gap: .35rem !important;
-    margin-top: .3rem !important;
+    max-height: none !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding-bottom: .2rem !important;
+    aspect-ratio: auto !important;
   }
 
-  #tucontu .concept-slide .tucontu-spec-item {
-    padding: .4rem .55rem !important;
+  #tucontu .gallery-grid button {
+    aspect-ratio: 1 / 1 !important;
     border-radius: .4rem !important;
+    overflow: hidden !important;
+    border: 1.5px solid transparent !important;
+    padding: 0 !important;
+    background: #fdfbf7 !important;
+    cursor: pointer !important;
+    transition: transform .15s ease, border-color .15s ease !important;
   }
 
-  #tucontu .concept-slide .tucontu-spec-item strong {
-    font-size: .68rem !important;
+  #tucontu .gallery-grid button:active {
+    transform: scale(.95) !important;
   }
 
-  #tucontu .concept-slide .tucontu-spec-item span {
-    font-size: .88rem !important;
-    line-height: 1.25 !important;
+  #tucontu .gallery-grid button.is-selected {
+    border-color: #8d6c36 !important;
+    box-shadow: 0 0 0 1.5px #8d6c36 !important;
   }
 
-  /* Panel de Historia en móvil */
+  #tucontu .gallery-grid button.is-selected {
+    border-color: #8d6c36 !important;
+    box-shadow: 0 0 0 1px #8d6c36 !important;
+  }
+
+  #tucontu .gallery-grid button img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+  }
+
+  /* Historia: Lectura editorial espaciosa */
   #tucontu .tucontu-history-panel::before {
     display: none !important;
   }
 
   #tucontu .tucontu-history-panel:not([hidden]) {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    flex: 1 1 auto !important;
     min-height: auto !important;
-    padding: .25rem 0 0 !important;
+    padding: .35rem 0 !important;
   }
 
   #tucontu .tucontu-history-main p {
-    font-size: 1.22rem !important;
+    font-size: 1.14rem !important;
     line-height: 1.38 !important;
+    text-align: center !important;
+    margin-bottom: .45rem !important;
   }
 
   #tucontu .tucontu-history .tucontu-ordinary-quote {
     width: 100% !important;
     max-width: 100% !important;
-    margin-top: .85rem !important;
-    margin-bottom: 1rem !important;
-    text-align: right !important;
+    margin-top: .65rem !important;
+    margin-bottom: .5rem !important;
+    text-align: center !important;
+    border-top: 1px solid rgba(141, 108, 54, .25) !important;
+    padding-top: .5rem !important;
   }
 
   #tucontu .tucontu-history .tucontu-ordinary-quote p {
-    font-size: 1.25rem !important;
-    line-height: 1.32 !important;
-  }
-
-  /* Panel de Galería en móvil */
-  #tucontu .gallery-collection {
-    width: 100% !important;
-  }
-
-  #tucontu .gallery-grid {
-    width: 100% !important;
-    height: auto !important;
-    max-width: 22rem !important;
-    max-height: none !important;
-    aspect-ratio: 1 / 1 !important;
-    margin: 0 auto !important;
-    gap: .45rem !important;
+    font-size: 1.2rem !important;
+    line-height: 1.3 !important;
   }
 }
 
