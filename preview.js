@@ -745,6 +745,7 @@
   }
   const galleryPhotos = [
     { src: 'assets/tucontu/product/img-3332.webp', thumb: 'assets/tucontu/product/thumbs/img-3332-thumb.webp', aspect: '830 / 1744', alt: 'Marcela en su taller sosteniendo un TuconTu con colet negro y cordones artesanales.' },
+    { src: 'assets/tucontu/product/tucontu-marcela-azul.webp', thumb: 'assets/tucontu/product/thumbs/tucontu-marcela-azul-thumb.webp', aspect: '751 / 1024', alt: 'Marcela luciendo un TuconTu artesanal en tonos azules, celestes y fibras naturales en su cabello.' },
     { src: 'assets/tucontu/product/tucontu-hanging-pieces.webp', thumb: 'assets/tucontu/product/thumbs/tucontu-hanging-pieces-thumb.webp', aspect: '682 / 1024', alt: 'Piezas TuconTu de diversos colores y trenzas colgando de un soporte rústico.' },
     { src: 'assets/tucontu/product/tucontu-rack-collection.webp', thumb: 'assets/tucontu/product/thumbs/tucontu-rack-collection-thumb.webp', aspect: '1024 / 934', alt: 'Colección de piezas TuconTu exhibidas en perchero artesanal de madera.' },
     { src: 'assets/tucontu/product/img-3343.webp', thumb: 'assets/tucontu/product/thumbs/img-3343-thumb.webp', aspect: '1373 / 1800', alt: 'TuconTu de cordones blancos y negros sobre cabello castaño.' },
