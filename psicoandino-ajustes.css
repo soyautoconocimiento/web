@@ -2359,34 +2359,35 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo {
     position: relative !important;
     inset: auto !important;
-    width: auto !important;
-    max-width: min(78vw, 19rem) !important;
-    height: clamp(13.5rem, 32dvh, 18rem) !important;
+    width: clamp(17.5rem, 88vw, 24rem) !important;
+    max-width: min(90vw, 24rem) !important;
+    height: clamp(18rem, calc(100dvh - 330px), 32rem) !important;
     flex-shrink: 0 !important;
-    aspect-ratio: var(--cover-aspect, 830 / 1744) !important;
+    aspect-ratio: auto !important;
     padding: .3rem !important;
     border: 1.5px solid rgba(141, 108, 54, .5) !important;
     outline: 1px solid rgba(141, 108, 54, .25) !important;
     outline-offset: -3px !important;
-    border-radius: 46% 46% .45rem .45rem / 18% 18% .45rem .45rem !important;
+    border-radius: 50% 50% .55rem .55rem / 20% 20% .55rem .55rem !important;
     background: linear-gradient(145deg, #fdfbf7, #ebe3d5) !important;
-    box-shadow: 0 .7rem 1.8rem rgba(38, 31, 24, .12), inset 0 0 0 1px rgba(255, 255, 255, .7) !important;
-    margin: 0 auto !important;
-    transition: width .45s cubic-bezier(.22, 1, .36, 1),
-                height .45s cubic-bezier(.22, 1, .36, 1),
-                aspect-ratio .45s cubic-bezier(.22, 1, .36, 1),
-                max-width .45s cubic-bezier(.22, 1, .36, 1),
-                border-radius .45s cubic-bezier(.22, 1, .36, 1) !important;
+    box-shadow: 0 1.2rem 3rem rgba(38, 31, 24, .15), inset 0 0 0 1px rgba(255, 255, 255, .7) !important;
+    margin: .1rem auto .2rem !important;
+    transition: width .55s cubic-bezier(.22, 1, .36, 1),
+                height .55s cubic-bezier(.22, 1, .36, 1),
+                aspect-ratio .55s cubic-bezier(.22, 1, .36, 1),
+                max-width .55s cubic-bezier(.22, 1, .36, 1),
+                border-radius .55s cubic-bezier(.22, 1, .36, 1),
+                box-shadow .55s cubic-bezier(.22, 1, .36, 1) !important;
   }
 
   body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
-    border-radius: 46% 46% .25rem .25rem / 18% 18% .25rem .25rem !important;
+    border-radius: 50% 50% .35rem .35rem / 22% 22% .35rem .35rem !important;
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
-    object-position: center !important;
-    transition: opacity .25s cubic-bezier(.22, 1, .36, 1),
-                border-radius .45s cubic-bezier(.22, 1, .36, 1) !important;
+    object-position: 50% 20% !important;
+    transition: opacity .35s cubic-bezier(.22, 1, .36, 1),
+                border-radius .55s cubic-bezier(.22, 1, .36, 1) !important;
   }
 
   /* Botón de Video: Insignia translúcida elegante superpuesta en el marco (cero estorbo vertical) */
@@ -2606,6 +2607,18 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     -webkit-overflow-scrolling: touch !important;
     padding: clamp(.25rem, .8dvh, .45rem) clamp(.85rem, 3.5vw, 1.5rem) !important;
     box-sizing: border-box !important;
+    animation: tucontu-panel-fluid-enter .48s cubic-bezier(.16, 1, .3, 1) both !important;
+  }
+
+  @keyframes tucontu-panel-fluid-enter {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   /* ==========================================================================
