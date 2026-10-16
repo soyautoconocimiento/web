@@ -725,15 +725,15 @@
     if(matchMedia('(prefers-reduced-motion: reduce)').matches)lines.forEach(line=>line.classList.remove('is-revealing'));
   }
   const galleryPhotos = [
-    { src: 'assets/tucontu/product/tucontu-tag-cover.webp', thumb: 'assets/tucontu/product/thumbs/tucontu-tag-cover-thumb.webp', alt: 'TU, CON TU · la belleza de ser Tú. Etiqueta artesanal con perfil de mujer e hilo trenzado.' },
-    { src: 'assets/tucontu/product/tucontu-rack-collection.webp', thumb: 'assets/tucontu/product/thumbs/tucontu-rack-collection-thumb.webp', alt: 'Colección de piezas TuconTu en expositor de taller, mostrando variedad de combinaciones cromáticas.' },
-    { src: 'assets/tucontu/product/tucontu-hanging-pieces.webp', thumb: 'assets/tucontu/product/thumbs/tucontu-hanging-pieces-thumb.webp', alt: 'Detalle de cinco piezas TuconTu: sujeción en colet, espirales, embarrilados y flecos artesanales.' },
-    { src: 'assets/tucontu/product/dossier-wearing.webp', thumb: 'assets/tucontu/product/thumbs/dossier-wearing-thumb.webp', alt: 'TuconTu sujeto sobre una coleta baja natural en el cabello.' },
-    { src: 'assets/tucontu/product/img-3332.webp', thumb: 'assets/tucontu/product/thumbs/img-3332-thumb.webp', alt: 'Marcela en su taller sosteniendo un TuconTu con colet y trenzas artesanales.' },
-    { src: 'assets/tucontu/product/img-3343.webp', thumb: 'assets/tucontu/product/thumbs/img-3343-thumb.webp', alt: 'TuconTu de cordones blancos y negros sobre cabello castaño.' },
-    { src: 'assets/tucontu/product/img-3340.webp', thumb: 'assets/tucontu/product/thumbs/img-3340-thumb.webp', alt: 'Colocación natural de TuconTu en el cabello, mostrando su caída y ligereza.' },
-    { src: 'assets/tucontu/product/img-3342.webp', thumb: 'assets/tucontu/product/thumbs/img-3342-thumb.webp', alt: 'TuconTu de cordones verdes, crudos y terracota en una coleta.' },
-    { src: 'assets/tucontu/product/tucontu-tag-care.webp', thumb: 'assets/tucontu/product/thumbs/tucontu-tag-care-thumb.webp', alt: 'Cuida TuconTu: lavado a mano con suavidad, guardado con cariño.' }
+    { src: 'assets/tucontu/product/img-3332.webp', thumb: 'assets/tucontu/product/thumbs/img-3332-thumb.webp', aspect: '831 / 1800', alt: 'Marcela en su taller sosteniendo un TuconTu con colet negro y cordones artesanales.' },
+    { src: 'assets/tucontu/product/img-3343.webp', thumb: 'assets/tucontu/product/thumbs/img-3343-thumb.webp', aspect: '1373 / 1800', alt: 'TuconTu de cordones blancos y negros sobre cabello castaño.' },
+    { src: 'assets/tucontu/product/img-3340.webp', thumb: 'assets/tucontu/product/thumbs/img-3340-thumb.webp', aspect: '1369 / 1800', alt: 'Una mujer coloca un TuconTu de cordones trenzados en su cabello.' },
+    { src: 'assets/tucontu/product/img-3342.webp', thumb: 'assets/tucontu/product/thumbs/img-3342-thumb.webp', aspect: '1468 / 1800', alt: 'TuconTu de cordones verdes, crudos y terracota en una coleta.' },
+    { src: 'assets/tucontu/product/img-3344.webp', thumb: 'assets/tucontu/product/thumbs/img-3344-thumb.webp', aspect: '1373 / 1800', alt: 'Una mujer lleva un TuconTu rojo y blanco en el cabello.' },
+    { src: 'assets/tucontu/product/img-3345.webp', thumb: 'assets/tucontu/product/thumbs/img-3345-thumb.webp', aspect: '1346 / 1800', alt: 'Detalle de un TuconTu de colores cálidos junto al cabello.' },
+    { src: 'assets/tucontu/product/img-3346.webp', thumb: 'assets/tucontu/product/thumbs/img-3346-thumb.webp', aspect: '1362 / 1800', alt: 'TuconTu de cordones rojos, verdes y crudos, visto de cerca.' },
+    { src: 'assets/tucontu/product/img-3341.webp', thumb: 'assets/tucontu/product/thumbs/img-3341-thumb.webp', aspect: '1139 / 1800', alt: 'TuconTu azul y gris sujeto en un recogido.' },
+    { src: 'assets/tucontu/product/img-3331.webp', thumb: 'assets/tucontu/product/thumbs/img-3331-thumb.webp', aspect: '854 / 1800', alt: 'Detalle cercano de un TuconTu de fibras crudas y terracota junto al cabello.' }
   ];
   galleryPhotos.forEach(p => {
     const preThumb = new Image();
@@ -752,6 +752,10 @@
       homePhoto.srcset = `${photo.src.replace(/\.webp$/i, '-display-260.jpg')} 260w, ${photo.src.replace(/\.webp$/i, '-display-940.jpg')} 940w`;
       homePhoto.sizes = '(max-width: 47.5rem) 8.5rem, 29.5rem';
       homePhoto.alt = photo.alt;
+      const photoFrame = homePhoto.closest('.tucontu-piece-photo');
+      if (photoFrame && photo.aspect) {
+        photoFrame.style.setProperty('--cover-aspect', photo.aspect);
+      }
     }
     if (updateHomePhoto && homePhotoCaption) homePhotoCaption.textContent = photo.alt;
     const order = index + 1;

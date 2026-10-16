@@ -1269,8 +1269,10 @@ body.editorial-preview #acompanamientos .services-more-mobile svg {
     display: none !important;
   }
   body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo {
-    width: min(50dvh, 34rem) !important;
+    width: auto !important;
+    max-width: min(38vw, 24rem) !important;
     height: min(70dvh, 46rem) !important;
+    aspect-ratio: var(--cover-aspect, 831 / 1800) !important;
   }
 }
 
@@ -1323,9 +1325,12 @@ body.editorial-preview #tucontu .tucontu-visual {
   padding: 0 !important;
 }
 
-/* Ventana derecha con passe-partout y marco artesanal */
+/* Ventana derecha con passe-partout y marco artesanal que respeta el encuadre completo de la foto */
 body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo {
-  max-width: 100% !important;
+  width: auto !important;
+  max-width: min(38vw, 24rem) !important;
+  height: min(70dvh, 45rem) !important;
+  aspect-ratio: var(--cover-aspect, 831 / 1800) !important;
   padding: clamp(.38rem, .8vh, .55rem) !important;
   border: 1.5px solid rgba(141, 108, 54, .5) !important;
   outline: 1px solid rgba(141, 108, 54, .25) !important;
@@ -1333,14 +1338,18 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo {
   border-radius: 46% 46% .45rem .45rem / 16% 16% .45rem .45rem !important;
   background: linear-gradient(145deg, #fdfbf7, #ebe3d5) !important;
   box-shadow: 0 1rem 2.8rem rgba(38, 31, 24, .18), inset 0 0 0 1px rgba(255, 255, 255, .75) !important;
-  margin: 0 !important;
+  margin: 0 auto !important;
 }
 
 body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
+  width: 100% !important;
+  height: 100% !important;
   border-radius: 46% 46% .25rem .25rem / 16% 16% .25rem .25rem !important;
   border: 1px solid rgba(141, 108, 54, .2) !important;
   object-fit: cover !important;
-  object-position: center 20% !important;
+  object-position: center center !important;
+  clip-path: none !important;
+  transform: none !important;
   transition: opacity 140ms ease !important;
 }
 
@@ -2083,9 +2092,10 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   }
 
   body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo {
-    width: min(55dvh, 35rem) !important;
+    width: auto !important;
+    max-width: min(35vw, 22rem) !important;
     height: min(69dvh, 44rem) !important;
-    max-width: 100% !important;
+    aspect-ratio: var(--cover-aspect, 831 / 1800) !important;
     max-height: calc(100% - 3.4rem) !important;
     border-radius: 46% 46% .45rem .45rem / 16% 16% .45rem .45rem !important;
     border: 1px solid rgba(141, 108, 54, .38) !important;
@@ -2430,62 +2440,6 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     aspect-ratio: 1 / 1 !important;
     margin: 0 auto !important;
     gap: .45rem !important;
-  }
-}
-
-/* ==========================================================================
-   ATELIER VIVO: Luz de taller sutil y filigrana botánica de bajo costo
-   ========================================================================== */
-
-#tucontu.view::before {
-  content: "";
-  position: absolute;
-  top: -10%;
-  right: -5%;
-  width: min(65vw, 42rem);
-  height: min(65vh, 42rem);
-  background: radial-gradient(circle at center, rgba(235, 218, 185, 0.22) 0%, rgba(212, 195, 162, 0.08) 45%, transparent 70%);
-  filter: blur(40px);
-  pointer-events: none;
-  z-index: 0;
-  animation: atelier-sunlight-breathe 14s ease-in-out infinite alternate;
-  will-change: opacity, transform;
-}
-
-#tucontu.view::after {
-  content: "";
-  position: absolute;
-  bottom: 2%;
-  left: 2.5%;
-  width: clamp(10rem, 16vw, 15rem);
-  height: clamp(10rem, 16vw, 15rem);
-  background-image: url("assets/floral-vines-a.svg");
-  background-repeat: no-repeat;
-  background-size: contain;
-  opacity: 0.045;
-  pointer-events: none;
-  z-index: 0;
-}
-
-@keyframes atelier-sunlight-breathe {
-  0% {
-    opacity: 0.45;
-    transform: translate3d(0, 0, 0) scale(0.96);
-  }
-  50% {
-    opacity: 0.8;
-    transform: translate3d(-15px, 10px, 0) scale(1.04);
-  }
-  100% {
-    opacity: 0.55;
-    transform: translate3d(10px, -5px, 0) scale(0.98);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #tucontu.view::before {
-    animation: none !important;
-    opacity: 0.5 !important;
   }
 }
 
