@@ -317,6 +317,7 @@
 
   let scrollTick = false;
   stage.addEventListener('scroll', () => {
+    if (menu.classList.contains('is-open')) closeMenu();
     scheduleStageScrollSave();
     if (scrollTick) return;
     scrollTick = true;
