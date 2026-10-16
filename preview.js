@@ -745,18 +745,18 @@
     if(matchMedia('(prefers-reduced-motion: reduce)').matches)lines.forEach(line=>line.classList.remove('is-revealing'));
   }
   const galleryPhotos = [
-    { src: 'assets/tucontu/product/img-3332.webp', thumb: 'assets/tucontu/product/thumbs/img-3332-thumb.webp', aspect: '830 / 1744', alt: 'Marcela en su taller sosteniendo un TuconTu con colet negro y cordones artesanales.' },
-    { src: 'assets/tucontu/product/tucontu-marcela-azul.webp', thumb: 'assets/tucontu/product/thumbs/tucontu-marcela-azul-thumb.webp', aspect: '751 / 1024', alt: 'Marcela luciendo un TuconTu artesanal en tonos azules, celestes y fibras naturales en su cabello.' },
     { src: 'assets/tucontu/product/tucontu-hanging-pieces.webp', thumb: 'assets/tucontu/product/thumbs/tucontu-hanging-pieces-thumb.webp', aspect: '682 / 1024', alt: 'Piezas TuconTu de diversos colores y trenzas colgando de un soporte rústico.' },
     { src: 'assets/tucontu/product/tucontu-rack-collection.webp', thumb: 'assets/tucontu/product/thumbs/tucontu-rack-collection-thumb.webp', aspect: '1024 / 934', alt: 'Colección de piezas TuconTu exhibidas en perchero artesanal de madera.' },
+    { src: 'assets/tucontu/product/img-3331.webp', thumb: 'assets/tucontu/product/thumbs/img-3331-thumb.webp', aspect: '854 / 1800', alt: 'Detalle cercano de un TuconTu de fibras crudas y terracota junto al cabello.' },
+    { src: 'assets/tucontu/product/img-3341.webp', thumb: 'assets/tucontu/product/thumbs/img-3341-thumb.webp', aspect: '1139 / 1800', alt: 'TuconTu azul y gris sujeto en un recogido.' },
+    { src: 'assets/tucontu/product/img-3332.webp', thumb: 'assets/tucontu/product/thumbs/img-3332-thumb.webp', aspect: '830 / 1744', alt: 'Marcela en su taller sosteniendo un TuconTu con colet negro y cordones artesanales.' },
+    { src: 'assets/tucontu/product/tucontu-marcela-azul.webp', thumb: 'assets/tucontu/product/thumbs/tucontu-marcela-azul-thumb.webp', aspect: '751 / 1024', alt: 'Marcela luciendo un TuconTu artesanal en tonos azules, celestes y fibras naturales en su cabello.' },
     { src: 'assets/tucontu/product/img-3343.webp', thumb: 'assets/tucontu/product/thumbs/img-3343-thumb.webp', aspect: '1373 / 1800', alt: 'TuconTu de cordones blancos y negros sobre cabello castaño.' },
     { src: 'assets/tucontu/product/img-3340.webp', thumb: 'assets/tucontu/product/thumbs/img-3340-thumb.webp', aspect: '1369 / 1800', alt: 'Una mujer coloca un TuconTu de cordones trenzados en su cabello.' },
     { src: 'assets/tucontu/product/img-3342.webp', thumb: 'assets/tucontu/product/thumbs/img-3342-thumb.webp', aspect: '1468 / 1800', alt: 'TuconTu de cordones verdes, crudos y terracota en una coleta.' },
     { src: 'assets/tucontu/product/img-3344.webp', thumb: 'assets/tucontu/product/thumbs/img-3344-thumb.webp', aspect: '1373 / 1800', alt: 'Una mujer lleva un TuconTu rojo y blanco en el cabello.' },
     { src: 'assets/tucontu/product/img-3345.webp', thumb: 'assets/tucontu/product/thumbs/img-3345-thumb.webp', aspect: '1346 / 1800', alt: 'Detalle de un TuconTu de colores cálidos junto al cabello.' },
-    { src: 'assets/tucontu/product/img-3346.webp', thumb: 'assets/tucontu/product/thumbs/img-3346-thumb.webp', aspect: '1362 / 1800', alt: 'TuconTu de cordones rojos, verdes y crudos, visto de cerca.' },
-    { src: 'assets/tucontu/product/img-3341.webp', thumb: 'assets/tucontu/product/thumbs/img-3341-thumb.webp', aspect: '1139 / 1800', alt: 'TuconTu azul y gris sujeto en un recogido.' },
-    { src: 'assets/tucontu/product/img-3331.webp', thumb: 'assets/tucontu/product/thumbs/img-3331-thumb.webp', aspect: '854 / 1800', alt: 'Detalle cercano de un TuconTu de fibras crudas y terracota junto al cabello.' }
+    { src: 'assets/tucontu/product/img-3346.webp', thumb: 'assets/tucontu/product/thumbs/img-3346-thumb.webp', aspect: '1362 / 1800', alt: 'TuconTu de cordones rojos, verdes y crudos, visto de cerca.' }
   ];
   galleryPhotos.forEach(p => {
     const preThumb = new Image();
