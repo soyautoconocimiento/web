@@ -1276,24 +1276,10 @@ body.editorial-preview #acompanamientos .services-more-mobile svg {
   }
 }
 
-/* En tablet y móvil, la foto destacada se muestra dentro del modal de galería */
+/* En tablet y móvil, la foto se unifica en el marco arquitectónico principal (cero duplicación) */
 @media (max-width: 63.99rem) {
   #tucontu .gallery-featured {
-    display: block !important;
-    margin: 0 0 .75rem 0 !important;
-    border-radius: .65rem !important;
-    overflow: hidden !important;
-    border: 1px solid rgba(141, 108, 54, .3) !important;
-    background: #faf7f0 !important;
-    box-shadow: 0 4px 16px rgba(20, 40, 60, .08) !important;
-    max-height: clamp(10rem, 28dvh, 16rem) !important;
-  }
-  #tucontu .gallery-featured img {
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-    max-height: clamp(10rem, 28dvh, 16rem) !important;
-    object-fit: cover !important;
+    display: none !important;
   }
   body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo {
     width: min(38dvh, 20rem) !important;
@@ -2287,15 +2273,16 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     display: none !important;
   }
 
-  /* Encabezado compacto integrado */
+  /* Encabezado centrado y armónico */
   body.editorial-preview #tucontu .tucontu-content {
     position: relative !important;
     display: flex !important;
     flex-direction: column !important;
     width: 100% !important;
-    text-align: left !important;
+    text-align: center !important;
+    align-items: center !important;
     padding: 0 !important;
-    margin: 0 0 .5rem 0 !important;
+    margin: 0 0 .35rem 0 !important;
     z-index: 2 !important;
     order: 1 !important;
   }
@@ -2303,8 +2290,9 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   body.editorial-preview #tucontu .tucontu-heading-row {
     display: flex !important;
     align-items: baseline !important;
+    justify-content: center !important;
     gap: .5rem !important;
-    margin: 0 0 .2rem 0 !important;
+    margin: 0 0 .15rem 0 !important;
   }
 
   body.editorial-preview #tucontu .tucontu-heading-row .eyebrow {
@@ -2322,59 +2310,80 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     font-size: .92rem !important;
     line-height: 1.36 !important;
     margin: 0 !important;
-    text-align: left !important;
+    text-align: center !important;
     display: block !important;
     width: 100% !important;
     color: var(--muted, #665a4e) !important;
   }
 
-  /* Fila visual con altura fija garantizada para evitar solapamientos */
+  /* Fila visual: Arco noble centrado con presencia auténtica del producto */
   body.editorial-preview #tucontu .tucontu-visual {
     position: relative !important;
     z-index: 2 !important;
     display: flex !important;
-    flex-direction: row !important;
+    flex-direction: column !important;
     align-items: center !important;
-    justify-content: flex-start !important;
-    gap: .75rem !important;
+    justify-content: center !important;
+    gap: .65rem !important;
     width: 100% !important;
-    min-height: 5.2rem !important;
+    min-height: 0 !important;
     height: auto !important;
-    margin: .25rem 0 .45rem 0 !important;
+    margin: .35rem auto .55rem !important;
     padding: 0 !important;
     order: 2 !important;
     clear: both !important;
   }
 
-  /* Marco visual compacto en fila junto al botón de video */
+  /* Marco arquitectónico centrado que respeta la textura y presencia de la pieza */
   body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo {
     position: relative !important;
     inset: auto !important;
-    width: 3.8rem !important;
-    height: 4.5rem !important;
+    width: auto !important;
+    max-width: min(68vw, 17rem) !important;
+    height: clamp(13rem, 28dvh, 18rem) !important;
     flex-shrink: 0 !important;
-    padding: .15rem !important;
+    aspect-ratio: var(--cover-aspect, 830 / 1744) !important;
+    padding: .35rem !important;
     border: 1.5px solid rgba(141, 108, 54, .5) !important;
-    outline: none !important;
-    border-radius: 46% 46% .35rem .35rem / 18% 18% .35rem .35rem !important;
-    background: #fffdfa !important;
-    box-shadow: 0 3px 8px rgba(38, 31, 24, .1) !important;
-    margin: 0 !important;
+    outline: 1px solid rgba(141, 108, 54, .25) !important;
+    outline-offset: -3px !important;
+    border-radius: 46% 46% .45rem .45rem / 18% 18% .45rem .45rem !important;
+    background: linear-gradient(145deg, #fdfbf7, #ebe3d5) !important;
+    box-shadow: 0 .9rem 2.2rem rgba(38, 31, 24, .14), inset 0 0 0 1px rgba(255, 255, 255, .7) !important;
+    margin: 0 auto !important;
+    transition: width .45s cubic-bezier(.22, 1, .36, 1),
+                height .45s cubic-bezier(.22, 1, .36, 1),
+                aspect-ratio .45s cubic-bezier(.22, 1, .36, 1),
+                max-width .45s cubic-bezier(.22, 1, .36, 1) !important;
   }
 
   body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
-    border-radius: 46% 46% .2rem .2rem / 18% 18% .2rem .2rem !important;
+    border-radius: 46% 46% .25rem .25rem / 18% 18% .25rem .25rem !important;
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
+    object-position: center !important;
+    transition: opacity .25s cubic-bezier(.22, 1, .36, 1) !important;
   }
 
   body.editorial-preview #tucontu .tucontu-video-trigger {
     position: static !important;
-    padding: .4rem .85rem !important;
-    font-size: .8rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: .45rem !important;
+    padding: .45rem 1.25rem !important;
+    border-radius: 2rem !important;
+    font-family: var(--font-serif) !important;
+    font-size: .82rem !important;
+    font-weight: 600 !important;
+    letter-spacing: .03em !important;
+    border: 1px solid rgba(141, 108, 54, .38) !important;
+    background: #faf7f0 !important;
+    color: var(--navy, #14283c) !important;
+    box-shadow: 0 3px 10px rgba(38, 31, 24, .06) !important;
+    margin: 0 auto !important;
     flex-shrink: 0 !important;
-    margin: 0 !important;
   }
 
   /* Diálogo inline natural de Concepto, Historia y Galería */
