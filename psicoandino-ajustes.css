@@ -2296,21 +2296,34 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   body.editorial-preview #tucontu .tucontu-heading-row {
     display: flex !important;
-    align-items: baseline !important;
+    flex-direction: column !important;
+    align-items: center !important;
     justify-content: center !important;
-    gap: .45rem !important;
-    margin: 0 !important;
+    gap: .15rem !important;
+    margin: 0 0 .15rem 0 !important;
+    width: 100% !important;
+    text-align: center !important;
   }
 
   body.editorial-preview #tucontu .tucontu-heading-row .eyebrow {
-    font-size: .65rem !important;
-    letter-spacing: .08em !important;
+    font-family: var(--font-ui) !important;
+    font-size: clamp(.72rem, 2.4vw, .82rem) !important;
+    letter-spacing: .12em !important;
+    text-transform: uppercase !important;
+    color: #8d6c36 !important;
+    margin: 0 !important;
+    display: block !important;
+    text-align: center !important;
   }
 
   body.editorial-preview #tucontu .tucontu-heading-row h2 {
-    font-size: clamp(1.65rem, 5.2vw, 2.1rem) !important;
-    line-height: 1.05 !important;
-    margin: 0 !important;
+    font-family: var(--font-serif) !important;
+    font-size: clamp(2.3rem, 7.5vw, 3rem) !important;
+    line-height: 1 !important;
+    letter-spacing: -.01em !important;
+    margin: .05rem 0 0 0 !important;
+    color: var(--navy, #14283c) !important;
+    text-align: center !important;
   }
 
   body.editorial-preview #tucontu .tucontu-intro {
@@ -2423,15 +2436,19 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   }
 
   body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-piece-photo.is-cover-photo {
-    height: clamp(18.5rem, 46dvh, 24.5rem) !important;
+    width: clamp(15.5rem, 68vw, 20rem) !important;
+    height: clamp(21rem, 48dvh, 26.5rem) !important;
     max-width: min(85vw, 21.5rem) !important;
-    aspect-ratio: var(--cover-aspect, 830 / 1744) !important;
-    border-radius: 46% 46% .45rem .45rem / 18% 18% .45rem .45rem !important;
-    margin: .2rem auto .4rem !important;
+    aspect-ratio: auto !important;
+    border-radius: 50% 50% .55rem .55rem / 24% 24% .55rem .55rem !important;
+    margin: .25rem auto .45rem !important;
+    box-shadow: 0 1rem 2.5rem rgba(38, 31, 24, .14), inset 0 0 0 1px rgba(255, 255, 255, .7) !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-piece-photo.is-cover-photo img {
-    border-radius: 46% 46% .25rem .25rem / 18% 18% .25rem .25rem !important;
+    border-radius: 50% 50% .35rem .35rem / 24% 24% .35rem .35rem !important;
+    object-fit: cover !important;
+    object-position: 50% 20% !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-video-trigger {
@@ -2702,10 +2719,12 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   #tucontu .tucontu-piece-motto {
     font-family: var(--font-serif) !important;
     font-style: italic !important;
-    font-size: clamp(.92rem, 2.9vw, 1.05rem) !important;
-    line-height: 1.45 !important;
+    font-size: clamp(1.15rem, 3.6vw, 1.35rem) !important;
+    line-height: 1.42 !important;
     color: var(--navy, #14283c) !important;
-    margin: 0 !important;
+    text-align: center !important;
+    max-width: 23rem !important;
+    margin: 0 auto !important;
   }
 
   /* Concepto: Tipografía editorial pura, sin cajas ni bordes de dashboard */
