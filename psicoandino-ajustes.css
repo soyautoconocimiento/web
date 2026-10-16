@@ -2473,22 +2473,22 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     padding: .4rem 1.2rem !important;
   }
 
-  /* 1. MODO CONCEPTO: El contenido se ajusta hacia arriba, ganamos espacio */
+  /* 1. MODO CONCEPTO: El contenido se ajusta hacia arriba, ganamos espacio conservando la silueta de arco */
   body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-intro {
     display: none !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-piece-photo.is-cover-photo {
-    height: clamp(4.8rem, 10dvh, 6rem) !important;
-    max-width: 10.5rem !important;
-    aspect-ratio: 16 / 9 !important;
-    border-radius: .55rem !important;
-    box-shadow: 0 .3rem 1rem rgba(38, 31, 24, .1) !important;
+    height: clamp(5.2rem, 11dvh, 6.8rem) !important;
+    max-width: 10rem !important;
+    aspect-ratio: auto !important;
+    border-radius: 50% 50% .45rem .45rem / 26% 26% .45rem .45rem !important;
+    box-shadow: 0 .4rem 1.2rem rgba(38, 31, 24, .12) !important;
     margin: 0 auto .2rem !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-piece-photo.is-cover-photo img {
-    border-radius: .45rem !important;
+    border-radius: 50% 50% .35rem .35rem / 28% 28% .35rem .35rem !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-video-trigger {
@@ -2504,11 +2504,11 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     height: clamp(15rem, 36dvh, 20rem) !important;
     max-width: min(80vw, 20rem) !important;
     aspect-ratio: var(--cover-aspect, 830 / 1744) !important;
-    border-radius: 46% 46% .45rem .45rem / 18% 18% .45rem .45rem !important;
+    border-radius: 50% 50% .45rem .45rem / 20% 20% .45rem .45rem !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-piece-photo.is-cover-photo img {
-    border-radius: 46% 46% .25rem .25rem / 18% 18% .25rem .25rem !important;
+    border-radius: 50% 50% .35rem .35rem / 22% 22% .35rem .35rem !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-video-trigger {
@@ -2529,21 +2529,22 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     gap: .25rem !important;
   }
 
-  /* 3. MODO HISTORIA: El marco acompaña con sutileza, el relato brilla */
+  /* 3. MODO HISTORIA: El marco acompaña conservando la silueta de arco */
   body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-intro {
     display: none !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-piece-photo.is-cover-photo {
-    height: clamp(6rem, 12dvh, 7.8rem) !important;
-    max-width: 11rem !important;
-    aspect-ratio: 16 / 10 !important;
-    border-radius: .65rem !important;
+    height: clamp(5.8rem, 12dvh, 7.5rem) !important;
+    max-width: 10.5rem !important;
+    aspect-ratio: auto !important;
+    border-radius: 50% 50% .45rem .45rem / 24% 24% .45rem .45rem !important;
     margin: .1rem auto .2rem !important;
+    box-shadow: 0 .4rem 1.2rem rgba(38, 31, 24, .12) !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-piece-photo.is-cover-photo img {
-    border-radius: .45rem !important;
+    border-radius: 50% 50% .35rem .35rem / 26% 26% .35rem .35rem !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-video-trigger {
