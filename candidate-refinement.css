@@ -2075,27 +2075,31 @@ body.editorial-preview #tucontu .tucontu-actions .button { min-height: 2.75rem; 
 /* Cortina temporal de Colores del alma; retirar la clase del section para quitarla. */
 #tucontu.has-coming-curtain > .tucontu-coming-curtain {
   position: absolute;
-  z-index: 20;
+  z-index: 50;
   inset: 0;
-  display: grid;
-  place-items: center;
-  padding: clamp(1rem, 5vw, 3rem);
-  background: var(--paper-veil-strong);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.5rem, 5vw, 3rem);
+  background: rgba(253, 251, 247, 0.985);
   text-align: center;
 }
 #tucontu.has-coming-curtain .tucontu-coming-curtain p {
-  max-width: 24em;
+  max-width: 22em;
   margin: 0;
-  padding: clamp(1.25rem, 4vw, 2.5rem);
-  border: 1px solid var(--gold-line);
-  color: var(--navy);
-  box-shadow: 0 .5rem 1.5rem var(--warm-shadow-soft);
-  font: 500 clamp(1.35rem, 3.2vw, 2.35rem)/1.18 Cormorant, Georgia, serif;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border: 1px solid var(--gold-line, #d8cbbb);
+  border-radius: .55rem;
+  background: #fdfbf7;
+  color: var(--navy, #14283c);
+  box-shadow: 0 .5rem 1.5rem rgba(20, 40, 60, .08);
+  font: 500 clamp(1.35rem, 3.2vw, 2.2rem)/1.25 Cormorant, Georgia, serif;
 }
 #tucontu.has-coming-curtain .tucontu-coming-curtain p span {
   display: inline-block;
-  margin-top: .35em;
-  color: var(--gold-text);
-  font-size: .78em;
+  margin-top: .4em;
+  color: var(--gold, #8d6c36);
+  font-size: .8em;
   font-style: italic;
 }
