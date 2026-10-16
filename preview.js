@@ -585,10 +585,6 @@
   });
   let offerRenderVersion = 0;
   async function renderOffers(category) {
-    if (window.SoyUnifiedEngine && typeof window.SoyUnifiedEngine.renderBazarGrid === 'function') {
-      window.SoyUnifiedEngine.renderBazarGrid(category);
-      return;
-    }
     const renderVersion = ++offerRenderVersion;
     const offers = (category === 'courses' ? SITE_DATA.courses : SITE_DATA.services)
       .filter(offer => !SITE_DATA.hero || offer.id !== SITE_DATA.hero);
