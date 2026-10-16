@@ -791,7 +791,7 @@
     gallery.append(button);
   });
   function selectGalleryMode(mode, animateHistory = true) {
-    const titles = { concepto: 'Concepto', manual: 'Concepto', historia: 'Historia', galeria: 'Galería', fotos: 'Galería', video: 'Video' };
+    const titles = { pieza: 'TuconTu', concepto: 'Concepto', manual: 'Concepto', historia: 'Historia', galeria: 'Galería', fotos: 'Galería', video: 'Video' };
     if (galleryTitle) galleryTitle.textContent = titles[mode] || 'TuconTu';
     const tucontuSection = document.getElementById('tucontu');
     if (tucontuSection) tucontuSection.dataset.activeMode = mode;
@@ -813,16 +813,18 @@
   }
   function setGalleryPresentation() {
     const inline = galleryInlineViewport.matches;
+    const isMobile = window.matchMedia('(max-width: 63.99rem)').matches;
     galleryDialog.dataset.presentation = inline ? 'inline' : 'dialog';
     galleryDialog.setAttribute('role', inline ? 'region' : 'dialog');
     galleryModes.forEach(tab => { tab.hidden = false; });
     const urlMode = new URLSearchParams(window.location.search).get('tucontuMode');
-    const initialMode = urlMode || 'concepto';
+    const initialMode = urlMode || (isMobile ? 'pieza' : 'concepto');
     galleryPanels.forEach(panel => {
       const active = panel.dataset.galleryPanel === initialMode || (initialMode === 'galeria' && panel.dataset.galleryPanel === 'fotos') || (initialMode === 'concepto' && panel.dataset.galleryPanel === 'manual');
       panel.hidden = !active;
       panel.setAttribute('role', 'tabpanel');
-      const tabId = panel.dataset.galleryPanel === 'concepto' || panel.dataset.galleryPanel === 'manual' ? 'concept'
+      const tabId = panel.dataset.galleryPanel === 'pieza' ? 'piece'
+        : panel.dataset.galleryPanel === 'concepto' || panel.dataset.galleryPanel === 'manual' ? 'concept'
         : panel.dataset.galleryPanel === 'historia' ? 'history'
         : 'photos';
       panel.setAttribute('aria-labelledby', `tucontu-${tabId}-tab`);
@@ -876,6 +878,15 @@
     });
   });
   galleryInlineViewport.addEventListener('change', setGalleryPresentation);
+  const desktopBreakpoint = window.matchMedia('(min-width: 64rem)');
+  desktopBreakpoint.addEventListener('change', event => {
+    if (event.matches) {
+      const tucontuSection = document.getElementById('tucontu');
+      if (tucontuSection && tucontuSection.dataset.activeMode === 'pieza') {
+        selectGalleryMode('concepto');
+      }
+    }
+  });
   setGalleryPresentation();
   galleryOpen.addEventListener('click', () => {
     if (galleryInlineViewport.matches) {

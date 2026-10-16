@@ -2219,6 +2219,10 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   #tucontu .label-full {
     display: inline !important;
   }
+  #tucontu-piece-tab,
+  #tucontu-piece-panel {
+    display: none !important;
+  }
 }
 
 @media (max-width: 63.99rem) {
@@ -2409,13 +2413,56 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
      DINAMISMO CONTEXTUAL SEGÚN SECCIÓN (data-active-mode)
      ========================================================================== */
 
+  /* 0. MODO PIEZA: Pantalla de reposo contemplativo con el accesorio en majestuosa escala */
+  body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-intro {
+    display: block !important;
+    opacity: 0.9 !important;
+    font-size: .84rem !important;
+    line-height: 1.3 !important;
+    margin: .1rem 0 0 0 !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-piece-photo.is-cover-photo {
+    height: clamp(16.5rem, 40dvh, 22rem) !important;
+    max-width: min(80vw, 20rem) !important;
+    aspect-ratio: var(--cover-aspect, 830 / 1744) !important;
+    border-radius: 46% 46% .45rem .45rem / 18% 18% .45rem .45rem !important;
+    margin: .15rem auto .35rem !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-piece-photo.is-cover-photo img {
+    border-radius: 46% 46% .25rem .25rem / 18% 18% .25rem .25rem !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-video-trigger {
+    display: inline-flex !important;
+    position: absolute !important;
+    bottom: .6rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    right: auto !important;
+    z-index: 5 !important;
+    padding: .28rem .75rem !important;
+    font-size: .74rem !important;
+    white-space: nowrap !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-gallery-panel {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: .4rem 1rem !important;
+  }
+
   /* 1. MODO CONCEPTO: El contenido se ajusta hacia arriba, ganamos espacio */
   body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-intro {
     display: none !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-piece-photo.is-cover-photo {
-    height: clamp(4.2rem, 8.5dvh, 5.2rem) !important;
+    height: clamp(3.8rem, 8dvh, 4.8rem) !important;
     max-width: 9.5rem !important;
     aspect-ratio: 16 / 9 !important;
     border-radius: .55rem !important;
@@ -2428,13 +2475,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   }
 
   body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-video-trigger {
-    position: absolute !important;
-    top: .45rem !important;
-    right: .85rem !important;
-    bottom: auto !important;
-    left: auto !important;
-    padding: .2rem .55rem !important;
-    font-size: .68rem !important;
+    display: none !important;
   }
 
   /* 2. MODO GALERÍA: ¡Vuelve el marco con toda su presencia y esplendor! */
@@ -2581,6 +2622,10 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     padding: .15rem !important;
   }
 
+  #tucontu .tucontu-gallery-tabs::before {
+    display: none !important;
+  }
+
   #tucontu .tucontu-gallery-tabs .category-tab {
     flex: 1 1 0 !important;
     min-height: 2.1rem !important;
@@ -2634,11 +2679,61 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
      DETALLES DE PANELES EN MÓVIL
      ========================================================================== */
 
+  /* Portada / Pieza (Reposo contemplativo) */
+  #tucontu .tucontu-piece-panel {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    flex: 1 1 auto !important;
+    padding: clamp(.35rem, 1dvh, .75rem) 1rem !important;
+  }
+
+  #tucontu .tucontu-piece-intro-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: .45rem !important;
+    max-width: 25rem !important;
+    margin: 0 auto !important;
+  }
+
+  #tucontu .tucontu-piece-motto {
+    font-family: var(--font-serif) !important;
+    font-style: italic !important;
+    font-size: clamp(.88rem, 2.8vw, 1.02rem) !important;
+    line-height: 1.4 !important;
+    color: var(--navy, #14283c) !important;
+    margin: 0 !important;
+  }
+
+  #tucontu .tucontu-piece-badges {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: .4rem !important;
+    margin-top: .2rem !important;
+  }
+
+  #tucontu .piece-badge {
+    font-family: var(--font-ui) !important;
+    font-size: .66rem !important;
+    letter-spacing: .08em !important;
+    text-transform: uppercase !important;
+    color: #8d6c36 !important;
+    background: rgba(141, 108, 54, .08) !important;
+    border: 1px solid rgba(141, 108, 54, .2) !important;
+    padding: .2rem .55rem !important;
+    border-radius: 1rem !important;
+  }
+
   /* Concepto: El contenido se lee con aire; el stepper queda en la base */
   #tucontu .concept-reader {
     display: flex !important;
     flex-direction: column !important;
     height: 100% !important;
+    min-height: 0 !important;
     justify-content: space-between !important;
     gap: .25rem !important;
   }
@@ -2646,6 +2741,9 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   #tucontu .concept-slides {
     flex: 1 1 auto !important;
     min-height: 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: .6rem !important;
   }
 
   #tucontu .concept-slide:not([hidden]) {
@@ -2704,6 +2802,101 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     color: var(--navy, #14283c) !important;
   }
 
+  /* Slide 2: Arquetipos con tarjetas claras y separadas */
+  #tucontu .tucontu-goddess-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: .35rem !important;
+    margin-top: .15rem !important;
+  }
+
+  #tucontu .tucontu-goddess-item {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: .15rem !important;
+    padding: .35rem .55rem !important;
+    border-radius: .35rem !important;
+    background: rgba(141, 108, 54, .05) !important;
+    border: 1px solid rgba(141, 108, 54, .15) !important;
+  }
+
+  #tucontu .goddess-header {
+    display: flex !important;
+    align-items: baseline !important;
+    justify-content: space-between !important;
+    gap: .4rem !important;
+    margin-bottom: .1rem !important;
+  }
+
+  #tucontu .goddess-header strong {
+    font-family: var(--font-ui) !important;
+    font-size: .74rem !important;
+    letter-spacing: .06em !important;
+    color: #8d6c36 !important;
+  }
+
+  #tucontu .goddess-header span {
+    font-family: var(--font-ui) !important;
+    font-size: .64rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: .06em !important;
+    color: #566044 !important;
+    background: rgba(86, 96, 68, .12) !important;
+    padding: .1rem .4rem !important;
+    border-radius: 1rem !important;
+    font-weight: 600 !important;
+  }
+
+  #tucontu .goddess-role {
+    font-family: var(--font-serif) !important;
+    font-size: .8rem !important;
+    font-weight: 600 !important;
+    color: var(--navy, #14283c) !important;
+    margin-bottom: .1rem !important;
+  }
+
+  #tucontu .tucontu-goddess-item p {
+    font-family: var(--font-serif) !important;
+    font-size: .78rem !important;
+    line-height: 1.28 !important;
+    color: #4a453f !important;
+    margin: 0 !important;
+  }
+
+  /* Slide 4: Lenguaje simbólico con acento dorado */
+  #tucontu .tucontu-symbolic-details {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: .35rem !important;
+    padding-left: 0 !important;
+    list-style: none !important;
+    margin: .2rem 0 !important;
+  }
+
+  #tucontu .tucontu-symbolic-details li {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: .15rem !important;
+    padding: .35rem .55rem !important;
+    border-radius: .35rem !important;
+    background: rgba(141, 108, 54, .04) !important;
+    border-left: 2.5px solid #8d6c36 !important;
+  }
+
+  #tucontu .tucontu-symbolic-details li strong {
+    font-family: var(--font-ui) !important;
+    font-size: .74rem !important;
+    letter-spacing: .04em !important;
+    color: #8d6c36 !important;
+  }
+
+  #tucontu .tucontu-symbolic-details li span {
+    font-family: var(--font-serif) !important;
+    font-size: .8rem !important;
+    line-height: 1.28 !important;
+    color: var(--navy, #14283c) !important;
+  }
+
   /* Stepper en la base del panel, justo encima de la barra de navegación */
   #tucontu .concept-stepper {
     order: 2 !important;
@@ -2714,25 +2907,51 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     align-items: center !important;
     justify-content: space-between !important;
     width: 100% !important;
-    padding: .25rem 0 .15rem 0 !important;
+    padding: .3rem 0 .15rem 0 !important;
     border-right: none !important;
     border-top: 1px solid rgba(141, 108, 54, .18) !important;
     border-bottom: none !important;
-    gap: .35rem !important;
+    gap: .4rem !important;
     height: auto !important;
   }
 
   #tucontu .concept-stepper-btn {
     display: inline-flex !important;
     align-items: center !important;
-    gap: .25rem !important;
-    padding: .25rem .55rem !important;
-    border-radius: .35rem !important;
-    border: 1px solid rgba(141, 108, 54, .25) !important;
+    justify-content: center !important;
+    width: 2.15rem !important;
+    height: 2.15rem !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    border: 1.5px solid rgba(141, 108, 54, .3) !important;
     background: #fdfbf7 !important;
-    color: var(--navy, #14283c) !important;
-    font-size: .72rem !important;
+    color: #8d6c36 !important;
+    box-shadow: 0 1px 4px rgba(38, 31, 24, .08) !important;
     cursor: pointer !important;
+    flex-shrink: 0 !important;
+    transition: transform .15s ease, background-color .15s ease, border-color .15s ease !important;
+  }
+
+  #tucontu .concept-stepper-btn:not(:disabled):active {
+    transform: scale(.92) !important;
+    background: #8d6c36 !important;
+    color: #fffdfa !important;
+  }
+
+  #tucontu .concept-stepper-btn:disabled {
+    opacity: .3 !important;
+    cursor: not-allowed !important;
+    border-color: rgba(141, 108, 54, .15) !important;
+  }
+
+  #tucontu .concept-stepper-btn svg {
+    display: block !important;
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  #tucontu .stepper-btn-label {
+    display: none !important;
   }
 
   #tucontu .concept-stepper-track {

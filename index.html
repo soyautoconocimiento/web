@@ -135,6 +135,7 @@
             <header class="tucontu-gallery-header"><div><span class="eyebrow">Archivo vivo</span><h2 id="tucontu-gallery-title">Concepto</h2></div><button class="dialog-close" id="tucontu-gallery-close" type="button" aria-label="Cerrar historia y galería">×</button></header>
             <div class="tucontu-nav-bar">
               <div class="category-tabs tucontu-gallery-tabs" id="tucontu-tabs-container" role="tablist" aria-label="Contenido de TuconTu" data-active-mode="concepto">
+                <button id="tucontu-piece-tab" type="button" role="tab" aria-selected="false" aria-controls="tucontu-piece-panel" tabindex="-1" class="category-tab" data-gallery-mode="pieza">Pieza</button>
                 <button id="tucontu-concept-tab" type="button" role="tab" aria-selected="true" aria-controls="tucontu-concept-panel" tabindex="0" class="category-tab is-active" data-gallery-mode="concepto">Concepto</button>
                 <button id="tucontu-history-tab" type="button" role="tab" aria-selected="false" aria-controls="tucontu-history-panel" tabindex="-1" class="category-tab" data-gallery-mode="historia">Historia</button>
                 <button id="tucontu-photos-tab" type="button" role="tab" aria-selected="false" aria-controls="tucontu-photos-panel" tabindex="-1" class="category-tab" data-gallery-mode="galeria">Galería</button>
@@ -146,12 +147,24 @@
               </button>
             </div>
 
+            <!-- Panel 0: Portada / Pieza (Reposo contemplativo en móvil) -->
+            <section class="tucontu-gallery-panel tucontu-piece-panel" id="tucontu-piece-panel" role="tabpanel" aria-labelledby="tucontu-piece-tab" data-gallery-panel="pieza" hidden>
+              <div class="tucontu-piece-intro-card">
+                <p class="tucontu-piece-motto">«Un pequeño gesto que recuerda la importancia de volver a ti, reconocerte y habitar tu propia vida.»</p>
+                <div class="tucontu-piece-badges">
+                  <span class="piece-badge">Algodón natural</span>
+                  <span class="piece-badge">Hecho a mano</span>
+                  <span class="piece-badge">Pieza única</span>
+                </div>
+              </div>
+            </section>
+
             <!-- Panel 1: Concepto con paginación integrada (sin scroll) -->
             <section class="tucontu-gallery-panel tucontu-concept-panel" id="tucontu-concept-panel" role="tabpanel" aria-labelledby="tucontu-concept-tab" data-gallery-panel="concepto">
               <div class="concept-reader" id="concept-reader" tabindex="0" aria-label="Lector de Concepto TuconTu">
                 <nav class="concept-stepper" aria-label="Navegación de secciones de Concepto">
                   <button type="button" class="concept-stepper-btn concept-stepper-prev" id="concept-prev-btn" aria-label="Sección anterior" disabled>
-                    <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+                    <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
                     <span class="stepper-btn-label">Anterior</span>
                   </button>
 
@@ -187,7 +200,7 @@
 
                   <button type="button" class="concept-stepper-btn concept-stepper-next" id="concept-next-btn" aria-label="Sección siguiente">
                     <span class="stepper-btn-label">Siguiente</span>
-                    <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                    <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
                   </button>
                 </nav>
 
@@ -217,17 +230,17 @@
                     </header>
                     <div class="tucontu-goddess-grid">
                       <div class="tucontu-goddess-item">
-                        <div class="goddess-header"><strong>PERSÉFONE · 30 cm</strong><span>Infantil</span></div>
+                        <div class="goddess-header"><strong>PERSÉFONE · 30 cm</strong> <span>Infantil</span></div>
                         <div class="goddess-role">Despertar de la identidad · La doncella</div>
                         <p>Sensibilidad, curiosidad y despertar de la identidad. Conservar la inocencia mientras se entra en la propia profundidad.</p>
                       </div>
                       <div class="tucontu-goddess-item">
-                        <div class="goddess-header"><strong>AFRODITA · 60 cm</strong><span>Adulta</span></div>
+                        <div class="goddess-header"><strong>AFRODITA · 60 cm</strong> <span>Adulta</span></div>
                         <div class="goddess-role">Presencia y creatividad · La creadora</div>
                         <p>Entrar en contacto con la capacidad de crear, vincularse y expresar aquello que vive dentro.</p>
                       </div>
                       <div class="tucontu-goddess-item">
-                        <div class="goddess-header"><strong>HÉSTIA · 90 cm</strong><span>Artesanal</span></div>
+                        <div class="goddess-header"><strong>HÉSTIA · 90 cm</strong> <span>Artesanal</span></div>
                         <div class="goddess-role">Interioridad y centro · La mujer interior</div>
                         <p>El regreso al centro, el fuego propio y la capacidad de habitar el propio espacio.</p>
                       </div>
@@ -254,10 +267,10 @@
                       <h3>La integración de nuestras dimensiones</h3>
                     </header>
                     <ul class="tucontu-symbolic-details">
-                      <li><strong>La trenza</strong><span>Hilos diferentes que juntos adquieren forma y fuerza: cuerpo · emoción · pensamiento. <em>«No se trata de eliminar partes de nosotras. Se trata de entrelazarlas.»</em></span></li>
-                      <li><strong>La columna central</strong><span>Eje que nos sostiene cuando la vida se mueve alrededor: centro y sostén propio.</span></li>
-                      <li><strong>El embarrilado</strong><span>El hilo que envuelve la estructura representa el recorrido de la vida, vínculos y aprendizajes.</span></li>
-                      <li><strong>La espiral</strong><span>Movimiento de transformación continuo. <em>«Volver no significa retroceder.»</em></span></li>
+                      <li><strong>La trenza</strong> <span>Hilos diferentes que juntos adquieren forma y fuerza: cuerpo · emoción · pensamiento. <em>«No se trata de eliminar partes de nosotras. Se trata de entrelazarlas.»</em></span></li>
+                      <li><strong>La columna central</strong> <span>Eje que nos sostiene cuando la vida se mueve alrededor: centro y sostén propio.</span></li>
+                      <li><strong>El embarrilado</strong> <span>El hilo que envuelve la estructura representa el recorrido de la vida, vínculos y aprendizajes.</span></li>
+                      <li><strong>La espiral</strong> <span>Movimiento de transformación continuo. <em>«Volver no significa retroceder.»</em></span></li>
                     </ul>
                   </article>
 
