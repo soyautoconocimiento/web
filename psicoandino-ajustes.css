@@ -2436,13 +2436,13 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   }
 
   body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-piece-photo.is-cover-photo {
-    width: clamp(15.5rem, 68vw, 20rem) !important;
-    height: clamp(21rem, 48dvh, 26.5rem) !important;
-    max-width: min(85vw, 21.5rem) !important;
+    width: clamp(16.5rem, 78vw, 21.5rem) !important;
+    height: clamp(23rem, 52dvh, 28rem) !important;
+    max-width: min(86vw, 22rem) !important;
     aspect-ratio: auto !important;
-    border-radius: 50% 50% .55rem .55rem / 24% 24% .55rem .55rem !important;
-    margin: .25rem auto .45rem !important;
-    box-shadow: 0 1rem 2.5rem rgba(38, 31, 24, .14), inset 0 0 0 1px rgba(255, 255, 255, .7) !important;
+    border-radius: 50% 50% .55rem .55rem / 22% 22% .55rem .55rem !important;
+    margin: .15rem auto .35rem !important;
+    box-shadow: 0 1.2rem 3rem rgba(38, 31, 24, .15), inset 0 0 0 1px rgba(255, 255, 255, .7) !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-piece-photo.is-cover-photo img {
