@@ -732,8 +732,8 @@ body.editorial-preview #acompanamientos .services-more-mobile svg {
 }
 
 @media (max-width: 47.5rem) {
-  :root { --header-height: 3.75rem; }
-  body.editorial-preview .brand img { width: clamp(2rem, 9vw, 2.25rem); height: auto; }
+  :root { --header-height: 3.25rem; }
+  body.editorial-preview .brand img { width: clamp(1.85rem, 8vw, 2.1rem); height: auto; }
 }
 @media (max-width: 47.5rem) {
   #inicio .home-actions .hero-action-full { display: none; }
@@ -2945,11 +2945,11 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     align-items: center !important;
     justify-content: space-between !important;
     width: 100% !important;
-    padding: .3rem 0 .15rem 0 !important;
+    padding: .15rem 0 .05rem 0 !important;
     border-right: none !important;
-    border-top: 1px solid rgba(141, 108, 54, .18) !important;
+    border-top: 1px solid rgba(141, 108, 54, .12) !important;
     border-bottom: none !important;
-    gap: .4rem !important;
+    gap: .25rem !important;
     height: auto !important;
   }
 
@@ -2957,35 +2957,34 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 2.15rem !important;
-    height: 2.15rem !important;
+    width: 1.85rem !important;
+    height: 1.85rem !important;
     padding: 0 !important;
     border-radius: 50% !important;
-    border: 1.5px solid rgba(141, 108, 54, .3) !important;
-    background: #fdfbf7 !important;
+    border: none !important;
+    background: transparent !important;
     color: #8d6c36 !important;
-    box-shadow: 0 1px 4px rgba(38, 31, 24, .08) !important;
+    box-shadow: none !important;
     cursor: pointer !important;
     flex-shrink: 0 !important;
-    transition: transform .15s ease, background-color .15s ease, border-color .15s ease !important;
+    transition: transform .15s ease, color .15s ease !important;
   }
 
   #tucontu .concept-stepper-btn:not(:disabled):active {
-    transform: scale(.92) !important;
-    background: #8d6c36 !important;
-    color: #fffdfa !important;
+    transform: scale(.88) !important;
+    color: #5a4521 !important;
   }
 
   #tucontu .concept-stepper-btn:disabled {
-    opacity: .3 !important;
+    opacity: .25 !important;
     cursor: not-allowed !important;
-    border-color: rgba(141, 108, 54, .15) !important;
+    border: none !important;
   }
 
   #tucontu .concept-stepper-btn svg {
     display: block !important;
-    width: 16px !important;
-    height: 16px !important;
+    width: 15px !important;
+    height: 15px !important;
   }
 
   #tucontu .stepper-btn-label {
