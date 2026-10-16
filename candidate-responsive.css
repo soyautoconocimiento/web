@@ -26,7 +26,7 @@
   }
   body.editorial-preview:has(.main-nav.is-open)::before {
     opacity: .18;
-    pointer-events: auto;
+    pointer-events: none;
   }
 }
 /* Keep subtle icons while giving touch controls comfortable hit areas. */

@@ -772,6 +772,9 @@
       const selected = Number(button.dataset.index) === index;
       button.classList.toggle('is-selected', selected);
       button.setAttribute('aria-pressed', String(selected));
+      if (selected && updateHomePhoto) {
+        button.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
     });
   }
   galleryPhotos.forEach((photo, index) => {
