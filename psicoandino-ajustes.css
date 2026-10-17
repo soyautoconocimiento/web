@@ -2759,7 +2759,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     height: 100% !important;
     min-height: 0 !important;
     justify-content: space-between !important;
-    gap: .2rem !important;
+    gap: .4rem !important;
   }
 
   #tucontu .concept-slides {
@@ -2767,52 +2767,60 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     min-height: 0 !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
-    padding-bottom: .4rem !important;
+    padding-bottom: .2rem !important;
   }
 
   #tucontu .concept-slide:not([hidden]) {
     display: flex !important;
     flex-direction: column !important;
     min-height: 100% !important;
-    justify-content: space-evenly !important;
-    gap: .6rem !important;
+    justify-content: space-between !important;
+    gap: .8rem !important;
+    box-sizing: border-box !important;
+  }
+
+  #tucontu .concept-slide-header {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: .25rem !important;
   }
 
   #tucontu .concept-slide-header h3 {
     font-family: var(--font-display, 'Cormorant Garamond', serif) !important;
-    font-size: clamp(1.4rem, 4.2vw, 1.65rem) !important;
-    line-height: 1.15 !important;
+    font-size: clamp(1.6rem, 5vw, 1.95rem) !important;
+    line-height: 1.18 !important;
     color: var(--navy, #14283c) !important;
-    margin: 0 0 .15rem 0 !important;
+    margin: 0 !important;
     font-weight: 500 !important;
+    letter-spacing: -.01em !important;
   }
 
   #tucontu .concept-slide-step {
     font-family: var(--font-ui, 'Marcellus', serif) !important;
-    font-size: .68rem !important;
-    letter-spacing: .08em !important;
+    font-size: .75rem !important;
+    letter-spacing: .12em !important;
     text-transform: uppercase !important;
     color: #8d6c36 !important;
-    margin-bottom: .1rem !important;
+    margin-bottom: 0 !important;
   }
 
   #tucontu .concept-slide-lead {
     font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
-    font-size: clamp(1rem, 3.1vw, 1.15rem) !important;
-    line-height: 1.45 !important;
+    font-size: clamp(1.15rem, 3.6vw, 1.28rem) !important;
+    line-height: 1.48 !important;
     color: var(--navy, #14283c) !important;
-    margin: 0 0 .5rem 0 !important;
+    margin: 0 !important;
   }
 
-  /* Citas destacadas: Cursiva editorial en Cormorant Garamond, tamaño armonioso y color oro viejo */
+  /* Citas y reflexiones: cursiva editorial pura, tamaño destacado y color oro viejo */
   #tucontu .tucontu-doc-quote,
   #tucontu .concept-slide .tucontu-doc-quote {
     font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
     font-style: italic !important;
-    font-size: clamp(1rem, 3vw, 1.12rem) !important;
-    line-height: 1.42 !important;
+    font-size: clamp(1.12rem, 3.5vw, 1.25rem) !important;
+    line-height: 1.45 !important;
     color: #8d6c36 !important;
-    margin: .35rem 0 !important;
+    margin: .4rem 0 !important;
     padding: 0 !important;
     text-align: left !important;
   }
@@ -2820,8 +2828,8 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   #tucontu .tucontu-doc-quote-block {
     display: flex !important;
     flex-direction: column !important;
-    gap: .25rem !important;
-    margin: .6rem 0 0 0 !important;
+    gap: .35rem !important;
+    margin: 0 !important;
     padding: 0 !important;
     background: transparent !important;
     border: none !important;
@@ -2830,7 +2838,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   #tucontu .tucontu-doc-quote-block strong {
     font-family: var(--font-display, 'Cormorant Garamond', serif) !important;
-    font-size: clamp(1.05rem, 3.2vw, 1.2rem) !important;
+    font-size: clamp(1.18rem, 3.8vw, 1.35rem) !important;
     color: var(--navy, #14283c) !important;
     font-weight: 600 !important;
   }
@@ -2838,24 +2846,25 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   #tucontu .tucontu-doc-quote-block span {
     font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
     font-style: italic !important;
-    font-size: clamp(.95rem, 2.7vw, 1.05rem) !important;
+    font-size: clamp(1.08rem, 3.4vw, 1.22rem) !important;
     color: #8d6c36 !important;
-    line-height: 1.4 !important;
+    line-height: 1.45 !important;
   }
 
   /* Slide 1: Cuadrícula editorial de especificaciones con presencia y respiración */
   #tucontu .concept-slide .tucontu-specs-grid {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 1.25rem 1.1rem !important;
-    margin-top: 1.2rem !important;
+    gap: 1.1rem 1.1rem !important;
+    margin-top: auto !important;
+    padding-bottom: .4rem !important;
   }
 
   #tucontu .concept-slide .tucontu-spec-item {
     display: flex !important;
     flex-direction: column !important;
-    gap: .35rem !important;
-    padding: .65rem 0 !important;
+    gap: .3rem !important;
+    padding: .5rem 0 !important;
     border-bottom: 1px solid rgba(141, 108, 54, .2) !important;
     background: transparent !important;
     border-radius: 0 !important;
@@ -2866,7 +2875,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   #tucontu .concept-slide .tucontu-spec-item strong {
     font-family: var(--font-ui, 'Marcellus', serif) !important;
-    font-size: .78rem !important;
+    font-size: .82rem !important;
     letter-spacing: .1em !important;
     text-transform: uppercase !important;
     color: #8d6c36 !important;
@@ -2874,8 +2883,8 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   #tucontu .concept-slide .tucontu-spec-item span {
     font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
-    font-size: clamp(1.08rem, 3.4vw, 1.22rem) !important;
-    line-height: 1.3 !important;
+    font-size: clamp(1.12rem, 3.5vw, 1.25rem) !important;
+    line-height: 1.32 !important;
     color: var(--navy, #14283c) !important;
   }
 
@@ -2883,16 +2892,17 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   #tucontu .tucontu-goddess-grid {
     display: flex !important;
     flex-direction: column !important;
-    gap: .6rem !important;
-    margin-top: .25rem !important;
+    gap: .75rem !important;
+    margin-top: auto !important;
+    padding-bottom: .2rem !important;
   }
 
   #tucontu .tucontu-goddess-item {
     display: flex !important;
     flex-direction: column !important;
-    gap: .15rem !important;
-    padding: 0 0 .5rem 0 !important;
-    border-bottom: 1px solid rgba(141, 108, 54, .12) !important;
+    gap: .2rem !important;
+    padding: 0 0 .55rem 0 !important;
+    border-bottom: 1px solid rgba(141, 108, 54, .16) !important;
     background: transparent !important;
     border-radius: 0 !important;
     border-top: none !important;
@@ -2913,7 +2923,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   #tucontu .goddess-header strong {
     font-family: var(--font-display, 'Cormorant Garamond', serif) !important;
-    font-size: clamp(.95rem, 2.8vw, 1.05rem) !important;
+    font-size: clamp(1.1rem, 3.5vw, 1.25rem) !important;
     font-weight: 600 !important;
     letter-spacing: .02em !important;
     color: var(--navy, #14283c) !important;
@@ -2921,7 +2931,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   #tucontu .goddess-header span {
     font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
-    font-size: .84rem !important;
+    font-size: .95rem !important;
     font-style: italic !important;
     color: #8d6c36 !important;
     background: transparent !important;
@@ -2931,16 +2941,16 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   #tucontu .goddess-role {
     font-family: var(--font-ui, 'Marcellus', serif) !important;
-    font-size: .68rem !important;
+    font-size: .74rem !important;
     text-transform: uppercase !important;
-    letter-spacing: .06em !important;
+    letter-spacing: .07em !important;
     color: #566044 !important;
   }
 
   #tucontu .tucontu-goddess-item p {
     font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
-    font-size: clamp(.88rem, 2.4vw, .95rem) !important;
-    line-height: 1.35 !important;
+    font-size: clamp(1rem, 3.1vw, 1.12rem) !important;
+    line-height: 1.4 !important;
     color: var(--muted, #665a4e) !important;
     margin: 0 !important;
   }
@@ -2949,18 +2959,19 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   #tucontu .tucontu-symbolic-details {
     display: flex !important;
     flex-direction: column !important;
-    gap: .6rem !important;
+    gap: .7rem !important;
     padding-left: 0 !important;
     list-style: none !important;
-    margin: .3rem 0 !important;
+    margin: auto 0 0 0 !important;
+    padding-bottom: .2rem !important;
   }
 
   #tucontu .tucontu-symbolic-details li {
     display: flex !important;
     flex-direction: column !important;
-    gap: .15rem !important;
-    padding: 0 0 .5rem 0 !important;
-    border-bottom: 1px solid rgba(141, 108, 54, .12) !important;
+    gap: .2rem !important;
+    padding: 0 0 .55rem 0 !important;
+    border-bottom: 1px solid rgba(141, 108, 54, .16) !important;
     background: transparent !important;
     border-radius: 0 !important;
     border-left: none !important;
@@ -2972,15 +2983,15 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   #tucontu .tucontu-symbolic-details li strong {
     font-family: var(--font-display, 'Cormorant Garamond', serif) !important;
-    font-size: clamp(.96rem, 2.8vw, 1.06rem) !important;
+    font-size: clamp(1.1rem, 3.4vw, 1.22rem) !important;
     font-weight: 600 !important;
     color: var(--navy, #14283c) !important;
   }
 
   #tucontu .tucontu-symbolic-details li span {
     font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
-    font-size: clamp(.88rem, 2.4vw, .95rem) !important;
-    line-height: 1.34 !important;
+    font-size: clamp(1rem, 3.1vw, 1.12rem) !important;
+    line-height: 1.4 !important;
     color: var(--muted, #665a4e) !important;
   }
 
@@ -2993,9 +3004,9 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   #tucontu .concept-slide .tucontu-trinity-summary {
     display: flex !important;
     flex-direction: column !important;
-    gap: .35rem !important;
-    margin-top: .4rem !important;
-    padding: 0 !important;
+    gap: .45rem !important;
+    margin-top: auto !important;
+    padding: 0 0 .3rem 0 !important;
     background: transparent !important;
     border: none !important;
   }
@@ -3005,8 +3016,8 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     align-items: baseline !important;
     justify-content: space-between !important;
     gap: .4rem !important;
-    padding: .25rem 0 !important;
-    border-bottom: 1px solid rgba(141, 108, 54, .12) !important;
+    padding: .35rem 0 !important;
+    border-bottom: 1px solid rgba(141, 108, 54, .16) !important;
     border-top: none !important;
     background: transparent !important;
   }
@@ -3017,16 +3028,16 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   #tucontu .concept-slide .tucontu-trinity-summary strong {
     font-family: var(--font-ui, 'Marcellus', serif) !important;
-    font-size: .78rem !important;
+    font-size: .84rem !important;
     color: #566044 !important;
     font-weight: 600 !important;
-    letter-spacing: .04em !important;
+    letter-spacing: .05em !important;
   }
 
   #tucontu .concept-slide .tucontu-trinity-summary span {
     font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
     font-style: italic !important;
-    font-size: .88rem !important;
+    font-size: 1rem !important;
     color: #8d6c36 !important;
   }
 
@@ -3034,9 +3045,9 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   #tucontu .concept-closing-card {
     display: flex !important;
     flex-direction: column !important;
-    gap: .35rem !important;
-    margin-top: .8rem !important;
-    padding: 0 !important;
+    gap: .45rem !important;
+    margin-top: auto !important;
+    padding: 0 0 .4rem 0 !important;
     background: transparent !important;
     border: none !important;
     border-radius: 0 !important;
@@ -3044,7 +3055,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   #tucontu .concept-closing-card strong {
     font-family: var(--font-display, 'Cormorant Garamond', serif) !important;
-    font-size: clamp(1rem, 3.2vw, 1.18rem) !important;
+    font-size: clamp(1.2rem, 3.8vw, 1.35rem) !important;
     color: var(--navy, #14283c) !important;
     letter-spacing: .02em !important;
   }
@@ -3052,8 +3063,8 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   #tucontu .concept-closing-card p {
     font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
     font-style: italic !important;
-    font-size: clamp(.9rem, 2.6vw, .98rem) !important;
-    line-height: 1.34 !important;
+    font-size: clamp(1.05rem, 3.3vw, 1.18rem) !important;
+    line-height: 1.45 !important;
     color: var(--muted, #665a4e) !important;
     margin: 0 !important;
   }
