@@ -710,20 +710,51 @@
   let historyWriteStarted = false;
   let galleryDialogIsModal = false;
 
-  // Cortina temporal: desbloqueada por defecto; se activa solo si ?curtain=1
+  // Cortina de TuconTu: activa por defecto para el público general ("Muy pronto.").
+  // Desbloqueo seguro para revisión del creador:
+  // - En red local (localhost, 127.0.0.1, 192.168.x, etc.)
+  // - O navegando con parámetro: ?preview=tucontu (o ?tucontu, ?dev) tanto en query como en hash (#tucontu?preview=tucontu)
+  // - Se guarda en localStorage ('tucontu_preview_unlocked') para mantenerse siempre abierto en este navegador/móvil
+  // - Para bloquearlo manualmente de nuevo y ver la cortina: ?curtain=1 o ?lock=1
   (() => {
     const tucontuSection = document.getElementById('tucontu');
     if (!tucontuSection) return;
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('curtain') === '1') {
+    const curtain = tucontuSection.querySelector('.tucontu-coming-curtain');
+    
+    // Combinar query string y cualquier parámetro en el hash (#tucontu?preview=tucontu)
+    const urlSearch = window.location.search || '';
+    const hashPart = window.location.hash || '';
+    const hashSearch = hashPart.includes('?') ? hashPart.split('?')[1] : '';
+    const combinedSearch = [urlSearch.replace(/^\?/, ''), hashSearch].filter(Boolean).join('&');
+    const urlParams = new URLSearchParams(combinedSearch);
+
+    // Si se pasa ?curtain=1 o ?lock=1, bloquear y limpiar memoria
+    if (urlParams.get('curtain') === '1' || urlParams.get('lock') === '1') {
+      try { localStorage.removeItem('tucontu_preview_unlocked'); } catch(e) {}
       tucontuSection.classList.add('has-coming-curtain');
-      const curtain = tucontuSection.querySelector('.tucontu-coming-curtain');
       if (curtain) curtain.removeAttribute('hidden');
       return;
     }
-    tucontuSection.classList.remove('has-coming-curtain');
-    const curtain = tucontuSection.querySelector('.tucontu-coming-curtain');
-    if (curtain) curtain.setAttribute('hidden', '');
+
+    const host = window.location.hostname;
+    const isLocalNetwork = host === 'localhost' || host === '127.0.0.1' || /^192\.168\./.test(host) || /^10\./.test(host) || /^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(host);
+    const hasPreviewParam = urlParams.has('preview') || urlParams.has('tucontu') || urlParams.has('dev');
+    
+    let isPersistedUnlocked = false;
+    try {
+      if (hasPreviewParam) {
+        localStorage.setItem('tucontu_preview_unlocked', '1');
+      }
+      isPersistedUnlocked = localStorage.getItem('tucontu_preview_unlocked') === '1';
+    } catch(e) {}
+
+    if (isLocalNetwork || hasPreviewParam || isPersistedUnlocked) {
+      tucontuSection.classList.remove('has-coming-curtain');
+      if (curtain) curtain.setAttribute('hidden', '');
+    } else {
+      tucontuSection.classList.add('has-coming-curtain');
+      if (curtain) curtain.removeAttribute('hidden');
+    }
   })();
   function writeHistoryOnce(){
     if(historyWriteStarted)return;
