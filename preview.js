@@ -924,20 +924,6 @@
   galleryDialog.addEventListener('click', event => { if (event.target === galleryDialog) galleryDialog.close(); });
   galleryDialog.addEventListener('close', () => { galleryDialogIsModal = false; galleryOpen.focus({ preventScroll: true }); });
 
-  const catalogOpen = document.getElementById('tucontu-catalog-open');
-  if (catalogOpen) {
-    catalogOpen.addEventListener('click', () => {
-      selectGalleryMode('catalogo');
-      if (galleryInlineViewport.matches) {
-        galleryDialog.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } else {
-        galleryDialog.showModal();
-        galleryDialogIsModal = true;
-      }
-      document.getElementById('tucontu-catalog-tab')?.focus({ preventScroll: true });
-    });
-  }
-
   // Lector paginado de Concepto
   let currentConceptIndex = 0;
   const conceptSlides = Array.from(document.querySelectorAll('.concept-slide'));
@@ -1192,15 +1178,6 @@
     const orderFiber = document.getElementById('catalog-order-fiber');
     const orderCombo = document.getElementById('catalog-order-combo');
     const waLink = document.getElementById('catalog-wa-link');
-    const catalogOpenBtn = document.getElementById('tucontu-catalog-open');
-
-    catalogOpenBtn?.addEventListener('click', () => {
-      selectGalleryMode('catalogo');
-      if (galleryDialog && !galleryDialog.open && !galleryInlineViewport.matches) {
-        galleryDialog.showModal();
-        galleryDialogIsModal = true;
-      }
-    });
 
     fiberWoolBtn?.addEventListener('click', () => {
       if (currentFiber === 'wool') return;
@@ -1232,17 +1209,17 @@
       renderCards();
     });
 
-    const lengthBtns = catalogPanel.querySelectorAll('.catalog-length-btn');
-    lengthBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        lengthBtns.forEach(b => {
-          b.classList.remove('is-active');
-          b.setAttribute('aria-checked', 'false');
+    const lengthChips = catalogPanel.querySelectorAll('.catalog-len-chip');
+    lengthChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        lengthChips.forEach(c => {
+          c.classList.remove('is-active');
+          c.setAttribute('aria-checked', 'false');
         });
-        btn.classList.add('is-active');
-        btn.setAttribute('aria-checked', 'true');
-        selectedArch = btn.dataset.arch;
-        selectedLen = btn.dataset.len;
+        chip.classList.add('is-active');
+        chip.setAttribute('aria-checked', 'true');
+        selectedArch = chip.dataset.arch;
+        selectedLen = chip.dataset.len;
         updateOrder();
       });
     });
@@ -1256,9 +1233,13 @@
         if (subnavLabel) subnavLabel.textContent = `Armonías de autor (${harmonies.length})`;
         cardsFlow.innerHTML = harmonies.map((h, i) => {
           const isSelected = selectedHarmony && selectedHarmony.name === h.name;
-          const swatchesHtml = h.codes.map(code => {
+          const swatchesHtml = h.codes.map((code, idx) => {
             const col = colorsMap[code] || { name: code, hex: '#c65d3a' };
-            return `<span class="catalog-swatch-circle" style="background-color: ${col.hex};" title="${code} · ${col.name}"></span>`;
+            return `
+              <span class="catalog-cord-strand" style="--cord-color: ${col.hex}; --cord-idx: ${idx};" title="${code} · ${col.name}">
+                <span class="catalog-cord-twist"></span>
+              </span>
+            `;
           }).join('');
           const codesLabel = h.codes.join(' · ');
 
@@ -1294,10 +1275,14 @@
         if (subnavLabel) subnavLabel.textContent = `Muestrario de colores (${total})`;
         const swatchesHtml = Object.entries(colorsMap).map(([code, data]) => {
           return `
-            <div class="catalog-swatch-tile" data-code="${code}">
-              <span class="catalog-swatch-tile-dot" style="background-color: ${data.hex};"></span>
-              <strong class="catalog-swatch-tile-code">${code}</strong>
-              <span class="catalog-swatch-tile-name">${data.name}</span>
+            <div class="catalog-swatch-tile" data-code="${code}" tabindex="0" title="${code} · ${data.name}">
+              <span class="catalog-swatch-skein" style="--cord-color: ${data.hex};">
+                <span class="catalog-cord-twist"></span>
+              </span>
+              <div class="catalog-swatch-meta">
+                <span class="catalog-swatch-code">${code}</span>
+                <span class="catalog-swatch-name">${data.name}</span>
+              </div>
             </div>
           `;
         }).join('');
@@ -1307,7 +1292,6 @@
 
     function updateOrder() {
       if (orderArch) orderArch.textContent = `${selectedArch} (${selectedLen})`;
-      if (orderFiber) orderFiber.textContent = currentFiber === 'wool' ? 'Lana Suave' : 'Hilo de Algodón';
       const codes = selectedHarmony ? selectedHarmony.codes.join(' + ') : '';
       const name = selectedHarmony ? selectedHarmony.name : 'Personalizada';
       if (orderCombo) orderCombo.textContent = `${name} (${codes})`;

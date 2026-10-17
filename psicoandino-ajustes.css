@@ -3333,17 +3333,17 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     line-height: 1.3 !important;
   }
 
-  /* Catálogo en móvil: scroll fluido y espacio para la barra de navegación */
+  /* Catálogo en móvil: scroll fluido y espacio generoso para la barra de navegación flotante */
   #tucontu .tucontu-catalog-panel {
     flex: 1 1 auto !important;
     min-height: 0 !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
-    padding: .65rem clamp(.85rem, 3.5vw, 1.25rem) 5.5rem !important;
+    padding: .65rem clamp(.85rem, 3.5vw, 1.25rem) 7rem !important;
   }
 
   #tucontu .catalog-cards-flow {
-    max-height: 220px !important;
+    max-height: clamp(330px, 48dvh, 480px) !important;
   }
 }
 
@@ -3358,6 +3358,10 @@ body.editorial-preview #inicio .arch-frame img,
    TUCONTU · CATÁLOGO DE FIBRAS, ARMONÍAS Y WHATSAPP (ESTILOS GENERALES)
    ========================================================================== */
 
+/* ==========================================================================
+   TUCONTU · CATÁLOGO DE FIBRAS, ARMONÍAS Y WHATSAPP (ESTILOS REFINADOS)
+   ========================================================================== */
+
 #tucontu .tucontu-catalog-panel {
   display: flex !important;
   flex-direction: column !important;
@@ -3369,7 +3373,7 @@ body.editorial-preview #inicio .arch-frame img,
 #tucontu .catalog-shell {
   display: flex !important;
   flex-direction: column !important;
-  gap: .85rem !important;
+  gap: .65rem !important;
   width: 100% !important;
   box-sizing: border-box !important;
 }
@@ -3377,12 +3381,13 @@ body.editorial-preview #inicio .arch-frame img,
 #tucontu .catalog-header {
   display: flex !important;
   flex-direction: column !important;
-  gap: .25rem !important;
+  gap: .15rem !important;
+  margin-bottom: .15rem !important;
 }
 
 #tucontu .catalog-eyebrow {
   font-family: var(--font-ui, 'Marcellus', serif) !important;
-  font-size: .78rem !important;
+  font-size: .74rem !important;
   letter-spacing: .12em !important;
   text-transform: uppercase !important;
   color: #8d6c36 !important;
@@ -3390,8 +3395,8 @@ body.editorial-preview #inicio .arch-frame img,
 
 #tucontu .catalog-title {
   font-family: var(--font-display, 'Cormorant Garamond', serif) !important;
-  font-size: clamp(1.65rem, 3.5vw, 2.1rem) !important;
-  line-height: 1.16 !important;
+  font-size: clamp(1.45rem, 2.8vw, 1.85rem) !important;
+  line-height: 1.14 !important;
   color: var(--navy, #14283c) !important;
   font-weight: 500 !important;
   margin: 0 !important;
@@ -3399,42 +3404,60 @@ body.editorial-preview #inicio .arch-frame img,
 
 #tucontu .catalog-lead {
   font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
-  font-size: clamp(1.05rem, 2.2vw, 1.2rem) !important;
-  line-height: 1.4 !important;
-  color: var(--navy, #14283c) !important;
+  font-size: clamp(.95rem, 1.8vw, 1.08rem) !important;
+  line-height: 1.35 !important;
+  color: #55483c !important;
   margin: 0 !important;
 }
 
-/* Selector de Fibra (Pills) */
+/* Selector de Fibra (Pills con tipografía clara y sin LO1/AO1) */
 #tucontu .catalog-fiber-pills {
   display: flex !important;
-  gap: .4rem !important;
+  gap: .35rem !important;
   background: rgba(141, 108, 54, .08) !important;
-  padding: .25rem !important;
+  padding: .2rem !important;
   border-radius: 2rem !important;
-  border: 1px solid rgba(141, 108, 54, .2) !important;
+  border: 1px solid rgba(141, 108, 54, .18) !important;
 }
 
 #tucontu .catalog-fiber-pill {
   flex: 1 1 0 !important;
-  padding: .5rem .75rem !important;
-  font-family: var(--font-ui, 'Marcellus', serif) !important;
-  font-size: .82rem !important;
-  letter-spacing: .04em !important;
+  padding: .45rem .65rem !important;
   border-radius: 1.8rem !important;
   border: none !important;
   background: transparent !important;
   color: #665a4e !important;
   cursor: pointer !important;
   transition: all .2s ease !important;
-  text-align: center !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: .4rem !important;
+}
+
+#tucontu .catalog-fiber-name {
+  font-family: var(--font-ui, 'Marcellus', serif) !important;
+  font-size: .84rem !important;
+  letter-spacing: .03em !important;
   font-weight: 500 !important;
+}
+
+#tucontu .catalog-fiber-count {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: .74rem !important;
+  font-weight: 600 !important;
+  font-variant-numeric: tabular-nums lining-nums !important;
+  opacity: .8 !important;
+  letter-spacing: .02em !important;
 }
 
 #tucontu .catalog-fiber-pill.is-active {
   background: #ffffff !important;
   color: var(--navy, #14283c) !important;
   box-shadow: 0 2px 8px rgba(20, 40, 60, .08) !important;
+}
+
+#tucontu .catalog-fiber-pill.is-active .catalog-fiber-name {
   font-weight: 600 !important;
 }
 
@@ -3443,12 +3466,12 @@ body.editorial-preview #inicio .arch-frame img,
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  padding: .1rem 0 !important;
+  padding: .05rem 0 !important;
 }
 
 #tucontu .catalog-subnav-label {
   font-family: var(--font-ui, 'Marcellus', serif) !important;
-  font-size: .78rem !important;
+  font-size: .74rem !important;
   text-transform: uppercase !important;
   letter-spacing: .08em !important;
   color: #8d6c36 !important;
@@ -3460,19 +3483,19 @@ body.editorial-preview #inicio .arch-frame img,
   border: none !important;
   color: #8d6c36 !important;
   font-family: var(--font-ui, 'Marcellus', serif) !important;
-  font-size: .76rem !important;
+  font-size: .74rem !important;
   letter-spacing: .04em !important;
   text-decoration: underline !important;
   cursor: pointer !important;
-  padding: .2rem 0 !important;
+  padding: .15rem 0 !important;
 }
 
 /* Contenedor de Tarjetas de Armonía */
 #tucontu .catalog-cards-flow {
   display: flex !important;
   flex-direction: column !important;
-  gap: .65rem !important;
-  max-height: 280px !important;
+  gap: .55rem !important;
+  max-height: clamp(260px, 34dvh, 360px) !important;
   overflow-y: auto !important;
   -webkit-overflow-scrolling: touch !important;
   padding-right: .25rem !important;
@@ -3482,8 +3505,8 @@ body.editorial-preview #inicio .arch-frame img,
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  padding: .75rem 1rem !important;
-  border: 1px solid rgba(141, 108, 54, .2) !important;
+  padding: .65rem .95rem !important;
+  border: 1px solid rgba(141, 108, 54, .18) !important;
   border-radius: 12px !important;
   background: #ffffff !important;
   cursor: pointer !important;
@@ -3496,250 +3519,317 @@ body.editorial-preview #inicio .arch-frame img,
   box-shadow: 0 4px 12px rgba(141, 108, 54, .08) !important;
 }
 
+/* Selección en Verde Oliva Noble (#566044) en vez de negro tosco */
 #tucontu .catalog-harmony-card.is-selected {
-  border: 1.5px solid var(--navy, #14283c) !important;
+  border: 1.5px solid #566044 !important;
   background: #fbf9f4 !important;
-  box-shadow: 0 4px 14px rgba(20, 40, 60, .09) !important;
+  box-shadow: 0 3px 12px rgba(86, 96, 68, .16), 0 0 0 1px #566044 !important;
 }
 
 #tucontu .catalog-harmony-info {
   display: flex !important;
   flex-direction: column !important;
-  gap: .15rem !important;
+  gap: .1rem !important;
 }
 
 #tucontu .catalog-harmony-name {
   font-family: var(--font-display, 'Cormorant Garamond', serif) !important;
-  font-size: 1.18rem !important;
-  line-height: 1.2 !important;
+  font-size: 1.15rem !important;
+  line-height: 1.18 !important;
   color: var(--navy, #14283c) !important;
   font-weight: 600 !important;
 }
 
 #tucontu .catalog-harmony-codes {
-  font-family: var(--font-ui, 'Marcellus', serif) !important;
-  font-size: .8rem !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: .75rem !important;
+  font-weight: 600 !important;
+  font-variant-numeric: tabular-nums lining-nums !important;
   color: #8d6c36 !important;
   letter-spacing: .06em !important;
 }
 
+/* Agrupación de Muestras Táctiles de Fibra */
 #tucontu .catalog-swatches-cluster {
   display: flex !important;
   align-items: center !important;
+  gap: 4px !important;
+  padding: 2px 0 !important;
 }
 
-#tucontu .catalog-swatch-circle {
+/* Hebra cilíndrica táctil con torsión e iluminación 3D */
+#tucontu .catalog-cord-strand {
   display: inline-block !important;
-  width: 26px !important;
-  height: 26px !important;
-  border-radius: 50% !important;
-  border: 2px solid #ffffff !important;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.18) !important;
-  margin-left: -8px !important;
   position: relative !important;
+  width: 13px !important;
+  height: 26px !important;
+  border-radius: 6px !important;
+  background-color: var(--cord-color, #c65d3a) !important;
+  box-shadow: 
+    inset 0 1px 2px rgba(255, 255, 255, .55),
+    inset 0 -2px 3px rgba(0, 0, 0, .28),
+    inset 1.5px 0 2px rgba(0, 0, 0, .14),
+    inset -1.5px 0 2px rgba(255, 255, 255, .22),
+    0 2px 4px rgba(45, 35, 25, .15) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  transform: rotate(calc((var(--cord-idx, 0) - 1) * 3deg)) !important;
   transition: transform .2s ease !important;
 }
 
-#tucontu .catalog-swatches-cluster .catalog-swatch-circle:first-child {
-  margin-left: 0 !important;
+#tucontu .catalog-cord-strand .catalog-cord-twist {
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: inherit !important;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .18) 0px,
+    rgba(255, 255, 255, .18) 2px,
+    transparent 2px,
+    transparent 4px,
+    rgba(0, 0, 0, .14) 4px,
+    rgba(0, 0, 0, .14) 5px,
+    transparent 5px,
+    transparent 7px
+  ) !important;
+  pointer-events: none !important;
+  opacity: .8 !important;
 }
 
-#tucontu .catalog-harmony-card:hover .catalog-swatch-circle {
-  transform: scale(1.1) !important;
+#tucontu .catalog-harmony-card:hover .catalog-cord-strand {
+  transform: scale(1.08) rotate(calc((var(--cord-idx, 0) - 1) * 4deg)) !important;
 }
 
-/* Grilla de Muestrario de colores */
+/* Grilla de Muestrario A-Z (Sin texto truncado) */
 #tucontu .catalog-swatches-grid {
   display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  gap: .45rem !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: .5rem !important;
+}
+
+@media (min-width: 48rem) {
+  #tucontu .catalog-swatches-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)) !important;
+    gap: .6rem !important;
+  }
 }
 
 #tucontu .catalog-swatch-tile {
   display: flex !important;
-  flex-direction: column !important;
   align-items: center !important;
-  padding: .45rem .25rem !important;
+  gap: .55rem !important;
+  padding: .4rem .55rem !important;
   border: 1px solid rgba(141, 108, 54, .16) !important;
-  border-radius: 10px !important;
+  border-radius: 8px !important;
   background: #ffffff !important;
-  text-align: center !important;
+  text-align: left !important;
+  cursor: default !important;
+  transition: all .2s ease !important;
 }
 
-#tucontu .catalog-swatch-tile-dot {
-  width: 26px !important;
+#tucontu .catalog-swatch-tile:hover {
+  border-color: #8d6c36 !important;
+  box-shadow: 0 2px 8px rgba(141, 108, 54, .08) !important;
+}
+
+#tucontu .catalog-swatch-skein {
+  flex: 0 0 13px !important;
+  position: relative !important;
+  width: 13px !important;
   height: 26px !important;
-  border-radius: 50% !important;
-  border: 1px solid rgba(0,0,0,0.1) !important;
-  margin-bottom: .25rem !important;
+  border-radius: 6px !important;
+  background-color: var(--cord-color, #c65d3a) !important;
+  box-shadow: 
+    inset 0 1px 2px rgba(255, 255, 255, .55),
+    inset 0 -2px 3px rgba(0, 0, 0, .28),
+    0 2px 4px rgba(45, 35, 25, .15) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
 }
 
-#tucontu .catalog-swatch-tile-code {
+#tucontu .catalog-swatch-skein .catalog-cord-twist {
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: inherit !important;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .18) 0px,
+    rgba(255, 255, 255, .18) 2px,
+    transparent 2px,
+    transparent 4px,
+    rgba(0, 0, 0, .14) 4px,
+    rgba(0, 0, 0, .14) 5px,
+    transparent 5px,
+    transparent 7px
+  ) !important;
+  pointer-events: none !important;
+  opacity: .8 !important;
+}
+
+#tucontu .catalog-swatch-meta {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: .06rem !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+}
+
+#tucontu .catalog-swatch-code {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: .74rem !important;
+  font-weight: 700 !important;
+  font-variant-numeric: tabular-nums lining-nums !important;
+  letter-spacing: .04em !important;
+  color: #8d6c36 !important;
+  line-height: 1 !important;
+}
+
+#tucontu .catalog-swatch-name {
+  font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
+  font-size: .86rem !important;
+  font-weight: 500 !important;
+  color: var(--navy, #14283c) !important;
+  line-height: 1.15 !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* ==========================================================================
+   BARRA SUTIL DE ENCARGO TUCONTU (ESPACIO MÍNIMO)
+   ========================================================================== */
+
+#tucontu .catalog-subtle-bar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: .65rem !important;
+  padding: .45rem .75rem !important;
+  background: rgba(253, 251, 247, 0.96) !important;
+  border: 1px solid rgba(141, 108, 54, .2) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(45, 35, 25, .05) !important;
+  box-sizing: border-box !important;
+}
+
+#tucontu .catalog-subtle-config {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: .25rem !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+}
+
+#tucontu .catalog-subtle-lengths {
+  display: flex !important;
+  gap: .3rem !important;
+}
+
+#tucontu .catalog-len-chip {
+  padding: .22rem .5rem !important;
   font-family: var(--font-ui, 'Marcellus', serif) !important;
   font-size: .74rem !important;
+  border: 1px solid rgba(141, 108, 54, .2) !important;
+  border-radius: 6px !important;
+  background: #ffffff !important;
+  color: #55483c !important;
+  cursor: pointer !important;
+  transition: all .2s ease !important;
+  display: inline-flex !important;
+  gap: .25rem !important;
+  align-items: baseline !important;
+  line-height: 1.1 !important;
+}
+
+#tucontu .catalog-len-chip .len-chip-arch {
+  font-weight: 600 !important;
+}
+
+#tucontu .catalog-len-chip .len-chip-val {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: .68rem !important;
+  font-weight: 600 !important;
+  opacity: .8 !important;
+}
+
+#tucontu .catalog-len-chip.is-active {
+  background: #566044 !important;
+  color: #ffffff !important;
+  border-color: #566044 !important;
+}
+
+#tucontu .catalog-subtle-summary {
+  display: flex !important;
+  align-items: center !important;
+  gap: .3rem !important;
+  font-size: .78rem !important;
+  color: #665a4e !important;
+  line-height: 1.15 !important;
+}
+
+#tucontu .subtle-sum-piece {
+  font-weight: 600 !important;
   color: var(--navy, #14283c) !important;
 }
 
-#tucontu .catalog-swatch-tile-name {
-  font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
-  font-size: .7rem !important;
-  color: #665a4e !important;
-  line-height: 1.1 !important;
-  max-width: 60px !important;
+#tucontu .subtle-sum-sep {
+  opacity: .5 !important;
+}
+
+#tucontu .subtle-sum-combo {
+  color: #8d6c36 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: .74rem !important;
+  font-weight: 600 !important;
+  font-variant-numeric: tabular-nums lining-nums !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
 }
 
-/* Selector de Largo */
-#tucontu .catalog-length-section {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: .35rem !important;
-  margin-top: .4rem !important;
-}
-
-#tucontu .catalog-section-eyebrow {
-  font-family: var(--font-ui, 'Marcellus', serif) !important;
-  font-size: .74rem !important;
-  text-transform: uppercase !important;
-  letter-spacing: .08em !important;
-  color: #8d6c36 !important;
-}
-
-#tucontu .catalog-length-picker {
-  display: flex !important;
-  gap: .4rem !important;
-}
-
-#tucontu .catalog-length-btn {
-  flex: 1 1 0 !important;
-  padding: .5rem .25rem !important;
-  border: 1px solid rgba(141, 108, 54, .22) !important;
-  border-radius: 8px !important;
-  background: #ffffff !important;
-  text-align: center !important;
-  cursor: pointer !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: .1rem !important;
-  transition: all .2s ease !important;
-}
-
-#tucontu .catalog-length-btn.is-active {
-  border-color: var(--navy, #14283c) !important;
-  background: #14283c !important;
-  color: #ffffff !important;
-}
-
-#tucontu .catalog-length-title {
-  font-family: var(--font-ui, 'Marcellus', serif) !important;
-  font-size: .78rem !important;
-  font-weight: 600 !important;
-}
-
-#tucontu .catalog-length-desc {
-  font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
-  font-size: .74rem !important;
-  opacity: .85 !important;
-}
-
-/* Caja de Resumen & Botón WhatsApp */
-#tucontu .catalog-order-card {
-  background: #ffffff !important;
-  border: 1px solid rgba(141, 108, 54, .28) !important;
-  border-radius: 14px !important;
-  padding: .85rem 1rem !important;
-  box-shadow: 0 4px 16px rgba(141, 108, 54, .08) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: .65rem !important;
-}
-
-#tucontu .catalog-order-meta {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: .35rem !important;
-}
-
-#tucontu .catalog-order-row {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: baseline !important;
-  font-size: .88rem !important;
-  border-bottom: 1px solid rgba(141, 108, 54, .1) !important;
-  padding-bottom: .25rem !important;
-}
-
-#tucontu .catalog-order-row:last-child {
-  border-bottom: none !important;
-  padding-bottom: 0 !important;
-}
-
-#tucontu .catalog-order-row .order-k {
-  font-family: var(--font-ui, 'Marcellus', serif) !important;
-  font-size: .75rem !important;
-  text-transform: uppercase !important;
-  letter-spacing: .06em !important;
-  color: #8d6c36 !important;
-}
-
-#tucontu .catalog-order-row .order-v {
-  font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
-  font-weight: 600 !important;
-  font-size: 1rem !important;
-  color: var(--navy, #14283c) !important;
-  text-align: right !important;
-}
-
-#tucontu .catalog-wa-btn {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: .5rem !important;
-  width: 100% !important;
-  background: #25d366 !important;
-  color: #0b3d1b !important;
-  font-family: var(--font-ui, 'Marcellus', serif) !important;
-  font-size: .86rem !important;
-  font-weight: 600 !important;
-  letter-spacing: .04em !important;
-  padding: .75rem 1rem !important;
-  border-radius: 10px !important;
-  text-decoration: none !important;
-  box-shadow: 0 4px 12px rgba(37, 211, 102, .22) !important;
-  border: none !important;
-  cursor: pointer !important;
-  transition: all .2s ease !important;
-  box-sizing: border-box !important;
-}
-
-#tucontu .catalog-wa-btn:hover {
-  background: #20ba5a !important;
-  transform: translateY(-1px) !important;
-}
-
-/* Botón directo de Catálogo en la portada */
-#tucontu .button-tucontu-catalog-btn {
+/* Botón Sutil WhatsApp */
+#tucontu .catalog-subtle-wa {
+  flex: 0 0 auto !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: .65rem 1.25rem !important;
+  gap: .4rem !important;
+  padding: .45rem .85rem !important;
+  height: 36px !important;
+  background: #2d4c3b !important;
+  color: #ffffff !important;
   font-family: var(--font-ui, 'Marcellus', serif) !important;
-  font-size: .84rem !important;
-  letter-spacing: .06em !important;
+  font-size: .76rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .04em !important;
   text-transform: uppercase !important;
-  color: #8d6c36 !important;
-  background: rgba(255, 252, 246, .9) !important;
-  border: 1px solid rgba(141, 108, 54, .3) !important;
-  border-radius: 2rem !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
+  border: 1px solid rgba(86, 96, 68, .3) !important;
+  box-shadow: 0 2px 6px rgba(45, 76, 59, .2) !important;
+  transition: all .2s ease !important;
   cursor: pointer !important;
-  transition: all .25s ease !important;
+  white-space: nowrap !important;
 }
 
-#tucontu .button-tucontu-catalog-btn:hover {
-  background: #8d6c36 !important;
-  color: #ffffff !important;
-  border-color: #8d6c36 !important;
+#tucontu .catalog-subtle-wa:hover {
+  background: #233c2f !important;
   transform: translateY(-1px) !important;
+  box-shadow: 0 4px 10px rgba(45, 76, 59, .28) !important;
 }
+
+@media (max-width: 48rem) {
+  #tucontu .catalog-subtle-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: .45rem !important;
+    padding: .45rem .65rem !important;
+  }
+  #tucontu .catalog-subtle-config {
+    align-items: center !important;
+    text-align: center !important;
+  }
+  #tucontu .catalog-subtle-wa {
+    width: 100% !important;
+    height: 34px !important;
+  }
+}
+
