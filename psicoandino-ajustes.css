@@ -941,8 +941,8 @@ body.editorial-preview #acompanamientos .services-more-mobile svg {
 
 #tucontu .tucontu-gallery-tabs {
   display: flex !important;
-  width: min(20.5rem, 100%) !important;
-  flex: 0 1 20.5rem !important;
+  width: min(27rem, 100%) !important;
+  flex: 0 1 27rem !important;
   justify-content: flex-start !important;
   gap: 0 !important;
   margin: 0 !important;
@@ -960,18 +960,18 @@ body.editorial-preview #acompanamientos .services-more-mobile svg {
   position: relative !important;
   z-index: 1 !important;
   flex: 1 1 0 !important;
-  width: calc((100% - .44rem) / 3) !important;
+  width: calc((100% - .44rem) / 4) !important;
   min-width: 0 !important;
   min-height: 2.55rem !important;
-  padding: .45em .65em !important;
+  padding: .45em .4em !important;
   border: 0 !important;
   border-radius: .45rem !important;
   background: transparent !important;
   color: #665a4e !important;
   font-family: var(--font-ui) !important;
-  font-size: clamp(1rem, 1.15vw, 1.18rem) !important;
+  font-size: clamp(0.95rem, 1.1vw, 1.12rem) !important;
   font-weight: 400 !important;
-  letter-spacing: .05em !important;
+  letter-spacing: .03em !important;
   text-align: center !important;
   cursor: pointer !important;
   outline: none !important;
@@ -987,14 +987,14 @@ body.editorial-preview #acompanamientos .services-more-mobile svg {
   border: 0 !important;
 }
 
-/* Fondo líquido deslizante (3 posiciones: Concepto [0], Historia [1], Galería [2]) */
+/* Fondo líquido deslizante (4 posiciones: Concepto [0], Catálogo [1], Historia [2], Galería [3]) */
 #tucontu .tucontu-gallery-tabs::before {
   position: absolute !important;
   z-index: -1 !important;
   top: .22rem !important;
   bottom: .22rem !important;
   left: .22rem !important;
-  width: calc((100% - .44rem) / 3) !important;
+  width: calc((100% - .44rem) / 4) !important;
   border-radius: .45rem !important;
   background: #566044 !important;
   box-shadow: 0 .15rem .45rem rgba(76, 51, 25, .2) !important;
@@ -1008,15 +1008,20 @@ body.editorial-preview #acompanamientos .services-more-mobile svg {
   transform: translateX(0) !important;
 }
 
+#tucontu .tucontu-gallery-tabs[data-active-mode="catalogo"]::before,
+#tucontu:has(#tucontu-catalog-tab[aria-selected="true"]) .tucontu-gallery-tabs::before {
+  transform: translateX(100%) !important;
+}
+
 #tucontu .tucontu-gallery-tabs[data-active-mode="historia"]::before,
 #tucontu:has(#tucontu-history-tab[aria-selected="true"]) .tucontu-gallery-tabs::before {
-  transform: translateX(100%) !important;
+  transform: translateX(200%) !important;
 }
 
 #tucontu .tucontu-gallery-tabs[data-active-mode="galeria"]::before,
 #tucontu .tucontu-gallery-tabs[data-active-mode="fotos"]::before,
 #tucontu:has(#tucontu-photos-tab[aria-selected="true"]) .tucontu-gallery-tabs::before {
-  transform: translateX(200%) !important;
+  transform: translateX(300%) !important;
 }
 
 /* Botón independiente Descargar PDF situado exactamente al lado de las pestañas */
@@ -1610,7 +1615,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   #tucontu .tucontu-gallery-tabs {
     min-height: 2.6rem !important;
-    width: min(24rem, 100%) !important;
+    width: min(32rem, 100%) !important;
   }
 
   #tucontu .tucontu-gallery-tabs .category-tab {
@@ -2477,16 +2482,22 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     padding: .4rem 1.2rem !important;
   }
 
-  /* 1. MODO CONCEPTO: Ocultamos el encabezado redundante y la ventana de foto para dar el 100% del espacio al lector */
+  /* 1. MODO CONCEPTO Y CATÁLOGO: Ocultamos el encabezado redundante y la ventana de foto para dar el 100% del espacio al contenido */
   body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-content,
   body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-intro,
   body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-visual,
   body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-piece-photo.is-cover-photo,
-  body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-video-trigger {
+  body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-video-trigger,
+  body.editorial-preview #tucontu[data-active-mode="catalogo"] .tucontu-content,
+  body.editorial-preview #tucontu[data-active-mode="catalogo"] .tucontu-intro,
+  body.editorial-preview #tucontu[data-active-mode="catalogo"] .tucontu-visual,
+  body.editorial-preview #tucontu[data-active-mode="catalogo"] .tucontu-piece-photo.is-cover-photo,
+  body.editorial-preview #tucontu[data-active-mode="catalogo"] .tucontu-video-trigger {
     display: none !important;
   }
 
-  body.editorial-preview #tucontu[data-active-mode="concepto"] > .view-inner.tucontu-layout {
+  body.editorial-preview #tucontu[data-active-mode="concepto"] > .view-inner.tucontu-layout,
+  body.editorial-preview #tucontu[data-active-mode="catalogo"] > .view-inner.tucontu-layout {
     padding-top: 0 !important;
     height: 0 !important;
     min-height: 0 !important;
@@ -3321,6 +3332,19 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     font-size: 1.2rem !important;
     line-height: 1.3 !important;
   }
+
+  /* Catálogo en móvil: scroll fluido y espacio para la barra de navegación */
+  #tucontu .tucontu-catalog-panel {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: .65rem clamp(.85rem, 3.5vw, 1.25rem) 5.5rem !important;
+  }
+
+  #tucontu .catalog-cards-flow {
+    max-height: 220px !important;
+  }
 }
 
 /* Hero Terapia Floral — En-cadre armónico centrado en esencias, botica y flores silvestres */
@@ -3328,4 +3352,394 @@ body.editorial-preview #inicio .arch-frame img,
 #inicio .arch-frame img {
   object-fit: cover !important;
   object-position: 82% center !important;
+}
+
+/* ==========================================================================
+   TUCONTU · CATÁLOGO DE FIBRAS, ARMONÍAS Y WHATSAPP (ESTILOS GENERALES)
+   ========================================================================== */
+
+#tucontu .tucontu-catalog-panel {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  max-width: min(44rem, 100%) !important;
+  box-sizing: border-box !important;
+}
+
+#tucontu .catalog-shell {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: .85rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+#tucontu .catalog-header {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: .25rem !important;
+}
+
+#tucontu .catalog-eyebrow {
+  font-family: var(--font-ui, 'Marcellus', serif) !important;
+  font-size: .78rem !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+  color: #8d6c36 !important;
+}
+
+#tucontu .catalog-title {
+  font-family: var(--font-display, 'Cormorant Garamond', serif) !important;
+  font-size: clamp(1.65rem, 3.5vw, 2.1rem) !important;
+  line-height: 1.16 !important;
+  color: var(--navy, #14283c) !important;
+  font-weight: 500 !important;
+  margin: 0 !important;
+}
+
+#tucontu .catalog-lead {
+  font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
+  font-size: clamp(1.05rem, 2.2vw, 1.2rem) !important;
+  line-height: 1.4 !important;
+  color: var(--navy, #14283c) !important;
+  margin: 0 !important;
+}
+
+/* Selector de Fibra (Pills) */
+#tucontu .catalog-fiber-pills {
+  display: flex !important;
+  gap: .4rem !important;
+  background: rgba(141, 108, 54, .08) !important;
+  padding: .25rem !important;
+  border-radius: 2rem !important;
+  border: 1px solid rgba(141, 108, 54, .2) !important;
+}
+
+#tucontu .catalog-fiber-pill {
+  flex: 1 1 0 !important;
+  padding: .5rem .75rem !important;
+  font-family: var(--font-ui, 'Marcellus', serif) !important;
+  font-size: .82rem !important;
+  letter-spacing: .04em !important;
+  border-radius: 1.8rem !important;
+  border: none !important;
+  background: transparent !important;
+  color: #665a4e !important;
+  cursor: pointer !important;
+  transition: all .2s ease !important;
+  text-align: center !important;
+  font-weight: 500 !important;
+}
+
+#tucontu .catalog-fiber-pill.is-active {
+  background: #ffffff !important;
+  color: var(--navy, #14283c) !important;
+  box-shadow: 0 2px 8px rgba(20, 40, 60, .08) !important;
+  font-weight: 600 !important;
+}
+
+/* Sub-barra: Armonías vs Muestrario */
+#tucontu .catalog-subnav {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: .1rem 0 !important;
+}
+
+#tucontu .catalog-subnav-label {
+  font-family: var(--font-ui, 'Marcellus', serif) !important;
+  font-size: .78rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: .08em !important;
+  color: #8d6c36 !important;
+  font-weight: 600 !important;
+}
+
+#tucontu .catalog-mode-toggle {
+  background: none !important;
+  border: none !important;
+  color: #8d6c36 !important;
+  font-family: var(--font-ui, 'Marcellus', serif) !important;
+  font-size: .76rem !important;
+  letter-spacing: .04em !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  padding: .2rem 0 !important;
+}
+
+/* Contenedor de Tarjetas de Armonía */
+#tucontu .catalog-cards-flow {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: .65rem !important;
+  max-height: 280px !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  padding-right: .25rem !important;
+}
+
+#tucontu .catalog-harmony-card {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: .75rem 1rem !important;
+  border: 1px solid rgba(141, 108, 54, .2) !important;
+  border-radius: 12px !important;
+  background: #ffffff !important;
+  cursor: pointer !important;
+  transition: all .2s ease !important;
+}
+
+#tucontu .catalog-harmony-card:hover {
+  border-color: #8d6c36 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(141, 108, 54, .08) !important;
+}
+
+#tucontu .catalog-harmony-card.is-selected {
+  border: 1.5px solid var(--navy, #14283c) !important;
+  background: #fbf9f4 !important;
+  box-shadow: 0 4px 14px rgba(20, 40, 60, .09) !important;
+}
+
+#tucontu .catalog-harmony-info {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: .15rem !important;
+}
+
+#tucontu .catalog-harmony-name {
+  font-family: var(--font-display, 'Cormorant Garamond', serif) !important;
+  font-size: 1.18rem !important;
+  line-height: 1.2 !important;
+  color: var(--navy, #14283c) !important;
+  font-weight: 600 !important;
+}
+
+#tucontu .catalog-harmony-codes {
+  font-family: var(--font-ui, 'Marcellus', serif) !important;
+  font-size: .8rem !important;
+  color: #8d6c36 !important;
+  letter-spacing: .06em !important;
+}
+
+#tucontu .catalog-swatches-cluster {
+  display: flex !important;
+  align-items: center !important;
+}
+
+#tucontu .catalog-swatch-circle {
+  display: inline-block !important;
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 50% !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18) !important;
+  margin-left: -8px !important;
+  position: relative !important;
+  transition: transform .2s ease !important;
+}
+
+#tucontu .catalog-swatches-cluster .catalog-swatch-circle:first-child {
+  margin-left: 0 !important;
+}
+
+#tucontu .catalog-harmony-card:hover .catalog-swatch-circle {
+  transform: scale(1.1) !important;
+}
+
+/* Grilla de Muestrario de colores */
+#tucontu .catalog-swatches-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: .45rem !important;
+}
+
+#tucontu .catalog-swatch-tile {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  padding: .45rem .25rem !important;
+  border: 1px solid rgba(141, 108, 54, .16) !important;
+  border-radius: 10px !important;
+  background: #ffffff !important;
+  text-align: center !important;
+}
+
+#tucontu .catalog-swatch-tile-dot {
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 50% !important;
+  border: 1px solid rgba(0,0,0,0.1) !important;
+  margin-bottom: .25rem !important;
+}
+
+#tucontu .catalog-swatch-tile-code {
+  font-family: var(--font-ui, 'Marcellus', serif) !important;
+  font-size: .74rem !important;
+  color: var(--navy, #14283c) !important;
+}
+
+#tucontu .catalog-swatch-tile-name {
+  font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
+  font-size: .7rem !important;
+  color: #665a4e !important;
+  line-height: 1.1 !important;
+  max-width: 60px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* Selector de Largo */
+#tucontu .catalog-length-section {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: .35rem !important;
+  margin-top: .4rem !important;
+}
+
+#tucontu .catalog-section-eyebrow {
+  font-family: var(--font-ui, 'Marcellus', serif) !important;
+  font-size: .74rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: .08em !important;
+  color: #8d6c36 !important;
+}
+
+#tucontu .catalog-length-picker {
+  display: flex !important;
+  gap: .4rem !important;
+}
+
+#tucontu .catalog-length-btn {
+  flex: 1 1 0 !important;
+  padding: .5rem .25rem !important;
+  border: 1px solid rgba(141, 108, 54, .22) !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: .1rem !important;
+  transition: all .2s ease !important;
+}
+
+#tucontu .catalog-length-btn.is-active {
+  border-color: var(--navy, #14283c) !important;
+  background: #14283c !important;
+  color: #ffffff !important;
+}
+
+#tucontu .catalog-length-title {
+  font-family: var(--font-ui, 'Marcellus', serif) !important;
+  font-size: .78rem !important;
+  font-weight: 600 !important;
+}
+
+#tucontu .catalog-length-desc {
+  font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
+  font-size: .74rem !important;
+  opacity: .85 !important;
+}
+
+/* Caja de Resumen & Botón WhatsApp */
+#tucontu .catalog-order-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(141, 108, 54, .28) !important;
+  border-radius: 14px !important;
+  padding: .85rem 1rem !important;
+  box-shadow: 0 4px 16px rgba(141, 108, 54, .08) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: .65rem !important;
+}
+
+#tucontu .catalog-order-meta {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: .35rem !important;
+}
+
+#tucontu .catalog-order-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: baseline !important;
+  font-size: .88rem !important;
+  border-bottom: 1px solid rgba(141, 108, 54, .1) !important;
+  padding-bottom: .25rem !important;
+}
+
+#tucontu .catalog-order-row:last-child {
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+
+#tucontu .catalog-order-row .order-k {
+  font-family: var(--font-ui, 'Marcellus', serif) !important;
+  font-size: .75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: .06em !important;
+  color: #8d6c36 !important;
+}
+
+#tucontu .catalog-order-row .order-v {
+  font-family: var(--font-serif, 'Cormorant Garamond', serif) !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  color: var(--navy, #14283c) !important;
+  text-align: right !important;
+}
+
+#tucontu .catalog-wa-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: .5rem !important;
+  width: 100% !important;
+  background: #25d366 !important;
+  color: #0b3d1b !important;
+  font-family: var(--font-ui, 'Marcellus', serif) !important;
+  font-size: .86rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .04em !important;
+  padding: .75rem 1rem !important;
+  border-radius: 10px !important;
+  text-decoration: none !important;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, .22) !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all .2s ease !important;
+  box-sizing: border-box !important;
+}
+
+#tucontu .catalog-wa-btn:hover {
+  background: #20ba5a !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Botón directo de Catálogo en la portada */
+#tucontu .button-tucontu-catalog-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: .65rem 1.25rem !important;
+  font-family: var(--font-ui, 'Marcellus', serif) !important;
+  font-size: .84rem !important;
+  letter-spacing: .06em !important;
+  text-transform: uppercase !important;
+  color: #8d6c36 !important;
+  background: rgba(255, 252, 246, .9) !important;
+  border: 1px solid rgba(141, 108, 54, .3) !important;
+  border-radius: 2rem !important;
+  cursor: pointer !important;
+  transition: all .25s ease !important;
+}
+
+#tucontu .button-tucontu-catalog-btn:hover {
+  background: #8d6c36 !important;
+  color: #ffffff !important;
+  border-color: #8d6c36 !important;
+  transform: translateY(-1px) !important;
 }

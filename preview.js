@@ -815,7 +815,7 @@
     gallery.append(button);
   });
   function selectGalleryMode(mode, animateHistory = true) {
-    const titles = { pieza: 'TuconTu', concepto: 'Concepto', manual: 'Concepto', historia: 'Historia', galeria: 'Galería', fotos: 'Galería', video: 'Video' };
+    const titles = { pieza: 'TuconTu', concepto: 'Concepto', catalogo: 'Catálogo', manual: 'Concepto', historia: 'Historia', galeria: 'Galería', fotos: 'Galería', video: 'Video' };
     if (galleryTitle) galleryTitle.textContent = titles[mode] || 'TuconTu';
     const tucontuSection = document.getElementById('tucontu');
     if (tucontuSection) tucontuSection.dataset.activeMode = mode;
@@ -849,6 +849,7 @@
       panel.setAttribute('role', 'tabpanel');
       const tabId = panel.dataset.galleryPanel === 'pieza' ? 'piece'
         : panel.dataset.galleryPanel === 'concepto' || panel.dataset.galleryPanel === 'manual' ? 'concept'
+        : panel.dataset.galleryPanel === 'catalogo' ? 'catalog'
         : panel.dataset.galleryPanel === 'historia' ? 'history'
         : 'photos';
       panel.setAttribute('aria-labelledby', `tucontu-${tabId}-tab`);
@@ -925,6 +926,20 @@
   galleryClose.addEventListener('click', () => galleryDialog.close());
   galleryDialog.addEventListener('click', event => { if (event.target === galleryDialog) galleryDialog.close(); });
   galleryDialog.addEventListener('close', () => { galleryDialogIsModal = false; galleryOpen.focus({ preventScroll: true }); });
+
+  const catalogOpen = document.getElementById('tucontu-catalog-open');
+  if (catalogOpen) {
+    catalogOpen.addEventListener('click', () => {
+      selectGalleryMode('catalogo');
+      if (galleryInlineViewport.matches) {
+        galleryDialog.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        galleryDialog.showModal();
+        galleryDialogIsModal = true;
+      }
+      document.getElementById('tucontu-catalog-tab')?.focus({ preventScroll: true });
+    });
+  }
 
   // Lector paginado de Concepto
   let currentConceptIndex = 0;
@@ -1055,6 +1070,262 @@
       tucontuDossierTrigger?.focus({ preventScroll: true });
     });
   }
+  // ==========================================================================
+  // CATÁLOGO DE FIBRAS, ARMONÍAS Y PEDIDO WHATSAPP TUCONTU
+  // ==========================================================================
+  function initTucontuCatalog() {
+    const catalogPanel = document.getElementById('tucontu-catalog-panel');
+    if (!catalogPanel) return;
+
+    const WOOL_COLORS = {
+      'L01': { name: 'Turquesa vivo', hex: '#079db7' },
+      'L02': { name: 'Turquesa medio', hex: '#07869a' },
+      'L03': { name: 'Turquesa profundo', hex: '#006d70' },
+      'L04': { name: 'Azul petróleo', hex: '#07535a' },
+      'L05': { name: 'Celeste', hex: '#9bcde4' },
+      'L06': { name: 'Azul acero', hex: '#47799d' },
+      'L07': { name: 'Azul profundo', hex: '#243f70' },
+      'L08': { name: 'Azul noche', hex: '#182b46' },
+      'L09': { name: 'Rojo intenso', hex: '#f31b43' },
+      'L10': { name: 'Fucsia', hex: '#d92791' },
+      'L11': { name: 'Vino / ciruela', hex: '#781d53' },
+      'L12': { name: 'Rosa malva', hex: '#c87999' },
+      'L13': { name: 'Rosa viejo', hex: '#d9959b' },
+      'L14': { name: 'Mostaza', hex: '#e4a51d' },
+      'L15': { name: 'Oro viejo', hex: '#c18a18' },
+      'L16': { name: 'Beige rosado', hex: '#d6b39b' },
+      'L17': { name: 'Marfil', hex: '#f0e8da' },
+      'L18': { name: 'Crudo', hex: '#e4d8c8' },
+      'L19': { name: 'Verde salvia', hex: '#8b9875' },
+      'L20': { name: 'Verde oliva', hex: '#6f7948' },
+      'L21': { name: 'Verde bosque', hex: '#214d3a' },
+      'L22': { name: 'Verde oscuro', hex: '#18392c' },
+      'L23': { name: 'Natural jaspeado', hex: '#a89470' },
+      'L24': { name: 'Gris carbón', hex: '#424342' },
+      'L25': { name: 'Negro', hex: '#171819' },
+      'L26': { name: 'Azul jaspeado', hex: '#527a9d' },
+      'L27': { name: 'Verde turquesa', hex: '#168e83' },
+      'L28': { name: 'Azul violáceo', hex: '#4b5689' }
+    };
+
+    const COTTON_COLORS = {
+      'A01': { name: 'Turquesa brillante', hex: '#08a9c8' },
+      'A02': { name: 'Azul noche', hex: '#17243d' },
+      'A03': { name: 'Rojo cereza', hex: '#d7193f' },
+      'A04': { name: 'Vino / ciruela', hex: '#74214f' },
+      'A05': { name: 'Blanco frío', hex: '#eef0f5' },
+      'A06': { name: 'Azul acero', hex: '#4c7899' },
+      'A07': { name: 'Rosa intenso', hex: '#d91f8a' },
+      'A08': { name: 'Rosa malva', hex: '#a87391' },
+      'A09': { name: 'Rosa empolvado', hex: '#c98f9d' },
+      'A10': { name: 'Rojo coral', hex: '#f0444c' },
+      'A11': { name: 'Coral salmón', hex: '#ef806c' },
+      'A12': { name: 'Rosa nude', hex: '#d5b1b0' },
+      'A13': { name: 'Marfil', hex: '#eee5d7' },
+      'A14': { name: 'Crudo', hex: '#e4d8c7' },
+      'A15': { name: 'Violeta', hex: '#8c6bc0' },
+      'A16': { name: 'Morado oscuro', hex: '#69476d' },
+      'A17': { name: 'Café rosado', hex: '#805750' },
+      'A18': { name: 'Café medio', hex: '#956d64' },
+      'A19': { name: 'Camel dorado', hex: '#c8a675' },
+      'A20': { name: 'Beige cálido', hex: '#d5bea4' },
+      'A21': { name: 'Negro', hex: '#171719' },
+      'A22': { name: 'Azul violáceo', hex: '#514b88' },
+      'A23': { name: 'Lila', hex: '#a98ac4' },
+      'A24': { name: 'Taupe', hex: '#9c8179' },
+      'A25': { name: 'Gris carbón', hex: '#3b3b3d' }
+    };
+
+    const WOOL_HARMONIES = [
+      { name: 'Bosque', codes: ['L21', 'L23', 'L15'] },
+      { name: 'Agua profunda', codes: ['L08', 'L01', 'L17'] },
+      { name: 'Tierra cálida', codes: ['L23', 'L14', 'L11'] },
+      { name: 'Alquimia', codes: ['L11', 'L14', 'L03'] },
+      { name: 'Salvia', codes: ['L19', 'L13', 'L18'] },
+      { name: 'Jardín secreto', codes: ['L27', 'L19', 'L16'] },
+      { name: 'Mar y espuma', codes: ['L03', 'L05', 'L17'] },
+      { name: 'Atardecer', codes: ['L09', 'L13', 'L15'] },
+      { name: 'Botánica', codes: ['L20', 'L13', 'L17'] },
+      { name: 'Contraste', codes: ['L10', 'L21', 'L18'] },
+      { name: 'Noche azul', codes: ['L07', 'L10', 'L17'] },
+      { name: 'Turquesa mineral', codes: ['L01', 'L06', 'L23'] },
+      { name: 'Tierra y agua', codes: ['L23', 'L04', 'L18'] },
+      { name: 'Rosa profundo', codes: ['L12', 'L11', 'L17'] },
+      { name: 'Bosque nocturno', codes: ['L22', 'L08', 'L19'] },
+      { name: 'Azul jaspeado', codes: ['L26', 'L17', 'L14'] },
+      { name: 'Violeta azul', codes: ['L28', 'L05', 'L11'] },
+      { name: 'Océano', codes: ['L04', 'L05', 'L14'] }
+    ];
+
+    const COTTON_HARMONIES = [
+      { name: 'Aguas turquesas', codes: ['A01', 'A06', 'A13'] },
+      { name: 'Azul profundo', codes: ['A02', 'A06', 'A05'] },
+      { name: 'Rojo y marfil', codes: ['A03', 'A13', 'A17'] },
+      { name: 'Vino rosado', codes: ['A04', 'A08', 'A13'] },
+      { name: 'Rosa antiguo', codes: ['A08', 'A09', 'A14'] },
+      { name: 'Atardecer', codes: ['A11', 'A03', 'A19'] },
+      { name: 'Natural', codes: ['A13', 'A17', 'A21'] },
+      { name: 'Tierra rosada', codes: ['A17', 'A09', 'A01'] },
+      { name: 'Fucsia botánico', codes: ['A07', 'A17', 'A13'] },
+      { name: 'Rosa tierra', codes: ['A09', 'A17', 'A19'] },
+      { name: 'Coral vivo', codes: ['A10', 'A11', 'A13'] },
+      { name: 'Nude delicado', codes: ['A12', 'A14', 'A17'] },
+      { name: 'Lino y café', codes: ['A14', 'A24', 'A21'] },
+      { name: 'Violeta suave', codes: ['A15', 'A23', 'A05'] },
+      { name: 'Ciruela', codes: ['A16', 'A04', 'A20'] },
+      { name: 'Café cálido', codes: ['A18', 'A20', 'A15'] },
+      { name: 'Dorado y violeta', codes: ['A19', 'A15', 'A02'] },
+      { name: 'Arena', codes: ['A20', 'A01', 'A04'] },
+      { name: 'Nube', codes: ['A05', 'A23', 'A22'] },
+      { name: 'Azul mineral', codes: ['A06', 'A01', 'A19'] }
+    ];
+
+    let currentFiber = 'wool';
+    let currentMode = 'harmonies'; // 'harmonies' | 'swatches'
+    let selectedHarmony = WOOL_HARMONIES[0];
+    let selectedArch = 'Afrodita';
+    let selectedLen = '60 cm';
+
+    const fiberWoolBtn = document.getElementById('catalog-fiber-wool');
+    const fiberCottonBtn = document.getElementById('catalog-fiber-cotton');
+    const modeToggleBtn = document.getElementById('catalog-mode-toggle');
+    const subnavLabel = document.getElementById('catalog-subnav-label');
+    const cardsFlow = document.getElementById('catalog-cards-flow');
+    const orderArch = document.getElementById('catalog-order-arch');
+    const orderFiber = document.getElementById('catalog-order-fiber');
+    const orderCombo = document.getElementById('catalog-order-combo');
+    const waLink = document.getElementById('catalog-wa-link');
+    const catalogOpenBtn = document.getElementById('tucontu-catalog-open');
+
+    catalogOpenBtn?.addEventListener('click', () => {
+      selectGalleryMode('catalogo');
+      if (galleryDialog && !galleryDialog.open && !galleryInlineViewport.matches) {
+        galleryDialog.showModal();
+        galleryDialogIsModal = true;
+      }
+    });
+
+    fiberWoolBtn?.addEventListener('click', () => {
+      if (currentFiber === 'wool') return;
+      currentFiber = 'wool';
+      fiberWoolBtn.classList.add('is-active');
+      fiberWoolBtn.setAttribute('aria-checked', 'true');
+      fiberCottonBtn.classList.remove('is-active');
+      fiberCottonBtn.setAttribute('aria-checked', 'false');
+      selectedHarmony = WOOL_HARMONIES[0];
+      renderCards();
+      updateOrder();
+    });
+
+    fiberCottonBtn?.addEventListener('click', () => {
+      if (currentFiber === 'cotton') return;
+      currentFiber = 'cotton';
+      fiberCottonBtn.classList.add('is-active');
+      fiberCottonBtn.setAttribute('aria-checked', 'true');
+      fiberWoolBtn.classList.remove('is-active');
+      fiberWoolBtn.setAttribute('aria-checked', 'false');
+      selectedHarmony = COTTON_HARMONIES[0];
+      renderCards();
+      updateOrder();
+    });
+
+    modeToggleBtn?.addEventListener('click', () => {
+      currentMode = currentMode === 'harmonies' ? 'swatches' : 'harmonies';
+      modeToggleBtn.textContent = currentMode === 'harmonies' ? 'Ver muestrario A-Z' : 'Ver armonías sugeridas';
+      renderCards();
+    });
+
+    const lengthBtns = catalogPanel.querySelectorAll('.catalog-length-btn');
+    lengthBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        lengthBtns.forEach(b => {
+          b.classList.remove('is-active');
+          b.setAttribute('aria-checked', 'false');
+        });
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-checked', 'true');
+        selectedArch = btn.dataset.arch;
+        selectedLen = btn.dataset.len;
+        updateOrder();
+      });
+    });
+
+    function renderCards() {
+      if (!cardsFlow) return;
+      const colorsMap = currentFiber === 'wool' ? WOOL_COLORS : COTTON_COLORS;
+      const harmonies = currentFiber === 'wool' ? WOOL_HARMONIES : COTTON_HARMONIES;
+
+      if (currentMode === 'harmonies') {
+        if (subnavLabel) subnavLabel.textContent = `Armonías de autor (${harmonies.length})`;
+        cardsFlow.innerHTML = harmonies.map((h, i) => {
+          const isSelected = selectedHarmony && selectedHarmony.name === h.name;
+          const swatchesHtml = h.codes.map(code => {
+            const col = colorsMap[code] || { name: code, hex: '#c65d3a' };
+            return `<span class="catalog-swatch-circle" style="background-color: ${col.hex};" title="${code} · ${col.name}"></span>`;
+          }).join('');
+          const codesLabel = h.codes.join(' · ');
+
+          return `
+            <div class="catalog-harmony-card ${isSelected ? 'is-selected' : ''}" data-harmony-index="${i}" tabindex="0" role="button" aria-pressed="${isSelected}">
+              <div class="catalog-harmony-info">
+                <strong class="catalog-harmony-name">${h.name}</strong>
+                <span class="catalog-harmony-codes">${codesLabel}</span>
+              </div>
+              <div class="catalog-swatches-cluster">
+                ${swatchesHtml}
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        cardsFlow.querySelectorAll('.catalog-harmony-card').forEach(card => {
+          card.addEventListener('click', () => {
+            const idx = parseInt(card.dataset.harmonyIndex, 10);
+            selectedHarmony = harmonies[idx];
+            renderCards();
+            updateOrder();
+          });
+          card.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              card.click();
+            }
+          });
+        });
+      } else {
+        const total = Object.keys(colorsMap).length;
+        if (subnavLabel) subnavLabel.textContent = `Muestrario de colores (${total})`;
+        const swatchesHtml = Object.entries(colorsMap).map(([code, data]) => {
+          return `
+            <div class="catalog-swatch-tile" data-code="${code}">
+              <span class="catalog-swatch-tile-dot" style="background-color: ${data.hex};"></span>
+              <strong class="catalog-swatch-tile-code">${code}</strong>
+              <span class="catalog-swatch-tile-name">${data.name}</span>
+            </div>
+          `;
+        }).join('');
+        cardsFlow.innerHTML = `<div class="catalog-swatches-grid">${swatchesHtml}</div>`;
+      }
+    }
+
+    function updateOrder() {
+      if (orderArch) orderArch.textContent = `${selectedArch} (${selectedLen})`;
+      if (orderFiber) orderFiber.textContent = currentFiber === 'wool' ? 'Lana Suave' : 'Hilo de Algodón';
+      const codes = selectedHarmony ? selectedHarmony.codes.join(' + ') : '';
+      const name = selectedHarmony ? selectedHarmony.name : 'Personalizada';
+      if (orderCombo) orderCombo.textContent = `${name} (${codes})`;
+
+      if (waLink) {
+        const fiberName = currentFiber === 'wool' ? 'Lana' : 'Algodón';
+        const msg = `Hola Marcela, me gustaría encargar un TuconTu ${selectedArch} (${selectedLen}) en ${fiberName} con la combinación ${name} (${codes}).`;
+        waLink.href = `https://wa.me/56992388057?text=${encodeURIComponent(msg)}`;
+      }
+    }
+
+    renderCards();
+    updateOrder();
+  }
+  initTucontuCatalog();
 
   function installLayoutCollisionChecker() {
     const badge = document.getElementById('layout-collision-status');
