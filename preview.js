@@ -710,23 +710,20 @@
   let historyWriteStarted = false;
   let galleryDialogIsModal = false;
 
-  // Acceso privado y distribución local: desbloqueo de la cortina en red local o con ?preview=tucontu
+  // Cortina temporal: desbloqueada por defecto; se activa solo si ?curtain=1
   (() => {
     const tucontuSection = document.getElementById('tucontu');
     if (!tucontuSection) return;
     const urlParams = new URLSearchParams(window.location.search);
-    const host = window.location.hostname;
-    const isLocalNetwork = host === 'localhost' || host === '127.0.0.1' || /^192\.168\./.test(host) || /^10\./.test(host) || /^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(host);
-    const hasPreviewParam = urlParams.has('preview') || urlParams.has('tucontu') || urlParams.has('dev');
     if (urlParams.get('curtain') === '1') {
       tucontuSection.classList.add('has-coming-curtain');
+      const curtain = tucontuSection.querySelector('.tucontu-coming-curtain');
+      if (curtain) curtain.removeAttribute('hidden');
       return;
     }
-    if (isLocalNetwork || hasPreviewParam) {
-      tucontuSection.classList.remove('has-coming-curtain');
-      const curtain = tucontuSection.querySelector('.tucontu-coming-curtain');
-      if (curtain) curtain.setAttribute('hidden', '');
-    }
+    tucontuSection.classList.remove('has-coming-curtain');
+    const curtain = tucontuSection.querySelector('.tucontu-coming-curtain');
+    if (curtain) curtain.setAttribute('hidden', '');
   })();
   function writeHistoryOnce(){
     if(historyWriteStarted)return;
