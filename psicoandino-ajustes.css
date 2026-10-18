@@ -899,7 +899,7 @@ body.editorial-preview #acompanamientos .services-more-mobile svg {
 #tucontu .tucontu-heading-row .eyebrow {
   margin: 0 !important;
   font-family: var(--font-serif) !important;
-  font-size: clamp(1.2rem, 1.55vw, 1.6rem) !important;
+  font-size: clamp(1rem, 1.3vw, 1.3rem) !important;
   font-weight: 600 !important;
   letter-spacing: .02em !important;
   text-transform: none !important;
@@ -909,7 +909,7 @@ body.editorial-preview #acompanamientos .services-more-mobile svg {
 #tucontu .tucontu-heading-row h2 {
   margin: 0 !important;
   font-family: var(--font-serif) !important;
-  font-size: clamp(2.4rem, 3.8vw, 3.4rem) !important;
+  font-size: clamp(2.6rem, 4.2vw, 3.8rem) !important;
   line-height: 1 !important;
   color: var(--navy, #14283c) !important;
 }
@@ -920,6 +920,15 @@ body.editorial-preview #acompanamientos .services-more-mobile svg {
   font-size: clamp(1.15rem, 1.35vw, 1.35rem) !important;
   line-height: 1.4 !important;
   color: #4a4036 !important;
+}
+
+#tucontu .tucontu-intro strong {
+  font-family: var(--font-ui, 'Marcellus', serif) !important;
+  font-size: clamp(.95rem, 1.15vw, 1.15rem) !important;
+  font-weight: 600 !important;
+  color: var(--navy, #14283c) !important;
+  letter-spacing: .06em !important;
+  text-transform: uppercase !important;
 }
 
 /* ==========================================================================
@@ -942,8 +951,8 @@ body.editorial-preview #acompanamientos .services-more-mobile svg {
 
 #tucontu .tucontu-gallery-tabs {
   display: flex !important;
-  width: min(27rem, 100%) !important;
-  flex: 0 1 27rem !important;
+  width: min(30rem, 100%) !important;
+  flex: 0 1 30rem !important;
   justify-content: flex-start !important;
   gap: 0 !important;
   margin: 0 !important;
@@ -1676,7 +1685,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   body.editorial-preview #tucontu .tucontu-heading-row .eyebrow {
     font-family: var(--font-serif) !important;
-    font-size: clamp(1.2rem, 1.55vw, 1.6rem) !important;
+    font-size: clamp(1rem, 1.3vw, 1.3rem) !important;
     font-weight: 600 !important;
     letter-spacing: .02em !important;
     text-transform: none !important;
@@ -1686,7 +1695,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   body.editorial-preview #tucontu .tucontu-heading-row h2 {
     font-family: var(--font-serif) !important;
-    font-size: clamp(2.4rem, 3.8vw, 3.4rem) !important;
+    font-size: clamp(2.6rem, 4.2vw, 3.8rem) !important;
     line-height: 1 !important;
     color: var(--navy, #14283c) !important;
     margin: 0 !important;
@@ -1698,6 +1707,15 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     font-size: clamp(1.15rem, 1.35vw, 1.35rem) !important;
     line-height: 1.4 !important;
     color: #4a4036 !important;
+  }
+
+  body.editorial-preview #tucontu .tucontu-intro strong {
+    font-family: var(--font-ui, 'Marcellus', serif) !important;
+    font-size: clamp(.95rem, 1.15vw, 1.15rem) !important;
+    font-weight: 600 !important;
+    color: var(--navy, #14283c) !important;
+    letter-spacing: .06em !important;
+    text-transform: uppercase !important;
   }
 
   /* Barra de pestañas + PDF compacta */
@@ -2417,18 +2435,19 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   body.editorial-preview #tucontu .tucontu-heading-row .eyebrow {
     font-family: var(--font-ui) !important;
-    font-size: clamp(.72rem, 2.4vw, .82rem) !important;
-    letter-spacing: .12em !important;
+    font-size: .68rem !important;
+    letter-spacing: .16em !important;
     text-transform: uppercase !important;
     color: #8d6c36 !important;
     margin: 0 !important;
     display: block !important;
     text-align: center !important;
+    opacity: .85 !important;
   }
 
   body.editorial-preview #tucontu .tucontu-heading-row h2 {
     font-family: var(--font-serif) !important;
-    font-size: clamp(2.3rem, 7.5vw, 3rem) !important;
+    font-size: clamp(2.4rem, 8vw, 3.2rem) !important;
     line-height: 1 !important;
     letter-spacing: -.01em !important;
     margin: .05rem 0 0 0 !important;
@@ -2438,14 +2457,23 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   body.editorial-preview #tucontu .tucontu-intro {
     position: relative !important;
-    font-size: .84rem !important;
-    line-height: 1.3 !important;
+    font-size: .88rem !important;
+    line-height: 1.25 !important;
     margin: .1rem 0 0 0 !important;
     text-align: center !important;
     display: block !important;
     width: 100% !important;
     color: var(--muted, #665a4e) !important;
     transition: opacity .3s ease !important;
+  }
+
+  body.editorial-preview #tucontu .tucontu-intro strong {
+    font-family: var(--font-ui, 'Marcellus', serif) !important;
+    font-size: clamp(.88rem, 2.4vw, 1.02rem) !important;
+    font-weight: 600 !important;
+    color: var(--navy, #14283c) !important;
+    letter-spacing: .06em !important;
+    text-transform: uppercase !important;
   }
 
   /* Fila visual: Contenedor con posicionamiento para el badge de video */
@@ -2466,14 +2494,13 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   }
 
   /* Marco arquitectónico adaptativo con morfismo fluido */
-  /* Marco arquitectónico adaptativo con morfismo fluido */
   body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo {
     position: relative !important;
     inset: auto !important;
     width: clamp(17.5rem, 88vw, 24rem) !important;
     max-width: min(90vw, 24rem) !important;
-    height: clamp(15rem, 51dvh, 26rem) !important;
-    max-height: 51dvh !important;
+    height: clamp(18rem, 62dvh, 32rem) !important;
+    max-height: 62dvh !important;
     flex-shrink: 0 !important;
     aspect-ratio: auto !important;
     padding: .3rem !important;
@@ -2567,20 +2594,43 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
      DINAMISMO CONTEXTUAL SEGÚN SECCIÓN (data-active-mode)
      ========================================================================== */
 
-  /* 0. MODO PIEZA: Pantalla de reposo contemplativo con el accesorio en majestuosa escala */
+  /* 0. MODO PIEZA: Enfoque directo en el accesorio artesanal con escala majestuosa */
+  body.editorial-preview #tucontu[data-active-mode="pieza"] > .view-inner.tucontu-layout {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-around !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-visual {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-gallery-dialog[data-presentation="inline"] {
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin-top: auto !important;
+  }
+
   body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-intro {
     display: block !important;
-    opacity: 0.9 !important;
-    font-size: .84rem !important;
-    line-height: 1.3 !important;
+    opacity: 1 !important;
+    font-size: .88rem !important;
+    line-height: 1.25 !important;
     margin: .1rem 0 0 0 !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-piece-photo.is-cover-photo {
     display: block !important;
     width: clamp(17.5rem, 88vw, 24rem) !important;
-    height: clamp(15rem, 51dvh, 26rem) !important;
-    max-height: 51dvh !important;
+    height: clamp(18rem, 62dvh, 32rem) !important;
+    max-height: 62dvh !important;
     max-width: min(90vw, 24rem) !important;
     aspect-ratio: auto !important;
     border-radius: 50% 50% .55rem .55rem / 20% 20% .55rem .55rem !important;
@@ -2600,12 +2650,11 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   }
 
   body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-gallery-panel {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;
-    text-align: center !important;
-    padding: .4rem 1.2rem !important;
+    display: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
   }
 
   /* 1. MODO CONCEPTO Y CATÁLOGO: Ocultamos el encabezado redundante y la ventana de foto para dar el 100% del espacio al contenido */
@@ -2639,9 +2688,11 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   body.editorial-preview #tucontu[data-active-mode="galeria"].view {
     display: flex !important;
     flex-direction: column !important;
-    justify-content: flex-start !important;
+    justify-content: space-between !important;
     overflow-y: hidden !important;
     overflow-x: hidden !important;
+    height: 100% !important;
+    max-height: calc(100dvh - var(--header-height, 3.75rem)) !important;
   }
 
   /* Ocultar barra de navegación inferior con salida fluida y deslizamiento suave hacia abajo */
@@ -2659,20 +2710,41 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     overflow: hidden !important;
   }
 
-  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-visual {
+  body.editorial-preview #tucontu[data-active-mode="galeria"] > .view-inner.tucontu-layout {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
     display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-content {
+    margin-bottom: .05rem !important;
     flex-shrink: 0 !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-visual {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-piece-photo.is-cover-photo {
     display: block !important;
-    height: clamp(15rem, 51dvh, 26rem) !important;
-    max-height: 51dvh !important;
+    height: clamp(18rem, 58dvh, 32rem) !important;
+    max-height: 58dvh !important;
     width: clamp(17.5rem, 88vw, 24rem) !important;
     max-width: min(90vw, 24rem) !important;
     aspect-ratio: auto !important;
     border-radius: 50% 50% .55rem .55rem / 20% 20% .55rem .55rem !important;
-    margin: .1rem auto .2rem !important;
+    margin: 0 auto !important;
     flex-shrink: 0 !important;
   }
 
@@ -2690,10 +2762,14 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   }
 
   body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-gallery-dialog[data-presentation="inline"] {
-    flex: 1 1 auto !important;
+    flex: 0 0 auto !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin-top: auto !important;
+    padding: 0 !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-gallery-shell {
@@ -2701,23 +2777,58 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     flex-direction: column !important;
     justify-content: flex-start !important;
     height: auto !important;
+    min-height: 0 !important;
+    padding: 0 !important;
   }
 
-  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-gallery-panel {
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-gallery-panel,
+  body.editorial-preview #tucontu[data-active-mode="galeria"] #tucontu-photos-panel {
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
     margin-top: 0 !important;
-    padding: .1rem clamp(.75rem, 3vw, 1.25rem) calc(.8rem + env(safe-area-inset-bottom, 0px)) !important;
+    padding: .35rem clamp(.75rem, 3vw, 1.25rem) calc(.55rem + env(safe-area-inset-bottom, 0px)) !important;
     overflow: hidden !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .gallery-topbar {
+    margin-bottom: .15rem !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="galeria"] .gallery-collection {
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
-    gap: .25rem !important;
+    gap: .15rem !important;
     flex-shrink: 0 !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .gallery-collection-meta {
+    margin-bottom: .15rem !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .gallery-collection-meta h3,
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .gallery-collection-title {
+    font-family: var(--font-ui, 'Marcellus', serif) !important;
+    font-size: .78rem !important;
+    letter-spacing: .08em !important;
+    text-transform: uppercase !important;
+    color: #8d6c36 !important;
+    margin: 0 !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="galeria"] #gallery-selection-count {
+    font-family: var(--font-ui, sans-serif) !important;
+    font-size: .76rem !important;
+    color: var(--muted, #665a4e) !important;
+    font-weight: 500 !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="galeria"] #gallery-grid {
+    padding: .15rem .2rem .25rem !important;
+    min-height: 4.2rem !important;
   }
 
   /* 3. MODO HISTORIA: Ocultamos la ventana de foto para lectura sosegada y limpia */
@@ -2774,7 +2885,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     display: none !important;
   }
 
-  body.editorial-preview #tucontu .tucontu-gallery-panel:not([hidden]) {
+  body.editorial-preview #tucontu .tucontu-gallery-panel:not([hidden]):not(.tucontu-piece-panel) {
     display: flex !important;
     flex-direction: column !important;
     order: 1 !important;
@@ -2785,6 +2896,16 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     padding: .85rem clamp(.85rem, 3.5vw, 1.5rem) .25rem !important;
     box-sizing: border-box !important;
     animation: tucontu-panel-fluid-enter .24s cubic-bezier(.16, 1, .3, 1) both !important;
+  }
+
+  body.editorial-preview #tucontu .tucontu-piece-panel,
+  body.editorial-preview #tucontu #tucontu-piece-panel {
+    display: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    flex: 0 0 0 !important;
   }
 
   @keyframes tucontu-panel-fluid-enter {
@@ -2926,35 +3047,13 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
      DETALLES DE PANELES EN MÓVIL
      ========================================================================== */
 
-  /* Portada / Pieza (Reposo contemplativo) */
+  /* Portada / Pieza (Enfoque directo en el producto) */
   #tucontu .tucontu-piece-panel {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;
-    text-align: center !important;
-    flex: 1 1 auto !important;
-    padding: .2rem 1.2rem !important;
-  }
-
-  #tucontu .tucontu-piece-intro-card {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: .25rem !important;
-    max-width: 25rem !important;
-    margin: 0 auto !important;
-  }
-
-  #tucontu .tucontu-piece-motto {
-    font-family: var(--font-serif) !important;
-    font-style: italic !important;
-    font-size: clamp(1.22rem, 3.8vw, 1.45rem) !important;
-    line-height: 1.36 !important;
-    color: var(--navy, #14283c) !important;
-    text-align: center !important;
-    max-width: 24rem !important;
-    margin: 0 auto !important;
+    display: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
   }
 
   /* Concepto: Tipografía editorial pura, sin cajas ni bordes de dashboard */
@@ -3446,15 +3545,21 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     margin-bottom: .15rem !important;
   }
 
-  #tucontu .gallery-collection-meta h3 {
-    font-size: .82rem !important;
+  #tucontu .gallery-collection-meta h3,
+  #tucontu .gallery-collection-title {
+    font-family: var(--font-ui, 'Marcellus', serif) !important;
+    font-size: .78rem !important;
+    letter-spacing: .08em !important;
+    text-transform: uppercase !important;
     margin: 0 !important;
-    color: var(--navy, #14283c) !important;
+    color: #8d6c36 !important;
   }
 
   #tucontu .gallery-collection-meta output {
-    font-size: .72rem !important;
-    color: #8d6c36 !important;
+    font-family: var(--font-ui, sans-serif) !important;
+    font-size: .76rem !important;
+    color: var(--muted, #665a4e) !important;
+    font-weight: 500 !important;
   }
 
   /* Galería: Riel horizontal de fotos en una sola línea para que la imagen de arriba gane el máximo espacio */

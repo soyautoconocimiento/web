@@ -25,11 +25,11 @@
   <script src="contact-links.js" defer></script>
   <script src="dialog-close.js?v=20260930-native-close" defer></script>
   <script src="viewport-experience.js?v=20261010-layered-core-1" defer></script>
-  <script src="preview.js?v=20261017-tucontu-altb-14" defer></script>
+  <script src="preview.js?v=20261017-tucontu-altb-16" defer></script>
   <link rel="stylesheet" href="privacy-consent.css?v=20261008-preferences-1">
   <link rel="stylesheet" href="candidate-responsive.css?v=20261013-menu-overlay-1">
   <link rel="stylesheet" href="candidate-refinement.css?v=20261015-editorial-suave-1">
-  <link rel="stylesheet" href="psicoandino-ajustes.css?v=20261017-tucontu-altb-14">
+  <link rel="stylesheet" href="psicoandino-ajustes.css?v=20261017-tucontu-altb-16">
 </head>
 <body class="editorial-preview">
   <div class="site-shell">
@@ -112,10 +112,10 @@
         <div class="view-inner tucontu-layout">
           <div class="tucontu-content">
             <div class="tucontu-heading-row">
-              <span class="eyebrow">Colores del Alma</span>
+              <span class="eyebrow tucontu-eyebrow">Colores del Alma</span>
               <h2 id="tucontu-title">TuconTu</h2>
             </div>
-            <p class="tucontu-intro"><strong>Accesorio artesanal</strong> tejido a mano para llevar en el pelo.</p>
+            <p class="tucontu-intro"><strong>Accesorio para el pelo</strong></p>
           </div>
           <div class="tucontu-visual">
             <figure class="tucontu-piece-photo is-cover-photo"><img id="tucontu-home-photo" src="assets/tucontu/product/img-3332.webp" srcset="assets/tucontu/product/img-3332-display-260.jpg 260w, assets/tucontu/product/img-3332-display-940.jpg 940w" sizes="(max-width: 63.99rem) min(90vw, 24rem), min(38vw, 24rem)" loading="eager" decoding="async" fetchpriority="high" alt="Detalle de un TuconTu con colet negro, cordón dorado, trenza y fibras verdes sobre el cabello."><figcaption id="tucontu-home-caption">Una pieza real TuconTu con colet negro y cordones de diferentes texturas sobre el cabello.</figcaption></figure>
@@ -143,9 +143,9 @@
                   <svg class="tab-glyph" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="14" y2="10"/></svg>
                   <span class="tab-text label-full">Concepto</span>
                 </button>
-                <button id="tucontu-catalog-tab" type="button" role="tab" aria-selected="false" aria-controls="tucontu-catalog-panel" tabindex="-1" class="category-tab" data-gallery-mode="catalogo" aria-label="Catálogo">
+                <button id="tucontu-catalog-tab" type="button" role="tab" aria-selected="false" aria-controls="tucontu-catalog-panel" tabindex="-1" class="category-tab" data-gallery-mode="catalogo" aria-label="Personaliza el tuyo">
                   <svg class="tab-glyph" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-4.97-4.48-9-10-9z"/><circle cx="6.5" cy="11.5" r="1.5"/><circle cx="9.5" cy="7.5" r="1.5"/><circle cx="14.5" cy="7.5" r="1.5"/><circle cx="17.5" cy="11.5" r="1.5"/></svg>
-                  <span class="tab-text label-full">Catálogo</span>
+                  <span class="tab-text label-full">Personaliza el tuyo</span>
                 </button>
               </div>
               <button class="tucontu-pdf-action-btn" id="tucontu-dossier-open-btn" type="button" aria-haspopup="dialog" aria-controls="tucontu-dossier-dialog" aria-label="Dossier técnico en PDF">
@@ -154,12 +154,8 @@
               </button>
             </div>
 
-            <!-- Panel 0: Portada / Pieza (Reposo contemplativo en móvil) -->
-            <section class="tucontu-gallery-panel tucontu-piece-panel" id="tucontu-piece-panel" role="tabpanel" aria-labelledby="tucontu-piece-tab" data-gallery-panel="pieza">
-              <div class="tucontu-piece-intro-card">
-                <p class="tucontu-piece-motto">«Un pequeño gesto que recuerda la importancia de volver a ti, reconocerte y habitar tu propia vida.»</p>
-              </div>
-            </section>
+            <!-- Panel 0: Portada / Pieza (Enfoque directo en el producto) -->
+            <section class="tucontu-gallery-panel tucontu-piece-panel" id="tucontu-piece-panel" role="tabpanel" aria-labelledby="tucontu-piece-tab" data-gallery-panel="pieza"></section>
 
             <!-- Panel 1: Concepto con paginación integrada (sin scroll) -->
             <section class="tucontu-gallery-panel tucontu-concept-panel" id="tucontu-concept-panel" role="tabpanel" aria-labelledby="tucontu-concept-tab" data-gallery-panel="concepto" hidden>
@@ -329,13 +325,13 @@
               </div>
             </section>
 
-            <!-- Panel: Catálogo de Fibras y Armonías -->
+            <!-- Panel: Personaliza tu TuconTu -->
             <section class="tucontu-gallery-panel tucontu-catalog-panel" id="tucontu-catalog-panel" role="tabpanel" aria-labelledby="tucontu-catalog-tab" data-gallery-panel="catalogo" hidden>
               <div class="catalog-shell">
                 <header class="catalog-header">
-                  <span class="catalog-eyebrow">Catálogo de Fibras & Armonías</span>
-                  <h3 class="catalog-title">La belleza de ser Tú</h3>
-                  <p class="catalog-lead">Elige la fibra, armonía y largo para encargar tu pieza única tejida a mano.</p>
+                  <span class="catalog-eyebrow">Personaliza tu pieza</span>
+                  <h3 class="catalog-title">Personaliza el tuyo</h3>
+                  <p class="catalog-lead">Elige el largo, las fibras y la combinación de colores para encargar tu pieza única tejida a mano.</p>
                 </header>
 
                 <!-- Selector de Fibra (Pills) -->
@@ -405,8 +401,8 @@
               </figure>
               <div class="gallery-collection">
                 <div class="gallery-collection-meta">
-                  <h3>Fotografías</h3>
-                  <output id="gallery-selection-count" aria-live="polite">Fotografía 1 de 12</output>
+                  <h3 class="gallery-collection-title">Colección</h3>
+                  <output id="gallery-selection-count" aria-live="polite">1 de 12</output>
                 </div>
                 <div class="gallery-grid" id="gallery-grid" aria-label="Elegir una fotografía de TuconTu"></div>
               </div>

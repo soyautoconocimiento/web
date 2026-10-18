@@ -836,7 +836,7 @@
     }
     if (updateHomePhoto && homePhotoCaption) homePhotoCaption.textContent = photo.alt;
     const order = index + 1;
-    if (gallerySelectionCount) gallerySelectionCount.textContent = 'Fotografía ' + order + ' de ' + galleryPhotos.length;
+    if (gallerySelectionCount) gallerySelectionCount.textContent = order + ' de ' + galleryPhotos.length;
     [...gallery.children].forEach(button => {
       const selected = Number(button.dataset.index) === index;
       button.classList.toggle('is-selected', selected);
@@ -872,7 +872,7 @@
       showConceptSlide(0);
       return;
     }
-    const titles = { pieza: 'TuconTu', concepto: 'Concepto', catalogo: 'Catálogo', manual: 'Concepto', galeria: 'Galería', fotos: 'Galería', video: 'Video' };
+    const titles = { pieza: 'TuconTu', concepto: 'Concepto', catalogo: 'Personaliza el tuyo', manual: 'Concepto', galeria: 'Galería', fotos: 'Galería', video: 'Video' };
     if (galleryTitle) galleryTitle.textContent = titles[mode] || 'TuconTu';
     const tucontuSection = document.getElementById('tucontu');
     if (tucontuSection) tucontuSection.dataset.activeMode = mode;
