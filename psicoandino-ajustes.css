@@ -211,7 +211,8 @@ body.editorial-preview .goddess-header strong {
 .button-gold,
 .button-outline,
 .tucontu-pdf-action-btn,
-.tucontu-video-trigger {
+.tucontu-video-trigger,
+.tucontu-gallery-trigger {
   font-family: var(--font-ui) !important;
   letter-spacing: .05em !important;
 }
@@ -960,7 +961,7 @@ body.editorial-preview #acompanamientos .services-more-mobile svg {
   position: relative !important;
   z-index: 1 !important;
   flex: 1 1 0 !important;
-  width: calc((100% - .44rem) / 4) !important;
+  width: calc((100% - .44rem) / 2) !important;
   min-width: 0 !important;
   min-height: 2.55rem !important;
   padding: .45em .4em !important;
@@ -987,41 +988,46 @@ body.editorial-preview #acompanamientos .services-more-mobile svg {
   border: 0 !important;
 }
 
-/* Fondo líquido deslizante (4 posiciones: Concepto [0], Catálogo [1], Historia [2], Galería [3]) */
+/* Fondo líquido deslizante (2 posiciones en desktop: Concepto [0], Catálogo [1]) */
 #tucontu .tucontu-gallery-tabs::before {
   position: absolute !important;
-  z-index: -1 !important;
+  z-index: 1 !important;
   top: .22rem !important;
   bottom: .22rem !important;
   left: .22rem !important;
-  width: calc((100% - .44rem) / 4) !important;
+  width: calc((100% - .44rem) / 2) !important;
   border-radius: .45rem !important;
   background: #566044 !important;
   box-shadow: 0 .15rem .45rem rgba(76, 51, 25, .2) !important;
   content: "" !important;
-  transition: transform .55s cubic-bezier(.22, 1.35, .42, 1), background-color .4s ease !important;
+  transition: transform .55s cubic-bezier(.22, 1.35, .42, 1), opacity .3s ease, background-color .4s ease !important;
+}
+
+#tucontu .tucontu-gallery-tabs .category-tab {
+  position: relative !important;
+  z-index: 2 !important;
 }
 
 #tucontu .tucontu-gallery-tabs[data-active-mode="concepto"]::before,
 #tucontu .tucontu-gallery-tabs[data-active-mode="manual"]::before,
 #tucontu:has(#tucontu-concept-tab[aria-selected="true"]) .tucontu-gallery-tabs::before {
   transform: translateX(0) !important;
+  opacity: 1 !important;
 }
 
 #tucontu .tucontu-gallery-tabs[data-active-mode="catalogo"]::before,
 #tucontu:has(#tucontu-catalog-tab[aria-selected="true"]) .tucontu-gallery-tabs::before {
   transform: translateX(100%) !important;
+  opacity: 1 !important;
 }
-
-#tucontu .tucontu-gallery-tabs[data-active-mode="historia"]::before,
-#tucontu:has(#tucontu-history-tab[aria-selected="true"]) .tucontu-gallery-tabs::before {
   transform: translateX(200%) !important;
+  opacity: 1 !important;
 }
 
 #tucontu .tucontu-gallery-tabs[data-active-mode="galeria"]::before,
 #tucontu .tucontu-gallery-tabs[data-active-mode="fotos"]::before,
-#tucontu:has(#tucontu-photos-tab[aria-selected="true"]) .tucontu-gallery-tabs::before {
-  transform: translateX(300%) !important;
+#tucontu .tucontu-gallery-tabs[data-active-mode="pieza"]::before {
+  opacity: 0 !important;
 }
 
 /* Botón independiente Descargar PDF situado exactamente al lado de las pestañas */
@@ -1180,6 +1186,86 @@ body.editorial-preview #acompanamientos .services-more-mobile svg {
   overflow: visible !important;
 }
 
+/* Barra de navegación interna de la Galería (Alternativa B) */
+#tucontu .gallery-topbar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: clamp(21rem, 52dvh, 33rem) !important;
+  max-width: 100% !important;
+  margin: 0 0 clamp(.35rem, .8dvh, .65rem) 0 !important;
+  padding: 0 .15rem !important;
+  gap: .5rem !important;
+  flex-shrink: 0 !important;
+}
+
+#tucontu .gallery-back-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: .4rem !important;
+  padding: .35rem .85rem !important;
+  border: 1px solid rgba(141, 108, 54, .3) !important;
+  border-radius: 999px !important;
+  background: rgba(255, 253, 249, .92) !important;
+  color: #566044 !important;
+  font-family: var(--font-ui) !important;
+  font-size: clamp(.78rem, .9vw, .85rem) !important;
+  font-weight: 500 !important;
+  letter-spacing: .02em !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 6px rgba(38, 31, 24, .05) !important;
+  transition: all .2s cubic-bezier(.22, 1, .36, 1) !important;
+}
+
+#tucontu .gallery-back-btn:hover {
+  background: #566044 !important;
+  color: #fffaf2 !important;
+  border-color: #566044 !important;
+  transform: translateX(-2px) !important;
+  box-shadow: 0 4px 12px rgba(86, 96, 68, .2) !important;
+}
+
+#tucontu .gallery-back-btn svg {
+  flex-shrink: 0 !important;
+  transition: transform .2s ease !important;
+}
+
+#tucontu .gallery-back-btn:hover svg {
+  transform: translateX(-2px) !important;
+}
+
+#tucontu .gallery-video-pill-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: .45rem !important;
+  padding: .35rem .95rem !important;
+  border: 1px solid rgba(141, 108, 54, .35) !important;
+  border-radius: 999px !important;
+  background: #566044 !important;
+  color: #fffaf2 !important;
+  font-family: var(--font-ui) !important;
+  font-size: clamp(.78rem, .9vw, .85rem) !important;
+  font-weight: 500 !important;
+  letter-spacing: .025em !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(86, 96, 68, .18) !important;
+  transition: all .2s cubic-bezier(.22, 1, .36, 1) !important;
+}
+
+#tucontu .gallery-video-pill-btn:hover {
+  background: #3e4631 !important;
+  border-color: #3e4631 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 14px rgba(86, 96, 68, .3) !important;
+}
+
+#tucontu .gallery-video-pill-btn svg {
+  color: #e2b96f !important;
+  fill: #e2b96f !important;
+  flex-shrink: 0 !important;
+}
+
 #tucontu .gallery-collection {
   display: flex !important;
   flex-direction: column !important;
@@ -1330,8 +1416,9 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   transition: opacity .25s cubic-bezier(.22, 1, .36, 1) !important;
 }
 
-/* Botón de video elegante bajo el marco */
-.tucontu-video-trigger {
+/* Botón de video y galería elegante bajo el marco */
+.tucontu-video-trigger,
+.tucontu-gallery-trigger {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -1350,14 +1437,16 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   transition: transform .18s ease, background-color .18s ease, color .18s ease, box-shadow .18s ease !important;
 }
 
-.tucontu-video-trigger:hover {
+.tucontu-video-trigger:hover,
+.tucontu-gallery-trigger:hover {
   transform: translateY(-2px) !important;
   background: #fdfbf7 !important;
   color: #866333 !important;
   box-shadow: 0 6px 18px rgba(20, 40, 60, .14) !important;
 }
 
-.tucontu-video-trigger .video-trigger-icon {
+.tucontu-video-trigger .video-trigger-icon,
+.tucontu-gallery-trigger .gallery-trigger-icon {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -1367,6 +1456,10 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   background: #566044 !important;
   color: #fffaf2 !important;
   font-size: .65rem !important;
+  padding-left: 0 !important;
+}
+
+.tucontu-video-trigger .video-trigger-icon {
   padding-left: 2px !important;
 }
 
@@ -1702,12 +1795,12 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
-    gap: clamp(1.8rem, 3.6dvh, 2.8rem) !important;
+    gap: clamp(.9rem, 2dvh, 1.45rem) !important;
     height: auto !important;
     position: relative !important;
     width: 100% !important;
     margin: 0 !important;
-    padding: clamp(.3rem, .6dvh, .6rem) 0 !important;
+    padding: clamp(.2rem, .4dvh, .4rem) 0 !important;
     box-sizing: border-box !important;
   }
 
@@ -1725,7 +1818,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     display: flex !important;
     align-items: center !important;
     width: 100% !important;
-    padding: clamp(.25rem, .5dvh, .45rem) 0 clamp(.25rem, .5dvh, .45rem) 1.6rem !important;
+    padding: clamp(.18rem, .35dvh, .32rem) 0 clamp(.18rem, .35dvh, .32rem) 1.5rem !important;
     text-align: left !important;
     background: transparent !important;
     border: none !important;
@@ -1735,7 +1828,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   #tucontu .stepper-node-label {
     font-family: var(--font-ui) !important;
-    font-size: clamp(1.15rem, 1.3vw, 1.38rem) !important;
+    font-size: clamp(1.02rem, 1.15vw, 1.22rem) !important;
     font-weight: 400 !important;
     letter-spacing: .06em !important;
     color: rgba(85, 74, 64, .55) !important;
@@ -2185,7 +2278,8 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     box-shadow: 0 .9rem 2.5rem rgba(38, 31, 24, .16), 0 0 0 1px rgba(255, 255, 255, .7) inset !important;
   }
 
-  body.editorial-preview #tucontu .tucontu-video-trigger {
+  body.editorial-preview #tucontu .tucontu-video-trigger,
+  body.editorial-preview #tucontu .tucontu-gallery-trigger {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -2203,12 +2297,17 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     transition: all .2s ease !important;
   }
 
-  body.editorial-preview #tucontu .tucontu-video-trigger:hover {
+  body.editorial-preview #tucontu .tucontu-video-trigger:hover,
+  body.editorial-preview #tucontu .tucontu-gallery-trigger:hover {
     background: #566044 !important;
     color: #fffaf2 !important;
     border-color: #566044 !important;
     transform: translateY(-1px) !important;
     box-shadow: 0 4px 12px rgba(86, 96, 68, .22) !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-gallery-trigger {
+    display: none !important;
   }
 }
 
@@ -2367,12 +2466,14 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   }
 
   /* Marco arquitectónico adaptativo con morfismo fluido */
+  /* Marco arquitectónico adaptativo con morfismo fluido */
   body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo {
     position: relative !important;
     inset: auto !important;
     width: clamp(17.5rem, 88vw, 24rem) !important;
     max-width: min(90vw, 24rem) !important;
-    height: clamp(18rem, calc(100dvh - 330px), 32rem) !important;
+    height: clamp(15rem, 51dvh, 26rem) !important;
+    max-height: 51dvh !important;
     flex-shrink: 0 !important;
     aspect-ratio: auto !important;
     padding: .3rem !important;
@@ -2383,12 +2484,12 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     background: linear-gradient(145deg, #fdfbf7, #ebe3d5) !important;
     box-shadow: 0 1.2rem 3rem rgba(38, 31, 24, .15), inset 0 0 0 1px rgba(255, 255, 255, .7) !important;
     margin: .1rem auto .2rem !important;
-    transition: width .55s cubic-bezier(.22, 1, .36, 1),
-                height .55s cubic-bezier(.22, 1, .36, 1),
-                aspect-ratio .55s cubic-bezier(.22, 1, .36, 1),
-                max-width .55s cubic-bezier(.22, 1, .36, 1),
-                border-radius .55s cubic-bezier(.22, 1, .36, 1),
-                box-shadow .55s cubic-bezier(.22, 1, .36, 1) !important;
+    transition: height .48s cubic-bezier(.16, 1, .3, 1),
+                max-width .48s cubic-bezier(.16, 1, .3, 1),
+                border-radius .48s cubic-bezier(.16, 1, .3, 1),
+                box-shadow .48s cubic-bezier(.16, 1, .3, 1),
+                transform .48s cubic-bezier(.16, 1, .3, 1) !important;
+    will-change: height, max-width, transform !important;
   }
 
   body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
@@ -2397,26 +2498,36 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     height: 100% !important;
     object-fit: cover !important;
     object-position: 50% 20% !important;
-    transition: opacity .35s cubic-bezier(.22, 1, .36, 1),
-                border-radius .55s cubic-bezier(.22, 1, .36, 1) !important;
+    transition: opacity .32s cubic-bezier(.16, 1, .3, 1),
+                transform .36s cubic-bezier(.16, 1, .3, 1),
+                filter .32s cubic-bezier(.16, 1, .3, 1),
+                border-radius .48s cubic-bezier(.16, 1, .3, 1) !important;
+    will-change: opacity, transform, filter !important;
   }
 
-  /* Botón de Video: Insignia translúcida elegante superpuesta en el marco */
-  body.editorial-preview #tucontu .tucontu-video-trigger {
+  body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img.is-morphing {
+    opacity: .82 !important;
+    transform: scale(.986) !important;
+    filter: blur(1.2px) !important;
+  }
+
+  /* Botón de Video / Galería: Insignia translúcida elegante superpuesta en el marco */
+  body.editorial-preview #tucontu .tucontu-video-trigger,
+  body.editorial-preview #tucontu .tucontu-gallery-trigger {
     position: absolute !important;
     bottom: .6rem !important;
     left: 50% !important;
-    transform: translateX(-50%) !important;
+    transform: translateX(-50%) translateY(0) scale(1) !important;
     right: auto !important;
     z-index: 5 !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: .3rem !important;
-    padding: .28rem .75rem !important;
+    gap: .35rem !important;
+    padding: .32rem .85rem !important;
     border-radius: 2rem !important;
     font-family: var(--font-ui) !important;
-    font-size: .74rem !important;
+    font-size: .75rem !important;
     font-weight: 500 !important;
     letter-spacing: .04em !important;
     border: 1px solid rgba(255, 255, 255, .35) !important;
@@ -2429,10 +2540,23 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     flex-shrink: 0 !important;
     cursor: pointer !important;
     white-space: nowrap !important;
-    transition: opacity .35s ease, transform .2s ease !important;
+    touch-action: manipulation !important;
+    transition: opacity .32s ease,
+                transform .36s cubic-bezier(.16, 1, .3, 1),
+                background-color .2s ease,
+                box-shadow .2s ease,
+                visibility .32s !important;
+    will-change: transform, opacity !important;
   }
 
-  body.editorial-preview #tucontu .tucontu-video-trigger .video-trigger-icon {
+  body.editorial-preview #tucontu .tucontu-video-trigger:active,
+  body.editorial-preview #tucontu .tucontu-gallery-trigger:active {
+    transform: translateX(-50%) translateY(2px) scale(.94) !important;
+    transition-duration: .08s !important;
+  }
+
+  body.editorial-preview #tucontu .tucontu-video-trigger .video-trigger-icon,
+  body.editorial-preview #tucontu .tucontu-gallery-trigger .gallery-trigger-icon {
     font-size: .68rem !important;
     color: #e2b96f !important;
     display: inline-flex !important;
@@ -2455,7 +2579,8 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-piece-photo.is-cover-photo {
     display: block !important;
     width: clamp(17.5rem, 88vw, 24rem) !important;
-    height: clamp(18rem, calc(100dvh - 330px), 32rem) !important;
+    height: clamp(15rem, 51dvh, 26rem) !important;
+    max-height: 51dvh !important;
     max-width: min(90vw, 24rem) !important;
     aspect-ratio: auto !important;
     border-radius: 50% 50% .55rem .55rem / 20% 20% .55rem .55rem !important;
@@ -2469,7 +2594,8 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     object-position: 50% 20% !important;
   }
 
-  body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-video-trigger {
+  body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-video-trigger,
+  body.editorial-preview #tucontu[data-active-mode="pieza"] .tucontu-gallery-trigger {
     display: inline-flex !important;
   }
 
@@ -2488,11 +2614,13 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-visual,
   body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-piece-photo.is-cover-photo,
   body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-video-trigger,
+  body.editorial-preview #tucontu[data-active-mode="concepto"] .tucontu-gallery-trigger,
   body.editorial-preview #tucontu[data-active-mode="catalogo"] .tucontu-content,
   body.editorial-preview #tucontu[data-active-mode="catalogo"] .tucontu-intro,
   body.editorial-preview #tucontu[data-active-mode="catalogo"] .tucontu-visual,
   body.editorial-preview #tucontu[data-active-mode="catalogo"] .tucontu-piece-photo.is-cover-photo,
-  body.editorial-preview #tucontu[data-active-mode="catalogo"] .tucontu-video-trigger {
+  body.editorial-preview #tucontu[data-active-mode="catalogo"] .tucontu-video-trigger,
+  body.editorial-preview #tucontu[data-active-mode="catalogo"] .tucontu-gallery-trigger {
     display: none !important;
   }
 
@@ -2503,36 +2631,85 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     min-height: 0 !important;
   }
 
-  /* 2. MODO GALERÍA: ¡Vuelve el marco con toda su presencia y esplendor! */
+  /* 2. MODO GALERÍA: ¡Aprovechamiento total y armónico del viewport disponible! */
   body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-intro {
     display: none !important;
   }
 
+  body.editorial-preview #tucontu[data-active-mode="galeria"].view {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Ocultar barra de navegación inferior con salida fluida y deslizamiento suave hacia abajo */
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-nav-bar {
+    display: flex !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    transform: translateY(100%) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    border-top-color: transparent !important;
+    overflow: hidden !important;
+  }
+
   body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-visual {
     display: flex !important;
+    flex-shrink: 0 !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-piece-photo.is-cover-photo {
     display: block !important;
-    height: clamp(18rem, calc(100dvh - 280px), 28rem) !important;
-    max-width: min(88vw, 24rem) !important;
-    aspect-ratio: var(--cover-aspect, 830 / 1744) !important;
+    height: clamp(15rem, 51dvh, 26rem) !important;
+    max-height: 51dvh !important;
+    width: clamp(17.5rem, 88vw, 24rem) !important;
+    max-width: min(90vw, 24rem) !important;
+    aspect-ratio: auto !important;
     border-radius: 50% 50% .55rem .55rem / 20% 20% .55rem .55rem !important;
+    margin: .1rem auto .2rem !important;
+    flex-shrink: 0 !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-piece-photo.is-cover-photo img {
     border-radius: 50% 50% .35rem .35rem / 22% 22% .35rem .35rem !important;
   }
 
-  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-video-trigger {
-    display: none !important;
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-video-trigger,
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-gallery-trigger {
+    opacity: 0 !important;
+    transform: translateX(-50%) translateY(10px) scale(.92) !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    transition: opacity .25s ease, transform .32s cubic-bezier(.16, 1, .3, 1), visibility .32s !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-gallery-dialog[data-presentation="inline"] {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+  }
+
+  body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-gallery-shell {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    height: auto !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="galeria"] .tucontu-gallery-panel {
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
-    padding-top: .35rem !important;
+    margin-top: 0 !important;
+    padding: .1rem clamp(.75rem, 3vw, 1.25rem) calc(.8rem + env(safe-area-inset-bottom, 0px)) !important;
+    overflow: hidden !important;
   }
 
   body.editorial-preview #tucontu[data-active-mode="galeria"] .gallery-collection {
@@ -2540,6 +2717,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     flex-direction: column !important;
     justify-content: flex-start !important;
     gap: .25rem !important;
+    flex-shrink: 0 !important;
   }
 
   /* 3. MODO HISTORIA: Ocultamos la ventana de foto para lectura sosegada y limpia */
@@ -2549,7 +2727,8 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-visual,
   body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-piece-photo.is-cover-photo,
-  body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-video-trigger {
+  body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-video-trigger,
+  body.editorial-preview #tucontu[data-active-mode="historia"] .tucontu-gallery-trigger {
     display: none !important;
   }
 
@@ -2605,13 +2784,13 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     -webkit-overflow-scrolling: touch !important;
     padding: .85rem clamp(.85rem, 3.5vw, 1.5rem) .25rem !important;
     box-sizing: border-box !important;
-    animation: tucontu-panel-fluid-enter .48s cubic-bezier(.16, 1, .3, 1) both !important;
+    animation: tucontu-panel-fluid-enter .24s cubic-bezier(.16, 1, .3, 1) both !important;
   }
 
   @keyframes tucontu-panel-fluid-enter {
     from {
       opacity: 0;
-      transform: translateY(8px);
+      transform: translateY(6px);
     }
     to {
       opacity: 1;
@@ -2626,13 +2805,14 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   #tucontu .tucontu-nav-bar {
     order: 2 !important;
     margin-top: auto !important;
+    margin-bottom: 0 !important;
     flex-shrink: 0 !important;
     width: 100% !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: .35rem !important;
-    padding: .35rem .6rem calc(.35rem + env(safe-area-inset-bottom, 0px)) !important;
+    gap: .3rem !important;
+    padding: .2rem .5rem calc(.2rem + env(safe-area-inset-bottom, 0px)) !important;
     background: rgba(255, 253, 249, .95) !important;
     backdrop-filter: blur(14px) !important;
     -webkit-backdrop-filter: blur(14px) !important;
@@ -2640,15 +2820,20 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     box-shadow: 0 -4px 18px rgba(38, 31, 24, .06) !important;
     box-sizing: border-box !important;
     z-index: 10 !important;
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    transition: transform .32s cubic-bezier(.16, 1, .3, 1),
+                opacity .25s ease !important;
+    will-change: transform, opacity !important;
   }
 
   #tucontu .tucontu-gallery-tabs {
     display: flex !important;
     flex: 1 1 auto !important;
-    gap: .25rem !important;
+    gap: .2rem !important;
     background: rgba(141, 108, 54, .08) !important;
     border-radius: 2rem !important;
-    padding: .15rem !important;
+    padding: .12rem !important;
   }
 
   #tucontu .tucontu-gallery-tabs::before {
@@ -2657,11 +2842,11 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   #tucontu .tucontu-gallery-tabs .category-tab {
     flex: 1 1 0 !important;
-    min-height: 2.35rem !important;
-    height: 2.35rem !important;
-    padding: .25rem !important;
+    min-height: 1.85rem !important;
+    height: 1.85rem !important;
+    padding: .15rem !important;
     font-family: var(--font-serif) !important;
-    font-size: .8rem !important;
+    font-size: .74rem !important;
     font-weight: 600 !important;
     letter-spacing: .02em !important;
     border-radius: 1.8rem !important;
@@ -2671,21 +2856,26 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: .25rem !important;
+    gap: .2rem !important;
     transition: all .25s ease !important;
     cursor: pointer !important;
   }
 
   #tucontu .tucontu-gallery-tabs .category-tab .tab-glyph {
     display: block !important;
-    width: 18px !important;
-    height: 18px !important;
+    width: 15px !important;
+    height: 15px !important;
     stroke: currentColor !important;
     transition: transform .2s ease !important;
   }
 
   #tucontu .tucontu-gallery-tabs .category-tab .tab-text {
     display: none !important;
+  }
+
+  #tucontu .tucontu-gallery-tabs .category-tab:hover {
+    color: #566044 !important;
+    background: rgba(86, 96, 68, .12) !important;
   }
 
   #tucontu .tucontu-gallery-tabs .category-tab.is-active,
@@ -2703,13 +2893,13 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: .25rem !important;
-    min-height: 2.35rem !important;
-    height: 2.35rem !important;
-    padding: .25rem .75rem !important;
+    gap: .2rem !important;
+    min-height: 1.85rem !important;
+    height: 1.85rem !important;
+    padding: .15rem .6rem !important;
     border-radius: 2rem !important;
     font-family: var(--font-serif) !important;
-    font-size: .78rem !important;
+    font-size: .74rem !important;
     font-weight: 600 !important;
     letter-spacing: .02em !important;
     border: 1px solid rgba(141, 108, 54, .35) !important;
@@ -2722,8 +2912,8 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   #tucontu .tucontu-pdf-action-btn .tab-glyph {
     display: block !important;
-    width: 16px !important;
-    height: 16px !important;
+    width: 14px !important;
+    height: 14px !important;
     stroke: currentColor !important;
   }
 
@@ -3084,7 +3274,7 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     margin: 0 !important;
   }
 
-  /* Stepper en la base del panel, justo encima de la barra de navegación */
+  /* Stepper en la base del panel, justo encima de la barra de navegación: ultra-compacto para maximizar lectura */
   #tucontu .concept-stepper {
     order: 2 !important;
     margin-top: auto !important;
@@ -3094,20 +3284,24 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     align-items: center !important;
     justify-content: space-between !important;
     width: 100% !important;
-    padding: .15rem 0 .05rem 0 !important;
+    padding: .05rem 0 !important;
     border-right: none !important;
     border-top: 1px solid rgba(141, 108, 54, .12) !important;
     border-bottom: none !important;
-    gap: .25rem !important;
-    height: auto !important;
+    gap: .15rem !important;
+    height: 1.55rem !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
   }
 
   #tucontu .concept-stepper-btn {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 1.85rem !important;
-    height: 1.85rem !important;
+    width: 1.45rem !important;
+    height: 1.45rem !important;
+    min-height: 0 !important;
+    min-width: 0 !important;
     padding: 0 !important;
     border-radius: 50% !important;
     border: none !important;
@@ -3132,8 +3326,8 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   #tucontu .concept-stepper-btn svg {
     display: block !important;
-    width: 15px !important;
-    height: 15px !important;
+    width: 13px !important;
+    height: 13px !important;
   }
 
   #tucontu .stepper-btn-label {
@@ -3147,17 +3341,18 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     justify-content: center !important;
     flex: 1 1 auto !important;
     position: relative !important;
-    gap: .45rem !important;
+    gap: .3rem !important;
     padding: 0 !important;
-    height: auto !important;
+    height: 1.45rem !important;
+    min-height: 0 !important;
   }
 
   #tucontu .concept-stepper-line {
     display: block !important;
     position: absolute !important;
     top: 50% !important;
-    left: .8rem !important;
-    right: .8rem !important;
+    left: .6rem !important;
+    right: .6rem !important;
     height: 1px !important;
     background: rgba(141, 108, 54, .25) !important;
     transform: translateY(-50%) !important;
@@ -3167,7 +3362,11 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: .2rem !important;
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    min-height: 0 !important;
+    min-width: 0 !important;
+    padding: 0 !important;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
@@ -3178,11 +3377,11 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
 
   #tucontu .stepper-node-dot {
     display: block !important;
-    width: .65rem !important;
-    height: .65rem !important;
+    width: .48rem !important;
+    height: .48rem !important;
     border-radius: 50% !important;
     background: #d8cbbb !important;
-    border: 1.5px solid #fffdfa !important;
+    border: 1px solid #fffdfa !important;
     box-shadow: 0 0 0 1px rgba(141, 108, 54, .35) !important;
     transition: all .2s ease !important;
   }
@@ -3198,15 +3397,46 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     display: none !important;
   }
 
-  /* Galería: Grilla compacta al alcance del pulgar sin vacíos */
+  /* Galería: Barra de navegación superior interna en móvil (Alternativa B) */
+  #tucontu .gallery-topbar {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin: 0 0 .25rem 0 !important;
+    padding: 0 .15rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  #tucontu .gallery-back-btn,
+  #tucontu .gallery-video-pill-btn {
+    font-size: .74rem !important;
+    padding: .28rem .75rem !important;
+    gap: .3rem !important;
+    touch-action: manipulation !important;
+    transition: transform .22s cubic-bezier(.16, 1, .3, 1),
+                background-color .2s ease,
+                color .2s ease,
+                border-color .2s ease,
+                box-shadow .22s ease !important;
+    will-change: transform !important;
+  }
+
+  #tucontu .gallery-back-btn:active,
+  #tucontu .gallery-video-pill-btn:active {
+    transform: scale(.93) translateY(1px) !important;
+    transition-duration: .08s !important;
+  }
+
+  /* Galería: Grilla completa de 4 columnas que aprovecha todo el ancho y alto disponible */
   #tucontu .gallery-collection {
     width: 100% !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
-    flex: 1 1 auto !important;
+    flex: 0 0 auto !important;
     gap: .25rem !important;
-    padding-top: .15rem !important;
+    padding-top: .1rem !important;
   }
 
   #tucontu .gallery-collection-meta {
@@ -3226,32 +3456,25 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     font-size: .72rem !important;
     color: #8d6c36 !important;
   }
-  /* Galería: Riel horizontal de fotos elegante y fluido con scroll suave */
-  #tucontu .gallery-collection {
-    width: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: flex-start !important;
-    flex: 0 0 auto !important;
-    gap: .25rem !important;
-    padding-top: .15rem !important;
-  }
 
+  /* Galería: Riel horizontal de fotos en una sola línea para que la imagen de arriba gane el máximo espacio */
   #tucontu .gallery-grid {
     width: 100% !important;
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
-    gap: .4rem !important;
+    gap: clamp(.45rem, 1.8vw, .6rem) !important;
+    aspect-ratio: auto !important;
     max-height: none !important;
     height: auto !important;
     overflow-x: auto !important;
     overflow-y: hidden !important;
-    padding: .2rem .2rem .4rem .2rem !important;
+    padding: .15rem .2rem .35rem .2rem !important;
     scroll-snap-type: x mandatory !important;
     -webkit-overflow-scrolling: touch !important;
     overscroll-behavior-x: contain !important;
     scrollbar-width: thin !important;
+    scrollbar-color: rgba(141, 108, 54, .35) transparent !important;
   }
 
   #tucontu .gallery-grid::-webkit-scrollbar {
@@ -3259,35 +3482,41 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
   }
 
   #tucontu .gallery-grid::-webkit-scrollbar-thumb {
-    background: rgba(141, 108, 54, .3) !important;
+    background: rgba(141, 108, 54, .35) !important;
     border-radius: 3px !important;
   }
 
   #tucontu .gallery-grid button {
-    flex: 0 0 3.35rem !important;
-    width: 3.35rem !important;
-    height: 3.35rem !important;
-    min-width: 3.35rem !important;
-    min-height: 3.35rem !important;
+    flex: 0 0 clamp(3.75rem, 13.5vw, 4.4rem) !important;
+    width: clamp(3.75rem, 13.5vw, 4.4rem) !important;
+    height: clamp(3.75rem, 13.5vw, 4.4rem) !important;
+    min-width: clamp(3.75rem, 13.5vw, 4.4rem) !important;
+    min-height: clamp(3.75rem, 13.5vw, 4.4rem) !important;
     aspect-ratio: 1 / 1 !important;
-    border-radius: .45rem !important;
+    border-radius: .55rem !important;
     overflow: hidden !important;
     border: 1.5px solid transparent !important;
     padding: 0 !important;
     background: #fdfbf7 !important;
     cursor: pointer !important;
-    scroll-snap-align: center !important;
-    transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease !important;
+    touch-action: manipulation !important;
+    scroll-snap-align: start !important;
+    transition: transform .32s cubic-bezier(.34, 1.56, .64, 1),
+                border-color .22s ease,
+                box-shadow .32s cubic-bezier(.16, 1, .3, 1) !important;
+    box-shadow: 0 2px 6px rgba(38, 31, 24, .08) !important;
+    will-change: transform !important;
   }
 
   #tucontu .gallery-grid button:active {
-    transform: scale(.94) !important;
+    transform: scale(.90) !important;
+    transition-duration: .1s !important;
   }
 
   #tucontu .gallery-grid button.is-selected {
     border-color: #8d6c36 !important;
-    box-shadow: 0 0 0 1.5px #8d6c36 !important;
-    transform: scale(1.04) !important;
+    box-shadow: 0 0 0 2px #8d6c36, 0 6px 14px rgba(141, 108, 54, .3) !important;
+    transform: scale(1.06) !important;
   }
 
   #tucontu .gallery-grid button img {
@@ -3333,17 +3562,68 @@ body.editorial-preview #tucontu .tucontu-piece-photo.is-cover-photo img {
     line-height: 1.3 !important;
   }
 
-  /* Catálogo en móvil: scroll fluido y espacio generoso para la barra de navegación flotante */
+  /* Catálogo en móvil: estructura flex pura, sin trampas de scroll anidado */
   #tucontu .tucontu-catalog-panel {
     flex: 1 1 auto !important;
     min-height: 0 !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    padding: .65rem clamp(.85rem, 3.5vw, 1.25rem) 7rem !important;
+    overflow-y: hidden !important;
+    padding: .65rem clamp(.75rem, 3vw, 1.25rem) 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  #tucontu .catalog-shell {
+    height: 100% !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: .3rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  #tucontu .catalog-header {
+    margin-bottom: 0 !important;
+    gap: .1rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  #tucontu .catalog-title {
+    font-size: clamp(1.25rem, 2.5vw, 1.55rem) !important;
+    line-height: 1.15 !important;
+  }
+
+  #tucontu .catalog-lead {
+    font-size: clamp(.82rem, 1.6vw, .95rem) !important;
+    line-height: 1.25 !important;
+  }
+
+  #tucontu .catalog-fiber-pills {
+    flex-shrink: 0 !important;
+    padding: .15rem !important;
+  }
+
+  #tucontu .catalog-fiber-pill {
+    padding: .3rem .5rem !important;
+    font-size: .78rem !important;
+    min-height: 0 !important;
+  }
+
+  #tucontu .catalog-subnav {
+    flex-shrink: 0 !important;
+    margin: .1rem 0 !important;
+    padding: 0 .1rem !important;
   }
 
   #tucontu .catalog-cards-flow {
-    max-height: clamp(330px, 48dvh, 480px) !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: .4rem !important;
   }
 }
 
@@ -3816,20 +4096,101 @@ body.editorial-preview #inicio .arch-frame img,
   box-shadow: 0 4px 10px rgba(45, 76, 59, .28) !important;
 }
 
-@media (max-width: 48rem) {
+@media (max-width: 63.99rem) {
+  #tucontu .tucontu-catalog-panel {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: hidden !important;
+    padding: .65rem clamp(.75rem, 3vw, 1.25rem) 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  #tucontu .catalog-shell {
+    height: 100% !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: .3rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  #tucontu .catalog-cards-flow {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: .4rem !important;
+  }
+
   #tucontu .catalog-subtle-bar {
+    flex-shrink: 0 !important;
+    display: flex !important;
     flex-direction: column !important;
     align-items: stretch !important;
-    gap: .45rem !important;
-    padding: .45rem .65rem !important;
+    gap: .3rem !important;
+    padding: .35rem .55rem !important;
+    margin: 0 0 .35rem 0 !important;
+    background: rgba(253, 251, 247, 0.98) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border: 1px solid rgba(141, 108, 54, .25) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 -2px 10px rgba(45, 35, 25, .08) !important;
+    position: sticky !important;
+    bottom: 0 !important;
+    z-index: 10 !important;
   }
+
   #tucontu .catalog-subtle-config {
+    display: flex !important;
+    flex-direction: row !important;
     align-items: center !important;
-    text-align: center !important;
+    justify-content: space-between !important;
+    gap: .25rem !important;
+    width: 100% !important;
   }
+
+  #tucontu .catalog-subtle-lengths {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    gap: .25rem !important;
+  }
+
+  #tucontu .catalog-len-chip {
+    flex: 1 1 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 1.85rem !important;
+    min-height: 0 !important;
+    padding: .2rem .25rem !important;
+    font-size: .72rem !important;
+    border-radius: 6px !important;
+  }
+
+  #tucontu .catalog-subtle-summary {
+    display: none !important;
+  }
+
   #tucontu .catalog-subtle-wa {
     width: 100% !important;
     height: 34px !important;
+    min-height: 34px !important;
+    padding: 0 .75rem !important;
+    font-size: .75rem !important;
+    font-weight: 600 !important;
+    letter-spacing: .04em !important;
+    border-radius: 6px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: .4rem !important;
+    box-shadow: 0 2px 8px rgba(45, 76, 59, .25) !important;
   }
 }
 

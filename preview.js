@@ -773,10 +773,8 @@
     if(matchMedia('(prefers-reduced-motion: reduce)').matches)lines.forEach(line=>line.classList.remove('is-revealing'));
   }
   const galleryPhotos = [
-    { src: 'assets/tucontu/product/tucontu-hanging-pieces.webp', thumb: 'assets/tucontu/product/thumbs/tucontu-hanging-pieces-thumb.webp', aspect: '682 / 1024', alt: 'Piezas TuconTu de diversos colores y trenzas colgando de un soporte rústico.' },
-    { src: 'assets/tucontu/product/tucontu-rack-collection.webp', thumb: 'assets/tucontu/product/thumbs/tucontu-rack-collection-thumb.webp', aspect: '1024 / 934', alt: 'Colección de piezas TuconTu exhibidas en perchero artesanal de madera.' },
-    { src: 'assets/tucontu/product/img-3331.webp', thumb: 'assets/tucontu/product/thumbs/img-3331-thumb.webp', aspect: '854 / 1800', alt: 'Detalle cercano de un TuconTu de fibras crudas y terracota junto al cabello.' },
     { src: 'assets/tucontu/product/img-3332.webp', thumb: 'assets/tucontu/product/thumbs/img-3332-thumb.webp', aspect: '830 / 1744', alt: 'Detalle de un TuconTu con colet negro, cordón dorado, trenza y fibras verdes sobre el cabello.' },
+    { src: 'assets/tucontu/product/img-3331.webp', thumb: 'assets/tucontu/product/thumbs/img-3331-thumb.webp', aspect: '854 / 1800', alt: 'Detalle cercano de un TuconTu de fibras crudas y terracota junto al cabello.' },
     { src: 'assets/tucontu/product/img-3341.webp', thumb: 'assets/tucontu/product/thumbs/img-3341-thumb.webp', aspect: '1139 / 1800', alt: 'TuconTu azul y gris sujeto en un recogido sobre camisa verde lima.' },
     { src: 'assets/tucontu/product/tucontu-marcela-azul.webp', thumb: 'assets/tucontu/product/thumbs/tucontu-marcela-azul-thumb.webp', aspect: '751 / 1024', alt: 'Marcela luciendo un TuconTu artesanal en tonos azules, celestes y fibras naturales en su cabello.' },
     { src: 'assets/tucontu/product/img-3343.webp', thumb: 'assets/tucontu/product/thumbs/img-3343-thumb.webp', aspect: '1373 / 1800', alt: 'TuconTu de cordones blancos y negros sobre cabello castaño.' },
@@ -784,7 +782,9 @@
     { src: 'assets/tucontu/product/img-3342.webp', thumb: 'assets/tucontu/product/thumbs/img-3342-thumb.webp', aspect: '1468 / 1800', alt: 'TuconTu de cordones verdes, crudos y terracota en una coleta.' },
     { src: 'assets/tucontu/product/img-3344.webp', thumb: 'assets/tucontu/product/thumbs/img-3344-thumb.webp', aspect: '1373 / 1800', alt: 'Una mujer lleva un TuconTu rojo y blanco en el cabello.' },
     { src: 'assets/tucontu/product/img-3345.webp', thumb: 'assets/tucontu/product/thumbs/img-3345-thumb.webp', aspect: '1346 / 1800', alt: 'Detalle de un TuconTu de colores cálidos junto al cabello.' },
-    { src: 'assets/tucontu/product/img-3346.webp', thumb: 'assets/tucontu/product/thumbs/img-3346-thumb.webp', aspect: '1362 / 1800', alt: 'TuconTu de cordones rojos, verdes y crudos, visto de cerca.' }
+    { src: 'assets/tucontu/product/img-3346.webp', thumb: 'assets/tucontu/product/thumbs/img-3346-thumb.webp', aspect: '1362 / 1800', alt: 'TuconTu de cordones rojos, verdes y crudos, visto de cerca.' },
+    { src: 'assets/tucontu/product/tucontu-hanging-pieces.webp', thumb: 'assets/tucontu/product/thumbs/tucontu-hanging-pieces-thumb.webp', aspect: '682 / 1024', alt: 'Piezas TuconTu de diversos colores y trenzas colgando de un soporte rústico.' },
+    { src: 'assets/tucontu/product/tucontu-rack-collection.webp', thumb: 'assets/tucontu/product/thumbs/tucontu-rack-collection-thumb.webp', aspect: '1024 / 934', alt: 'Colección de piezas TuconTu exhibidas en perchero artesanal de madera.' }
   ];
   galleryPhotos.forEach(p => {
     const preThumb = new Image();
@@ -794,25 +794,45 @@
     const preJpg = new Image();
     preJpg.src = p.src.replace(/\.webp$/i, '-display-940.jpg');
   });
-  function selectGallery(index, updateHomePhoto = true) {
+  let currentGalleryIndex = 0;
+  let galleryRequestId = 0;
+  function selectGallery(index, updateHomePhoto = true, animate = true) {
     const photo = galleryPhotos[index];
     if (!photo) return;
+    const isSamePhoto = (currentGalleryIndex === index);
+    currentGalleryIndex = index;
+    const reqId = ++galleryRequestId;
     if (galleryFeatured) { galleryFeatured.src = photo.src; galleryFeatured.alt = photo.alt; }
-    if (updateHomePhoto && homePhoto) {
-      const photoFrame = homePhoto.closest('.tucontu-piece-photo');
-      if (photoFrame && photo.aspect) {
-        photoFrame.style.setProperty('--cover-aspect', photo.aspect);
-      }
-      homePhoto.style.opacity = '0.3';
-      setTimeout(() => {
+    if (updateHomePhoto && homePhoto && !isSamePhoto) {
+      if (animate) {
+        homePhoto.classList.add('is-morphing');
+        const nextImg = new Image();
+        nextImg.src = photo.src;
+        const swapImage = () => {
+          if (reqId !== galleryRequestId) return;
+          homePhoto.src = photo.src;
+          homePhoto.srcset = `${photo.src.replace(/\.webp$/i, '-display-260.jpg')} 260w, ${photo.src.replace(/\.webp$/i, '-display-940.jpg')} 940w`;
+          homePhoto.sizes = '(max-width: 63.99rem) min(90vw, 24rem), min(38vw, 24rem)';
+          homePhoto.alt = photo.alt;
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              if (reqId === galleryRequestId) {
+                homePhoto.classList.remove('is-morphing');
+              }
+            });
+          });
+        };
+        Promise.all([
+          ('decode' in nextImg) ? nextImg.decode().catch(() => {}) : Promise.resolve(),
+          new Promise(r => setTimeout(r, 120))
+        ]).then(swapImage);
+      } else {
         homePhoto.src = photo.src;
         homePhoto.srcset = `${photo.src.replace(/\.webp$/i, '-display-260.jpg')} 260w, ${photo.src.replace(/\.webp$/i, '-display-940.jpg')} 940w`;
-        homePhoto.sizes = '(max-width: 47.5rem) 8.5rem, 29.5rem';
+        homePhoto.sizes = '(max-width: 63.99rem) min(90vw, 24rem), min(38vw, 24rem)';
         homePhoto.alt = photo.alt;
-        requestAnimationFrame(() => {
-          homePhoto.style.opacity = '1';
-        });
-      }, 100);
+        homePhoto.classList.remove('is-morphing');
+      }
     }
     if (updateHomePhoto && homePhotoCaption) homePhotoCaption.textContent = photo.alt;
     const order = index + 1;
@@ -821,8 +841,12 @@
       const selected = Number(button.dataset.index) === index;
       button.classList.toggle('is-selected', selected);
       button.setAttribute('aria-pressed', String(selected));
-      if (selected && updateHomePhoto) {
-        button.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      if (selected && updateHomePhoto && gallery) {
+        const containerWidth = gallery.clientWidth;
+        const btnLeft = button.offsetLeft;
+        const btnWidth = button.offsetWidth;
+        const targetScrollLeft = btnLeft - (containerWidth / 2) + (btnWidth / 2);
+        gallery.scrollTo({ left: Math.max(0, targetScrollLeft), behavior: animate ? 'smooth' : 'auto' });
       }
     });
   }
@@ -843,7 +867,12 @@
     gallery.append(button);
   });
   function selectGalleryMode(mode, animateHistory = true) {
-    const titles = { pieza: 'TuconTu', concepto: 'Concepto', catalogo: 'Catálogo', manual: 'Concepto', historia: 'Historia', galeria: 'Galería', fotos: 'Galería', video: 'Video' };
+    if (mode === 'historia') {
+      selectGalleryMode('concepto', animateHistory);
+      showConceptSlide(0);
+      return;
+    }
+    const titles = { pieza: 'TuconTu', concepto: 'Concepto', catalogo: 'Catálogo', manual: 'Concepto', galeria: 'Galería', fotos: 'Galería', video: 'Video' };
     if (galleryTitle) galleryTitle.textContent = titles[mode] || 'TuconTu';
     const tucontuSection = document.getElementById('tucontu');
     if (tucontuSection) tucontuSection.dataset.activeMode = mode;
@@ -986,13 +1015,16 @@
       conceptStepperProgress.style.height = `${pct}%`;
     }
     if (conceptPageNumber) {
-      conceptPageNumber.textContent = `${String(index + 1).padStart(2, '0')} / ${String(conceptTotal).padStart(2, '0')}`;
+      conceptPageNumber.textContent = `${String(index).padStart(2, '0')} / ${String(conceptTotal - 1).padStart(2, '0')}`;
     }
     if (conceptProgressMarker) {
-      conceptProgressMarker.style.width = `${((index + 1) / conceptTotal) * 100}%`;
+      conceptProgressMarker.style.width = `${conceptTotal > 1 ? (index / (conceptTotal - 1)) * 100 : 0}%`;
     }
     if (conceptPrevBtn) conceptPrevBtn.disabled = index === 0;
     if (conceptNextBtn) conceptNextBtn.disabled = index === conceptTotal - 1;
+    if (index === 0 && typeof writeHistoryOnce === 'function') {
+      writeHistoryOnce();
+    }
   }
 
   conceptStepperNodes.forEach(node => {
@@ -1025,16 +1057,53 @@
   const tucontuVideoDialog = document.getElementById('tucontu-video-dialog');
   const tucontuVideoTrigger = document.getElementById('tucontu-video-trigger');
   const tucontuVideoClose = document.getElementById('tucontu-video-close');
-  if (tucontuVideoDialog && tucontuVideoTrigger) {
-    tucontuVideoTrigger.addEventListener('click', () => {
-      tucontuVideoDialog.showModal();
-      if (video) {
-        video.currentTime = 0;
-        video.play().catch(() => {});
+  const tucontuGalleryTrigger = document.getElementById('tucontu-gallery-trigger');
+  const galleryBackBtn = document.getElementById('gallery-back-btn');
+  const galleryVideoPillBtn = document.getElementById('gallery-video-pill-btn');
+
+  // Trigger principal "Ver galería" desde la portada
+  if (tucontuGalleryTrigger) {
+    tucontuGalleryTrigger.addEventListener('click', () => {
+      selectGalleryMode('galeria');
+      if (gallery && gallery.children[currentGalleryIndex]) {
+        const selBtn = gallery.children[currentGalleryIndex];
+        const targetScrollLeft = selBtn.offsetLeft - (gallery.clientWidth / 2) + (selBtn.offsetWidth / 2);
+        gallery.scrollTo({ left: Math.max(0, targetScrollLeft), behavior: 'auto' });
       }
-      tucontuVideoClose?.focus({ preventScroll: true });
+      galleryBackBtn?.focus({ preventScroll: true });
     });
   }
+
+  // Botón "Volver a la portada" desde el panel de galería
+  if (galleryBackBtn) {
+    galleryBackBtn.addEventListener('click', () => {
+      const isMobile = window.matchMedia('(max-width: 63.99rem)').matches;
+      if (currentGalleryIndex !== 0) {
+        selectGallery(0, true, false); // Restablecimiento silencioso a foto 0 sin reload ni morphing
+      }
+      selectGalleryMode(isMobile ? 'pieza' : 'concepto');
+      tucontuGalleryTrigger?.focus({ preventScroll: true });
+    });
+  }
+
+  // Video en galería: abre el modal de video de Marcela
+  function openVideoModal() {
+    if (!tucontuVideoDialog) return;
+    tucontuVideoDialog.showModal();
+    if (video) {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }
+    tucontuVideoClose?.focus({ preventScroll: true });
+  }
+
+  if (tucontuVideoTrigger) {
+    tucontuVideoTrigger.addEventListener('click', openVideoModal);
+  }
+  if (galleryVideoPillBtn) {
+    galleryVideoPillBtn.addEventListener('click', openVideoModal);
+  }
+
   if (tucontuVideoDialog && tucontuVideoClose) {
     tucontuVideoClose.addEventListener('click', () => {
       if (video) video.pause();
@@ -1050,7 +1119,11 @@
     });
     tucontuVideoDialog.addEventListener('close', () => {
       if (video) video.pause();
-      tucontuVideoTrigger?.focus({ preventScroll: true });
+      if (galleryVideoPillBtn && !galleryVideoPillBtn.closest('[hidden]')) {
+        galleryVideoPillBtn.focus({ preventScroll: true });
+      } else {
+        tucontuGalleryTrigger?.focus({ preventScroll: true });
+      }
     });
   }
 
