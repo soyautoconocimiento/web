@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/q/:code",
+      "destination": "/?utm_source=:code&utm_medium=qr",
+      "permanent": false
+    }
+  ]
+}
