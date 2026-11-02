@@ -1,4 +1,4 @@
-// v3: adds event, location, device and language (see the data dictionary).
+// v4: adds path; results go to Vercel's logs instead of a public debug flag.
 // Sends 'campaign' because Google Apps Script reserves the parameter name 'c'.
 // Anonymous scan counter: no IP, no cookies, no IDs. Apps Script validates every field.
 const SLUG = /^[a-z0-9_-]{1,40}$/;
@@ -42,9 +42,7 @@ module.exports = async (req, res) => {
     }
   }
   res.setHeader('Cache-Control', 'no-store');
-  if (q.debug === '1') {
-    res.status(200).send(result);
-  } else {
-    res.status(204).end();
-  }
+  console.log('count result: ' + result);
+  res.status(204).end();
+
 };
