@@ -82,7 +82,11 @@
         step(name);
       }
       const wa = event.target.closest('a[href^="https://wa.me/"]');
-      if (wa && !whatsapp) whatsapp = topicOf(wa.href);
+      // Inside a service dialog, use the service's id, so it matches its ver-<service> step.
+      if (wa && !whatsapp) {
+        const offer = wa.closest('[data-offer-id]');
+        whatsapp = offer ? slug(offer.dataset.offerId) : topicOf(wa.href);
+      }
     }, true);
 
     function summarize() {
