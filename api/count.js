@@ -1,4 +1,6 @@
 // Anonymous scan counter: forwards only the campaign name. No IP, no cookies.
+// v2: sends 'campaign' (Google Apps Script reserves the parameter name 'c').
+
 const VALID = /^[a-z0-9_-]{1,40}$/;
 
 module.exports = async (req, res) => {
