@@ -1,4 +1,4 @@
-// v2: one 'scan' on arrival, then one anonymous 'visit' summary the first time the page is left.
+// v3: adds 'path' (the visit's ordered timeline) and names service cards as ver-<service>.
 // Exact definitions: see the data dictionary. No IDs, no cookies; sessionStorage only prevents double counting in a tab.
 (() => {
   try {
@@ -13,6 +13,23 @@
     const start = Date.now();
     const sections = [];
     const buttons = [];
+
+    const path = [];
+    let current = '';
+
+    // Adds a step to the timeline, skipping an immediate repeat; at most 40 steps.
+    function step(name) {
+      if (path[path.length - 1] !== name && path.length < 40) path.push(name);
+    }
+    
+    // A pressed element's name: its id, or "ver-<service>" for service cards, which have no id.
+    function nameOf(target) {
+      const named = target.closest('a[id], button[id]');
+      if (named) return named.id.toLowerCase();
+      const card = target.closest('button[data-offer-id]');
+      return card ? ('ver-' + card.dataset.offerId).toLowerCase().slice(0, 40) : '';
+    }
+
     let whatsapp = '';
     let sent = false;
 
@@ -48,16 +65,22 @@
         const curtained = entry.target.classList.contains('has-coming-curtain');
         const id = entry.target.id + (curtained ? '-curtain' : '');
 
-        if (needed > 0 && entry.intersectionRect.height >= needed && !sections.includes(id)) sections.push(id);
+        if (needed > 0 && entry.intersectionRect.height >= needed) {
+          if (!sections.includes(id)) sections.push(id);
+          if (id !== current) { current = id; step(id); }
+        }
+
       });
     }, { root: document.getElementById('main'), threshold: Array.from({ length: 21 }, (_, i) => i / 20) });
     document.querySelectorAll('section.view[id]').forEach(section => observer.observe(section));
 
     // Named buttons and links, in order of first press. Capture phase, so the site's own handlers can't hide a click.
     document.addEventListener('click', event => {
-      const named = event.target.closest('a[id], button[id]');
-      const id = named ? named.id.toLowerCase() : '';
-      if (SLUG.test(id) && !buttons.includes(id) && buttons.length < 20) buttons.push(id);
+      const name = nameOf(event.target);
+      if (SLUG.test(name)) {
+        if (!buttons.includes(name) && buttons.length < 20) buttons.push(name);
+        step(name);
+      }
       const wa = event.target.closest('a[href^="https://wa.me/"]');
       if (wa && !whatsapp) whatsapp = topicOf(wa.href);
     }, true);
@@ -65,7 +88,7 @@
     function summarize() {
       if (sent) return;
       sent = true;
-      send({ e: 'visit', s: sections.join(','), b: buttons.join(','), w: whatsapp, d: bucket(Date.now() - start) });
+      send({ e: 'visit', s: sections.join(','), b: buttons.join(','), w: whatsapp, d: bucket(Date.now() - start), p: path.join(',') });
     }
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') summarize();

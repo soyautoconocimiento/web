@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
     result = 'missing-env';
   } else if (SLUG.test(code) && EVENT.test(event)) {
     const params = new URLSearchParams({
-      secret, campaign: code, event, v: '3',
+      secret, campaign: code, event, v: '4',
       country: String(h['x-vercel-ip-country'] || ''),
       region: String(h['x-vercel-ip-country-region'] || ''),
       device: deviceOf(String(h['user-agent'] || '')),
@@ -32,6 +32,7 @@ module.exports = async (req, res) => {
       buttons: String(q.b || '').slice(0, 900),
       wa: String(q.w || '').slice(0, 40),
       duration: String(q.d || '').slice(0, 10),
+      path: String(q.p || '').slice(0, 1700),
     });
     try {
       const r = await fetch(url + '?' + params);
