@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
     result = 'missing-env';
   } else if (VALID.test(c)) {
     try {
-      const r = await fetch(url + '?' + new URLSearchParams({ c, secret }));
+      const r = await fetch(url + '?' + new URLSearchParams({ campaign: c, secret }));
       result = (await r.text()).slice(0, 60);
     } catch (e) {
       result = 'fetch-failed';
