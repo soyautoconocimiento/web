@@ -1,25 +1,47 @@
-// Anonymous scan counter: forwards only the campaign name. No IP, no cookies.
-// v2: sends 'campaign' (Google Apps Script reserves the parameter name 'c').
+// v3: adds event, location, device and language (see the data dictionary).
+// Sends 'campaign' because Google Apps Script reserves the parameter name 'c'.
+// Anonymous scan counter: no IP, no cookies, no IDs. Apps Script validates every field.
+const SLUG = /^[a-z0-9_-]{1,40}$/;
+const EVENT = /^(scan|visit)$/;
 
-const VALID = /^[a-z0-9_-]{1,40}$/;
+// Approximate: iPads since iPadOS 13 present themselves as Macs, so they count as desktop.
+function deviceOf(ua) {
+  if (/iPad|Tablet/i.test(ua) || (/Android/i.test(ua) && !/Mobile/i.test(ua))) return 'tablet';
+  if (/Mobi|iPhone|Android/i.test(ua)) return 'mobile';
+  return 'desktop';
+}
 
 module.exports = async (req, res) => {
-  const c = String((req.query && req.query.c) || '').toLowerCase();
+  const q = req.query || {};
+  const h = req.headers || {};
+  const code = String(q.c || '').toLowerCase();
+  const event = String(q.e || 'scan');
   const url = process.env.SHEET_WEBHOOK_URL;
   const secret = process.env.SHEET_SECRET;
   let result = 'skipped';
   if (!url || !secret) {
     result = 'missing-env';
-  } else if (VALID.test(c)) {
+  } else if (SLUG.test(code) && EVENT.test(event)) {
+    const params = new URLSearchParams({
+      secret, campaign: code, event, v: '3',
+      country: String(h['x-vercel-ip-country'] || ''),
+      region: String(h['x-vercel-ip-country-region'] || ''),
+      device: deviceOf(String(h['user-agent'] || '')),
+      lang: String(h['accept-language'] || '').slice(0, 2).toLowerCase(),
+      sections: String(q.s || '').slice(0, 900),
+      buttons: String(q.b || '').slice(0, 900),
+      wa: String(q.w || '').slice(0, 40),
+      duration: String(q.d || '').slice(0, 10),
+    });
     try {
-      const r = await fetch(url + '?' + new URLSearchParams({ campaign: c, secret }));
+      const r = await fetch(url + '?' + params);
       result = (await r.text()).slice(0, 60);
-    } catch (e) {
+    } catch (err) {
       result = 'fetch-failed';
     }
   }
   res.setHeader('Cache-Control', 'no-store');
-  if (req.query && req.query.debug === '1') {
+  if (q.debug === '1') {
     res.status(200).send(result);
   } else {
     res.status(204).end();
