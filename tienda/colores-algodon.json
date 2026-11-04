@@ -1,0 +1,33 @@
+{
+  "_instrucciones": "Colores de algodón para elegir en Colores del Alma (sección #tucontu). Un color nuevo = un bloque nuevo en 'colores' con su código, su nombre y su hex. 'publicado': false lo oculta sin borrarlo. Ver tucontu/DESIGN.md.",
+  "_pendiente": "MARCELA DEBE CONFIRMAR LOS HEX CON SU HILO REAL. Cada hex se tomó de la imagen assets/tucontu/algodon-embarrilado.png (la mediana de 9 x 9 píxeles al centro del círculo pequeño de cada tarjeta, 4 de noviembre de 2026). Una foto o una pantalla no muestran el color exacto del hilo: el hex solo sirve para que la persona reconozca el color en pantalla. El código y el nombre son los de la tarjeta.",
+  "material": "Algodón embarrilado",
+  "composicion": "100% algodón",
+  "fuente": "assets/tucontu/algodon-embarrilado.png",
+  "max_colores": 3,
+  "_max_colores": "Hasta 3: es el número de tramos de embarrilado que ya permitía el creador 'Personaliza el tuyo' (MAX_WRAPS = 3 en tucontu-builder-core.js). Marcela lo confirma o lo cambia aquí, sin tocar código.",
+  "colores": [
+    { "codigo": "ALG-01", "nombre": "Blanco", "hex": "#FAF9FA", "publicado": true },
+    { "codigo": "ALG-02", "nombre": "Crudo", "hex": "#EDE5D3", "publicado": true },
+    { "codigo": "ALG-03", "nombre": "Rosa palo", "hex": "#F3D3C6", "publicado": true },
+    { "codigo": "ALG-04", "nombre": "Rosa antiguo", "hex": "#CA8E86", "publicado": true },
+    { "codigo": "ALG-05", "nombre": "Vino", "hex": "#7C1624", "publicado": true },
+    { "codigo": "ALG-06", "nombre": "Terracota", "hex": "#C7371F", "publicado": true },
+    { "codigo": "ALG-07", "nombre": "Naranja", "hex": "#F2732D", "publicado": true },
+    { "codigo": "ALG-08", "nombre": "Mostaza", "hex": "#CB8B05", "publicado": true },
+    { "codigo": "ALG-09", "nombre": "Amarillo", "hex": "#FDCC3F", "publicado": true },
+    { "codigo": "ALG-10", "nombre": "Marrón", "hex": "#965D41", "publicado": true },
+    { "codigo": "ALG-11", "nombre": "Beige", "hex": "#BCA592", "publicado": true },
+    { "codigo": "ALG-12", "nombre": "Turquesa oscuro", "hex": "#016783", "publicado": true },
+    { "codigo": "ALG-13", "nombre": "Turquesa", "hex": "#01C8EA", "publicado": true },
+    { "codigo": "ALG-14", "nombre": "Azul petróleo", "hex": "#5C778C", "publicado": true },
+    { "codigo": "ALG-15", "nombre": "Azul marino", "hex": "#0E172C", "publicado": true },
+    { "codigo": "ALG-16", "nombre": "Negro", "hex": "#212121", "publicado": true },
+    { "codigo": "ALG-17", "nombre": "Lila", "hex": "#A486B6", "publicado": true },
+    { "codigo": "ALG-18", "nombre": "Violeta", "hex": "#5E417B", "publicado": true },
+    { "codigo": "ALG-19", "nombre": "Verde salvia", "hex": "#869882", "publicado": true },
+    { "codigo": "ALG-20", "nombre": "Verde oliva", "hex": "#4F6B39", "publicado": true },
+    { "codigo": "ALG-21", "nombre": "Azul grisáceo", "hex": "#748C96", "publicado": true },
+    { "codigo": "ALG-22", "nombre": "Chocolate", "hex": "#55321E", "publicado": true }
+  ]
+}

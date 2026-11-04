@@ -1,5 +1,7 @@
 # Tienda de Colores del Alma · nota de diseño
 
+> **Novedad (rama `colores-final`, 4 de noviembre de 2026):** la sección tiene un diseño nuevo por defecto. Lo que cambió y lo que Marcela todavía decide está en la §7, al final. Las secciones 1 a 6 cuentan cómo nació la Tienda y siguen valiendo para `tienda/productos.json`.
+
 Prototipo en la rama `tucontu-store`. No está publicado. La sección sigue tapada por la cortina "Muy pronto" para el público.
 
 ## 1. El deseo de Marcela
@@ -104,3 +106,87 @@ Contador QR (`counter/README.md`, fuera de esta carpeta, **sin actualizar**): la
 8. El texto de la bajada ("Piezas tejidas a mano. Pídelas directamente a Marcela por WhatsApp.") y del cierre ("¿Sueñas otra combinación?").
 9. Cuándo se levanta la cortina "Muy pronto".
 10. El *alt* de cada foto describe lo que se ve. Ella puede mejorarlo.
+
+## 7. Diseño por defecto: «colores-final» (4 de noviembre de 2026)
+
+Rama `colores-final`. **No está publicado.** La cortina "Muy pronto" sigue igual (la maneja `preview.js`). Para verla: `index.html?preview=tucontu#tucontu`.
+
+### 7.1 De dónde sale
+
+Ricardo y Marcela revisaron en el teléfono los tres conceptos de `REDESIGN.md`:
+
+| Concepto | Lo que vieron | Qué se tomó |
+|---|---|---|
+| 1 · Relato vertical | Se perdieron, pero la barra de abajo les gustó | **La barra inferior fija** |
+| 2 · Galería deslizable | Se sintió como un catálogo y dejaba claro qué hacer | **El catálogo**: piezas que se deslizan, "Ver pieza" y la ficha que sube desde abajo |
+| 3 · Catálogo por colecciones | Dijo primero que TuconTu es un accesorio | **La apertura** |
+| Creador "Personaliza el tuyo" | Los perdió: demasiado técnico | **Se oculta.** En su lugar se eligen colores de la tarjeta de algodón |
+
+### 7.2 Cómo se recorre (teléfono, 390 px)
+
+1. **Qué es.** "Colores del Alma", "TuconTu", "Accesorio para el pelo" y la descripción de la Ficha descriptiva ("Accesorio para el cabello elaborado completamente a mano…"), con la foto de portada que ya existía. **Solo palabras de Marcela**: se leen de `index.html` y de `tienda/productos.json`, no se copian.
+2. **① Tienda.** Las piezas de `tienda/productos.json`, una tarjeta grande por pieza; se deslizan o se usan las flechas ← → ("2 de 6"). Cada tarjeta tiene **Ver pieza** (abre la ficha) y **Elegir**.
+3. **La ficha.** Sube desde abajo (en escritorio, desde el lado). Fotos con miniaturas, descripción, medidas y materiales si existen. Su botón es **Elegir**: elige la pieza y la cierra. Foco al botón Cerrar, Tab gira dentro, Escape, tocar afuera o Atrás la cierran, y el foco vuelve a la pieza ([WAI-ARIA APG, *Dialog (Modal) Pattern*](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)).
+4. **② Elige tus colores.** Los 22 colores de la tarjeta "Algodón embarrilado, 100% algodón" (`assets/tucontu/algodon-embarrilado.png`), de ALG-01 Blanco a ALG-22 Chocolate.
+5. **La barra de abajo**, siempre visible: nombra la pieza elegida y los colores elegidos (con su código, su nombre y un punto de color) y tiene el botón **Pedir**, que abre el único WhatsApp de Marcela (56962391328).
+
+Se puede elegir solo una pieza, solo colores o las dos cosas. El mensaje cambia según lo elegido:
+
+| Elección | Mensaje de WhatsApp |
+|---|---|
+| Nada | "Hola Marcela, quiero ver las piezas de Colores del Alma." |
+| Solo pieza | El mismo de la Tienda: "Hola Marcela, me interesa la pieza «TuconTu Nº 02» de la tienda de Colores del Alma (ref. tucontu-02). ¿Está disponible y cuál es su precio?" |
+| Pieza y colores | "Hola Marcela, me interesa la pieza «TuconTu Nº 02» de la tienda de Colores del Alma (ref. tucontu-02), en los colores ALG-05 Vino y ALG-19 Verde salvia. ¿Cuál es su precio?" (sin la pregunta si la pieza tiene precio) |
+| Pieza vendida y colores | "…Me gustaría pedir una parecida en los colores ALG-05 Vino y ALG-19 Verde salvia." |
+| Solo colores | "Hola Marcela, me gustaría un TuconTu de Colores del Alma en los colores ALG-05 Vino y ALG-19 Verde salvia." |
+
+### 7.3 Los colores
+
+- **Datos:** `tienda/colores-algodon.json`. Cada color tiene `codigo`, `nombre`, `hex` y `publicado` (`false` lo oculta sin borrarlo). Un color nuevo es un bloque nuevo, sin tocar código.
+- **El hex es una muestra de la imagen, no del hilo.** Se tomó la mediana de 9 × 9 píxeles al centro del círculo pequeño de cada tarjeta (las 22 muestras se revisaron una por una; la variación dentro de cada muestra fue de 5 a 9 sobre 255). **Marcela debe confirmar cada hex con su hilo real**: el archivo lo dice en `_pendiente`, y la sección muestra "En pantalla el color es una referencia: el hilo real puede verse distinto."
+- **Cuántos: hasta 3.** Es el número de tramos de embarrilado que ya permitía el creador (`MAX_WRAPS = 3` en `tucontu-builder-core.js`), y esta tarjeta es de algodón *embarrilado*. Se cambia en `max_colores`, sin tocar código. Con 3 elegidos, los demás quedan atenuados pero se pueden tocar: un aviso dice "Ya elegiste 3 colores. Quita uno para cambiarlo."
+- **Accesible, nunca solo color:** cada color es un `<button>` real con `aria-pressed`, con el código y el nombre escritos (14 px o más). Elegido = borde grueso, fondo y un número de orden (1, 2, 3), además de `aria-pressed`. Al elegir o quitar, un aviso lo dice en palabras ("Elegiste ALG-05 Vino."). La barra repite códigos y nombres en texto.
+
+### 7.4 El creador, oculto (un interruptor)
+
+Sus archivos (`tucontu-builder-app.js`, `tucontu-builder-core.js`, `tucontu-builder.css` y su diálogo en `index.html`) **no se borraron ni cambiaron**. Para volver a mostrarlo, en `index.html`:
+
+```html
+<section … id="tucontu" … data-builder="oculto">   →   data-builder="visible"
+```
+
+Con `visible`, aparece el botón **Personaliza el tuyo** bajo los colores, y abre el creador como antes.
+
+### 7.5 Medición (convenciones del README)
+
+Los eventos siguen pasando por `privacy-consent.js`, así que **solo se envían si la visitante activó la analítica**. Los que ya existían no cambian: abrir una ficha = `view_item`; pedir = `click_whatsapp` con `item_name` (la pieza elegida, o vacío) y `section: tienda`; fotos = `store_photo_select`; cerrar = `store_detail_close`. Nuevos, con el mismo estilo `store_…`:
+
+| Acción | Evento GA4 | Parámetros |
+|---|---|---|
+| Flechas ← → del catálogo | `store_gallery_navigation` | `direction: previous \| next` |
+| Elegir una pieza / quitarla | `store_piece_select` / `store_piece_remove` | `item_name` |
+| Elegir un color / quitarlo | `store_color_select` / `store_color_remove` | `color` (por ejemplo `ALG-05`) |
+| Tocar un color con 3 ya elegidos | `store_color_limit` | `color` |
+
+`color` es un **parámetro nuevo**: hay que registrarlo como dimensión personalizada en GA4 para verlo en los informes. `store_color_limit` sirve para saber si 3 colores se quedan cortos. Lo comprobé en un navegador sin interfaz con la analítica activada (la conexión a Google estaba bloqueada; se revisó `dataLayer`).
+
+Contador QR: el botón de la barra es `tc-bar-order`, las flechas `tc-prev` y `tc-next`, y las tarjetas siguen siendo `ver-<id>`. El tema del WhatsApp se deduce del texto ("TuconTu …"); con el mensaje nuevo puede salir menos claro. `counter/README.md` (fuera de esta carpeta) **no se actualizó**.
+
+### 7.6 Revisado
+
+En Chromium sin interfaz, a **390 × 844** (teléfono) y a **1440 × 900**: ningún botón visible mide menos de 44 px, ningún texto visible baja de 14 px, no hay desplazamiento horizontal de la página, y no hay errores en la consola (salvo Google Analytics, bloqueado en el entorno de prueba). Escape y Atrás cierran la ficha, y el foco vuelve a la pieza.
+
+### 7.7 Lo que se quitó
+
+Los prototipos `?concept=1|2|3` (`tucontu-concepts.js` y `.css`). Siguen en el historial de git (commit `625b938`). `REDESIGN.md` queda como registro de la comparación.
+
+### 7.8 Lo que Marcela todavía decide (nada de esto lo inventé)
+
+1. **Los 22 hex**, comparados con su hilo real, a la luz del día.
+2. **Cuántos colores** se pueden elegir (hoy 3, por los tramos del creador) y si el **orden** importa (hoy se muestra 1, 2, 3 pero el mensaje no lo explica).
+3. **Para qué parte son los colores** (¿solo el embarrilado?) y si el colet, la trenza u otras fibras se eligen aparte.
+4. **Si una pieza única se puede pedir en otros colores**, o si los colores son solo para encargos. El mensaje hoy dice "me interesa la pieza… en los colores…".
+5. Los textos de interfaz que escribí: "Elige tus colores", "Toca hasta 3 colores; tócalo otra vez para quitarlo.", "Elegir / Elegida", "Aún sin pieza / Aún sin colores", "Pedir", "Después elige sus colores y pídela desde la barra de abajo." y la nota del color en pantalla. También los mensajes de WhatsApp de la tabla 7.2.
+6. La bajada de la Tienda ("Piezas tejidas a mano. Pídelas directamente a Marcela por WhatsApp."), que ya estaba pendiente (§6.8).
+7. Si quiere volver a mostrar el creador (§7.4).
+8. Todo lo de la §6 que sigue abierto: qué fotos son la misma pieza, nombres, **precios**, disponibilidad, medidas, materiales, pago y envío, y cuándo se levanta la cortina.

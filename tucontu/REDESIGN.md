@@ -1,5 +1,7 @@
 # Colores del Alma · tres conceptos para el teléfono
 
+> **Retirados (4 de noviembre de 2026, rama `colores-final`).** Los prototipos `?concept=1|2|3` ya no están en el sitio; siguen en el historial de git (commit `625b938`). El diseño que salió de esta comparación está en `DESIGN.md` §7. Este archivo queda como registro.
+
 Rama `colores-redesign`. **No está publicado.** Sin parámetro, la sección sigue exactamente como está, con su cortina "Muy pronto" incluida.
 
 | Concepto | Dirección (en local o en una vista previa) |

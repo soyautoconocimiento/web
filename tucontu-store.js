@@ -247,7 +247,7 @@
       return store;
     });
 
-  // Lo mismo para los prototipos ?concept=1|2|3 (tucontu-concepts.js): los mismos datos,
+  // Lo mismo para el diseño por defecto de la sección (tucontu-colores.js): los mismos datos,
   // el mismo mensaje de pedido y los mismos precios, sin copiarlos.
   window.SoyStore = { ready, el, text, priceText, hasPrice, collectionOf, orderMessage, whatsAppHref };
 
