@@ -10,7 +10,8 @@ Sitio de una sola página para acompañamientos de Terapia Floral Evolutiva, Tar
 - `data.js` — contenido editable de Servicios, Cursos y Testimonios (sin tocar HTML/CSS).
 - `assets/` — imágenes e íconos.
 - `tienda/productos.json` — productos de la Tienda de Colores del Alma (pestaña "Tienda" en `#tucontu`). Un producto nuevo = un bloque nuevo; ver `tucontu/DESIGN.md`. Lo dibujan `tucontu-store.js` y `tucontu-store.css`.
-- `tucontu-colores.js` / `.css` — diseño por defecto de `#tucontu` (móvil primero): qué es TuconTu, las piezas, los colores de algodón y una barra inferior con el pedido. Los colores están en `tienda/colores-algodon.json`. El creador "Personaliza el tuyo" está oculto con `data-builder="oculto"` en `index.html`. Ver `tucontu/DESIGN.md`.
+- `tienda/vitrina.json` — bienvenida y vitrina de Colores del Alma (TuconTu, Gift Cards y estantes futuros, que aparecen solo con datos). Ver `tucontu/DESIGN.md` §8.
+- `tucontu-colores.js` / `.css` — diseño por defecto de `#tucontu` (móvil primero): bienvenida, vitrina, qué es TuconTu, las piezas, los colores de algodón y una barra inferior con el pedido. Los colores están en `tienda/colores-algodon.json`. El creador "Personaliza el tuyo" está oculto con `data-builder="oculto"` en `index.html`. Ver `tucontu/DESIGN.md`.
 
 ## Previsualizar en local
 

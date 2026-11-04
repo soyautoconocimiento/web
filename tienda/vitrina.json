@@ -1,0 +1,58 @@
+{
+  "_instrucciones": "Bienvenida y vitrina de Colores del Alma (sección #tucontu). Un estante nuevo = un bloque nuevo en 'estantes'. Una tarjeta nueva = un bloque nuevo en los 'items' de su estante. Un estante sin items (o con 'publicado': false) no se muestra. Sin precios: Marcela aún no los tiene. Ver tucontu/DESIGN.md §8.",
+  "_fuente": "Los textos de 'bienvenida' son palabras de Marcela (mensaje a Ricardo, 4 de noviembre de 2026), acortadas. Lo que se cortó o se ajustó está en tucontu/DESIGN.md §8.2.",
+  "bienvenida": {
+    "antetitulo": "Te doy la bienvenida a",
+    "titulo": "Colores del Alma",
+    "lema": "Un espacio virtual donde voy encontrando novedades que tal vez me gusten y pueda adquirirlas para mí o para hacer un regalo.",
+    "cita": "Me imagino entrando en una tienda del sur y vitrinear. Si luego de un rato no encuentro nada, salgo y sigo… pero ya sé que hay un lugar en donde poder ir a ver cositas.",
+    "firma": "Marcela",
+    "foto": { "src": "assets/tucontu/product/tucontu-rack-collection.webp", "alt": "Colección de piezas TuconTu exhibidas en perchero artesanal de madera." }
+  },
+  "vitrina": {
+    "titulo": "La vitrina",
+    "bajada": "Lo que puedes encontrar hoy. Toca una tarjeta para verla."
+  },
+  "estantes": [
+    {
+      "id": "tucontu",
+      "nombre": "TuconTu",
+      "publicado": true,
+      "_nota": "Este estante lleva a la parte TuconTu de la misma sección. Su bajada y su foto se leen de index.html (no se copian aquí).",
+      "ir_a": "tc-tucontu"
+    },
+    {
+      "id": "gift-cards",
+      "nombre": "Gift Cards",
+      "etiqueta": "Gift Card",
+      "publicado": true,
+      "_nota": "'servicio' es el id de un servicio de data.js: el nombre, la descripción, el formato y la duración se leen de ahí, tal como aparecen en El Bazar.",
+      "items": [
+        { "id": "gift-tarot", "servicio": "tarot", "foto": { "src": "service-tarot-fool-display.jpg", "alt": "Manos sosteniendo una carta de tarot sobre una mesa de piedra al sol." } },
+        { "id": "gift-carta-astral", "servicio": "carta-astral", "foto": { "src": "service-carta-astral-astrolabe-display.jpg", "alt": "Manos sosteniendo un astrolabio dorado a la luz de la tarde." } },
+        { "id": "gift-constelaciones", "servicio": "constelaciones", "foto": { "src": "service-constelaciones-stone-display.jpg", "alt": "Dos pares de manos sostienen juntas una piedra pequeña." } }
+      ]
+    },
+    {
+      "id": "tejidos",
+      "nombre": "Tejidos",
+      "publicado": true,
+      "_nota": "Estante futuro: aparece solo cuando tenga items. Cada item: id, nombre, descripcion y foto { src, alt }.",
+      "items": []
+    },
+    {
+      "id": "escritos",
+      "nombre": "Escritos",
+      "publicado": true,
+      "_nota": "Estante futuro: aparece solo cuando tenga items.",
+      "items": []
+    },
+    {
+      "id": "novedades",
+      "nombre": "Novedades",
+      "publicado": true,
+      "_nota": "Estante futuro: aparece solo cuando tenga items.",
+      "items": []
+    }
+  ]
+}

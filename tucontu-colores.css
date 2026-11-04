@@ -76,9 +76,54 @@
 .tc-step { flex: none; display: grid; place-items: center; width: 2rem; height: 2rem; margin: .2rem 0 0; border: .0625rem solid var(--tc-gold); border-radius: 50%; font: 400 1rem/1 var(--tc-label); color: var(--tc-gold); }
 
 /* ==========================================================
+   0 · BIENVENIDA Y VITRINA (tienda/vitrina.json)
+   ========================================================== */
+.tc-welcome { display: grid; gap: 1.25rem; padding: 1.75rem var(--tc-gutter) 2rem; background: var(--tc-linen); }
+.tc-welcome-text { display: grid; gap: .75rem; justify-items: start; }
+.tc-welcome-lead { margin: 0; font: italic 400 1.3rem/1.4 var(--tc-display); color: var(--tc-ink); }
+.tc-welcome-quote { margin: 0; padding: .25rem 0 .25rem 1rem; border-left: .1875rem solid var(--tc-gold); }
+.tc-welcome-quote p { margin: 0; font: 400 1rem/1.6 var(--tc-body); color: var(--tc-ink); }
+.tc-welcome-quote cite { display: block; margin-top: .35rem; font: 400 .875rem var(--tc-label); font-style: normal; letter-spacing: .12em; text-transform: uppercase; color: var(--tc-gold); }
+.tc-welcome-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .25rem; }
+.tc-welcome-photo { margin: 0; aspect-ratio: 16 / 11; border-radius: var(--tc-arch); overflow: hidden; background: var(--tc-paper); }
+.tc-welcome-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
+
+.tc-vitrina { padding: 1.75rem 0 1.5rem; scroll-margin-top: .5rem; }
+.tc-vitrina:focus, .tc-open:focus { outline: none; }
+.tc-vitrina-head { padding: 0 var(--tc-gutter); }
+.tc-vitrina-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin: 1rem 0 0; padding: 0 var(--tc-gutter); list-style: none; }
+.tc-vitrina-grid li { display: flex; }
+.tc-vcard {
+  display: flex; flex-direction: column; width: 100%; padding: 0; overflow: hidden;
+  border: .0625rem solid var(--tc-edge); border-radius: 1rem; background: #fffdf8;
+  color: var(--tc-ink); font: inherit; text-align: left; cursor: pointer;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.tc-vcard:hover { border-color: var(--tc-gold); box-shadow: 0 .5rem 1.25rem rgba(20, 40, 60, .1); }
+.tc-vcard-media { display: block; aspect-ratio: 4 / 5; margin: .5rem .5rem 0; border-radius: var(--tc-arch); overflow: hidden; background: var(--tc-linen); }
+.tc-vcard-media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--tc-ease); }
+.tc-vcard:hover .tc-vcard-media img { transform: scale(1.04); }
+.tc-vcard-body { display: grid; gap: .15rem; padding: .6rem .75rem .8rem; }
+.tc-vcard-label { font: 400 .875rem/1.3 var(--tc-label); letter-spacing: .08em; text-transform: uppercase; color: var(--tc-gold); }
+.tc-vcard-name { font: 500 1.35rem/1.1 var(--tc-display); color: var(--tc-navy); }
+.tc-vcard-cue { margin-top: .3rem; font: 400 .875rem var(--tc-label); letter-spacing: .06em; color: var(--tc-muted); text-decoration: underline; text-underline-offset: .25em; }
+.tc-vcard.is-go { background: var(--tc-navy); border-color: var(--tc-navy); }
+.tc-vcard.is-go .tc-vcard-label { color: #f6dfa9; }
+.tc-vcard.is-go .tc-vcard-name { color: #fff; }
+.tc-vcard.is-go .tc-vcard-cue { color: #f3ede1; }
+
+/* Ficha de una tarjeta de la vitrina */
+.tc-item-photo { position: relative; margin: 0 var(--tc-gutter); aspect-ratio: 4 / 3; border-radius: .75rem; overflow: hidden; background: var(--tc-linen); }
+.tc-item-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.tc-item-photo.is-gift { box-shadow: inset 0 0 0 .0625rem rgba(43, 38, 32, .15); }
+.tc-gift-tag { position: absolute; top: .75rem; left: .75rem; padding: .25rem .7rem; border-radius: 999px; background: rgba(253, 251, 247, .94); font: 400 .875rem/1.4 var(--tc-label); letter-spacing: .1em; text-transform: uppercase; color: var(--tc-navy); }
+.tc-detail-actions .tc-detail-order { width: 100%; min-height: 3.25rem; font-size: 1rem; }
+
+/* ==========================================================
    1 · APERTURA: qué es TuconTu
    ========================================================== */
-.tc-open { display: grid; gap: 1rem; padding: 1.5rem var(--tc-gutter) 1.75rem; }
+.tc-open { display: grid; gap: 1rem; padding: 1.5rem var(--tc-gutter) 1.75rem; scroll-margin-top: .5rem; }
+.tc-vitrina + .tc-open { border-top: .0625rem solid var(--tc-edge); }
 .tc-open-text { display: grid; gap: .5rem; }
 .tc-kicker { margin: 0; font: 400 1rem/1.3 var(--tc-label); letter-spacing: .14em; text-transform: uppercase; color: var(--tc-navy); }
 .tc-kicker strong { font-weight: 400; }
@@ -154,6 +199,8 @@
   border: .0625rem solid var(--tc-edge); border-bottom: 0; border-radius: 1rem 1rem 0 0;
   background: rgba(253, 251, 247, .98); box-shadow: 0 -.5rem 1.5rem rgba(20, 40, 60, .14);
 }
+.tc-bar { transition: transform .35s var(--tc-ease), opacity .25s ease, visibility 0s; }
+.tc-bar.is-away { transform: translateY(110%); opacity: 0; visibility: hidden; transition: transform .35s var(--tc-ease), opacity .25s ease, visibility 0s .35s; }
 .tc-bar-text { display: grid; min-width: 0; flex: 1 1 auto; line-height: 1.3; }
 .tc-bar-piece { font: 400 .9375rem var(--tc-label); letter-spacing: .03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tc-bar-line { display: flex; align-items: center; gap: .35rem; min-width: 0; }
@@ -199,6 +246,7 @@
 @keyframes tc-side { from { transform: translateX(100%); } }
 @media (prefers-reduced-motion: reduce) {
   .tc-detail[open] { animation: none !important; }
+  .tc-bar, .tc-bar.is-away, .tc-vcard-media img { transition: none !important; }
   #tucontu .tc-root, .tc-track, .tc-gal-track { scroll-behavior: auto !important; }
 }
 
@@ -212,7 +260,14 @@
 @media (min-width: 64rem) {
   :root { --tc-gutter: 2rem; }
   #tucontu[data-tc] { height: calc(100dvh - var(--header-height, 4.6875rem)); }
-  .tc-open, .tc-pieces > .tc-block-head, .tc-colors > *, .tc-more > * { width: 100%; max-width: 72rem; margin-inline: auto; }
+  .tc-open, .tc-pieces > .tc-block-head, .tc-colors > *, .tc-more > *, .tc-vitrina > * { width: 100%; max-width: 72rem; margin-inline: auto; }
+  .tc-welcome { grid-template-columns: minmax(0, 1fr) minmax(0, 30rem); align-items: center; gap: 3rem; padding-block: 2.5rem; padding-inline: max(var(--tc-gutter), calc((100% - 72rem) / 2 + var(--tc-gutter))); }
+  .tc-welcome-lead { font-size: 1.6rem; }
+  .tc-welcome-quote p { font-size: 1.0625rem; }
+  .tc-welcome-photo { aspect-ratio: 1 / 1; max-height: calc(100dvh - 14rem); }
+  .tc-vitrina { padding-block: 2.5rem 2rem; }
+  .tc-vitrina-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; }
+  .tc-vcard-name { font-size: 1.6rem; }
   .tc-open { grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); align-items: center; gap: 3rem; padding-block: 2.5rem; }
   .tc-open-photo { aspect-ratio: 4 / 5; max-height: calc(100dvh - 14rem); }
   .tc-lead { font-size: 1.5rem; }

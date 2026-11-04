@@ -1,6 +1,8 @@
 # Tienda de Colores del Alma · nota de diseño
 
-> **Novedad (rama `colores-final`, 4 de noviembre de 2026):** la sección tiene un diseño nuevo por defecto. Lo que cambió y lo que Marcela todavía decide está en la §7, al final. Las secciones 1 a 6 cuentan cómo nació la Tienda y siguen valiendo para `tienda/productos.json`.
+> **Novedad (rama `colores-welcome`, 4 de noviembre de 2026):** la sección ahora empieza con una **bienvenida** a Colores del Alma y una **vitrina** (TuconTu y Gift Cards); después viene TuconTu, igual que antes. Ver la §8, al final.
+>
+> **Antes (rama `colores-final`):** la sección tiene un diseño nuevo por defecto. Lo que cambió y lo que Marcela todavía decide está en la §7. Las secciones 1 a 6 cuentan cómo nació la Tienda y siguen valiendo para `tienda/productos.json`.
 
 Prototipo en la rama `tucontu-store`. No está publicado. La sección sigue tapada por la cortina "Muy pronto" para el público.
 
@@ -190,3 +192,59 @@ Los prototipos `?concept=1|2|3` (`tucontu-concepts.js` y `.css`). Siguen en el h
 6. La bajada de la Tienda ("Piezas tejidas a mano. Pídelas directamente a Marcela por WhatsApp."), que ya estaba pendiente (§6.8).
 7. Si quiere volver a mostrar el creador (§7.4).
 8. Todo lo de la §6 que sigue abierto: qué fotos son la misma pieza, nombres, **precios**, disponibilidad, medidas, materiales, pago y envío, y cuándo se levanta la cortina.
+
+## 8. Bienvenida y vitrina: «colores-welcome» (4 de noviembre de 2026)
+
+Rama `colores-welcome`. **No está publicado.** La cortina "Muy pronto", el catálogo, los colores y la barra de pedido siguen igual. Para verla: `index.html?preview=tucontu#tucontu`.
+
+### 8.1 Por qué
+
+Marcela sintió que la sección **llegaba al producto demasiado directo**. Pidió primero una bienvenida: llegar a Colores del Alma, qué es el espacio y qué se encuentra ahí; después TuconTu. Sus palabras (mensaje a Ricardo):
+
+> "Es un espacio virtual donde voy encontrando novedades que tal vez me gusten y pueda adquirirlas para mí o para hacer un regalo.. me imagino entrando en una tienda del sur (de manera presencial) y vitriniar si luego de un rato no encuentro nada salgo y sigo.. pero ya sé que hay un lugar (tienda, bazar) en donde poder ir a ver cositas, tejidos, accesorios, novedades, escritos, etc. que me pueden gustar y los puedo comprar. Tal vez podrían estar ahí como parte de la "vitrina" las Gift Card para lecturas de Tarot, Carta astral, constelaciones familiares, etc 🫶🏻"
+
+### 8.2 Cómo se recorre (teléfono, 390 px)
+
+1. **Bienvenida.** "Te doy la bienvenida a / Colores del Alma", dos citas de Marcela, firmadas, y la foto del perchero con piezas (`tucontu-rack-collection.webp`, ya estaba en el sitio). Dos botones: **Vitrinear** (baja a la vitrina) e **Ir a TuconTu**.
+2. **La vitrina.** Tarjetas en 2 columnas (4 en escritorio):
+   - **TuconTu**: lleva a la parte TuconTu de la misma sección. Su bajada ("Accesorio para el pelo") y su foto se leen de `index.html`.
+   - **Gift Card · Lectura de Tarot**, **Gift Card · Carta Astral**, **Gift Card · Constelaciones Familiares**: los nombres, la descripción y "Online · Zoom · 1 hora" se leen de `data.js`, tal como aparecen en El Bazar. Las fotos son las de sus tarjetas en El Bazar. Cada tarjeta abre su ficha (la misma hoja inferior de las piezas) con **Pedir por WhatsApp** al único número de Marcela.
+3. **TuconTu**, como estaba: apertura, ① Tienda, ② Elige tus colores.
+4. **La barra de pedido** aparece al llegar a TuconTu (antes no se muestra, para que la bienvenida no empuje al producto). Si se prefiere siempre visible, se quita el bloque "Con bienvenida, la barra…" en `tucontu-colores.js`.
+
+Las citas son de Marcela, **acortadas**: en la primera solo se quitó "Es"; en la segunda se quitaron "(de manera presencial)", "(tienda, bazar)" y la lista final, se ajustó la puntuación y se escribió **"vitrinear"** donde ella escribió "vitriniar".
+
+Mensaje de WhatsApp de una Gift Card: "Hola Marcela, me interesa una Gift Card de «Lectura de Tarot» de la vitrina de Colores del Alma (ref. gift-tarot). ¿Cómo la pido y cuál es su precio?"
+
+### 8.3 Cómo agregar algo a la vitrina (sin tocar código)
+
+Todo está en **`tienda/vitrina.json`**:
+
+| Parte | Qué es |
+|---|---|
+| `bienvenida` | Antetítulo, título, `lema` y `cita` (entre «»), `firma` y `foto` |
+| `vitrina` | Título y bajada de la vitrina |
+| `estantes` | Un bloque por estante. `publicado: false` lo oculta. **Un estante sin `items` no se muestra** |
+| Gift Card nueva | Un bloque en `items` del estante `gift-cards` con `id`, `servicio` (el `id` del servicio en `data.js`) y `foto` |
+| Estante futuro | `tejidos`, `escritos` y `novedades` ya existen, vacíos. Cada item: `id`, `nombre`, `descripcion` y `foto { src, alt }`. Al poner el primero, aparece solo |
+
+Sin precios: Marcela aún no los tiene. Si un `servicio` deja de existir en `data.js`, su Gift Card no se muestra.
+
+### 8.4 Medición
+
+Sin eventos nuevos: abrir una tarjeta = `view_item` (`item_name`, por ejemplo "Gift Card Lectura de Tarot"); pedir = `click_whatsapp`; cerrar = `store_detail_close`. Contador QR: las tarjetas son `ver-<id>` (por ejemplo `ver-gift-tarot`) y el WhatsApp `<id>`. `section` sigue diciendo `tienda`.
+
+### 8.5 Revisado
+
+Chromium sin interfaz, a **390 × 844** y **1440 × 900**: ningún botón visible mide menos de 44 px, ningún texto visible baja de 14 px, sin desplazamiento horizontal, sin errores en la consola. La ficha abre con el foco en Cerrar, Escape la cierra y el foco vuelve a la tarjeta. Con `?curtain=1` la cortina sigue tapando la sección.
+
+### 8.6 Lo que Marcela todavía decide (nada de esto lo inventé)
+
+1. **Los textos que escribí yo**: "Te doy la bienvenida a", "Vitrinear", "Ir a TuconTu", "La vitrina", "Lo que puedes encontrar hoy. Toca una tarjeta para verla.", "Ver detalle", "Sesión" y el mensaje de WhatsApp de las Gift Cards.
+2. **Cómo se acortaron sus citas** (§8.2), y si "vitrinear" queda así.
+3. **Las Gift Cards**: precio, cómo se entregan (¿imagen, PDF, impresa?), vigencia, si se regala una sesión completa y cómo agenda quien la recibe. Hoy la ficha solo dice el servicio y su sesión, y el mensaje pregunta.
+4. **Qué otros servicios** tienen Gift Card (ella escribió "etc."). Terapia Floral Evolutiva y los cursos no tienen; se agregan con un bloque.
+5. **Las fotos de las Gift Cards** (hoy, las del Bazar) y la de la bienvenida (el perchero).
+6. **Qué estantes futuros** quiere (tejidos, escritos, novedades) y sus primeras piezas.
+7. Si la barra de pedido debe verse ya en la bienvenida (§8.2, punto 4).
+8. Todo lo de la §7.8 que sigue abierto.

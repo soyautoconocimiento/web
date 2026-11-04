@@ -1,5 +1,9 @@
 /* ==========================================================
    COLORES DEL ALMA · DISEÑO POR DEFECTO (móvil primero)
+   0. Bienvenida y vitrina: tienda/vitrina.json. Primero se
+      llega a Colores del Alma (palabras de Marcela), luego la
+      vitrina de lo que hay (TuconTu, Gift Cards y estantes
+      futuros, que aparecen solo cuando tienen datos).
    1. Qué es TuconTu: un accesorio (palabras de Marcela, leídas
       del propio index.html y de tienda/productos.json).
    2. Las piezas: galería deslizable armada con
@@ -22,6 +26,7 @@
   if (!section || !S) return;
 
   const COLORS_URL = 'tienda/colores-algodon.json';
+  const VITRINA_URL = 'tienda/vitrina.json';
   const DOSSIER = 'assets/tucontu/manual-tecnico-tucontu.pdf';
   const builderVisible = section.dataset.builder === 'visible';
   const { el, text } = S;
@@ -42,6 +47,9 @@
 
   /* ---------- Estado: una pieza y hasta N colores ---------- */
   const state = { piece: null, colors: [] };
+  // Con bienvenida, TuconTu pasa a ser una parte de Colores del Alma: sus títulos bajan un nivel.
+  let welcomed = false;
+  const h = n => `h${n + (welcomed ? 1 : 0)}`;
   let pieces = [];
   let palette = [];
   let maxColors = 3;
@@ -75,14 +83,112 @@
   }
 
   /* ==========================================================
+     0 · BIENVENIDA Y VITRINA (tienda/vitrina.json)
+     ========================================================== */
+  // Los servicios de data.js (El Bazar): las Gift Cards toman de ahí su nombre exacto y su texto.
+  const services = typeof SITE_DATA !== 'undefined' ? [...(SITE_DATA.services || []), ...(SITE_DATA.courses || [])] : [];
+  const scrollToBlock = id => {
+    const target = document.getElementById(id);
+    if (!target) return;
+    target.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    target.focus({ preventScroll: true });
+  };
+
+  function renderWelcome(v) {
+    const w = v.bienvenida || {};
+    if (!text(w.titulo)) return null;
+    const browse = el('button', { type: 'button', class: 'tc-primary', 'aria-controls': 'tc-vitrina' }, el('span', { text: 'Vitrinear' }));
+    browse.addEventListener('click', () => scrollToBlock('tc-vitrina'));
+    const toTucontu = el('button', { type: 'button', class: 'tc-secondary', 'aria-controls': 'tc-tucontu' }, el('span', { text: 'Ir a TuconTu' }));
+    toTucontu.addEventListener('click', () => scrollToBlock('tc-tucontu'));
+    const photo = w.foto && text(w.foto.src) ? el('figure', { class: 'tc-welcome-photo' }, el('img', { src: w.foto.src, alt: text(w.foto.alt), loading: 'eager', decoding: 'async' })) : null;
+    return el('header', { class: 'tc-welcome', 'aria-labelledby': 'tc-welcome-title' }, [
+      el('div', { class: 'tc-welcome-text' }, [
+        text(w.antetitulo) ? el('p', { class: 'tc-eyebrow', text: w.antetitulo }) : null,
+        el('h2', { class: 'tc-display', id: 'tc-welcome-title', text: w.titulo }),
+        text(w.lema) ? el('p', { class: 'tc-welcome-lead', text: `«${text(w.lema)}»` }) : null,
+        text(w.cita) ? el('blockquote', { class: 'tc-welcome-quote' }, [
+          el('p', { text: `«${text(w.cita)}»` }),
+          text(w.firma) ? el('cite', { text: w.firma }) : null
+        ]) : null,
+        el('div', { class: 'tc-welcome-actions' }, [browse, toTucontu])
+      ]),
+      photo
+    ]);
+  }
+
+  // Un estante sin tarjetas no se muestra. El de TuconTu es una sola tarjeta que lleva a su parte.
+  function shelfCards(v) {
+    return (Array.isArray(v.estantes) ? v.estantes : [])
+      .filter(s => s && text(s.id) && s.publicado !== false)
+      .flatMap(s => {
+        if (text(s.ir_a)) {
+          return [{ kind: 'go', id: s.id, to: s.ir_a, label: text(s.etiqueta) || text(s.nombre), name: text(s.nombre),
+            sub: s.id === 'tucontu' ? story.intro : text(s.bajada),
+            foto: s.foto && text(s.foto.src) ? s.foto : (homePhoto ? { src: homePhoto.getAttribute('src'), alt: text(homePhoto.alt) } : null) }];
+        }
+        return (Array.isArray(s.items) ? s.items : [])
+          .filter(it => it && text(it.id) && it.publicado !== false && it.foto && text(it.foto.src))
+          .map(it => {
+            const svc = text(it.servicio) ? services.find(x => x.id === it.servicio) : null;
+            if (text(it.servicio) && !svc) return null; // un servicio que ya no existe no se muestra
+            return {
+              kind: 'item', id: it.id, label: text(s.etiqueta) || text(s.nombre), shelf: s.id, gift: Boolean(svc),
+              name: svc ? text(svc.title) : text(it.nombre),
+              description: svc ? text(svc.description) : text(it.descripcion),
+              session: svc ? [svc.format, svc.duration].map(text).filter(Boolean).join(' · ') : '',
+              foto: it.foto
+            };
+          })
+          .filter(it => it && it.name);
+      });
+  }
+
+  function itemMessage(it) {
+    const what = it.gift ? `una Gift Card de «${it.name}»` : `«${it.name}»`;
+    return `Hola Marcela, me interesa ${what} de la vitrina de Colores del Alma (ref. ${it.id}). ¿Cómo la pido y cuál es su precio?`;
+  }
+
+  function renderVitrina(v) {
+    const cards = shelfCards(v);
+    if (!cards.length) return null;
+    const head = v.vitrina || {};
+    const list = el('ul', { class: 'tc-vitrina-grid', 'aria-labelledby': 'tc-vitrina-title' }, cards.map(c => {
+      const go = c.kind === 'go';
+      const b = el('button', {
+        type: 'button', class: 'tc-vcard' + (go ? ' is-go' : ''),
+        'aria-haspopup': go ? null : 'dialog',
+        'aria-label': go ? `${c.name}: ${c.sub || ''}. Ver ${c.name}` : `${c.label}: ${c.name}. Ver detalle`,
+        dataset: go ? { vitrinaGo: c.to } : { offerId: c.id, storeItem: c.id, storeName: `${c.label} ${c.name}` }
+      }, [
+        c.foto ? el('span', { class: 'tc-vcard-media' }, el('img', { src: c.foto.src, alt: '', loading: 'lazy', decoding: 'async' })) : null,
+        el('span', { class: 'tc-vcard-body' }, [
+          el('span', { class: 'tc-vcard-label', text: go ? (c.sub || c.label) : c.label }),
+          el('span', { class: 'tc-vcard-name', text: c.name }),
+          el('span', { class: 'tc-vcard-cue', 'aria-hidden': 'true', text: go ? 'Ver ↓' : 'Ver detalle' })
+        ])
+      ]);
+      b.addEventListener('click', () => (go ? scrollToBlock(c.to) : detail.show(() => fillItem(c), b)));
+      return el('li', {}, b);
+    }));
+    return el('section', { class: 'tc-vitrina', id: 'tc-vitrina', tabindex: '-1', 'aria-labelledby': 'tc-vitrina-title' }, [
+      el('div', { class: 'tc-vitrina-head' }, [
+        el('h3', { class: 'tc-h3', id: 'tc-vitrina-title', text: text(head.titulo) || 'La vitrina' }),
+        text(head.bajada) ? el('p', { class: 'tc-sub', text: head.bajada }) : null
+      ]),
+      list
+    ]);
+  }
+
+  /* ==========================================================
      1 · APERTURA: qué es TuconTu (un accesorio)
      ========================================================== */
   function renderOpening(store) {
     const c = store.colecciones.find(x => x.id === 'tucontu') || {};
-    return el('header', { class: 'tc-open', 'aria-labelledby': 'tc-title' }, [
+    return el('header', { class: 'tc-open', id: 'tc-tucontu', tabindex: '-1', 'aria-labelledby': 'tc-title' }, [
       el('div', { class: 'tc-open-text' }, [
         el('p', { class: 'tc-eyebrow', text: 'Colores del Alma' }),
-        el('h2', { class: 'tc-display', id: 'tc-title', text: 'TuconTu' }),
+        el(h(2), { class: 'tc-display', id: 'tc-title', text: 'TuconTu' }),
         story.intro ? el('p', { class: 'tc-kicker', text: story.intro }) : null,
         text(c.descripcion) ? el('p', { class: 'tc-lead', text: text(c.descripcion) }) : null,
         text(c.etiqueta) ? el('p', { class: 'tc-tag', text: c.etiqueta }) : null
@@ -122,7 +228,7 @@
         el('img', { class: 'tc-slide-photo', src: p.fotos[0].src, alt: text(p.fotos[0].alt), loading: i < 2 ? 'eager' : 'lazy', decoding: 'async' }),
         el('div', { class: 'tc-slide-caption' }, [
           el('p', { class: 'tc-slide-eyebrow', text: collectionLabel(p) }),
-          el('h4', { class: 'tc-slide-name', text: nameOf(p) }),
+          el(h(4), { class: 'tc-slide-name', text: nameOf(p) }),
           el('p', { class: 'tc-slide-price', text: priceLabel(p) + (p.fotos.length > 1 ? ` · ${p.fotos.length} fotos` : '') }),
           el('div', { class: 'tc-slide-actions' }, [open, chooseButton(p, 'tc-choose')])
         ])
@@ -158,7 +264,7 @@
       el('div', { class: 'tc-block-head' }, [
         el('p', { class: 'tc-step', 'aria-hidden': 'true', text: '1' }),
         el('div', {}, [
-          el('h3', { class: 'tc-h3', id: 'tc-pieces-title', text: text(store.tienda.titulo) || 'Tienda' }),
+          el(h(3), { class: 'tc-h3', id: 'tc-pieces-title', text: text(store.tienda.titulo) || 'Tienda' }),
           text(store.tienda.bajada) ? el('p', { class: 'tc-sub', text: text(store.tienda.bajada) }) : null
         ])
       ]),
@@ -222,7 +328,7 @@
       el('div', { class: 'tc-block-head' }, [
         el('p', { class: 'tc-step', 'aria-hidden': 'true', text: '2' }),
         el('div', {}, [
-          el('h3', { class: 'tc-h3', id: 'tc-colors-title', text: 'Elige tus colores' }),
+          el(h(3), { class: 'tc-h3', id: 'tc-colors-title', text: 'Elige tus colores' }),
           el('p', { class: 'tc-sub', id: 'tc-colors-help' }, [
             document.createTextNode(`${text(data.material) || 'Algodón'}, ${text(data.composicion) || '100% algodón'}. Toca hasta ${maxColors} colores; tócalo otra vez para quitarlo. `),
             counter
@@ -333,16 +439,44 @@
       return close;
     }
 
+    // Ficha de una tarjeta de la vitrina (Gift Card u otro estante): se pide directo por WhatsApp.
+    function fillItemInto(it) {
+      dialog.dataset.offerId = it.id;
+      const close = el('button', { type: 'button', class: 'tc-detail-close', 'aria-label': 'Cerrar detalle', dataset: { storeClose: '' } }, el('span', { text: 'Cerrar' }));
+      close.addEventListener('click', api.close);
+      const order = el('a', { class: 'tc-order tc-detail-order', href: S.whatsAppHref(itemMessage(it)), target: '_blank', rel: 'noopener noreferrer', dataset: { storeOrder: '', storeName: `${it.label} ${it.name}` } }, [
+        el('span', { class: 'tc-wa-mark', 'aria-hidden': 'true' }), el('span', { text: 'Pedir por WhatsApp' })
+      ]);
+      dialog.replaceChildren(el('div', { class: 'tc-detail-shell' }, [
+        el('div', { class: 'tc-detail-top' }, [el('span', { class: 'tc-grip', 'aria-hidden': 'true' }), close]),
+        el('div', { class: 'tc-detail-body' }, [
+          el('figure', { class: 'tc-item-photo' + (it.gift ? ' is-gift' : '') }, [
+            el('img', { src: it.foto.src, alt: text(it.foto.alt), decoding: 'async' }),
+            it.gift ? el('span', { class: 'tc-gift-tag', 'aria-hidden': 'true', text: it.label }) : null
+          ]),
+          el('div', { class: 'tc-detail-info' }, [
+            el('p', { class: 'tc-eyebrow', text: it.label }),
+            el('h2', { id: 'tc-detail-title', text: it.name }),
+            it.description ? el('div', { class: 'tc-detail-desc' }, it.description.split(/\n+/).filter(Boolean).map(line => el('p', { text: line }))) : null,
+            it.session ? el('dl', { class: 'tc-specs' }, [el('dt', { text: 'Sesión' }), el('dd', { text: it.session })]) : null
+          ])
+        ]),
+        el('div', { class: 'tc-detail-actions' }, [order])
+      ]));
+      return close;
+    }
+
     const api = {
       isOpen: () => dialog.open,
-      open(p, from) {
+      show(fillFn, from) {
         trigger = from || document.activeElement;
-        const close = fill(p);
+        const close = fillFn();
         dialog.scrollTop = 0;
         if (!dialog.open) dialog.showModal();
         close.focus({ preventScroll: true });
-        if (!pushed) { history.pushState({ tcDetail: p.id }, '', location.href); pushed = true; }
+        if (!pushed) { history.pushState({ tcDetail: dialog.dataset.offerId || '' }, '', location.href); pushed = true; }
       },
+      open(p, from) { api.show(() => fill(p), from); },
       close() { if (dialog.open) dialog.close(); }
     };
     dialog.addEventListener('keydown', event => {
@@ -369,16 +503,26 @@
       refocus();
     });
     window.addEventListener('popstate', () => { if (dialog.open) { pushed = false; dialog.close(); } });
+    api.fillItem = fillItemInto;
     return api;
   })();
+  const fillItem = it => detail.fillItem(it);
 
   /* ---------- Carga ---------- */
   const colorsReady = fetch(COLORS_URL, { cache: 'no-cache' })
     .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
     .catch(() => null);
 
-  Promise.all([S.ready, colorsReady])
-    .then(([store, colorData]) => {
+  const vitrinaReady = fetch(VITRINA_URL, { cache: 'no-cache' })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .catch(() => null);
+
+  Promise.all([S.ready, colorsReady, vitrinaReady])
+    .then(([store, colorData, vitrina]) => {
+      // Sin vitrina.json la sección queda como antes: empieza en TuconTu.
+      const v = vitrina || {};
+      const welcome = renderWelcome(v);
+      welcomed = Boolean(welcome);
       S.store = store;
       pieces = store.productos;
       const data = colorData || {};
@@ -387,12 +531,27 @@
         .map(c => ({ codigo: text(c.codigo), nombre: text(c.nombre), hex: /^#[0-9a-f]{6}$/i.test(text(c.hex)) ? text(c.hex) : 'transparent' }));
       maxColors = Number.isInteger(data.max_colores) && data.max_colores > 0 ? data.max_colores : 3;
       root.replaceChildren(...[
+        welcome,
+        welcome ? renderVitrina(v) : null,
         renderOpening(store),
         renderCatalog(store),
         palette.length ? renderColors(data) : null,
         renderMore(),
         renderBar()
       ].filter(Boolean));
+      // Con bienvenida, la barra de pedido aparece recién al llegar a TuconTu: la bienvenida no empuja al producto.
+      const bar = root.querySelector('.tc-bar');
+      const opening = document.getElementById('tc-tucontu');
+      if (welcomed && bar && opening) {
+        const place = () => {
+          const away = opening.getBoundingClientRect().top > root.getBoundingClientRect().bottom - 96;
+          bar.classList.toggle('is-away', away);
+          bar.inert = away;
+        };
+        root.addEventListener('scroll', place, { passive: true });
+        window.addEventListener('resize', place);
+        place();
+      }
       changed();
     })
     .catch(() => {
