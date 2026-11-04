@@ -10,6 +10,7 @@ Sitio de una sola página para acompañamientos de Terapia Floral Evolutiva, Tar
 - `data.js` — contenido editable de Servicios, Cursos y Testimonios (sin tocar HTML/CSS).
 - `assets/` — imágenes e íconos.
 - `tienda/productos.json` — productos de la Tienda de Colores del Alma (pestaña "Tienda" en `#tucontu`). Un producto nuevo = un bloque nuevo; ver `tucontu/DESIGN.md`. Lo dibujan `tucontu-store.js` y `tucontu-store.css`.
+- `tucontu-concepts.js` / `.css` — tres prototipos de rediseño para el teléfono, solo con `?concept=1`, `2` o `3`. Comparación en `tucontu/REDESIGN.md`.
 
 ## Previsualizar en local
 

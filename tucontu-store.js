@@ -237,14 +237,21 @@
     lead.hidden = !lead.textContent;
   }
 
-  fetch(DATA_URL, { cache: 'no-cache' })
+  const ready = fetch(DATA_URL, { cache: 'no-cache' })
     .then(response => { if (!response.ok) throw new Error(response.status); return response.json(); })
     .then(raw => {
       store = normalize(raw);
       applyCopy();
       renderFilters();
       renderGrid();
-    })
+      return store;
+    });
+
+  // Lo mismo para los prototipos ?concept=1|2|3 (tucontu-concepts.js): los mismos datos,
+  // el mismo mensaje de pedido y los mismos precios, sin copiarlos.
+  window.SoyStore = { ready, el, text, priceText, hasPrice, collectionOf, orderMessage, whatsAppHref };
+
+  ready
     .catch(() => {
       const link = el('a', { href: whatsAppHref('Hola Marcela, quiero ver las piezas de Colores del Alma.'), target: '_blank', rel: 'noopener noreferrer', text: 'escríbele a Marcela por WhatsApp' });
       grid.replaceChildren(el('li', { class: 'store-empty' }, [document.createTextNode('No pudimos mostrar las piezas ahora. Puedes '), link, document.createTextNode('.')]));
