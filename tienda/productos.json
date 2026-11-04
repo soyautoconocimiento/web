@@ -1,0 +1,114 @@
+{
+  "_instrucciones": "Tienda de Colores del Alma. Para agregar un producto: copia un bloque de 'productos', cambia su 'id' (único, minúsculas y guiones) y sus datos. No hace falta tocar código. Ver tucontu/DESIGN.md.",
+  "tienda": {
+    "titulo": "Tienda",
+    "bajada": "Piezas tejidas a mano. Pídelas directamente a Marcela por WhatsApp.",
+    "nota_compra": ""
+  },
+  "colecciones": [
+    {
+      "id": "tucontu",
+      "nombre": "TuconTu",
+      "etiqueta": "Pieza única",
+      "descripcion": "Accesorio para el cabello elaborado completamente a mano, creado a partir de una estructura de algodón y un colet, sobre la cual se construye una composición artesanal única e irrepetible."
+    }
+  ],
+  "productos": [
+    {
+      "id": "tucontu-01",
+      "coleccion": "tucontu",
+      "nombre": "TuconTu Nº 01",
+      "precio": null,
+      "disponible": null,
+      "publicado": true,
+      "descripcion": "",
+      "medidas": "",
+      "materiales": "",
+      "fotos": [
+        { "src": "assets/tucontu/001.webp", "alt": "TuconTu de cordones terracota, verdes y crudos en una coleta, visto de espalda." },
+        { "src": "assets/tucontu/003.webp", "alt": "La misma pieza vista de perfil, con sus cordones cayendo sobre el cabello." },
+        { "src": "assets/tucontu/009.webp", "alt": "Una mujer sonríe luciendo la pieza, con los cordones sobre el hombro." }
+      ]
+    },
+    {
+      "id": "tucontu-02",
+      "coleccion": "tucontu",
+      "nombre": "TuconTu Nº 02",
+      "precio": null,
+      "disponible": null,
+      "publicado": true,
+      "descripcion": "",
+      "medidas": "",
+      "materiales": "",
+      "fotos": [
+        { "src": "assets/tucontu/012.webp", "alt": "TuconTu en tonos azul y celeste envolviendo un moño, con cordones largos sobre una camisa blanca." },
+        { "src": "assets/tucontu/021.webp", "alt": "La misma pieza azul vista de espalda, de cuerpo entero." },
+        { "src": "assets/tucontu/019.webp", "alt": "Una mujer sentada y sonriente luce la pieza azul en su moño." }
+      ]
+    },
+    {
+      "id": "tucontu-03",
+      "coleccion": "tucontu",
+      "nombre": "TuconTu Nº 03",
+      "precio": null,
+      "disponible": null,
+      "publicado": true,
+      "descripcion": "",
+      "medidas": "",
+      "materiales": "",
+      "fotos": [
+        { "src": "assets/tucontu/013.webp", "alt": "TuconTu con trenza blanca y negra en una coleta larga, visto de espalda." },
+        { "src": "assets/tucontu/018.webp", "alt": "Una mujer acomoda la trenza blanca y negra sobre su cabello." },
+        { "src": "assets/tucontu/014.webp", "alt": "La pieza blanca y negra vista de espalda, de cuerpo entero." }
+      ]
+    },
+    {
+      "id": "tucontu-04",
+      "coleccion": "tucontu",
+      "nombre": "TuconTu Nº 04",
+      "precio": null,
+      "disponible": null,
+      "publicado": true,
+      "descripcion": "",
+      "medidas": "",
+      "materiales": "",
+      "fotos": [
+        { "src": "assets/tucontu/029.webp", "alt": "Detalle de un TuconTu de lanas amarillas, verdes, rosadas y moradas, con trenzas y espirales." },
+        { "src": "assets/tucontu/020.webp", "alt": "La pieza multicolor vista de cerca junto a la oreja." },
+        { "src": "assets/tucontu/022.webp", "alt": "Una mujer luce la pieza multicolor sobre un chal verde." }
+      ]
+    },
+    {
+      "id": "tucontu-05",
+      "coleccion": "tucontu",
+      "nombre": "TuconTu Nº 05",
+      "precio": null,
+      "disponible": null,
+      "publicado": true,
+      "descripcion": "",
+      "medidas": "",
+      "materiales": "",
+      "fotos": [
+        { "src": "assets/tucontu/010.webp", "alt": "TuconTu rojo y blanco en lo alto de una coleta, sobre un chaleco rojo." },
+        { "src": "assets/tucontu/028.webp", "alt": "La pieza roja y blanca vista de espalda, con los cordones sobre el cabello." },
+        { "src": "assets/tucontu/027.webp", "alt": "Una mujer sonríe mirando por sobre el hombro, con la pieza roja en el cabello." }
+      ]
+    },
+    {
+      "id": "tucontu-06",
+      "coleccion": "tucontu",
+      "nombre": "TuconTu Nº 06",
+      "precio": null,
+      "disponible": null,
+      "publicado": true,
+      "descripcion": "",
+      "medidas": "",
+      "materiales": "",
+      "fotos": [
+        { "src": "assets/tucontu/025.webp", "alt": "TuconTu turquesa envolviendo un moño, con un cordón largo sobre una camisa verde lima." },
+        { "src": "assets/tucontu/023.webp", "alt": "La pieza vista de espalda, con su cordón blanco cayendo a lo largo del cabello." },
+        { "src": "assets/tucontu/024.webp", "alt": "Una mujer acomoda la pieza en su cabello." }
+      ]
+    }
+  ]
+}

@@ -10,5 +10,10 @@
     return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   }
 
-  return { serviceWhatsAppHref };
+  // Any message to Marcela's one number (used by the store, tucontu-store.js).
+  function whatsAppHref(message) {
+    return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  }
+
+  return { serviceWhatsAppHref, whatsAppHref };
 });
