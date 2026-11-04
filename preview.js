@@ -1403,7 +1403,7 @@
       if (waLink) {
         const fiberName = currentFiber === 'wool' ? 'Lana' : 'Algodón';
         const msg = `Hola Marcela, me gustaría encargar un TuconTu ${selectedArch} (${selectedLen}) en ${fiberName} con la combinación ${name} (${codes}).`;
-        waLink.href = `https://wa.me/56992388057?text=${encodeURIComponent(msg)}`;
+        waLink.href = `https://wa.me/56962391328?text=${encodeURIComponent(msg)}`;
       }
     }
 
