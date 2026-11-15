@@ -317,7 +317,7 @@
             </div>
 
             <button type="button" class="btn-send-whatsapp" id="bazar-wa-send-btn">
-              <span>Enviar a WhatsApp (+56 9 9238 8057) ↗</span>
+              <span>Enviar a WhatsApp (+56 9 6239 1328) ↗</span>
             </button>
           </div>
         </div>
@@ -434,7 +434,7 @@
   function sendWhatsAppMessage() {
     const textarea = document.getElementById('bazar-wa-textarea');
     const msg = encodeURIComponent(textarea.value.trim());
-    window.open(`https://wa.me/56992388057?text=${msg}`, '_blank', 'noopener,noreferrer');
+    window.open(`https://wa.me/56962391328?text=${msg}`, '_blank', 'noopener,noreferrer');
   }
 
   function closeOfferModal() {

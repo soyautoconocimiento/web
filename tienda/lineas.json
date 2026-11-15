@@ -1,0 +1,26 @@
+{
+  "_instrucciones": "Las tres líneas TuconTu: los estantes de la tienda. Fuente: assets/tucontu/tucontu-manual-lamina.png. 'precio': null no muestra precio; un número lo muestra. 'fotos': la primera va en la tarjeta y todas en 'Ver fotos'; sin fotos se dibuja una muestra con el largo.",
+  "lineas": [
+    { "id": "persefone", "nombre": "Perséfone", "arquetipo": "La Exploradora", "largo": 30, "linea": "Línea infantil",
+      "valores": ["Juego", "Descubrimiento", "Libertad", "Imaginación"], "precio": null,
+      "fotos": ["assets/tucontu/lineas/persefone.jpg"] },
+    { "id": "afrodita", "nombre": "Afrodita", "arquetipo": "La Creadora", "largo": 60, "linea": "Línea adulta estándar",
+      "valores": ["Presencia", "Creatividad", "Belleza", "Vinculación"], "precio": null, "fotos": [] },
+    { "id": "hestia", "nombre": "Héstia", "arquetipo": "La Sacerdotisa", "largo": 90, "linea": "Línea artesanal extra largo",
+      "valores": ["Centro", "Sabiduría", "Transformación", "Interioridad"], "precio": null, "fotos": [] }
+  ],
+  "historia": {
+    "titulo": "TuconTu",
+    "lema": "Un accesorio, un encuentro contigo.",
+    "video": "assets/tucontu/video_presentacion.mp4",
+    "portada": "assets/tucontu/video-cover-marcela.webp",
+    "intro": "Accesorio para el cabello elaborado completamente a mano, a partir de una estructura de algodón y un colet. Cada pieza es única e irrepetible.",
+    "partes": [
+      { "nombre": "La trenza", "texto": "La integración: tres hilos que se entrelazan, cuerpo, emoción y conciencia." },
+      { "nombre": "La columna central", "texto": "El eje, el centro y el sostén." },
+      { "nombre": "El embarrilado", "texto": "El recorrido de la vida: experiencias, vínculos, aprendizajes." },
+      { "nombre": "La espiral", "texto": "Evolución y transformación. Volver no es retroceder." }
+    ],
+    "cierre": "Elegir los colores también es una forma de elegirse."
+  }
+}

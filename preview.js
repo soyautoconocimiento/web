@@ -566,6 +566,7 @@
     dialog.showModal();
     scheduleLayoutCheck();
   }
+  window.openOffer = openOffer; // las Gift Cards de Colores del Alma usan el mismo modal
   mobileDialogViewport.addEventListener('change', event => {
     if (!dialog.open || !activeOffer) return;
     dialogImage.src = event.matches ? mobileOfferMotif(activeOffer) : offerImage(activeOffer);
@@ -872,7 +873,7 @@
       showConceptSlide(0);
       return;
     }
-    const titles = { pieza: 'TuconTu', concepto: 'Concepto', catalogo: 'Personaliza el tuyo', manual: 'Concepto', galeria: 'Galería', fotos: 'Galería', video: 'Video' };
+    const titles = { pieza: 'TuconTu', concepto: 'Concepto', tienda: 'Tienda', catalogo: 'Personaliza el tuyo', manual: 'Concepto', galeria: 'Galería', fotos: 'Galería', video: 'Video' };
     if (galleryTitle) galleryTitle.textContent = titles[mode] || 'TuconTu';
     const tucontuSection = document.getElementById('tucontu');
     if (tucontuSection) tucontuSection.dataset.activeMode = mode;
@@ -907,6 +908,7 @@
       const tabId = panel.dataset.galleryPanel === 'pieza' ? 'piece'
         : panel.dataset.galleryPanel === 'concepto' || panel.dataset.galleryPanel === 'manual' ? 'concept'
         : panel.dataset.galleryPanel === 'catalogo' ? 'catalog'
+        : panel.dataset.galleryPanel === 'tienda' ? 'store'
         : panel.dataset.galleryPanel === 'historia' ? 'history'
         : 'photos';
       panel.setAttribute('aria-labelledby', `tucontu-${tabId}-tab`);
@@ -1403,7 +1405,7 @@
       if (waLink) {
         const fiberName = currentFiber === 'wool' ? 'Lana' : 'Algodón';
         const msg = `Hola Marcela, me gustaría encargar un TuconTu ${selectedArch} (${selectedLen}) en ${fiberName} con la combinación ${name} (${codes}).`;
-        waLink.href = `https://wa.me/56992388057?text=${encodeURIComponent(msg)}`;
+        waLink.href = `https://wa.me/56962391328?text=${encodeURIComponent(msg)}`;
       }
     }
 
