@@ -21,6 +21,9 @@
   }
   window.addEventListener('pagehide', saveStageScrollPosition);
   const sections = pages.map(page => document.getElementById(page.id));
+  // una sección sin imán (Servicios, el 1/3 del inicio) vive dentro de la pantalla anterior
+  const hasSnap = section => getComputedStyle(section).scrollSnapAlign !== 'none';
+  const sectionTop = section => (hasSnap(section) ? section : section.previousElementSibling).offsetTop;
   let experienceState = viewportExperience.createState(
     sections.find(section => `#${section.id}` === location.hash)?.id || 'inicio'
   );
@@ -157,7 +160,7 @@
     const stageTop = stage.getBoundingClientRect().top;
     const index = layeredExperiencePrototype
       ? Math.max(0, pages.findIndex(page => page.id === experienceState.focus))
-      : sections.reduce((nearest, section, candidate) =>
+      : sections.reduce((nearest, section, candidate) => hasSnap(section) &&
         Math.abs(section.getBoundingClientRect().top - stageTop) <
           Math.abs(sections[nearest].getBoundingClientRect().top - stageTop)
           ? candidate : nearest, 0);
@@ -169,7 +172,8 @@
       if (selected) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     });
-    journeyNumber.textContent = `${String(index + 1).padStart(2, '0')} / 03`;
+    const screens = sections.filter(hasSnap);
+    journeyNumber.textContent = `${String(screens.indexOf(sections[index]) + 1).padStart(2, '0')} / ${String(screens.length).padStart(2, '0')}`;
     journeyName.textContent = pages[index].label;
     previousPage.disabled = index === 0;
     nextPage.disabled = index === pages.length - 1;
@@ -299,7 +303,7 @@
     }
     if (addHistoryEntry) history.pushState(null, '', `${location.pathname}${location.search}#${target.id}`);
     const behavior = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
-    stage.scrollTo({ top: target.offsetTop, behavior });
+    stage.scrollTo({ top: sectionTop(target), behavior });
   }
 
   window.SoySiteNavigation = Object.freeze({
@@ -326,8 +330,14 @@
       scrollTick = false;
     });
   }, { passive: true });
-  previousPage.addEventListener('click', () => goToSection(Math.max(0, currentIndex - 1)));
-  nextPage.addEventListener('click', () => goToSection(Math.min(pages.length - 1, currentIndex + 1)));
+  // ← → saltan las secciones sin imán: van de pantalla en pantalla
+  function stepSection(direction) {
+    let index = currentIndex + direction;
+    while (sections[index] && !hasSnap(sections[index])) index += direction;
+    if (sections[index]) goToSection(index);
+  }
+  previousPage.addEventListener('click', () => stepSection(-1));
+  nextPage.addEventListener('click', () => stepSection(1));
   prototypeReturn.addEventListener('click', () => {
     if (history.state?.soyExperienceFocus === experienceState.focus) history.back();
     else goToSection(0);
@@ -393,7 +403,7 @@
       if (Number.isFinite(savedStageScroll) && savedStageScroll >= 0) setStageScrollPositionImmediately(savedStageScroll);
     } catch {}
   } else if (initialSection) {
-    setStageScrollPositionImmediately(initialSection.offsetTop);
+    setStageScrollPositionImmediately(sectionTop(initialSection));
   }
   function followLocationHash() {
     const index = sections.findIndex(section => `#${section.id}` === location.hash);
@@ -486,8 +496,9 @@
     if (!cards.length) return;
     const index = cards.reduce((best, card, cardIndex) =>
       Math.abs(card.offsetLeft - serviceGrid.scrollLeft) < Math.abs(cards[best].offsetLeft - serviceGrid.scrollLeft) ? cardIndex : best, 0);
-    serviceGrid.classList.toggle('is-at-start', index === 0);
-    serviceGrid.classList.toggle('is-at-end', index === cards.length - 1);
+    // los bordes por lo que se ve, no por la tarjeta: si caben todas, no hay más
+    serviceGrid.classList.toggle('is-at-start', serviceGrid.scrollLeft <= 2);
+    serviceGrid.classList.toggle('is-at-end', serviceGrid.scrollLeft + serviceGrid.clientWidth >= serviceGrid.scrollWidth - 2);
     serviceRailCount.textContent = `${String(index + 1).padStart(2, '0')} / ${String(cards.length).padStart(2, '0')}`;
     const travel = Math.max(0, serviceRailTrack.clientWidth - serviceRailProgress.offsetWidth);
     const fraction = cards.length < 2 ? 0 : index / (cards.length - 1);
@@ -613,7 +624,7 @@
       title.textContent = offerTitle(offer);
       const action = document.createElement('span');
       action.className = 'service-card-action';
-      action.textContent = 'CONOCER';
+      action.textContent = 'VER'; // CONOCER queda solo para Terapia Floral
       body.append(title, action);
       card.append(visual, body);
       card.addEventListener('click', () => openOffer(offer, card));
@@ -633,18 +644,7 @@
     serviceGrid.replaceChildren(...cards);
     serviceGrid.classList.toggle('is-courses', category === 'courses');
     serviceGrid.scrollTop = 0;
-    if (category === 'services' && matchMedia('(max-width: 68.75rem)').matches && cards.length) {
-      const middleCard = cards[Math.floor(cards.length / 2)];
-      requestAnimationFrame(() => {
-        if (renderVersion !== offerRenderVersion) return;
-        const gridBounds = serviceGrid.getBoundingClientRect();
-        const cardBounds = middleCard.getBoundingClientRect();
-        serviceGrid.scrollLeft += cardBounds.left - gridBounds.left - (gridBounds.width - cardBounds.width) / 2;
-        updateServiceRailPosition();
-      });
-    } else {
-      serviceGrid.scrollLeft = 0;
-    }
+    serviceGrid.scrollLeft = 0; // todo parte desde la izquierda
     updateServiceRailPosition();
     scheduleLayoutCheck();
   }

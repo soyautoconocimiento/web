@@ -27,16 +27,6 @@ const SITE_DATA = {
       urlAgenda: "https://calendar.app.google/bakqzB6p1NStA3Hy6"
     },
     {
-      id: "tarot",
-      type: "service",
-      title: "Lectura de Tarot",
-      description: "Un mapa simbólico de la psique que, mediante imágenes arquetípicas, te invita a explorar tu mundo interior para conocerte y vivir con mayor conciencia, autenticidad y coherencia.",
-      format: "Online · Zoom",
-      duration: "1 hora",
-      image: "assets/curso_tarot-marcela-20261009.webp",
-      urlAgenda: "https://calendar.app.google/bakqzB6p1NStA3Hy6"
-    },
-    {
       id: "constelaciones",
       type: "service",
       title: "Constelaciones Familiares",
@@ -44,6 +34,16 @@ const SITE_DATA = {
       format: "Online · Zoom",
       duration: "1 hora",
       image: "assets/constelaciones.webp",
+      urlAgenda: "https://calendar.app.google/bakqzB6p1NStA3Hy6"
+    },
+    {
+      id: "tarot",
+      type: "service",
+      title: "Lectura de Tarot",
+      description: "Un mapa simbólico de la psique que, mediante imágenes arquetípicas, te invita a explorar tu mundo interior para conocerte y vivir con mayor conciencia, autenticidad y coherencia.",
+      format: "Online · Zoom",
+      duration: "1 hora",
+      image: "assets/curso_tarot-marcela-20261009.webp",
       urlAgenda: "https://calendar.app.google/bakqzB6p1NStA3Hy6"
     },
     {

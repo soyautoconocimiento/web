@@ -1,0 +1,20 @@
+{
+  "_instrucciones": "Entradas del blog (modo lectura). Son muestras: Marcela las reemplaza. 'imagen' es opcional; 'texto' es una lista de párrafos.",
+  "entradas": [
+    { "id": "esencia", "titulo": "Qué es una esencia floral", "tema": "Floral", "minutos": 3,
+      "imagen": "assets/hero-terapia-floral-warm.webp",
+      "resumen": "Una gota que nombra lo que sentimos y aún no sabemos decir.",
+      "texto": ["Muestra. Una esencia floral no cambia quién eres: te acompaña a ver con más claridad lo que ya está en ti.",
+                "En la Terapia Floral Evolutiva elegimos las flores juntas, a partir de lo que observas en tu día.",
+                "Cada toma es un pequeño recordatorio de atención."] },
+    { "id": "loco", "titulo": "El Loco, primer paso", "tema": "Tarot", "minutos": 2,
+      "imagen": "assets/tarot.webp",
+      "resumen": "Empezar sin saber también es una forma de sabiduría.",
+      "texto": ["Muestra. El Loco es el arcano cero: el que camina antes de tener el mapa.",
+                "Cuando aparece en una lectura, invita a confiar en el movimiento más que en la certeza."] },
+    { "id": "colores", "titulo": "Elegir tus colores", "tema": "Colores del Alma", "minutos": 2,
+      "resumen": "Por qué el color que eliges dice algo de este momento.",
+      "texto": ["Muestra. En TuconTu cada color es una intención. No hay elección correcta: hay la que hoy te llama.",
+                "Elige primero la línea, después deja que los colores te encuentren."] }
+  ]
+}

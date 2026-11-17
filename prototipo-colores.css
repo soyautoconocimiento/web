@@ -27,9 +27,13 @@
 .ca-muestra small{position:absolute;bottom:8px;font-size:11px;color:var(--ca-soft)}
 
 /* Gift Cards: un estante más bajo y quieto */
-.ca-gifts{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:4px 16px}
-.ca .ca-gifts button{flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:4px 14px 4px 4px;border:1px solid #a17b3e33;border-radius:999px;color:var(--ca-ink);text-decoration:none;font-size:13px}
-.ca-gifts img{width:34px;height:34px;border-radius:50%;object-fit:cover}
+/* Gift Cards: una franja delgada, como las tarjetas del bazar (imagen y nombre encima);
+   el borde derecho se desvanece: hay más; al final, el relleno deja ver la última entera */
+.ca-gifts{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -16px;padding:2px 48px 2px 16px;scroll-padding:0 16px;-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 48px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 48px),transparent)}
+.ca .ca-gifts button{position:relative;isolation:isolate;flex:0 0 46%;height:76px;display:flex;align-items:flex-end;justify-content:flex-end;padding:0 12px 7px;overflow:hidden;border:1px solid #a17b3e33;border-radius:14px;color:#fcf8f0;scroll-snap-align:start}
+.ca-gifts img{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover}
+.ca .ca-gifts button::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(transparent 25%,rgba(20,40,60,.72))} /* azul noche: distinto del dorado del bazar, suave a la vista */
+.ca-gifts span{font:500 17px/1 'Cormorant Garamond',Cormorant,serif;text-align:right}
 
 .ca-dots{flex:1;min-height:0;display:grid;grid-template-columns:repeat(6,1fr);align-content:center;gap:10px}
 .ca-dot{aspect-ratio:1;border-radius:50%;border:2px solid #0002!important}
