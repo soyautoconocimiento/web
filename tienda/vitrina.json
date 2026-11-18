@@ -1,12 +1,12 @@
 {
-  "_instrucciones": "Bienvenida y vitrina de Colores del Alma (sección #tucontu). Un estante nuevo = un bloque nuevo en 'estantes'. Una tarjeta nueva = un bloque nuevo en los 'items' de su estante. Un estante sin items (o con 'publicado': false) no se muestra. Sin precios: Marcela aún no los tiene. Ver tucontu/DESIGN.md §8.",
-  "_fuente": "Los textos de 'bienvenida' son palabras de Marcela (mensaje a Ricardo, 4 de noviembre de 2026), acortadas. Lo que se cortó o se ajustó está en tucontu/DESIGN.md §8.2.",
+  "_instrucciones": "Bienvenida y vitrina de Colores del Alma (sección #tucontu). Un estante nuevo = un bloque nuevo en 'estantes'. Una tarjeta nueva = un bloque nuevo en los 'items' de su estante. Un estante sin items (o con 'publicado': false) no se muestra. Sin precios: Marcela aún no los tiene. Ver ../docs/DESIGN.md §8.",
+  "_fuente": "La 'bienvenida' está escrita desde la idea de Marcela (4 y 18 de noviembre de 2026): entrar como a una tienda del sur, mirar sin apuro, para una o para regalar. No son sus palabras literales.",
+  "_valores": "Entrada d: cada estante abre por su nombre o su valor, y una frase derivada de palabras de Marcela: TuconTu, con su lema («Un accesorio, un encuentro contigo»); Viaje, que se regala, de Terapia Floral («un viaje de autoconocimiento»).",
   "bienvenida": {
     "antetitulo": "Te doy la bienvenida a",
     "titulo": "Colores del Alma",
-    "lema": "Un espacio virtual donde voy encontrando novedades que tal vez me gusten y pueda adquirirlas para mí o para hacer un regalo.",
-    "cita": "Me imagino entrando en una tienda del sur y vitrinear. Si luego de un rato no encuentro nada, salgo y sigo… pero ya sé que hay un lugar en donde poder ir a ver cositas.",
-    "firma": "Marcela",
+    "lema": "Un rincón para mirar sin apuro. Piezas hechas a mano, para ti o para regalar.",
+    "boton": "Pasar a la vitrina",
     "foto": { "src": "assets/tucontu/product/tucontu-rack-collection.webp", "alt": "Colección de piezas TuconTu exhibidas en perchero artesanal de madera." }
   },
   "vitrina": {
@@ -17,6 +17,7 @@
     {
       "id": "tucontu",
       "nombre": "TuconTu",
+      "frase": "Un encuentro contigo.",
       "publicado": true,
       "_nota": "Este estante lleva a la parte TuconTu de la misma sección. Su bajada y su foto se leen de index.html (no se copian aquí).",
       "ir_a": "tc-tucontu"
@@ -25,6 +26,9 @@
       "id": "gift-cards",
       "nombre": "Gift Cards",
       "etiqueta": "Gift Card",
+      "valor": "Viajes",
+      "llamado": "Regala",
+      "frase": "Un viaje de autoconocimiento.",
       "publicado": true,
       "_nota": "'servicio' es el id de un servicio de data.js: el nombre, la descripción, el formato y la duración se leen de ahí, tal como aparecen en El Bazar.",
       "items": [

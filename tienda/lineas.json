@@ -5,9 +5,9 @@
       "valores": ["Juego", "Descubrimiento", "Libertad", "Imaginación"], "precio": null,
       "fotos": ["assets/tucontu/lineas/persefone.jpg"] },
     { "id": "afrodita", "nombre": "Afrodita", "arquetipo": "La Creadora", "largo": 60, "linea": "Línea adulta estándar",
-      "valores": ["Presencia", "Creatividad", "Belleza", "Vinculación"], "precio": null, "fotos": [] },
+      "valores": ["Presencia", "Creatividad", "Belleza", "Vinculación"], "precio": null, "fotos": ["assets/tucontu/lineas/afrodita-1.jpg", "assets/tucontu/lineas/afrodita-2.jpg"] },
     { "id": "hestia", "nombre": "Héstia", "arquetipo": "La Sacerdotisa", "largo": 90, "linea": "Línea artesanal extra largo",
-      "valores": ["Centro", "Sabiduría", "Transformación", "Interioridad"], "precio": null, "fotos": [] }
+      "valores": ["Centro", "Sabiduría", "Transformación", "Interioridad"], "precio": null, "fotos": ["assets/tucontu/lineas/hestia-1.jpg", "assets/tucontu/lineas/hestia-2.jpg"] }
   ],
   "historia": {
     "titulo": "TuconTu",

@@ -1,5 +1,5 @@
 {
-  "_instrucciones": "Colores de algodón para elegir en Colores del Alma (sección #tucontu). Un color nuevo = un bloque nuevo en 'colores' con su código, su nombre y su hex. 'publicado': false lo oculta sin borrarlo. Ver tucontu/DESIGN.md.",
+  "_instrucciones": "Colores de algodón para elegir en Colores del Alma (sección #tucontu). Un color nuevo = un bloque nuevo en 'colores' con su código, su nombre y su hex. 'publicado': false lo oculta sin borrarlo. Ver ../docs/DESIGN.md.",
   "_pendiente": "MARCELA DEBE CONFIRMAR LOS HEX CON SU HILO REAL. Cada hex se tomó de la imagen assets/tucontu/algodon-embarrilado.png (la mediana de 9 x 9 píxeles al centro del círculo pequeño de cada tarjeta, 4 de noviembre de 2026). Una foto o una pantalla no muestran el color exacto del hilo: el hex solo sirve para que la persona reconozca el color en pantalla. El código y el nombre son los de la tarjeta.",
   "material": "Algodón embarrilado",
   "composicion": "100% algodón",
