@@ -61,19 +61,22 @@ const regalar = s => `<div class="ca-cta ca-centro"><a class="ca-btn" href="${wa
 // toque solo cambia data-foco, data-linea o data-gift, y el CSS
 // trae al frente lo elegido y manda al fondo lo demás.
 const E = { foco: null, linea: null, gift: null };
-const capaE = x => { const tc = x.v.estantes.find(e => e.id === 'tucontu'), gc = x.v.estantes.find(e => e.id === 'gift-cards');
+// las puertas: cada estante publicado que tenga algo que mostrar
+const puertas = x => x.v.estantes.filter(e => e.publicado && (e.id === 'tucontu' || e.ofertas || e.items?.length));
+const capaE = x => { const ps = puertas(x);
   return `<div class="ce">
   <p class="ce-titulo">${x.v.bienvenida.titulo}</p>
-  <button class="ce-valor ce-tucontu" data-ce="tucontu"><b>${tc.nombre}</b><em>${tc.frase}</em></button>
-  <button class="ce-valor ce-viajes" data-ce="gift-cards"><b>${regalo} ${gc.llamado}</b><em>${gc.frase}</em></button>
-  <p class="ce-valor ce-pronto"><b>?</b><em>Algo más viene</em></p>
-  <div class="ce-escena ce-e-tucontu">
+  ${ps.map((e, i) => `<button class="ce-valor" style="--i:${i}" data-ce="${e.id}"><b>${e.llamado ? regalo + ' ' + e.llamado : e.nombre}</b><em>${e.frase}</em></button>`).join('')}
+  <p class="ce-valor ce-pronto" style="--i:${ps.length}"><b>?</b><em>Algo más viene</em></p>
+  ${ps.filter(e => e.ofertas).map(e => `<div class="ce-escena ce-e-lista" data-escena="${e.id}">${SITE_DATA[e.ofertas].map((s, i) => `
+    <button class="ce-gift" data-oferta="${e.ofertas}:${i}"><img src="${s.image}" alt=""><span>${s.title}</span></button>`).join('')}</div>`).join('')}
+  <div class="ce-escena ce-e-tucontu" data-escena="tucontu">
     <div class="ce-fotos">${x.l.map(l => `<img src="${l.fotos[0]}" alt="TuconTu ${l.nombre}">`).join('')}</div>
     <p class="ce-lema">${x.h.lema}</p>
     <div class="ce-colores"><p class="ce-lema">${x.h.cierre}</p>${dots(x)}</div>
     <div class="ce-lineas">${x.l.map((l, i) => `<button data-ce-linea="${i}"><b>${l.nombre}</b><small>${l.arquetipo} · ${l.largo} cm</small></button>`).join('')}</div>
   </div>
-  <div class="ce-escena ce-e-gift-cards">${x.gifts.map((g, i) => `
+  <div class="ce-escena ce-e-gift-cards" data-escena="gift-cards">${x.gifts.map((g, i) => `
     <button class="ce-gift" data-ce-gift="${i}"><img src="${g.foto}" alt=""><span>${g.s.title}<small>Gift Card · ${g.s.format} · ${g.s.duration}</small></span></button>`).join('')}</div>
   <div class="ce-accion"></div>
 </div>`; };
@@ -81,6 +84,7 @@ function eE(cambio) {
   Object.assign(E, cambio); const c = root.querySelector('.ce');
   for (const k in E) if (E[k] === null) delete c.dataset[k]; else c.dataset[k] = E[k];
   const marca = (s, i) => c.querySelectorAll(s).forEach((b, k) => b.classList.toggle('on', k === i));
+  c.querySelectorAll('[data-escena], [data-ce]').forEach(n => n.classList.toggle('on', (n.dataset.escena || n.dataset.ce) === E.foco));
   marca('.ce-fotos img', E.linea ?? 0); marca('[data-ce-linea]', E.linea); marca('[data-ce-gift]', E.gift);
   c.querySelectorAll('.ca-dot').forEach(d => d.setAttribute('aria-pressed', colores.includes(d.dataset.color)));
   linea = E.linea === null ? null : D.l[E.linea];
@@ -172,6 +176,7 @@ root.addEventListener('click', e => {
   else if (d.ir) ir(() => path.push(d.ir));
   else if (d.ce) { colores = []; eE({ foco: E.foco === d.ce ? null : d.ce, linea: null, gift: null }); }
   else if (d.ceLinea) { colores = []; eE({ linea: E.linea === +d.ceLinea ? null : +d.ceLinea }); }
+  else if (d.oferta) { const [k, i] = d.oferta.split(':'); openOffer(SITE_DATA[k][i], b); }
   else if (d.ceGift) eE({ gift: E.gift === +d.ceGift ? null : +d.ceGift });
   else if (d.valor) ir(() => { foco = foco === d.valor ? null : d.valor; linea = gift = null; colores = []; });
   else if (d.linea) ir(() => { linea = linea === D.l[d.linea] ? null : D.l[d.linea]; colores = []; });

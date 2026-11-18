@@ -7204,23 +7204,22 @@ html body.editorial-preview .main-nav { order: 4; }
 /* el título es un rótulo, no un botón: chico, espaciado y lejos de los valores */
 .ca .ce-titulo{top:6%;text-align:center;font:400 1.7cqh/1 Marcellus,Georgia,serif;letter-spacing:.22em;text-transform:uppercase;color:var(--ca-gold)}
 .ca .ce-valor{display:flex;flex-direction:column;align-items:center;gap:.6cqh;padding:0;text-align:center;transform-origin:50% 0}
-.ce-valor b{font:500 8cqh/1 'Cormorant Garamond',Cormorant,serif;color:var(--ca-ink)}
+.ce-valor b{font:500 6.6cqh/1 'Cormorant Garamond',Cormorant,serif;color:var(--ca-ink)}
 .ce-valor em{font:italic 400 2.8cqh/1.2 'Cormorant Garamond',Cormorant,serif;color:var(--ca-soft);transition:opacity var(--t)}
 .ce-valor small{font:400 1.9cqh Marcellus,Georgia,serif;letter-spacing:.06em;color:var(--ca-gold)}
-.ce-tucontu{top:24%}.ce-viajes{top:46%}.ce-pronto{top:71%;opacity:.4}
+/* las puertas, una bajo otra por su orden en vitrina.json */
+.ce-valor{top:calc(15cqh + var(--i) * 14cqh)}.ce-pronto{opacity:.4}
 .ce-pronto b{font-style:italic;color:var(--ca-gold)}
-/* con foco: el título se va; TuconTu siempre arriba y Regala siempre
-   abajo, así nunca se cruzan: el foco solo cambia su tamaño y su luz */
+/* con foco: el título y las otras puertas se van; la elegida sube
+   y queda como título: tocarla de nuevo vuelve a las puertas */
 .ce[data-foco] .ce-titulo{opacity:0;transform:scale(.9)}
 .ce[data-foco] .ce-valor em{opacity:0}
 .ce[data-foco] .ce-pronto{opacity:0;transform:translateY(20cqh) scale(.5);pointer-events:none}
-.ce[data-foco=tucontu] .ce-tucontu{transform:translateY(-22cqh) scale(.6)}
-.ce[data-foco=tucontu] .ce-viajes{opacity:.4;transform:translateY(45cqh) scale(.5)}
-.ce[data-foco=gift-cards] .ce-viajes{transform:translateY(43cqh) scale(.6)}
-.ce[data-foco=gift-cards] .ce-tucontu{opacity:.4;transform:translateY(-22cqh) scale(.5)}
+.ce[data-foco] .ce-valor:not(.on){opacity:0;transform:scale(.8);pointer-events:none}
+.ce[data-foco] .ce-valor.on{transform:translateY(calc(-12cqh - var(--i) * 14cqh)) scale(.6)}
 /* la escena: aparece desde el fondo, en el medio del área */
 .ce-escena{top:15%;bottom:21%;opacity:0;transform:scale(.94);pointer-events:none}
-.ce[data-foco=tucontu] .ce-e-tucontu,.ce[data-foco=gift-cards] .ce-e-gift-cards{opacity:1;transform:none;pointer-events:auto}
+.ce-escena.on{opacity:1;transform:none;pointer-events:auto}
 .ce-fotos{top:0;height:62%;left:16%!important;right:16%!important;transform-origin:50% 0;overflow:hidden;border-radius:999px 999px 2cqh 2cqh;background:var(--ca-paper)}
 .ce-fotos img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity var(--t)}
 .ce-fotos img.on{opacity:1}
@@ -7243,7 +7242,8 @@ html body.editorial-preview .main-nav { order: 4; }
 .ce[data-linea] .ce-lineas button:not(.on){opacity:.4;transform:scale(.92)}
 /* los viajes: tres tarjetas; la elegida viene al frente, las otras
    se van al fondo; ninguna cambia de lugar */
-.ce-e-gift-cards{display:flex;flex-direction:column;gap:2%}
+.ce-e-gift-cards,.ce-e-lista{display:flex;flex-direction:column;gap:2%}
+.ce-e-lista{bottom:4%}
 .ca .ce-gift{position:relative;isolation:isolate;overflow:hidden;flex:1;min-height:0;display:flex;align-items:flex-end;padding:1.6cqh 2cqh;border-radius:2cqh;color:#fff;text-align:left;transition:opacity var(--t),transform var(--t)}
 .ce-gift img{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover}
 .ce-gift::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(transparent 35%,rgba(20,40,60,.75))}

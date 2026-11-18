@@ -15,6 +15,22 @@
   },
   "estantes": [
     {
+      "id": "acompanamientos",
+      "nombre": "Acompañamientos",
+      "frase": "Terapia floral, constelaciones y más.",
+      "publicado": true,
+      "ofertas": "services",
+      "_nota": "Sus tarjetas son los servicios de data.js."
+    },
+    {
+      "id": "cursos",
+      "nombre": "Cursos",
+      "frase": "Astrología y Tarot.",
+      "publicado": true,
+      "ofertas": "courses",
+      "_nota": "Sus tarjetas son los cursos de data.js."
+    },
+    {
       "id": "tucontu",
       "nombre": "TuconTu",
       "frase": "Un encuentro contigo.",
