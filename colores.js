@@ -8,9 +8,33 @@ const root = document.querySelector('.cda'); if (!root) return;
 const S = SITE_DATA, svc = id => S.services.concat(S.courses).find(s => s.id === id);
 // la foto de cada servicio, la misma que en todo el sitio
 const foto = s => window.offerImage ? offerImage(s) : s.image;
-let T, D, foco = null;
+// visto: la tienda está en pantalla; inicio: el carrusel a su primera
+let T, D, foco = null, visto = false, inicio = () => {};
 
-function arma([dest, lineas]) {
+// la historia de TuconTu: una lectura aparte, a pantalla completa,
+// de lado, página a página; ✕ o Esc la cierran y el video se detiene
+const leer = document.body.appendChild(document.createElement('dialog'));
+leer.className = 'cda-leer'; leer.setAttribute('aria-label', 'Historia de TuconTu');
+function historia(h) {
+  leer.innerHTML = `<button class="cda-cerrar" aria-label="Cerrar">✕</button><div class="cda-pags">
+    <div><h2>${h.titulo}</h2><p class="cda-lema">${h.lema}</p>
+      <video src="${h.video}" poster="${h.portada}" controls playsinline preload="none"></video></div>
+    <div><p>${h.intro}</p>${h.partes.map(p => `<p><b>${p.nombre}</b><br>${p.texto}</p>`).join('')}</div>
+    <div><p class="cda-lema">${h.cierre}</p></div></div>
+    <div class="cda-pie"><i class="on"></i><i></i><i></i><button class="cda-sigue" aria-label="Seguir">→</button></div>`;
+  const pags = leer.querySelector('.cda-pags');
+  pags.addEventListener('scroll', () => { const i = Math.round(pags.scrollLeft / pags.clientWidth);
+    leer.querySelectorAll('.cda-pie i').forEach((p, k) => p.classList.toggle('on', k === i));
+    leer.querySelector('.cda-sigue').hidden = i === 2; }, { passive: true });
+  leer.addEventListener('click', e => {
+    if (e.target.closest('.cda-cerrar')) leer.close();
+    if (e.target.closest('.cda-sigue')) pags.scrollBy({ left: pags.clientWidth, behavior: 'smooth' }); });
+  leer.addEventListener('close', () => leer.querySelector('video').pause());
+}
+const lee = () => { leer.showModal(); leer.querySelector('.cda-pags').scrollLeft = 0; };
+
+function arma([dest, { lineas, historia: h }]) {
+  historia(h);
   // cada tarjeta y lo que trae adentro; abre: lo que hace tocar un ítem
   T = [
     // Terapia Floral vive en el Inicio: aquí no se repite
@@ -34,6 +58,7 @@ function arma([dest, lineas]) {
       ${d.abre ? `<button class="cda-ver" data-abre="${d.abre}" data-item="${d.item || ''}">Ver →</button>` : ''}</div>`).join('')}</div>
     <div class="cda-puntos">${D.map((_, i) => `<button data-punto="${i}" aria-label="Destacado ${i + 1}"></button>`).join('')}</div></section>
   ${rama('Autoconocimiento', 31)}${rama('La Tienda', 70)}
+  <button class="cda-p cda-historia" data-historia="1">Historia →</button>
   ${T.map(t => `<button class="cda-p cda-card" data-id="${t.id}"><img class="${t.tag ? 'cda-tag' : ''}" src="${t.f}" alt=""><span>${t.l}</span><b>${t.n}</b></button>
     <div class="cda-p cda-escena" data-escena="${t.id}">${t.items.map(x => `
       <button class="cda-item${t.tag ? ' cda-entero' : ''}" data-item="${x.id}"><img src="${x.f}" alt="" loading="lazy"><b>${x.n}</b><span>${x.l}</span></button>`).join('')}</div>`).join('')}</div>`;
@@ -49,7 +74,9 @@ const rama = (t, top) => `<p class="cda-p cda-rama" style="top:${top}%"><img src
 // dónde está cada tarjeta: en reposo, o con una abierta
 const reposo = { acompanamientos: [38, 0, 49.3, 32], cursos: [38, 50.7, 49.3, 32], tucontu: [77, 0, 49.3, 23], gift: [77, 50.7, 49.3, 23] };
 function pon(f, item) {
-  foco = f; root.classList.toggle('abierta', !!f);
+  foco = f; root.classList.toggle('abierta', !!f); root.dataset.foco = f || '';
+  root.querySelector('.cda-historia').inert = f !== 'tucontu';
+  if (!f) inicio();
   const otros = T.map(t => t.id).filter(i => i !== f);
   root.querySelectorAll('.cda-card').forEach(c => { const i = c.dataset.id;
     const r = !f ? reposo[i] : i === f ? [0, 0, 100, 9] : [83, otros.indexOf(i) * 33.8, 32.4, 17];
@@ -82,21 +109,24 @@ function carrusel() {
   s.addEventListener('wheel', e => { if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 20 && Date.now() - rueda > 700) {
     rueda = Date.now(); mueve(e.deltaX > 0 ? 1 : -1); } }, { passive: true });
   root.addEventListener('click', e => { const b = e.target.closest('[data-punto]'); if (b) { quieto = Date.now(); ve(+b.dataset.punto); } });
-  setInterval(() => { if (!foco && !document.hidden && Date.now() - quieto > 8000) ve(actual + 1); }, 6000);
+  setInterval(() => { if (visto && !foco && !document.hidden && Date.now() - quieto > 8000) ve(actual + 1); }, 6000);
+  // volver a la tienda es volver a Colores del Alma, la primera
+  inicio = () => { quieto = Date.now(); ve(0); };
   ve(0);
 }
 
 root.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b || b.dataset.punto || Date.now() - arrastre < 300) return;
-  if (b.dataset.abre) pon(b.dataset.abre, b.dataset.item);
+  if (b.dataset.historia) lee();
+  else if (b.dataset.abre) pon(b.dataset.abre, b.dataset.item);
   else if (b.dataset.id) pon(foco === b.dataset.id ? null : b.dataset.id);
   else if (b.dataset.item) { const x = T.find(t => t.id === foco).items.find(x => x.id === b.dataset.item);
     if (window.openOffer) openOffer(x.abre, b); }
 });
 addEventListener('keydown', e => { if (e.key === 'Escape' && foco && !document.querySelector('dialog[open]')) pon(null); });
-// al irse de la sección, todo vuelve a su lugar
-new IntersectionObserver(([e]) => { if (!e.isIntersecting && foco) pon(null); }).observe(root.closest('section') || root);
+// al volver a la sección, el carrusel en la primera; al irse, todo vuelve a su lugar
+new IntersectionObserver(([e]) => { visto = e.isIntersecting; if (T) visto ? inicio() : pon(null); })
+  .observe(root.closest('section') || root);
 
-Promise.all(['tienda/destacados.json', 'tienda/lineas.json'].map(u => fetch(u).then(r => r.json())))
-  .then(([d, l]) => arma([d, l.lineas]));
+Promise.all(['tienda/destacados.json', 'tienda/lineas.json'].map(u => fetch(u).then(r => r.json()))).then(arma);
 })();
