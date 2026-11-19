@@ -58,7 +58,7 @@ function arma([dest, { lineas, historia: h }]) {
       ${d.abre ? `<button class="cda-ver" data-abre="${d.abre}" data-item="${d.item || ''}">Ver →</button>` : ''}</div>`).join('')}</div>
     <div class="cda-puntos">${D.map((_, i) => `<button data-punto="${i}" aria-label="Destacado ${i + 1}"></button>`).join('')}</div></section>
   ${rama('Autoconocimiento', 31)}${rama('La Tienda', 70)}
-  <button class="cda-p cda-historia" data-historia="1">Historia →</button>
+  <button class="cda-p cda-historia" data-historia="1"><img src="assets/rama.svg" alt="">Historia</button>
   ${T.map(t => `<button class="cda-p cda-card" data-id="${t.id}"><img class="${t.tag ? 'cda-tag' : ''}" src="${t.f}" alt=""><span>${t.l}</span><b>${t.n}</b></button>
     <div class="cda-p cda-escena" data-escena="${t.id}">${t.items.map(x => `
       <button class="cda-item${t.tag ? ' cda-entero' : ''}" data-item="${x.id}"><img src="${x.f}" alt="" loading="lazy"><b>${x.n}</b><span>${x.l}</span></button>`).join('')}</div>`).join('')}</div>`;

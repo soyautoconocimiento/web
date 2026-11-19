@@ -7276,8 +7276,10 @@ html body.editorial-preview #acompanamientos.view[hidden]{display:none!important
 .cda-rama img{width:clamp(56px,8vw,88px)}
 .cda-rama img:last-child{transform:scaleX(-1)}
 .cda.abierta .cda-rama{opacity:0}
-/* Historia: una palabra para leer, no una tarjeta; solo con TuconTu abierta */
-.cda .cda-historia{top:0;right:0;height:9%;display:flex;align-items:center;font:400 12px Marcellus,Georgia,serif;letter-spacing:.24em;text-transform:uppercase;color:#a98244;opacity:0;pointer-events:none}
+/* Historia: una píldora con su rama, para leer, no una tarjeta; solo con
+   TuconTu abierta, y encima del título, que ocupa toda la línea */
+.cda .cda-historia{top:4.5%;right:0;translate:0 -50%;z-index:1;display:flex;align-items:center;gap:8px;padding:8px 16px 8px 12px;border:1px solid #a98244;border-radius:999px;background:#fffdf8;font:400 13px Marcellus,Georgia,serif;letter-spacing:.2em;text-transform:uppercase;color:#a98244;opacity:0;pointer-events:none}
+.cda-historia img{width:32px}
 .cda[data-foco=tucontu] .cda-historia{opacity:1;pointer-events:auto}
 /* la lectura: pantalla completa, crema, una columna angosta, de lado */
 .cda-leer{width:100%;max-width:none;height:100%;max-height:none;margin:0;padding:0;border:0;background:#faf7f1;color:#24323f;font:17px/1.6 Lora,Georgia,serif}
@@ -7335,5 +7337,5 @@ html body.editorial-preview #acompanamientos.view[hidden]{display:none!important
  .cda .cda-card{padding:10px 12px}.cda-card b{font-size:21px}.cda-card span{font-size:11px}
  .cda .cda-card.chica{padding:8px 10px}.cda-card.chica b{font-size:14px}.cda-card.titulo b{font-size:28px}
  .cda .cda-item{flex-basis:72%}.cda-item b{font-size:19px}
- .cda-leer{font-size:16px}.cda-leer b{font-size:19px}.cda .cda-historia{font-size:11px}
+ .cda-leer{font-size:16px}.cda-leer b{font-size:19px}.cda .cda-historia{font-size:11px;padding:6px 12px 6px 9px;gap:6px}.cda-historia img{width:26px}
 }
