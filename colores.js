@@ -14,7 +14,7 @@ function arma([dest, lineas]) {
   // cada tarjeta y lo que trae adentro; abre: lo que hace tocar un ítem
   T = [
     // Terapia Floral vive en el Inicio: aquí no se repite
-    { id: 'acompanamientos', n: 'Acompañamientos', l: 'Constelaciones, tarot y carta astral', f: 'service-constelaciones-stone-display.jpg',
+    { id: 'acompanamientos', n: 'Consultas', l: 'Constelaciones, tarot y carta astral', f: 'service-constelaciones-stone-display.jpg',
       items: S.services.filter(s => s.id !== S.hero).map(s => ({ id: s.id, n: s.title, l: s.format + ' · ' + s.duration, f: foto(s), abre: s })) },
     { id: 'cursos', n: 'Cursos', l: 'Astrología y Tarot', f: 'assets/curso_astrologia.webp',
       items: S.courses.map(s => ({ id: s.id, n: s.title, l: s.format, f: foto(s), abre: s })) },
@@ -33,6 +33,7 @@ function arma([dest, lineas]) {
       <small>${d.antetitulo}</small><h2>${d.titulo}</h2><p>${d.bajada}</p>
       ${d.abre ? `<button class="cda-ver" data-abre="${d.abre}" data-item="${d.item || ''}">Ver →</button>` : ''}</div>`).join('')}</div>
     <div class="cda-puntos">${D.map((_, i) => `<button data-punto="${i}" aria-label="Destacado ${i + 1}"></button>`).join('')}</div></section>
+  ${rama('Autoconocimiento', 31)}${rama('La Tienda', 70)}
   ${T.map(t => `<button class="cda-p cda-card" data-id="${t.id}"><img class="${t.tag ? 'cda-tag' : ''}" src="${t.f}" alt=""><span>${t.l}</span><b>${t.n}</b></button>
     <div class="cda-p cda-escena" data-escena="${t.id}">${t.items.map(x => `
       <button class="cda-item${t.tag ? ' cda-entero' : ''}" data-item="${x.id}"><img src="${x.f}" alt="" loading="lazy"><b>${x.n}</b><span>${x.l}</span></button>`).join('')}</div>`).join('')}</div>`;
@@ -42,8 +43,11 @@ function arma([dest, lineas]) {
   carrusel();
 }
 
+// una rama de olivo a cada lado del nombre de una fila
+const rama = (t, top) => `<p class="cda-p cda-rama" style="top:${top}%"><img src="assets/rama.svg" alt="">${t}<img src="assets/rama.svg" alt=""></p>`;
+
 // dónde está cada tarjeta: en reposo, o con una abierta
-const reposo = { acompanamientos: [37, 0, 49.3, 37], cursos: [37, 50.7, 49.3, 37], tucontu: [77, 0, 49.3, 23], gift: [77, 50.7, 49.3, 23] };
+const reposo = { acompanamientos: [38, 0, 49.3, 32], cursos: [38, 50.7, 49.3, 32], tucontu: [77, 0, 49.3, 23], gift: [77, 50.7, 49.3, 23] };
 function pon(f, item) {
   foco = f; root.classList.toggle('abierta', !!f);
   const otros = T.map(t => t.id).filter(i => i !== f);

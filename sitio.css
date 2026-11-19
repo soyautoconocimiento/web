@@ -7269,8 +7269,13 @@ html body.editorial-preview #acompanamientos.view[hidden]{display:none!important
 .cda button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left}
 .cda-p{position:absolute;transition:top .6s var(--e),left .6s var(--e),width .6s var(--e),height .6s var(--e),opacity .5s,transform .6s var(--e)}
 .cda-esc{position:relative;height:100%}
-.cda-dest{top:0;left:0;width:100%;height:34%;border-radius:18px;overflow:hidden;box-shadow:0 6px 18px #14283c14}
+.cda-dest{top:0;left:0;width:100%;height:31%;border-radius:18px;overflow:hidden;box-shadow:0 6px 18px #14283c14}
 .cda.abierta .cda-dest{opacity:0;transform:translateY(-6%) scale(.97);pointer-events:none}
+/* las ramas: Autoconocimiento y La Tienda, cada una sobre su fila */
+.cda-rama{left:0;width:100%;height:7%;margin:0;display:flex;align-items:center;justify-content:center;gap:12px;pointer-events:none;font:italic 500 clamp(20px,3.4vh,28px)/1 'Cormorant Garamond',Cormorant,serif;color:#5b6a32}
+.cda-rama img{width:clamp(56px,8vw,88px)}
+.cda-rama img:last-child{transform:scaleX(-1)}
+.cda.abierta .cda-rama{opacity:0}
 .cda-slides{display:flex;height:100%;transition:transform .7s var(--e);touch-action:pan-y}
 .cda-slide{flex:0 0 100%;position:relative;isolation:isolate;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;gap:8px;padding:0 6%}
 .cda-slide img{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;object-position:right center}
