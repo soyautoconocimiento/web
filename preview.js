@@ -1,8 +1,8 @@
 (() => {
   const pages = [
     { id: 'inicio', label: 'El camino' },
-    { id: 'acompanamientos', label: 'Acompañamientos' },
-    { id: 'tucontu', label: 'Colores del alma' }
+    // El Bazar vive ahora dentro de Colores del Alma (colores.js)
+    { id: 'tucontu', label: 'Colores del Alma' }
   ];
   const stage = document.getElementById('main');
   const layeredExperiencePrototype = new URLSearchParams(location.search).get('experiencia') === 'capas';
@@ -577,6 +577,7 @@
     scheduleLayoutCheck();
   }
   window.openOffer = openOffer; // las Gift Cards de Colores del Alma usan el mismo modal
+  window.offerImage = offerImage; // y Colores del Alma, las mismas fotos de cada servicio
   mobileDialogViewport.addEventListener('change', event => {
     if (!dialog.open || !activeOffer) return;
     dialogImage.src = event.matches ? mobileOfferMotif(activeOffer) : offerImage(activeOffer);

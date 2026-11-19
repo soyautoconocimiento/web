@@ -1,0 +1,10 @@
+{
+  "_instrucciones": "El carrusel de Colores del Alma. Un destacado nuevo = un bloque nuevo. 'abre' es la tarjeta que se abre (acompanamientos, cursos, tucontu, gift) e 'item' lo que queda marcado: el id de un servicio o curso de data.js, o de una línea de lineas.json. Sin 'abre', el destacado no tiene botón.",
+  "destacados": [
+    { "antetitulo": "Te doy la bienvenida a", "titulo": "Colores del Alma", "bajada": "Productos y experiencias para tu bienestar, tu proceso de autoconocimiento y tu expresión creativa.", "foto": "assets/colores-bienvenida-1600.jpg", "foto_chica": "assets/colores-bienvenida-900.jpg" },
+    { "antetitulo": "Servicio destacado", "titulo": "Constelaciones Familiares", "bajada": "Online · Zoom · 1 hora", "foto": "service-constelaciones-stone-display.jpg", "abre": "acompanamientos", "item": "constelaciones" },
+    { "antetitulo": "Curso nuevo", "titulo": "Tarot 2026", "bajada": "Online · Zoom · Entrevista previa", "foto": "assets/curso_tarot-marcela-20261009.webp", "abre": "cursos", "item": "curso-tarot-2026" },
+    { "antetitulo": "Hecho a mano", "titulo": "TuconTu", "bajada": "Accesorios artesanales para el cabello. La belleza de ser Tú.", "foto": "assets/tucontu/lineas/afrodita-1.jpg", "abre": "tucontu" },
+    { "antetitulo": "Regala", "titulo": "Gift card", "bajada": "Un viaje de autoconocimiento.", "foto": "service-constelaciones-stone-display.jpg", "abre": "gift" }
+  ]
+}
