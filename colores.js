@@ -9,7 +9,7 @@ const S = SITE_DATA, svc = id => S.services.concat(S.courses).find(s => s.id ===
 // la foto de cada servicio, la misma que en todo el sitio
 const foto = s => window.offerImage ? offerImage(s) : s.image;
 // visto: la tienda está en pantalla; inicio: el carrusel a su primera
-let T, D, foco = null, visto = false, inicio = () => {};
+let T, D, A, foco = null, visto = false, inicio = () => {};
 
 // la historia de TuconTu: una lectura aparte, a pantalla completa,
 // de lado, página a página; ✕ o Esc la cierran y el video se detiene
@@ -33,7 +33,8 @@ function historia(h) {
 }
 const lee = () => { leer.showModal(); leer.querySelector('.cda-pags').scrollLeft = 0; };
 
-function arma([dest, { lineas, historia: h }]) {
+function arma([dest, { lineas, historia: h }, alg]) {
+  A = alg;
   historia(h);
   // cada tarjeta y lo que trae adentro; abre: lo que hace tocar un ítem
   T = [
@@ -42,12 +43,12 @@ function arma([dest, { lineas, historia: h }]) {
       items: S.services.filter(s => s.id !== S.hero).map(s => ({ id: s.id, n: s.title, l: s.format + ' · ' + s.duration, f: foto(s), abre: s })) },
     { id: 'cursos', n: 'Cursos', l: 'Astrología y Tarot', f: 'assets/curso_astrologia.webp',
       items: S.courses.map(s => ({ id: s.id, n: s.title, l: s.format, f: foto(s), abre: s })) },
-    { id: 'tucontu', n: 'TuconTu', l: 'Accesorios artesanales para el cabello', f: 'assets/tucontu/etiqueta-frente.jpg', tag: 1,
+    { id: 'tucontu', n: 'TuconTu', l: 'Accesorios artesanales para el cabello', f: 'assets/tucontu/product/tucontu-rack-collection-display-940.jpg',
       items: lineas.map(x => ({ id: x.id, n: x.nombre, l: x.largo + ' cm · ' + x.linea, f: x.fotos[0],
         abre: { id: 'tucontu-' + x.id, title: 'TuconTu ' + x.nombre, description: x.arquetipo + '\n' + x.valores.join(' · '),
           format: x.largo + ' cm', duration: x.linea, image: x.fotos[0], urlAgenda: null } })) },
-    { id: 'gift', n: 'Gift card', l: 'Regala un viaje de autoconocimiento', f: 'service-tarot-fool-display.jpg',
-      items: [['tarot', 'service-tarot-fool-display.jpg'], ['carta-astral', 'service-carta-astral-astrolabe-display.jpg'], ['constelaciones', 'service-constelaciones-stone-display.jpg']]
+    { id: 'gift', n: 'Gift card', l: 'Regala un viaje de autoconocimiento', f: 'assets/gift/gift-card.jpg',
+      items: ['tarot', 'carta-astral', 'constelaciones'].map(id => [id, `assets/gift/gift-${id}.jpg`])
         .map(([id, f]) => ({ id: 'gift-' + id, n: svc(id).title, l: 'Gift Card · ' + svc(id).duration, f,
           abre: { ...svc(id), heroTitle: 'Gift Card · ' + svc(id).title, urlAgenda: null } })) }
   ];
@@ -59,12 +60,12 @@ function arma([dest, { lineas, historia: h }]) {
     <div class="cda-puntos">${D.map((_, i) => `<button data-punto="${i}" aria-label="Destacado ${i + 1}"></button>`).join('')}</div></section>
   ${rama('Autoconocimiento', 31)}${rama('La Tienda', 70)}
   <button class="cda-p cda-historia" data-historia="1"><img src="assets/rama.svg" alt="">Historia</button>
-  ${T.map(t => `<button class="cda-p cda-card" data-id="${t.id}"><img class="${t.tag ? 'cda-tag' : ''}" src="${t.f}" alt=""><span>${t.l}</span><b>${t.n}</b></button>
+  ${T.map(t => `<button class="cda-p cda-card" data-id="${t.id}"><img src="${t.f}" alt=""><b>${t.n}</b></button>
     <div class="cda-p cda-escena" data-escena="${t.id}">${t.items.map(x => `
-      <button class="cda-item${t.tag ? ' cda-entero' : ''}" data-item="${x.id}"><img src="${x.f}" alt="" loading="lazy"><b>${x.n}</b><span>${x.l}</span></button>`).join('')}</div>`).join('')}</div>`;
+      <button class="cda-item" data-item="${x.id}"><img src="${x.f}" alt=""><b>${x.n}</b><span>${x.l}</span></button>`).join('')}</div>`).join('')}</div>`;
   // ?abre=cursos&item=curso-tarot-2026 llega con esa tarjeta abierta (un QR, un enlace)
   const q = new URLSearchParams(location.search);
-  pon(T.some(t => t.id === q.get('abre')) ? q.get('abre') : null, q.get('item'));
+  coloca(T.some(t => t.id === q.get('abre')) ? q.get('abre') : null, q.get('item'));
   carrusel();
 }
 
@@ -73,7 +74,18 @@ const rama = (t, top) => `<p class="cda-p cda-rama" style="top:${top}%"><img src
 
 // dónde está cada tarjeta: en reposo, o con una abierta
 const reposo = { acompanamientos: [38, 0, 49.3, 32], cursos: [38, 50.7, 49.3, 32], tucontu: [77, 0, 49.3, 23], gift: [77, 50.7, 49.3, 23] };
+// cambiar de vista: viaja solo la tarjeta tocada; las otras
+// se apagan en su lugar y aparecen ya en el suyo: nada se cruza
+let muda;
 function pon(f, item) {
+  const cs = [...root.querySelectorAll('.cda-card')], va = f || foco, otras = cs.filter(c => c.dataset.id !== va);
+  clearTimeout(muda); cs.forEach(c => c.classList.remove('apaga', 'quieta', 'llega'));
+  otras.forEach(c => c.classList.add('apaga'));
+  muda = setTimeout(() => { otras.forEach(c => c.classList.add('quieta')); coloca(f, item); root.offsetWidth;
+    otras.forEach(c => { c.classList.remove('quieta', 'apaga'); c.classList.add('llega'); });
+    muda = setTimeout(() => otras.forEach(c => c.classList.remove('llega')), 900); }, 200);
+}
+function coloca(f, item) {
   foco = f; root.classList.toggle('abierta', !!f); root.dataset.foco = f || '';
   root.querySelector('.cda-historia').inert = f !== 'tucontu';
   if (!f) inicio();
@@ -121,12 +133,41 @@ root.addEventListener('click', e => {
   else if (b.dataset.abre) pon(b.dataset.abre, b.dataset.item);
   else if (b.dataset.id) pon(foco === b.dataset.id ? null : b.dataset.id);
   else if (b.dataset.item) { const x = T.find(t => t.id === foco).items.find(x => x.id === b.dataset.item);
-    if (window.openOffer) openOffer(x.abre, b); }
+    if (window.openOffer) { openOffer(x.abre, b); if (foco === 'tucontu') elige(x.abre); } }
 });
+// pedir un TuconTu: en su modal se eligen exactamente sus colores
+// (max_colores de colores-algodon.json); recién entonces el botón
+// de WhatsApp lleva el pedido. Tocar un color lo elige o lo quita.
+const caja = document.getElementById('dialog-colores'), wa = document.getElementById('dialog-whatsapp');
+const claro = h => { const n = parseInt(h.slice(1), 16); return (n >> 16) * .3 + (n >> 8 & 255) * .59 + (n & 255) * .11 > 150; };
+let pieza, elegidos = [];
+function elige(p) { pieza = p; elegidos = []; caja.hidden = false; pinta(); }
+function pinta() {
+  const n = A.max_colores, cs = A.colores.filter(c => c.publicado !== false), lleno = elegidos.length === n;
+  caja.innerHTML = `<p class="dc-pide">Elige ${n} colores <b>${elegidos.length}/${n}</b></p>
+    <div class="dc-puntos">${cs.map(c => { const i = elegidos.indexOf(c.codigo);
+      return `<button type="button" class="dc-punto${claro(c.hex) ? ' dc-claro' : ''}" style="--c:${c.hex}" data-color="${c.codigo}"
+        aria-pressed="${i >= 0}"${lleno && i < 0 ? ' aria-disabled="true"' : ''} aria-label="${c.nombre}" title="${c.nombre}">${i >= 0 ? i + 1 : ''}</button>`; }).join('')}</div>
+    <div class="dc-elegidos">${elegidos.length ? elegidos.map(k => `<button type="button" data-quita="${k}" aria-label="Quitar ${A.colores.find(c => c.codigo === k).nombre}">${A.colores.find(c => c.codigo === k).nombre} ✕</button>`).join('')
+      : '<span>Toca un color para elegirlo; otra vez, para quitarlo.</span>'}</div>
+    <p class="dc-nota">${lleno ? 'Listo. Para cambiar uno, quítalo primero.' : 'En pantalla, los colores son aproximados.'}</p>`;
+  const nombres = elegidos.map(k => A.colores.find(c => c.codigo === k)).map(c => `${c.nombre} (${c.codigo})`).join(', ');
+  wa.firstChild.textContent = 'Pedir ';
+  if (lleno) { wa.href = SoyContactLinks.whatsAppHref(`Hola Marcela, quiero un ${pieza.title} de ${pieza.format} en estos colores: ${nombres}.`); wa.removeAttribute('aria-disabled'); }
+  else { wa.removeAttribute('href'); wa.setAttribute('aria-disabled', 'true'); }
+  wa.setAttribute('aria-label', lleno ? `Pedir ${pieza.title} por WhatsApp` : `Elige ${n} colores para pedir`);
+}
+caja.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
+  const k = b.dataset.color || b.dataset.quita, i = elegidos.indexOf(k);
+  if (i >= 0) elegidos.splice(i, 1); else if (b.dataset.color && elegidos.length < A.max_colores) elegidos.push(k); else return;
+  pinta(); caja.querySelector(`[data-color="${k}"]`)?.focus(); });
+// al cerrar, el modal vuelve a ser el de siempre
+caja.closest('dialog').addEventListener('close', () => { if (caja.hidden) return;
+  caja.hidden = true; caja.innerHTML = ''; wa.firstChild.textContent = 'Conversar '; wa.removeAttribute('aria-disabled'); });
 addEventListener('keydown', e => { if (e.key === 'Escape' && foco && !document.querySelector('dialog[open]')) pon(null); });
 // al volver a la sección, el carrusel en la primera; al irse, todo vuelve a su lugar
-new IntersectionObserver(([e]) => { visto = e.isIntersecting; if (T) visto ? inicio() : pon(null); })
+new IntersectionObserver(([e]) => { visto = e.isIntersecting; if (T) visto ? inicio() : coloca(null); })
   .observe(root.closest('section') || root);
 
-Promise.all(['tienda/destacados.json', 'tienda/lineas.json'].map(u => fetch(u).then(r => r.json()))).then(arma);
+Promise.all(['tienda/destacados.json', 'tienda/lineas.json', 'tienda/colores-algodon.json'].map(u => fetch(u).then(r => r.json()))).then(arma);
 })();

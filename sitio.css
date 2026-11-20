@@ -198,6 +198,22 @@ em { font-weight: 400; }
 .dialog-actions .button { display: inline-flex; width: 100%; min-width: 0; min-height: 3rem; padding: 0.625rem 0.75rem; gap: 0.5rem; font-size: 0.875rem; letter-spacing: .03em; }
 .dialog-actions svg { flex: 0 0 1.25rem; width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .dialog-actions [hidden] { display: none; }
+/* TuconTu: elegir sus colores en el modal; los puntos no crecen ni rompen el modal */
+.dialog-colores[hidden] { display: none; }
+.dialog-colores { display: grid; gap: 0.5rem; }
+.dialog-copy .dc-pide { display: flex; justify-content: space-between; align-items: baseline; color: var(--navy); text-align: left; font: 500 1.25rem/1.2 Cormorant,Georgia,serif; }
+.dc-pide b { color: var(--gold-text); font: 500 0.8125rem Lora,Georgia,serif; letter-spacing: .04em; }
+.dc-puntos { display: grid; grid-template-columns: repeat(auto-fill,1.875rem); gap: 0.4375rem; justify-content: start; }
+.dc-punto { width: 1.875rem; height: 1.875rem; padding: 0; border: 0; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgba(20,40,60,.18); color: #fff; font: 600 0.75rem/1 Lora,Georgia,serif; cursor: pointer; transition: opacity .2s, box-shadow .2s; }
+.dc-punto.dc-claro { color: var(--navy); }
+.dc-punto[aria-pressed="true"] { box-shadow: inset 0 0 0 1px rgba(20,40,60,.18), 0 0 0 2px var(--paper), 0 0 0 4px var(--gold); }
+.dc-punto[aria-disabled="true"] { opacity: .3; cursor: default; }
+.dc-punto:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+.dc-elegidos { display: flex; flex-wrap: wrap; gap: 0.375rem; min-height: 1.75rem; align-items: center; }
+.dc-elegidos button { padding: 0.25rem 0.625rem; border: 0.0625rem solid var(--gold-line); border-radius: 1rem; background: var(--paper); color: var(--navy); font: 0.8125rem Lora,Georgia,serif; cursor: pointer; }
+.dc-elegidos span { color: var(--muted); font: italic 0.8125rem Lora,Georgia,serif; }
+.dialog-copy .dc-nota { color: var(--muted); text-align: left; font: italic 0.75rem/1.3 Lora,Georgia,serif; }
+.dialog-actions .button[aria-disabled="true"] { opacity: .45; pointer-events: none; }
 .service-dialog { font-family: 'Lora', Georgia, serif; }
 @media (max-width: 47.5rem) {
   .service-dialog { width: calc(100vw - 1rem); max-height: calc(100dvh - 1rem); }
@@ -7309,23 +7325,26 @@ html body.editorial-preview #acompanamientos.view[hidden]{display:none!important
 .cda-puntos{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:8px}
 .cda .cda-puntos button{width:7px;height:7px;min-width:0;min-height:0;border-radius:50%;background:#14283c40;transition:background .3s,transform .3s}
 .cda .cda-puntos button.on{background:#14283c;transform:scale(1.3)}
-.cda .cda-card{overflow:hidden;isolation:isolate;border-radius:16px;display:flex;flex-direction:column;justify-content:flex-end;gap:4px;align-items:center;text-align:center;padding:16px 20px;color:#fff;background:#e9e3d8;box-shadow:0 6px 18px #14283c18}
+.cda .cda-card{overflow:hidden;isolation:isolate;border-radius:16px;display:flex;flex-direction:column;justify-content:flex-end;gap:4px;align-items:flex-end;text-align:right;padding:16px 20px;color:#fff;background:#e9e3d8;box-shadow:0 6px 18px #14283c18}
+.cda .cda-card.apaga{opacity:0;transition:opacity .2s}
+.cda .cda-card.quieta,.cda-card.quieta *{transition:none}
+.cda .cda-card.llega{transition:opacity .4s .4s}
 .cda-card img{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;transition:opacity .5s}
-.cda-card img.cda-tag{object-fit:contain;background:#f4f1ee;padding:4%}
-.cda-card::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(transparent 38%,#14283cb3 70%,#14283ceb);transition:opacity .5s}
-.cda-card b{text-shadow:0 1px 8px #14283c80;font:500 30px/1 'Cormorant Garamond',Cormorant,serif;transition:font-size .6s var(--e),color .5s}
-.cda-card span{max-width:85%;font-size:13px;opacity:.9;transition:opacity .4s}
-.cda .cda-card.chica{padding:10px 14px;justify-content:flex-end}.cda-card.chica b{font-size:19px}.cda-card.chica span{opacity:0;height:0;margin:0}
+.cda-card::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(transparent 62%,#14283c99 82%,#14283cd9);transition:opacity .5s}
+.cda-card b{text-shadow:0 1px 8px #14283c80;font:500 34px/1 'Cormorant Garamond',Cormorant,serif;transition:font-size .6s var(--e),color .5s}
+.cda .cda-card.chica{padding:10px 14px;justify-content:flex-end}.cda-card.chica b{font-size:19px}
 .cda .cda-card.titulo{background:transparent;box-shadow:none;justify-content:center;align-items:flex-start;text-align:left;padding:0 4px;color:#14283c}
 .cda-card.titulo img,.cda-card.titulo::after{opacity:0}
 .cda-card.titulo b{font-size:34px}.cda-card.titulo b::before{content:"‹ ";color:#a98244}
-.cda-card.titulo span{opacity:0;height:0;margin:0}
 .cda-escena{top:12%;left:0;width:100%;height:68%;opacity:0;transform:scale(.96);pointer-events:none;display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
 .cda-escena.on{opacity:1;transform:none;pointer-events:auto}
 .cda .cda-item{flex:0 0 calc((100% - 42px)/4);scroll-snap-align:start;display:flex;flex-direction:column;background:#fffdf8;border:1px solid #e8ddc8;border-radius:14px;overflow:hidden;transition:box-shadow .4s,transform .4s}
 .cda-item img{flex:1;min-height:0;width:100%;object-fit:cover}
-/* TuconTu se ve entero: la pieza no se corta */
-.cda-entero img{object-fit:contain;background:#f4f1ee}
+/* TuconTu: la tarjeta toma la forma de la foto (9:16), así no se
+   recorta ni deja franjas; su ancho sale del alto disponible */
+.cda [data-escena=tucontu]{container-type:size}
+.cda [data-escena=tucontu] .cda-item{flex:0 0 min(calc((100% - 42px)/4),calc((100cqh - 84px)*9/16));align-self:flex-start}
+.cda [data-escena=tucontu] .cda-item img{flex:none;height:auto;aspect-ratio:9/16}
 .cda-item b{padding:12px 14px 2px;font:500 22px/1.1 'Cormorant Garamond',Cormorant,serif;color:#14283c}
 .cda-item span{padding:0 14px 14px;font-size:12px;color:#53616b}
 .cda .cda-item.luz{box-shadow:0 0 0 2px #a98244,0 10px 24px #14283c26;transform:translateY(-4px)}
@@ -7334,8 +7353,9 @@ html body.editorial-preview #acompanamientos.view[hidden]{display:none!important
  .cda-slide{padding:0 5%;gap:6px}.cda-slide h2{font-size:28px;max-width:70%}.cda-slide p{font-size:14px;max-width:62%}
  .cda-slide::before{background:linear-gradient(90deg,#fdfbf7f2 40%,#fdfbf700 85%)}
  .cda .cda-ver{padding:6px 14px;font-size:11px}
- .cda .cda-card{padding:10px 12px}.cda-card b{font-size:21px}.cda-card span{font-size:11px}
+ .cda .cda-card{padding:10px 12px}.cda-card b{font-size:25px}
  .cda .cda-card.chica{padding:8px 10px}.cda-card.chica b{font-size:14px}.cda-card.titulo b{font-size:28px}
  .cda .cda-item{flex-basis:72%}.cda-item b{font-size:19px}
+ .cda [data-escena=tucontu] .cda-item{flex-basis:min(72%,calc((100cqh - 84px)*9/16))}
  .cda-leer{font-size:16px}.cda-leer b{font-size:19px}.cda .cda-historia{font-size:11px;padding:6px 12px 6px 9px;gap:6px}.cda-historia img{width:26px}
 }
