@@ -3,17 +3,18 @@
   "lineas": [
     { "id": "persefone", "nombre": "Perséfone", "arquetipo": "La Exploradora", "largo": 30, "linea": "Línea infantil",
       "valores": ["Juego", "Descubrimiento", "Libertad", "Imaginación"], "precio": null,
-      "fotos": ["assets/tucontu/lineas/persefone-puesta.jpg", "assets/tucontu/lineas/persefone.jpg"] },
+      "fotos": ["assets/tucontu/lineas/persefone-puesta.jpg", "assets/tucontu/lineas/persefone-puesta-cuadrada.jpg", "assets/tucontu/lineas/persefone-a.jpg", "assets/tucontu/lineas/persefone-b.jpg"] },
     { "id": "afrodita", "nombre": "Afrodita", "arquetipo": "La Creadora", "largo": 60, "linea": "Línea adulta estándar",
-      "valores": ["Presencia", "Creatividad", "Belleza", "Vinculación"], "precio": null, "fotos": ["assets/tucontu/lineas/afrodita-puesta.jpg", "assets/tucontu/lineas/afrodita-1.jpg", "assets/tucontu/lineas/afrodita-2.jpg"] },
+      "valores": ["Presencia", "Creatividad", "Belleza", "Vinculación"], "precio": null, "fotos": ["assets/tucontu/lineas/afrodita-puesta.jpg", "assets/tucontu/lineas/afrodita-puesta.jpg", "assets/tucontu/lineas/afrodita-a.jpg", "assets/tucontu/lineas/afrodita-b.jpg"] },
     { "id": "hestia", "nombre": "Héstia", "arquetipo": "La Sacerdotisa", "largo": 90, "linea": "Línea artesanal extra largo",
-      "valores": ["Centro", "Sabiduría", "Transformación", "Interioridad"], "precio": null, "fotos": ["assets/tucontu/lineas/hestia-puesta.jpg", "assets/tucontu/lineas/hestia-1.jpg", "assets/tucontu/lineas/hestia-2.jpg"] }
+      "valores": ["Centro", "Sabiduría", "Transformación", "Interioridad"], "precio": null, "fotos": ["assets/tucontu/lineas/hestia-puesta.jpg", "assets/tucontu/lineas/hestia-puesta.jpg", "assets/tucontu/lineas/hestia-a.jpg", "assets/tucontu/lineas/hestia-b.jpg"] }
   ],
   "historia": {
     "titulo": "TuconTu",
     "lema": "Un accesorio, un encuentro contigo.",
     "video": "assets/tucontu/video_presentacion.mp4",
     "portada": "assets/tucontu/video-cover-marcela.webp",
+    "galeria": ["assets/tucontu/historia/img-3331.jpg", "assets/tucontu/historia/img-3332.jpg", "assets/tucontu/historia/img-3340.jpg", "assets/tucontu/historia/img-3341.jpg", "assets/tucontu/historia/img-3342.jpg", "assets/tucontu/historia/img-3343.jpg", "assets/tucontu/historia/img-3344.jpg", "assets/tucontu/historia/img-3345.jpg", "assets/tucontu/historia/img-3346.jpg"],
     "intro": "Accesorio para el cabello elaborado completamente a mano, a partir de una estructura de algodón y un colet. Cada pieza es única e irrepetible.",
     "partes": [
       { "nombre": "La trenza", "texto": "La integración: tres hilos que se entrelazan, cuerpo, emoción y conciencia." },

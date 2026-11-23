@@ -27,5 +27,5 @@ addEventListener('popstate', () => vt(lee));
 pluma.addEventListener('click', () => history.state?.leer ? history.back() : ve('lista'));
 lectura.addEventListener('click', e => { const b = e.target.closest('[data-leer]'); if (b) ve(b.dataset.leer); });
 
-fetch('blog/entradas.json').then(r => r.json()).then(j => { E = j.entradas; lee(); });
+fetch('blog/entradas.json').then(r => r.json()).then(j => { E = j.entradas; pluma.hidden = !E.length; lee(); });
 })();

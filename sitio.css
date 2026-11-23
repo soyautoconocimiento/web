@@ -203,16 +203,58 @@ em { font-weight: 400; }
 .dialog-colores { display: grid; gap: 0.5rem; }
 .dialog-copy .dc-pide { display: flex; justify-content: space-between; align-items: baseline; color: var(--navy); text-align: left; font: 500 1.25rem/1.2 Cormorant,Georgia,serif; }
 .dc-pide b { color: var(--gold-text); font: 500 0.8125rem Lora,Georgia,serif; letter-spacing: .04em; }
-.dc-puntos { display: grid; grid-template-columns: repeat(auto-fill,1.875rem); gap: 0.4375rem; justify-content: start; }
-.dc-punto { width: 1.875rem; height: 1.875rem; padding: 0; border: 0; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgba(20,40,60,.18); color: #fff; font: 600 0.75rem/1 Lora,Georgia,serif; cursor: pointer; transition: opacity .2s, box-shadow .2s; }
-.dc-punto.dc-claro { color: var(--navy); }
+/* una sola fila: los elegidos quietos al principio; el resto se desliza a su lado, sin pasar por debajo */
+.dc-fila { display: flex; align-items: center; min-width: 0; }
+.dc-elegidos { display: flex; flex: none; gap: 0.5rem; padding: 0.375rem 0.625rem 0.375rem 0.25rem; margin-right: 0.375rem; border-right: 0.0625rem solid var(--gold-line); }
+.dc-puntos { display: flex; flex: 1; min-width: 0; gap: 0.5rem; padding: 0.375rem 0.25rem; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 1.5rem), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 1.5rem), transparent); }
+.dc-puntos::-webkit-scrollbar { display: none; }
+/* un ovillo de algodón: luz arriba, sombra abajo, hebras cruzadas sobre su color */
+.dc-punto { flex: none; width: 2.5rem; height: 2.5rem; padding: 0; border: 0; border-radius: 50%; scroll-snap-align: start; cursor: pointer;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255,255,255,.45), rgba(255,255,255,0) 42%),
+    radial-gradient(circle at 70% 78%, rgba(0,0,0,.28), rgba(0,0,0,0) 62%),
+    repeating-linear-gradient(28deg, rgba(255,255,255,.16) 0 1px, rgba(255,255,255,0) 1px 3.5px),
+    repeating-linear-gradient(-62deg, rgba(0,0,0,.13) 0 1px, rgba(0,0,0,0) 1px 4px),
+    var(--c);
+  box-shadow: inset 0 0 0 1px rgba(20,40,60,.18), 0 1px 3px rgba(20,40,60,.18);
+  color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.45); font: 600 0.875rem/1 Lora,Georgia,serif; }
+.dc-punto.dc-claro { color: var(--navy); text-shadow: 0 1px 2px rgba(255,255,255,.7); }
 .dc-punto[aria-pressed="true"] { box-shadow: inset 0 0 0 1px rgba(20,40,60,.18), 0 0 0 2px var(--paper), 0 0 0 4px var(--gold); }
 .dc-punto[aria-disabled="true"] { opacity: .3; cursor: default; }
 .dc-punto:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
-.dc-elegidos { display: flex; flex-wrap: wrap; gap: 0.375rem; min-height: 1.75rem; align-items: center; }
-.dc-elegidos button { padding: 0.25rem 0.625rem; border: 0.0625rem solid var(--gold-line); border-radius: 1rem; background: var(--paper); color: var(--navy); font: 0.8125rem Lora,Georgia,serif; cursor: pointer; }
-.dc-elegidos span { color: var(--muted); font: italic 0.8125rem Lora,Georgia,serif; }
-.dialog-copy .dc-nota { color: var(--muted); text-align: left; font: italic 0.75rem/1.3 Lora,Georgia,serif; }
+.dialog-copy .dc-nombres { min-height: 1.3em; margin: 0; color: var(--navy); text-align: left; font: 0.8125rem/1.3 Lora,Georgia,serif; }
+/* el modal de un TuconTu: sus fotos arriba, deslizables; abajo, quién es, sus colores y el pedido.
+   El largo y la línea ya están en la tarjeta que lo abre: aquí no se repiten. */
+.service-dialog.es-tucontu .dialog-image { display: flex !important; flex: 0 0 auto !important; flex-direction: column; min-height: 0 !important; padding: 0 !important; background: #f3ede3 !important; }
+.service-dialog.es-tucontu #dialog-image, .service-dialog.es-tucontu .dialog-meta { display: none !important; }
+/* las fotos de una línea: un marco cuadrado, una foto por vista, se desliza; los puntos debajo.
+   Cuadrado: cabe entero en el teléfono y en el computador. Entre márgenes: la × nunca queda sobre una foto. */
+.dc-fotos { display: flex; width: min(100% - 6.5rem, 42dvh); aspect-ratio: 1 / 1; margin: 0.75rem auto 0; border-radius: 0.75rem; background: #efe7dc; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.dc-fotos::-webkit-scrollbar { display: none; }
+.dc-foto { position: relative; flex: 0 0 100%; overflow: hidden; scroll-snap-align: start; }
+.dc-foto::before { content: ""; position: absolute; inset: -12%; background: var(--f) center / cover; filter: blur(14px) saturate(.9); opacity: .85; }
+.dc-foto img { position: relative; display: block; width: 100%; height: 100%; object-fit: contain; }
+.dc-fotos-puntos { display: flex; justify-content: center; }
+.dc-fotos-puntos button { position: relative; width: 1.5rem; height: 1.75rem; padding: 0; border: 0; background: none; cursor: pointer; }
+.dc-fotos-puntos button::before { content: ""; position: absolute; left: 50%; top: 50%; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%; background: #14283c40; }
+.dc-fotos-puntos button[aria-current="true"]::before { background: var(--gold); }
+.dc-fotos img { cursor: zoom-in; }
+/* la foto de cerca: pantalla completa; la × en su franja, arriba; tocada otra vez, al doble */
+.dc-zoom { width: 100%; max-width: none; height: 100%; max-height: none; margin: 0; padding: 0; border: 0; background: #faf7f1; }
+.dc-zoom[open] { display: flex; flex-direction: column; }
+.dc-zoom-barra { flex: none; display: flex; justify-content: flex-end; align-items: center; height: 3.5rem; padding: 0 0.5rem; }
+.dc-zoom-barra button { width: 2.75rem; height: 2.75rem; border: 0; background: none; color: var(--navy); font: 400 22px/1 Georgia,serif; cursor: pointer; }
+.dc-zoom-foto { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0 0 1rem; }
+.dc-zoom-foto img { max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-in; }
+.dc-zoom.cerca .dc-zoom-foto { display: block; overflow: auto; }
+.dc-zoom.cerca .dc-zoom-foto img { width: 200%; max-width: none; max-height: none; cursor: zoom-out; }
+.service-dialog.es-tucontu .dialog-copy { gap: 0.625rem !important; }
+.service-dialog.es-tucontu .dialog-copy h2 { font-size: clamp(1.875rem, 8vw, 2.5rem) !important; }
+.service-dialog.es-tucontu .dialog-copy p { margin: 0; font-size: 1.0625rem !important; }
+.service-dialog.es-tucontu #dialog-description p + p { color: var(--muted); font-size: 0.875rem !important; font-style: italic; font-weight: 400; letter-spacing: .02em; }
+.service-dialog.es-tucontu .dialog-actions { display: flex; justify-content: center; }
+.service-dialog.es-tucontu .dialog-actions .button-whatsapp { width: auto !important; min-height: 2.75rem !important; padding-inline: 1.5rem !important; }
 .dialog-actions .button[aria-disabled="true"] { opacity: .45; pointer-events: none; }
 .service-dialog { font-family: 'Lora', Georgia, serif; }
 @media (max-width: 47.5rem) {
@@ -7308,6 +7350,9 @@ html body.editorial-preview #acompanamientos.view[hidden]{display:none!important
 .cda-leer .cda-lema{text-align:center;font:italic 400 clamp(21px,3vh,27px)/1.35 'Cormorant Garamond',Cormorant,serif;color:#5b6a32}
 .cda-pags>div:last-child .cda-lema{font-size:clamp(28px,4.5vh,40px)}
 .cda-leer video{align-self:center;height:50vh;max-width:100%;aspect-ratio:1170/1594;border-radius:14px}
+.cda-galeria>div{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:min(100%,calc((100dvh - 190px) * .75));margin:0 auto}
+.cda-galeria img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;cursor:zoom-in}
+.cda-leer .cda-sigue{width:auto;padding:0 14px;font:500 15px/44px Lora,Georgia,serif;letter-spacing:.02em;color:#735626}
 .cda-pie{position:relative;display:flex;justify-content:center;align-items:center;gap:8px;height:56px}
 .cda-pie i{width:7px;height:7px;border-radius:50%;background:#14283c40;transition:background .3s}
 .cda-pie i.on{background:#14283c}
@@ -7326,16 +7371,17 @@ html body.editorial-preview #acompanamientos.view[hidden]{display:none!important
 .cda .cda-puntos button{width:7px;height:7px;min-width:0;min-height:0;border-radius:50%;background:#14283c40;transition:background .3s,transform .3s}
 .cda .cda-puntos button.on{background:#14283c;transform:scale(1.3)}
 .cda .cda-card{overflow:hidden;isolation:isolate;border-radius:16px;display:flex;flex-direction:column;justify-content:flex-end;gap:4px;align-items:flex-end;text-align:right;padding:16px 20px;color:#fff;background:#e9e3d8;box-shadow:0 6px 18px #14283c18}
-.cda .cda-card.apaga{opacity:0;transition:opacity .2s}
+.cda .cda-card.apaga{opacity:0;transition:opacity .12s ease-in}
 .cda .cda-card.quieta,.cda-card.quieta *{transition:none}
-.cda .cda-card.llega{transition:opacity .4s .4s}
+.cda .cda-card.llega{transition:opacity .18s ease-out}
 .cda-card img{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;transition:opacity .5s}
-.cda-card::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(transparent 62%,#14283c99 82%,#14283cd9);transition:opacity .5s}
-.cda-card b{text-shadow:0 1px 8px #14283c80;font:500 34px/1 'Cormorant Garamond',Cormorant,serif;transition:font-size .6s var(--e),color .5s}
-.cda .cda-card.chica{padding:10px 14px;justify-content:flex-end}.cda-card.chica b{font-size:19px}
+.cda-card::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(transparent 55%,#2b1f1433 70%,#2b1f14a6);transition:opacity .5s}
+.cda-card b{text-shadow:0 1px 10px #2b1f1499;font:600 34px/1 'Cormorant Garamond',Cormorant,serif;letter-spacing:.01em;transition:font-size .6s var(--e),color .5s}
+.cda .cda-card.chica{padding:10px 14px;justify-content:flex-end}.cda-card.chica b{font-size:19px;color:#735626;text-shadow:0 0 8px #fcf8f0cc}
+.cda-card.chica::after{background:linear-gradient(transparent 38%,#fcf8f066 64%,#fcf8f0d9)}
 .cda .cda-card.titulo{background:transparent;box-shadow:none;justify-content:center;align-items:flex-start;text-align:left;padding:0 4px;color:#14283c}
 .cda-card.titulo img,.cda-card.titulo::after{opacity:0}
-.cda-card.titulo b{font-size:34px}.cda-card.titulo b::before{content:"‹ ";color:#a98244}
+.cda-card.titulo b{font-size:34px;text-shadow:none}.cda-card.titulo b::before{content:"‹ ";color:#a98244}
 .cda-escena{top:12%;left:0;width:100%;height:68%;opacity:0;transform:scale(.96);pointer-events:none;display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
 .cda-escena.on{opacity:1;transform:none;pointer-events:auto}
 .cda .cda-item{flex:0 0 calc((100% - 42px)/4);scroll-snap-align:start;display:flex;flex-direction:column;background:#fffdf8;border:1px solid #e8ddc8;border-radius:14px;overflow:hidden;transition:box-shadow .4s,transform .4s}
@@ -7353,9 +7399,63 @@ html body.editorial-preview #acompanamientos.view[hidden]{display:none!important
  .cda-slide{padding:0 5%;gap:6px}.cda-slide h2{font-size:28px;max-width:70%}.cda-slide p{font-size:14px;max-width:62%}
  .cda-slide::before{background:linear-gradient(90deg,#fdfbf7f2 40%,#fdfbf700 85%)}
  .cda .cda-ver{padding:6px 14px;font-size:11px}
- .cda .cda-card{padding:10px 12px}.cda-card b{font-size:25px}
- .cda .cda-card.chica{padding:8px 10px}.cda-card.chica b{font-size:14px}.cda-card.titulo b{font-size:28px}
+ .cda .cda-card{padding:10px 12px}.cda-card b{font-size:27px}
+ .cda .cda-card.chica{padding:8px 10px}.cda-card.chica b{font-size:18px}.cda-card.titulo b{font-size:28px}
  .cda .cda-item{flex-basis:72%}.cda-item b{font-size:19px}
  .cda [data-escena=tucontu] .cda-item{flex-basis:min(72%,calc((100cqh - 84px)*9/16))}
  .cda-leer{font-size:16px}.cda-leer b{font-size:19px}.cda .cda-historia{font-size:11px;padding:6px 12px 6px 9px;gap:6px}.cda-historia img{width:26px}
+}
+
+/* ══ el piso: 44 px para tocar, 14 px para leer (docs/DESIGN.md §7.6) ══
+   Al final, porque estas reglas se repiten más arriba con !important. */
+html body.editorial-preview .site-header .brand,
+html body.editorial-preview .site-header .soy-open,
+html body.editorial-preview .site-header .blog-open { min-width: 2.75rem !important; min-height: 2.75rem !important; }
+html body.editorial-preview #inicio .home-more-mobile,
+html body.editorial-preview #acompanamientos .services-more-mobile { min-height: 2.75rem !important; }
+@media (min-width: 47.5625rem) {
+  html body.editorial-preview .site-header .main-nav a,
+  html body.editorial-preview .site-header .nav-modal-trigger,
+  html body.editorial-preview #inicio .home-actions .button { font-size: .875rem !important; }
+}
+/* los puntos del carrusel: el punto se ve igual (7 px); se toca en 24 × 44 px */
+.cda .cda-puntos { gap: 0; bottom: -8px; }
+.cda .cda-puntos button { position: relative; width: 24px; height: 44px; background: none; transform: none; }
+.cda .cda-puntos button::before { content: ''; position: absolute; left: 50%; top: 50%; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%; background: #14283c40; transition: background .3s, transform .3s; }
+.cda .cda-puntos button.on { background: none; transform: none; }
+.cda .cda-puntos button.on::before { background: #14283c; transform: scale(1.3); }
+.cda .cda-slide small { font-size: 14px; letter-spacing: .18em; }
+.cda .cda-ver { min-height: 44px; font-size: 14px; }
+
+/* ══ el teléfono: una escala de tipos (1,2) y espacios agrupados ══
+   research/soyautoconocimiento.Rmd:241 (tipos), :247 (espacios), :251 (Colores del Alma).
+   Solo el teléfono; al final, porque arriba estas reglas se repiten con !important. */
+@media (max-width: 47.5rem) {
+  /* inicio: el título y Evolutiva, un grupo; 24 al texto; la foto cede su alto en
+     pantallas bajas, para que nada quede encima de otra cosa (Ricardo, 11-23) */
+  html body.editorial-preview #inicio .home-layout {
+    grid-template-rows: auto auto auto minmax(0, 1fr) auto !important;
+    gap: 0 !important; align-content: stretch !important; box-sizing: border-box !important;
+    /* abajo, el sitio de «Colores del Alma», que va absoluto: 14 de borde + 44 de alto + 24 de aire */
+    padding-block: 1.5rem calc(var(--section-cue-inset, .875rem) + 2.75rem + 1.5rem) !important;
+  }
+  html body.editorial-preview #inicio #home-title { font-size: clamp(3rem, 14.6vw, 3.5625rem) !important; margin: 0 !important; }
+  html body.editorial-preview #inicio .home-lead { font-size: clamp(2.25rem, 10.3vw, 2.5rem) !important; margin: .5rem 0 0 !important; }
+  html body.editorial-preview #inicio .home-body { margin: 1.5rem 0 0 !important; }
+  html body.editorial-preview #inicio .home-visual { box-sizing: border-box !important; height: 100% !important; min-height: 0 !important; margin: 0 !important; padding-block: 1.5rem !important; }
+  html body.editorial-preview #inicio .arch-frame { height: min(100%, 22.375rem) !important; max-height: 100% !important; width: auto !important; aspect-ratio: 25 / 36; }
+  html body.editorial-preview #inicio .home-actions { margin: 0 !important; }
+  /* «Soy», junto al símbolo: las dos cajas de toque se tocan sin cruzarse; la palabra, al borde izquierdo de la suya */
+  html body.editorial-preview .site-header .soy-open { margin-left: -1rem !important; padding-left: 0 !important; justify-content: flex-start !important; text-align: left !important; }
+
+  /* Colores del Alma en reposo: el título a 8 de su fila, 24 entre grupos; La Tienda
+     más baja que ancha; el carrusel toma lo que queda. colores.js pone top/left/width/
+     height en línea; aquí manda el teléfono, solo en reposo. */
+  html body .cda:not(.abierta) .cda-dest { height: 33.9% !important; }
+  html body .cda:not(.abierta) .cda-rama:nth-child(2) { top: 36.4% !important; height: 5% !important; }
+  html body .cda:not(.abierta) .cda-rama:nth-child(3) { top: 76.2% !important; height: 5% !important; }
+  html body .cda:not(.abierta) .cda-card[data-id="acompanamientos"] { top: 41.8% !important; left: 0 !important; width: 48.9% !important; height: 31.9% !important; }
+  html body .cda:not(.abierta) .cda-card[data-id="cursos"] { top: 41.8% !important; left: 51.1% !important; width: 48.9% !important; height: 31.9% !important; }
+  html body .cda:not(.abierta) .cda-card[data-id="tucontu"] { top: 81.6% !important; left: 0 !important; width: 48.9% !important; height: 18.4% !important; }
+  html body .cda:not(.abierta) .cda-card[data-id="gift"] { top: 81.6% !important; left: 51.1% !important; width: 48.9% !important; height: 18.4% !important; }
 }
